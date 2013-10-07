@@ -47,6 +47,7 @@ type (
 	XmlAutomataStatePtr        *XmlAutomataState
 	XmlBufferPtr               *XmlBuffer
 	XmlBufPtr                  *XmlBuf
+	XmlCatalogPtr              *XmlCatalog
 	XmlChar                    Unsigned_char
 	XmlCharEncodingHandlerPtr  *XmlCharEncodingHandler
 	XmlDictPtr                 *XmlDict
@@ -110,6 +111,7 @@ type (
 	XmlSchemaValPtr            *XmlSchemaVal
 	XmlSchemaWildcardNsPtr     *XmlSchemaWildcardNs
 	XmlSchemaWildcardPtr       *XmlSchemaWildcard
+	XmlTextReaderLocatorPtr    *Void
 	XmlTextReaderPtr           *XmlTextReader
 	XmlValidCtxtPtr            *XmlValidCtxt
 	XmlValidStatePtr           *XmlValidState
@@ -120,16 +122,12 @@ type (
 	XmlXPathObjectPtr          *XmlXPathObject
 	XmlXPathParserContextPtr   *XmlXPathParserContext
 	XmlXPathTypePtr            *XmlXPathType
-	XmlTextReaderLocatorPtr    *Void
 
-	XmlRelaxNGValidCtxt     struct{}
-	XmlRelaxNG              struct{}
-	XmlRelaxNGParserCtxt    struct{}
-	XmlTextReader           struct{}
 	XmlAutomata             struct{}
 	XmlAutomataState        struct{}
 	XmlBuf                  struct{}
 	XmlBuffer               struct{}
+	XmlCatalog              struct{}
 	XmlDict                 struct{}
 	XmlDOMWrapCtxt          struct{}
 	XmlExpCtxt              struct{}
@@ -140,6 +138,9 @@ type (
 	XmlMutex                struct{}
 	XmlRegExecCtxt          struct{}
 	XmlRegexp               struct{}
+	XmlRelaxNG              struct{}
+	XmlRelaxNGParserCtxt    struct{}
+	XmlRelaxNGValidCtxt     struct{}
 	XmlRMutex               struct{}
 	XmlSchema               struct{}
 	XmlSchemaFacet          struct{}
@@ -151,6 +152,7 @@ type (
 	XmlSchemaType           struct{}
 	XmlSchemaVal            struct{}
 	XmlSchemaValidCtxt      struct{}
+	XmlTextReader           struct{}
 	XmlValidState           struct{}
 	XmlXIncludeCtxt         struct{}
 	XmlXPathCompExpr        struct{}
@@ -2170,6 +2172,23 @@ const (
 	XML_PARSER_SEVERITY_VALIDITY_ERROR
 	XML_PARSER_SEVERITY_WARNING
 	XML_PARSER_SEVERITY_ERROR
+)
+
+type XmlCatalogPrefer Enum
+
+const (
+	XML_CATA_PREFER_NONE XmlCatalogPrefer = iota
+	XML_CATA_PREFER_PUBLIC
+	XML_CATA_PREFER_SYSTEM
+)
+
+type XmlCatalogAllow Enum
+
+const (
+	XML_CATA_ALLOW_NONE XmlCatalogAllow = iota
+	XML_CATA_ALLOW_GLOBAL
+	XML_CATA_ALLOW_DOCUMENT
+	XML_CATA_ALLOW_ALL
 )
 
 var (
@@ -6994,6 +7013,131 @@ var (
 		reader XmlTextReaderPtr,
 		f *XmlTextReaderErrorFunc,
 		arg **Void) Void
+
+	XmlNewCatalog func(
+		sgml int) XmlCatalogPtr
+
+	XmlLoadACatalog func(
+		filename *Char) XmlCatalogPtr
+
+	XmlLoadSGMLSuperCatalog func(
+		filename *Char) XmlCatalogPtr
+
+	XmlConvertSGMLCatalog func(
+		catal XmlCatalogPtr) int
+
+	XmlACatalogAdd func(
+		catal XmlCatalogPtr,
+		typ *XmlChar,
+		orig *XmlChar,
+		replace *XmlChar) int
+
+	XmlACatalogRemove func(
+		catal XmlCatalogPtr,
+		value *XmlChar) int
+
+	XmlACatalogResolve func(
+		catal XmlCatalogPtr,
+		pubID *XmlChar,
+		sysID *XmlChar) *XmlChar
+
+	XmlACatalogResolveSystem func(
+		catal XmlCatalogPtr,
+		sysID *XmlChar) *XmlChar
+
+	XmlACatalogResolvePublic func(
+		catal XmlCatalogPtr,
+		pubID *XmlChar) *XmlChar
+
+	XmlACatalogResolveURI func(
+		catal XmlCatalogPtr,
+		URI *XmlChar) *XmlChar
+
+	XmlACatalogDump func(
+		catal XmlCatalogPtr,
+		out *FILE) Void
+
+	XmlFreeCatalog func(
+		catal XmlCatalogPtr) Void
+
+	XmlCatalogIsEmpty func(
+		catal XmlCatalogPtr) int
+
+	XmlInitializeCatalog func(
+		Void) Void
+
+	XmlLoadCatalog func(
+		filename *Char) int
+
+	XmlLoadCatalogs func(
+		paths *Char) Void
+
+	XmlCatalogCleanup func(
+		Void) Void
+
+	XmlCatalogDump func(
+		out *FILE) Void
+
+	XmlCatalogResolve func(
+		pubID *XmlChar,
+		sysID *XmlChar) *XmlChar
+
+	XmlCatalogResolveSystem func(
+		sysID *XmlChar) *XmlChar
+
+	XmlCatalogResolvePublic func(
+		pubID *XmlChar) *XmlChar
+
+	XmlCatalogResolveURI func(
+		URI *XmlChar) *XmlChar
+
+	XmlCatalogAdd func(
+		typ *XmlChar,
+		orig *XmlChar,
+		replace *XmlChar) int
+
+	XmlCatalogRemove func(
+		value *XmlChar) int
+
+	XmlParseCatalogFile func(
+		filename *Char) XmlDocPtr
+
+	XmlCatalogConvert func(
+		Void) int
+
+	XmlCatalogFreeLocal func(
+		catalogs *Void) Void
+
+	XmlCatalogAddLocal func(
+		catalogs *Void,
+		URL *XmlChar) *Void
+
+	XmlCatalogLocalResolve func(
+		catalogs *Void,
+		pubID *XmlChar,
+		sysID *XmlChar) *XmlChar
+
+	XmlCatalogLocalResolveURI func(
+		catalogs *Void,
+		URI *XmlChar) *XmlChar
+
+	XmlCatalogSetDebug func(
+		level int) int
+
+	XmlCatalogSetDefaultPrefer func(
+		prefer XmlCatalogPrefer) XmlCatalogPrefer
+
+	XmlCatalogSetDefaults func(
+		allow XmlCatalogAllow) Void
+
+	XmlCatalogGetDefaults func(
+		Void) XmlCatalogAllow
+
+	XmlCatalogGetSystem func(
+		sysID *XmlChar) *XmlChar
+
+	XmlCatalogGetPublic func(
+		pubID *XmlChar) *XmlChar
 )
 
 var dll = "libxml2-2.dll"
@@ -7155,13 +7299,13 @@ var apiList = Apis{
 	{"xlinkIsLink", &xlinkIsLink},
 	{"xlinkSetDefaultDetect", &xlinkSetDefaultDetect},
 	{"xlinkSetDefaultHandler", &xlinkSetDefaultHandler},
-	// {"xmlACatalogAdd", &XmlACatalogAdd},
-	// {"xmlACatalogDump", &XmlACatalogDump},
-	// {"xmlACatalogRemove", &XmlACatalogRemove},
-	// {"xmlACatalogResolve", &XmlACatalogResolve},
-	// {"xmlACatalogResolvePublic", &XmlACatalogResolvePublic},
-	// {"xmlACatalogResolveSystem", &XmlACatalogResolveSystem},
-	// {"xmlACatalogResolveURI", &XmlACatalogResolveURI},
+	{"xmlACatalogAdd", &XmlACatalogAdd},
+	{"xmlACatalogDump", &XmlACatalogDump},
+	{"xmlACatalogRemove", &XmlACatalogRemove},
+	{"xmlACatalogResolve", &XmlACatalogResolve},
+	{"xmlACatalogResolvePublic", &XmlACatalogResolvePublic},
+	{"xmlACatalogResolveSystem", &XmlACatalogResolveSystem},
+	{"xmlACatalogResolveURI", &XmlACatalogResolveURI},
 	{"xmlAddAttributeDecl", &XmlAddAttributeDecl},
 	{"xmlAddChild", &XmlAddChild},
 	{"xmlAddChildList", &XmlAddChildList},
@@ -7224,26 +7368,26 @@ var apiList = Apis{
 	// {"xmlC14NDocSaveTo", &XmlC14NDocSaveTo},
 	// {"xmlC14NExecute", &XmlC14NExecute},
 	// {"xmlCanonicPath", &XmlCanonicPath},
-	// {"xmlCatalogAdd", &XmlCatalogAdd},
-	// {"xmlCatalogAddLocal", &XmlCatalogAddLocal},
-	// {"xmlCatalogCleanup", &XmlCatalogCleanup},
-	// {"xmlCatalogConvert", &XmlCatalogConvert},
-	// {"xmlCatalogDump", &XmlCatalogDump},
-	// {"xmlCatalogFreeLocal", &XmlCatalogFreeLocal},
-	// {"xmlCatalogGetDefaults", &XmlCatalogGetDefaults},
-	// {"xmlCatalogGetPublic", &XmlCatalogGetPublic},
-	// {"xmlCatalogGetSystem", &XmlCatalogGetSystem},
-	// {"xmlCatalogIsEmpty", &XmlCatalogIsEmpty},
-	// {"xmlCatalogLocalResolve", &XmlCatalogLocalResolve},
-	// {"xmlCatalogLocalResolveURI", &XmlCatalogLocalResolveURI},
-	// {"xmlCatalogRemove", &XmlCatalogRemove},
-	// {"xmlCatalogResolve", &XmlCatalogResolve},
-	// {"xmlCatalogResolvePublic", &XmlCatalogResolvePublic},
-	// {"xmlCatalogResolveSystem", &XmlCatalogResolveSystem},
-	// {"xmlCatalogResolveURI", &XmlCatalogResolveURI},
-	// {"xmlCatalogSetDebug", &XmlCatalogSetDebug},
-	// {"xmlCatalogSetDefaultPrefer", &XmlCatalogSetDefaultPrefer},
-	// {"xmlCatalogSetDefaults", &XmlCatalogSetDefaults},
+	{"xmlCatalogAdd", &XmlCatalogAdd},
+	{"xmlCatalogAddLocal", &XmlCatalogAddLocal},
+	{"xmlCatalogCleanup", &XmlCatalogCleanup},
+	{"xmlCatalogConvert", &XmlCatalogConvert},
+	{"xmlCatalogDump", &XmlCatalogDump},
+	{"xmlCatalogFreeLocal", &XmlCatalogFreeLocal},
+	{"xmlCatalogGetDefaults", &XmlCatalogGetDefaults},
+	{"xmlCatalogGetPublic", &XmlCatalogGetPublic},
+	{"xmlCatalogGetSystem", &XmlCatalogGetSystem},
+	{"xmlCatalogIsEmpty", &XmlCatalogIsEmpty},
+	{"xmlCatalogLocalResolve", &XmlCatalogLocalResolve},
+	{"xmlCatalogLocalResolveURI", &XmlCatalogLocalResolveURI},
+	{"xmlCatalogRemove", &XmlCatalogRemove},
+	{"xmlCatalogResolve", &XmlCatalogResolve},
+	{"xmlCatalogResolvePublic", &XmlCatalogResolvePublic},
+	{"xmlCatalogResolveSystem", &XmlCatalogResolveSystem},
+	{"xmlCatalogResolveURI", &XmlCatalogResolveURI},
+	{"xmlCatalogSetDebug", &XmlCatalogSetDebug},
+	{"xmlCatalogSetDefaultPrefer", &XmlCatalogSetDefaultPrefer},
+	{"xmlCatalogSetDefaults", &XmlCatalogSetDefaults},
 	{"xmlCharEncCloseFunc", &XmlCharEncCloseFunc},
 	{"xmlCharEncFirstLine", &XmlCharEncFirstLine},
 	{"xmlCharEncInFunc", &XmlCharEncInFunc},
@@ -7268,7 +7412,7 @@ var apiList = Apis{
 	{"xmlCleanupThreads", &XmlCleanupThreads},
 	{"xmlClearNodeInfoSeq", &XmlClearNodeInfoSeq},
 	{"xmlClearParserCtxt", &XmlClearParserCtxt},
-	// {"xmlConvertSGMLCatalog", &XmlConvertSGMLCatalog},
+	{"xmlConvertSGMLCatalog", &XmlConvertSGMLCatalog},
 	{"xmlCopyAttributeTable", &XmlCopyAttributeTable},
 	{"xmlCopyChar", &XmlCopyChar},
 	{"xmlCopyCharMultiByte", &XmlCopyCharMultiByte},
@@ -7392,7 +7536,7 @@ var apiList = Apis{
 	// {"xmlFree", &XmlFree},
 	{"xmlFreeAttributeTable", &XmlFreeAttributeTable},
 	{"xmlFreeAutomata", &XmlFreeAutomata},
-	// {"xmlFreeCatalog", &XmlFreeCatalog},
+	{"xmlFreeCatalog", &XmlFreeCatalog},
 	{"xmlFreeDoc", &XmlFreeDoc},
 	{"xmlFreeDocElementContent", &XmlFreeDocElementContent},
 	{"xmlFreeDtd", &XmlFreeDtd},
@@ -7500,7 +7644,7 @@ var apiList = Apis{
 	{"xmlInitParser", &XmlInitParser},
 	{"xmlInitParserCtxt", &XmlInitParserCtxt},
 	{"xmlInitThreads", &XmlInitThreads},
-	// {"xmlInitializeCatalog", &XmlInitializeCatalog},
+	{"xmlInitializeCatalog", &XmlInitializeCatalog},
 	{"xmlInitializeGlobalState", &XmlInitializeGlobalState},
 	{"xmlInitializePredefinedEntities", &XmlInitializePredefinedEntities},
 	// {"xmlIsBaseChar", &XmlIsBaseChar},
@@ -7554,11 +7698,11 @@ var apiList = Apis{
 	{"xmlListSize", &XmlListSize},
 	{"xmlListSort", &XmlListSort},
 	{"xmlListWalk", &XmlListWalk},
-	// {"xmlLoadACatalog", &XmlLoadACatalog},
-	// {"xmlLoadCatalog", &XmlLoadCatalog},
-	// {"xmlLoadCatalogs", &XmlLoadCatalogs},
+	{"xmlLoadACatalog", &XmlLoadACatalog},
+	{"xmlLoadCatalog", &XmlLoadCatalog},
+	{"xmlLoadCatalogs", &XmlLoadCatalogs},
 	{"xmlLoadExternalEntity", &XmlLoadExternalEntity},
-	// {"xmlLoadSGMLSuperCatalog", &XmlLoadSGMLSuperCatalog},
+	{"xmlLoadSGMLSuperCatalog", &XmlLoadSGMLSuperCatalog},
 	{"xmlLockLibrary", &XmlLockLibrary},
 	// {"xmlLsCountNode", &XmlLsCountNode},
 	// {"xmlLsOneNode", &XmlLsOneNode},
@@ -7630,7 +7774,7 @@ var apiList = Apis{
 	// {"xmlNanoHTTPScanProxy", &XmlNanoHTTPScanProxy},
 	{"xmlNewAutomata", &XmlNewAutomata},
 	{"xmlNewCDataBlock", &XmlNewCDataBlock},
-	// {"xmlNewCatalog", &XmlNewCatalog},
+	{"xmlNewCatalog", &XmlNewCatalog},
 	{"xmlNewCharEncodingHandler", &XmlNewCharEncodingHandler},
 	{"xmlNewCharRef", &XmlNewCharRef},
 	{"xmlNewChild", &XmlNewChild},
@@ -7669,16 +7813,16 @@ var apiList = Apis{
 	{"xmlNewText", &XmlNewText},
 	{"xmlNewTextChild", &XmlNewTextChild},
 	{"xmlNewTextLen", &XmlNewTextLen},
-	// {"xmlNewTextReader", &XmlNewTextReader},
-	// {"xmlNewTextReaderFilename", &XmlNewTextReaderFilename},
+	{"xmlNewTextReader", &XmlNewTextReader},
+	{"xmlNewTextReaderFilename", &XmlNewTextReaderFilename},
 	// {"xmlNewTextWriter", &XmlNewTextWriter},
 	// {"xmlNewTextWriterDoc", &XmlNewTextWriterDoc},
 	// {"xmlNewTextWriterFilename", &XmlNewTextWriterFilename},
 	// {"xmlNewTextWriterMemory", &XmlNewTextWriterMemory},
 	// {"xmlNewTextWriterPushParser", &XmlNewTextWriterPushParser},
 	// {"xmlNewTextWriterTree", &XmlNewTextWriterTree},
-	// {"xmlNewValidCtxt", &XmlNewValidCtxt},
-	// {"xmlNextChar", &XmlNextChar},
+	{"xmlNewValidCtxt", &XmlNewValidCtxt},
+	{"xmlNextChar", &XmlNextChar},
 	{"xmlNextElementSibling", &XmlNextElementSibling},
 	{"xmlNoNetExternalEntityLoader", &XmlNoNetExternalEntityLoader},
 	{"xmlNodeAddContent", &XmlNodeAddContent},
@@ -7719,7 +7863,7 @@ var apiList = Apis{
 	{"xmlParseBalancedChunkMemory", &XmlParseBalancedChunkMemory},
 	{"xmlParseBalancedChunkMemoryRecover", &XmlParseBalancedChunkMemoryRecover},
 	{"xmlParseCDSect", &XmlParseCDSect},
-	// {"xmlParseCatalogFile", &XmlParseCatalogFile},
+	{"xmlParseCatalogFile", &XmlParseCatalogFile},
 	{"xmlParseCharData", &XmlParseCharData},
 	{"xmlParseCharEncoding", &XmlParseCharEncoding},
 	{"xmlParseCharRef", &XmlParseCharRef},
