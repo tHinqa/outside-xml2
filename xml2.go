@@ -2,13 +2,31 @@ package xml2
 
 import (
 	. "github.com/tHinqa/outside"
-	. "github.com/tHinqa/outside-gtk2/types"
 )
 
 func init() {
 	AddDllApis(dll, false, apiList)
 	AddDllData(dll, false, dataList)
 }
+
+type (
+	fix uintptr
+
+	FILE    fix
+	Va_list fix
+
+	Char           int8
+	Double         float64
+	Enum           int
+	Long           int32 // TODO(t): Size?
+	Size_t         uint
+	Unsigned_char  uint8
+	Unsigned_int   uint
+	Unsigned_long  uint32 //TODO(t): check  size
+	Unsigned_short uint16
+
+	Void struct{}
+)
 
 type (
 	HtmlDocPtr                 XmlDocPtr
@@ -73,6 +91,9 @@ type (
 	XmlRefTablePtr             *XmlRefTable
 	XmlRegExecCtxtPtr          *XmlRegExecCtxt
 	XmlRegexpPtr               *XmlRegexp
+	XmlRelaxNGParserCtxtPtr    *XmlRelaxNGParserCtxt
+	XmlRelaxNGPtr              *XmlRelaxNG
+	XmlRelaxNGValidCtxtPtr     *XmlRelaxNGValidCtxt
 	XmlRMutexPtr               *XmlRMutex
 	XmlSAXHandlerPtr           *XmlSAXHandler
 	XmlSAXLocatorPtr           *XmlSAXLocator
@@ -89,6 +110,7 @@ type (
 	XmlSchemaValPtr            *XmlSchemaVal
 	XmlSchemaWildcardNsPtr     *XmlSchemaWildcardNs
 	XmlSchemaWildcardPtr       *XmlSchemaWildcard
+	XmlTextReaderPtr           *XmlTextReader
 	XmlValidCtxtPtr            *XmlValidCtxt
 	XmlValidStatePtr           *XmlValidState
 	XmlXIncludeCtxtPtr         *XmlXIncludeCtxt
@@ -98,7 +120,12 @@ type (
 	XmlXPathObjectPtr          *XmlXPathObject
 	XmlXPathParserContextPtr   *XmlXPathParserContext
 	XmlXPathTypePtr            *XmlXPathType
+	XmlTextReaderLocatorPtr    *Void
 
+	XmlRelaxNGValidCtxt     struct{}
+	XmlRelaxNG              struct{}
+	XmlRelaxNGParserCtxt    struct{}
+	XmlTextReader           struct{}
 	XmlAutomata             struct{}
 	XmlAutomataState        struct{}
 	XmlBuf                  struct{}
@@ -449,6 +476,16 @@ type (
 
 	XmlEntityReferenceFunc func(
 		ent XmlEntityPtr, firstNode, lastNode XmlNodePtr)
+
+	XmlRelaxNGValidityErrorFunc func(
+		ctx *Void, msg *Char, v ...VArg)
+
+	XmlRelaxNGValidityWarningFunc func(
+		ctx *Void, msg *Char, v ...VArg)
+
+	XmlTextReaderErrorFunc func(arg *Void, msg *Char,
+		severity XmlParserSeverities,
+		locator XmlTextReaderLocatorPtr)
 
 	XmlSAXHandlerV1 struct {
 		internalSubset        InternalSubsetSAXFunc
@@ -2124,6 +2161,15 @@ const (
 	XML_SCHEMAS_BASE64BINARY
 	XML_SCHEMAS_ANYTYPE
 	XML_SCHEMAS_ANYSIMPLETYPE
+)
+
+type XmlParserSeverities Enum
+
+const (
+	XML_PARSER_SEVERITY_VALIDITY_WARNING XmlParserSeverities = iota + 1
+	XML_PARSER_SEVERITY_VALIDITY_ERROR
+	XML_PARSER_SEVERITY_WARNING
+	XML_PARSER_SEVERITY_ERROR
 )
 
 var (
@@ -6515,6 +6561,439 @@ var (
 	XmlHandleEntity func(
 		ctxt XmlParserCtxtPtr,
 		entity XmlEntityPtr) Void
+
+	XmlRelaxNGInitTypes func(
+		Void) int
+
+	XmlRelaxNGCleanupTypes func(
+		Void) Void
+
+	XmlRelaxNGNewParserCtxt func(
+		URL *Char) XmlRelaxNGParserCtxtPtr
+
+	XmlRelaxNGNewMemParserCtxt func(
+		buffer *Char,
+		size int) XmlRelaxNGParserCtxtPtr
+
+	XmlRelaxNGNewDocParserCtxt func(
+		doc XmlDocPtr) XmlRelaxNGParserCtxtPtr
+
+	XmlRelaxParserSetFlag func(
+		ctxt XmlRelaxNGParserCtxtPtr,
+		flag int) int
+
+	XmlRelaxNGFreeParserCtxt func(
+		ctxt XmlRelaxNGParserCtxtPtr) Void
+
+	XmlRelaxNGSetParserErrors func(
+		ctxt XmlRelaxNGParserCtxtPtr,
+		err XmlRelaxNGValidityErrorFunc,
+		warn XmlRelaxNGValidityWarningFunc,
+		ctx *Void) Void
+
+	XmlRelaxNGGetParserErrors func(
+		ctxt XmlRelaxNGParserCtxtPtr,
+		err *XmlRelaxNGValidityErrorFunc,
+		warn *XmlRelaxNGValidityWarningFunc,
+		ctx **Void) int
+
+	XmlRelaxNGSetParserStructuredErrors func(
+		ctxt XmlRelaxNGParserCtxtPtr,
+		serror XmlStructuredErrorFunc,
+		ctx *Void) Void
+
+	XmlRelaxNGParse func(
+		ctxt XmlRelaxNGParserCtxtPtr) XmlRelaxNGPtr
+
+	XmlRelaxNGFree func(
+		schema XmlRelaxNGPtr) Void
+
+	XmlRelaxNGDump func(
+		output *FILE,
+		schema XmlRelaxNGPtr) Void
+
+	XmlRelaxNGDumpTree func(
+		output *FILE,
+		schema XmlRelaxNGPtr) Void
+
+	XmlRelaxNGSetValidErrors func(
+		ctxt XmlRelaxNGValidCtxtPtr,
+		err XmlRelaxNGValidityErrorFunc,
+		warn XmlRelaxNGValidityWarningFunc,
+		ctx *Void) Void
+
+	XmlRelaxNGGetValidErrors func(
+		ctxt XmlRelaxNGValidCtxtPtr,
+		err *XmlRelaxNGValidityErrorFunc,
+		warn *XmlRelaxNGValidityWarningFunc,
+		ctx **Void) int
+
+	XmlRelaxNGSetValidStructuredErrors func(
+		ctxt XmlRelaxNGValidCtxtPtr,
+		serror XmlStructuredErrorFunc,
+		ctx *Void) Void
+
+	XmlRelaxNGNewValidCtxt func(
+		schema XmlRelaxNGPtr) XmlRelaxNGValidCtxtPtr
+
+	XmlRelaxNGFreeValidCtxt func(
+		ctxt XmlRelaxNGValidCtxtPtr) Void
+
+	XmlRelaxNGValidateDoc func(
+		ctxt XmlRelaxNGValidCtxtPtr,
+		doc XmlDocPtr) int
+
+	XmlRelaxNGValidatePushElement func(
+		ctxt XmlRelaxNGValidCtxtPtr,
+		doc XmlDocPtr,
+		elem XmlNodePtr) int
+
+	XmlRelaxNGValidatePushCData func(
+		ctxt XmlRelaxNGValidCtxtPtr,
+		data *XmlChar,
+		len int) int
+
+	XmlRelaxNGValidatePopElement func(
+		ctxt XmlRelaxNGValidCtxtPtr,
+		doc XmlDocPtr,
+		elem XmlNodePtr) int
+
+	XmlRelaxNGValidateFullElement func(
+		ctxt XmlRelaxNGValidCtxtPtr,
+		doc XmlDocPtr,
+		elem XmlNodePtr) int
+
+	XmlNewTextReader func(
+		input XmlParserInputBufferPtr,
+		URI *Char) XmlTextReaderPtr
+
+	XmlNewTextReaderFilename func(
+		URI *Char) XmlTextReaderPtr
+
+	XmlFreeTextReader func(
+		reader XmlTextReaderPtr) Void
+
+	XmlTextReaderSetup func(
+		reader XmlTextReaderPtr,
+		input XmlParserInputBufferPtr,
+		URL *Char,
+		encoding *Char,
+		options int) int
+
+	XmlTextReaderRead func(
+		reader XmlTextReaderPtr) int
+
+	XmlTextReaderReadInnerXml func(
+		reader XmlTextReaderPtr) *XmlChar
+
+	XmlTextReaderReadOuterXml func(
+		reader XmlTextReaderPtr) *XmlChar
+
+	XmlTextReaderReadString func(
+		reader XmlTextReaderPtr) *XmlChar
+
+	XmlTextReaderReadAttributeValue func(
+		reader XmlTextReaderPtr) int
+
+	XmlTextReaderAttributeCount func(
+		reader XmlTextReaderPtr) int
+
+	XmlTextReaderDepth func(
+		reader XmlTextReaderPtr) int
+
+	XmlTextReaderHasAttributes func(
+		reader XmlTextReaderPtr) int
+
+	XmlTextReaderHasValue func(
+		reader XmlTextReaderPtr) int
+
+	XmlTextReaderIsDefault func(
+		reader XmlTextReaderPtr) int
+
+	XmlTextReaderIsEmptyElement func(
+		reader XmlTextReaderPtr) int
+
+	XmlTextReaderNodeType func(
+		reader XmlTextReaderPtr) int
+
+	XmlTextReaderQuoteChar func(
+		reader XmlTextReaderPtr) int
+
+	XmlTextReaderReadState func(
+		reader XmlTextReaderPtr) int
+
+	XmlTextReaderIsNamespaceDecl func(
+		reader XmlTextReaderPtr) int
+
+	XmlTextReaderConstBaseUri func(
+		reader XmlTextReaderPtr) *XmlChar
+
+	XmlTextReaderConstLocalName func(
+		reader XmlTextReaderPtr) *XmlChar
+
+	XmlTextReaderConstName func(
+		reader XmlTextReaderPtr) *XmlChar
+
+	XmlTextReaderConstNamespaceUri func(
+		reader XmlTextReaderPtr) *XmlChar
+
+	XmlTextReaderConstPrefix func(
+		reader XmlTextReaderPtr) *XmlChar
+
+	XmlTextReaderConstXmlLang func(
+		reader XmlTextReaderPtr) *XmlChar
+
+	XmlTextReaderConstString func(
+		reader XmlTextReaderPtr,
+		str *XmlChar) *XmlChar
+
+	XmlTextReaderConstValue func(
+		reader XmlTextReaderPtr) *XmlChar
+
+	XmlTextReaderBaseUri func(
+		reader XmlTextReaderPtr) *XmlChar
+
+	XmlTextReaderLocalName func(
+		reader XmlTextReaderPtr) *XmlChar
+
+	XmlTextReaderName func(
+		reader XmlTextReaderPtr) *XmlChar
+
+	XmlTextReaderNamespaceUri func(
+		reader XmlTextReaderPtr) *XmlChar
+
+	XmlTextReaderPrefix func(
+		reader XmlTextReaderPtr) *XmlChar
+
+	XmlTextReaderXmlLang func(
+		reader XmlTextReaderPtr) *XmlChar
+
+	XmlTextReaderValue func(
+		reader XmlTextReaderPtr) *XmlChar
+
+	XmlTextReaderClose func(
+		reader XmlTextReaderPtr) int
+
+	XmlTextReaderGetAttributeNo func(
+		reader XmlTextReaderPtr,
+		no int) *XmlChar
+
+	XmlTextReaderGetAttribute func(
+		reader XmlTextReaderPtr,
+		name *XmlChar) *XmlChar
+
+	XmlTextReaderGetAttributeNs func(
+		reader XmlTextReaderPtr,
+		localName *XmlChar,
+		namespaceURI *XmlChar) *XmlChar
+
+	XmlTextReaderGetRemainder func(
+		reader XmlTextReaderPtr) XmlParserInputBufferPtr
+
+	XmlTextReaderLookupNamespace func(
+		reader XmlTextReaderPtr,
+		prefix *XmlChar) *XmlChar
+
+	XmlTextReaderMoveToAttributeNo func(
+		reader XmlTextReaderPtr,
+		no int) int
+
+	XmlTextReaderMoveToAttribute func(
+		reader XmlTextReaderPtr,
+		name *XmlChar) int
+
+	XmlTextReaderMoveToAttributeNs func(
+		reader XmlTextReaderPtr,
+		localName *XmlChar,
+		namespaceURI *XmlChar) int
+
+	XmlTextReaderMoveToFirstAttribute func(
+		reader XmlTextReaderPtr) int
+
+	XmlTextReaderMoveToNextAttribute func(
+		reader XmlTextReaderPtr) int
+
+	XmlTextReaderMoveToElement func(
+		reader XmlTextReaderPtr) int
+
+	XmlTextReaderNormalization func(
+		reader XmlTextReaderPtr) int
+
+	XmlTextReaderConstEncoding func(
+		reader XmlTextReaderPtr) *XmlChar
+
+	XmlTextReaderSetParserProp func(
+		reader XmlTextReaderPtr,
+		prop int,
+		value int) int
+
+	XmlTextReaderGetParserProp func(
+		reader XmlTextReaderPtr,
+		prop int) int
+
+	XmlTextReaderCurrentNode func(
+		reader XmlTextReaderPtr) XmlNodePtr
+
+	XmlTextReaderGetParserLineNumber func(
+		reader XmlTextReaderPtr) int
+
+	XmlTextReaderGetParserColumnNumber func(
+		reader XmlTextReaderPtr) int
+
+	XmlTextReaderPreserve func(
+		reader XmlTextReaderPtr) XmlNodePtr
+
+	XmlTextReaderPreservePattern func(
+		reader XmlTextReaderPtr,
+		pattern *XmlChar,
+		namespaces **XmlChar) int
+
+	XmlTextReaderCurrentDoc func(
+		reader XmlTextReaderPtr) XmlDocPtr
+
+	XmlTextReaderExpand func(
+		reader XmlTextReaderPtr) XmlNodePtr
+
+	XmlTextReaderNext func(
+		reader XmlTextReaderPtr) int
+
+	XmlTextReaderNextSibling func(
+		reader XmlTextReaderPtr) int
+
+	XmlTextReaderIsValid func(
+		reader XmlTextReaderPtr) int
+
+	XmlTextReaderRelaxNGValidate func(
+		reader XmlTextReaderPtr,
+		rng *Char) int
+
+	XmlTextReaderRelaxNGValidateCtxt func(
+		reader XmlTextReaderPtr,
+		ctxt XmlRelaxNGValidCtxtPtr,
+		options int) int
+
+	XmlTextReaderRelaxNGSetSchema func(
+		reader XmlTextReaderPtr,
+		schema XmlRelaxNGPtr) int
+
+	XmlTextReaderSchemaValidate func(
+		reader XmlTextReaderPtr,
+		xsd *Char) int
+
+	XmlTextReaderSchemaValidateCtxt func(
+		reader XmlTextReaderPtr,
+		ctxt XmlSchemaValidCtxtPtr,
+		options int) int
+
+	XmlTextReaderSetSchema func(
+		reader XmlTextReaderPtr,
+		schema XmlSchemaPtr) int
+
+	XmlTextReaderConstXmlVersion func(
+		reader XmlTextReaderPtr) *XmlChar
+
+	XmlTextReaderStandalone func(
+		reader XmlTextReaderPtr) int
+
+	XmlTextReaderByteConsumed func(
+		reader XmlTextReaderPtr) Long
+
+	XmlReaderWalker func(
+		doc XmlDocPtr) XmlTextReaderPtr
+
+	XmlReaderForDoc func(
+		cur *XmlChar,
+		URL *Char,
+		encoding *Char,
+		options int) XmlTextReaderPtr
+
+	XmlReaderForFile func(
+		filename *Char,
+		encoding *Char,
+		options int) XmlTextReaderPtr
+
+	XmlReaderForMemory func(
+		buffer *Char,
+		size int,
+		URL *Char,
+		encoding *Char,
+		options int) XmlTextReaderPtr
+
+	XmlReaderForFd func(
+		fd int,
+		URL *Char,
+		encoding *Char,
+		options int) XmlTextReaderPtr
+
+	XmlReaderForIO func(
+		ioread XmlInputReadCallback,
+		ioclose XmlInputCloseCallback,
+		ioctx *Void,
+		URL *Char,
+		encoding *Char,
+		options int) XmlTextReaderPtr
+
+	XmlReaderNewWalker func(
+		reader XmlTextReaderPtr,
+		doc XmlDocPtr) int
+
+	XmlReaderNewDoc func(
+		reader XmlTextReaderPtr,
+		cur *XmlChar,
+		URL *Char,
+		encoding *Char,
+		options int) int
+
+	XmlReaderNewFile func(
+		reader XmlTextReaderPtr,
+		filename *Char,
+		encoding *Char,
+		options int) int
+
+	XmlReaderNewMemory func(
+		reader XmlTextReaderPtr,
+		buffer *Char,
+		size int,
+		URL *Char,
+		encoding *Char,
+		options int) int
+
+	XmlReaderNewFd func(
+		reader XmlTextReaderPtr,
+		fd int,
+		URL *Char,
+		encoding *Char,
+		options int) int
+
+	XmlReaderNewIO func(
+		reader XmlTextReaderPtr,
+		ioread XmlInputReadCallback,
+		ioclose XmlInputCloseCallback,
+		ioctx *Void,
+		URL *Char,
+		encoding *Char,
+		options int) int
+
+	XmlTextReaderLocatorLineNumber func(
+		locator XmlTextReaderLocatorPtr) int
+
+	XmlTextReaderLocatorBaseURI func(
+		locator XmlTextReaderLocatorPtr) *XmlChar
+
+	XmlTextReaderSetErrorHandler func(
+		reader XmlTextReaderPtr,
+		f XmlTextReaderErrorFunc,
+		arg *Void) Void
+
+	XmlTextReaderSetStructuredErrorHandler func(
+		reader XmlTextReaderPtr,
+		f XmlStructuredErrorFunc,
+		arg *Void) Void
+
+	XmlTextReaderGetErrorHandler func(
+		reader XmlTextReaderPtr,
+		f *XmlTextReaderErrorFunc,
+		arg **Void) Void
 )
 
 var dll = "libxml2-2.dll"
@@ -7344,18 +7823,18 @@ var apiList = Apis{
 	{"xmlReadFile", &XmlReadFile},
 	{"xmlReadIO", &XmlReadIO},
 	{"xmlReadMemory", &XmlReadMemory},
-	// {"xmlReaderForDoc", &XmlReaderForDoc},
-	// {"xmlReaderForFd", &XmlReaderForFd},
-	// {"xmlReaderForFile", &XmlReaderForFile},
-	// {"xmlReaderForIO", &XmlReaderForIO},
-	// {"xmlReaderForMemory", &XmlReaderForMemory},
-	// {"xmlReaderNewDoc", &XmlReaderNewDoc},
-	// {"xmlReaderNewFd", &XmlReaderNewFd},
-	// {"xmlReaderNewFile", &XmlReaderNewFile},
-	// {"xmlReaderNewIO", &XmlReaderNewIO},
-	// {"xmlReaderNewMemory", &XmlReaderNewMemory},
-	// {"xmlReaderNewWalker", &XmlReaderNewWalker},
-	// {"xmlReaderWalker", &XmlReaderWalker},
+	{"xmlReaderForDoc", &XmlReaderForDoc},
+	{"xmlReaderForFd", &XmlReaderForFd},
+	{"xmlReaderForFile", &XmlReaderForFile},
+	{"xmlReaderForIO", &XmlReaderForIO},
+	{"xmlReaderForMemory", &XmlReaderForMemory},
+	{"xmlReaderNewDoc", &XmlReaderNewDoc},
+	{"xmlReaderNewFd", &XmlReaderNewFd},
+	{"xmlReaderNewFile", &XmlReaderNewFile},
+	{"xmlReaderNewIO", &XmlReaderNewIO},
+	{"xmlReaderNewMemory", &XmlReaderNewMemory},
+	{"xmlReaderNewWalker", &XmlReaderNewWalker},
+	{"xmlReaderWalker", &XmlReaderWalker},
 	// {"xmlRealloc", &XmlRealloc},
 	{"xmlReallocLoc", &XmlReallocLoc},
 	{"xmlReconciliateNs", &XmlReconciliateNs},
@@ -7380,30 +7859,30 @@ var apiList = Apis{
 	{"xmlRegisterInputCallbacks", &XmlRegisterInputCallbacks},
 	{"xmlRegisterNodeDefault", &XmlRegisterNodeDefault},
 	{"xmlRegisterOutputCallbacks", &XmlRegisterOutputCallbacks},
-	// {"xmlRelaxNGCleanupTypes", &XmlRelaxNGCleanupTypes},
-	// {"xmlRelaxNGDump", &XmlRelaxNGDump},
-	// {"xmlRelaxNGDumpTree", &XmlRelaxNGDumpTree},
-	// {"xmlRelaxNGFree", &XmlRelaxNGFree},
-	// {"xmlRelaxNGFreeParserCtxt", &XmlRelaxNGFreeParserCtxt},
-	// {"xmlRelaxNGFreeValidCtxt", &XmlRelaxNGFreeValidCtxt},
-	// {"xmlRelaxNGGetParserErrors", &XmlRelaxNGGetParserErrors},
-	// {"xmlRelaxNGGetValidErrors", &XmlRelaxNGGetValidErrors},
-	// {"xmlRelaxNGInitTypes", &XmlRelaxNGInitTypes},
-	// {"xmlRelaxNGNewDocParserCtxt", &XmlRelaxNGNewDocParserCtxt},
-	// {"xmlRelaxNGNewMemParserCtxt", &XmlRelaxNGNewMemParserCtxt},
-	// {"xmlRelaxNGNewParserCtxt", &XmlRelaxNGNewParserCtxt},
-	// {"xmlRelaxNGNewValidCtxt", &XmlRelaxNGNewValidCtxt},
-	// {"xmlRelaxNGParse", &XmlRelaxNGParse},
-	// {"xmlRelaxNGSetParserErrors", &XmlRelaxNGSetParserErrors},
-	// {"xmlRelaxNGSetParserStructuredErrors", &XmlRelaxNGSetParserStructuredErrors},
-	// {"xmlRelaxNGSetValidErrors", &XmlRelaxNGSetValidErrors},
-	// {"xmlRelaxNGSetValidStructuredErrors", &XmlRelaxNGSetValidStructuredErrors},
-	// {"xmlRelaxNGValidateDoc", &XmlRelaxNGValidateDoc},
-	// {"xmlRelaxNGValidateFullElement", &XmlRelaxNGValidateFullElement},
-	// {"xmlRelaxNGValidatePopElement", &XmlRelaxNGValidatePopElement},
-	// {"xmlRelaxNGValidatePushCData", &XmlRelaxNGValidatePushCData},
-	// {"xmlRelaxNGValidatePushElement", &XmlRelaxNGValidatePushElement},
-	// {"xmlRelaxParserSetFlag", &XmlRelaxParserSetFlag},
+	{"xmlRelaxNGCleanupTypes", &XmlRelaxNGCleanupTypes},
+	{"xmlRelaxNGDump", &XmlRelaxNGDump},
+	{"xmlRelaxNGDumpTree", &XmlRelaxNGDumpTree},
+	{"xmlRelaxNGFree", &XmlRelaxNGFree},
+	{"xmlRelaxNGFreeParserCtxt", &XmlRelaxNGFreeParserCtxt},
+	{"xmlRelaxNGFreeValidCtxt", &XmlRelaxNGFreeValidCtxt},
+	{"xmlRelaxNGGetParserErrors", &XmlRelaxNGGetParserErrors},
+	{"xmlRelaxNGGetValidErrors", &XmlRelaxNGGetValidErrors},
+	{"xmlRelaxNGInitTypes", &XmlRelaxNGInitTypes},
+	{"xmlRelaxNGNewDocParserCtxt", &XmlRelaxNGNewDocParserCtxt},
+	{"xmlRelaxNGNewMemParserCtxt", &XmlRelaxNGNewMemParserCtxt},
+	{"xmlRelaxNGNewParserCtxt", &XmlRelaxNGNewParserCtxt},
+	{"xmlRelaxNGNewValidCtxt", &XmlRelaxNGNewValidCtxt},
+	{"xmlRelaxNGParse", &XmlRelaxNGParse},
+	{"xmlRelaxNGSetParserErrors", &XmlRelaxNGSetParserErrors},
+	{"xmlRelaxNGSetParserStructuredErrors", &XmlRelaxNGSetParserStructuredErrors},
+	{"xmlRelaxNGSetValidErrors", &XmlRelaxNGSetValidErrors},
+	{"xmlRelaxNGSetValidStructuredErrors", &XmlRelaxNGSetValidStructuredErrors},
+	{"xmlRelaxNGValidateDoc", &XmlRelaxNGValidateDoc},
+	{"xmlRelaxNGValidateFullElement", &XmlRelaxNGValidateFullElement},
+	{"xmlRelaxNGValidatePopElement", &XmlRelaxNGValidatePopElement},
+	{"xmlRelaxNGValidatePushCData", &XmlRelaxNGValidatePushCData},
+	{"xmlRelaxNGValidatePushElement", &XmlRelaxNGValidatePushElement},
+	{"xmlRelaxParserSetFlag", &XmlRelaxParserSetFlag},
 	{"xmlRemoveID", &XmlRemoveID},
 	{"xmlRemoveProp", &XmlRemoveProp},
 	{"xmlRemoveRef", &XmlRemoveRef},
