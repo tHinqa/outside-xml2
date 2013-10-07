@@ -111,8 +111,10 @@ type (
 	XmlSchemaValPtr            *XmlSchemaVal
 	XmlSchemaWildcardNsPtr     *XmlSchemaWildcardNs
 	XmlSchemaWildcardPtr       *XmlSchemaWildcard
+	XmlShellCtxtPtr            *XmlShellCtxt
 	XmlTextReaderLocatorPtr    *Void
 	XmlTextReaderPtr           *XmlTextReader
+	XmlTextWriterPtr           *XmlTextWriter
 	XmlValidCtxtPtr            *XmlValidCtxt
 	XmlValidStatePtr           *XmlValidState
 	XmlXIncludeCtxtPtr         *XmlXIncludeCtxt
@@ -153,6 +155,7 @@ type (
 	XmlSchemaVal            struct{}
 	XmlSchemaValidCtxt      struct{}
 	XmlTextReader           struct{}
+	XmlTextWriter           struct{}
 	XmlValidState           struct{}
 	XmlXIncludeCtxt         struct{}
 	XmlXPathCompExpr        struct{}
@@ -213,8 +216,7 @@ type (
 
 	StartDocumentSAXFunc func(ctx *Void)
 
-	EndDocumentSAXFunc func(
-		ctx *Void)
+	EndDocumentSAXFunc func(ctx *Void)
 
 	StartElementSAXFunc func(
 		ctx *Void, name *XmlChar, atts **XmlChar)
@@ -255,20 +257,15 @@ type (
 	XmlGenericErrorFunc func(ctx *Void, msg *Char, v ...VArg)
 
 	XmlCharEncodingInputFunc func(
-		out *Unsigned_char,
-		outlen *int,
-		in *Unsigned_char,
-		inlen *int) int
+		out *Unsigned_char, outlen *int,
+		in *Unsigned_char, inlen *int) int
 
 	XmlCharEncodingOutputFunc func(
-		out *Unsigned_char,
-		outlen *int,
-		in *Unsigned_char,
-		inlen *int) int
+		out *Unsigned_char, outlen *int,
+		in *Unsigned_char, inlen *int) int
 
 	XmlParserInputBufferCreateFilenameFunc func(
-		URI *Char,
-		enc XmlCharEncoding) XmlParserInputBufferPtr
+		URI *Char, enc XmlCharEncoding) XmlParserInputBufferPtr
 
 	XmlRegisterNodeFunc func(node XmlNodePtr)
 
@@ -488,6 +485,8 @@ type (
 	XmlTextReaderErrorFunc func(arg *Void, msg *Char,
 		severity XmlParserSeverities,
 		locator XmlTextReaderLocatorPtr)
+
+	XmlShellReadlineFunc func(prompt *Char) *Char
 
 	XmlSAXHandlerV1 struct {
 		internalSubset        InternalSubsetSAXFunc
@@ -1010,6 +1009,16 @@ type (
 	XmlChLRange struct {
 		low  Unsigned_int
 		high Unsigned_int
+	}
+
+	XmlShellCtxt struct {
+		filename *Char
+		doc      XmlDocPtr
+		node     XmlNodePtr
+		pctxt    XmlXPathContextPtr
+		loaded   int
+		output   *FILE
+		input    XmlShellReadlineFunc
 	}
 )
 
@@ -7138,6 +7147,547 @@ var (
 
 	XmlCatalogGetPublic func(
 		pubID *XmlChar) *XmlChar
+
+	XmlDebugDumpString func(
+		output *FILE,
+		str *XmlChar) Void
+
+	XmlDebugDumpAttr func(
+		output *FILE,
+		attr XmlAttrPtr,
+		depth int) Void
+
+	XmlDebugDumpAttrList func(
+		output *FILE,
+		attr XmlAttrPtr,
+		depth int) Void
+
+	XmlDebugDumpOneNode func(
+		output *FILE,
+		node XmlNodePtr,
+		depth int) Void
+
+	XmlDebugDumpNode func(
+		output *FILE,
+		node XmlNodePtr,
+		depth int) Void
+
+	XmlDebugDumpNodeList func(
+		output *FILE,
+		node XmlNodePtr,
+		depth int) Void
+
+	XmlDebugDumpDocumentHead func(
+		output *FILE,
+		doc XmlDocPtr) Void
+
+	XmlDebugDumpDocument func(
+		output *FILE,
+		doc XmlDocPtr) Void
+
+	XmlDebugDumpDTD func(
+		output *FILE,
+		dtd XmlDtdPtr) Void
+
+	XmlDebugDumpEntities func(
+		output *FILE,
+		doc XmlDocPtr) Void
+
+	XmlDebugCheckDocument func(
+		output *FILE,
+		doc XmlDocPtr) int
+
+	XmlLsOneNode func(
+		output *FILE,
+		node XmlNodePtr) Void
+
+	XmlLsCountNode func(
+		node XmlNodePtr) int
+
+	XmlBoolToText func(
+		boolval int) *Char
+
+	XmlShellPrintXPathError func(
+		errorType int,
+		arg *Char) Void
+
+	XmlShellPrintXPathResult func(
+		list XmlXPathObjectPtr) Void
+
+	XmlShellList func(
+		ctxt XmlShellCtxtPtr,
+		arg *Char,
+		node XmlNodePtr,
+		node2 XmlNodePtr) int
+
+	XmlShellBase func(
+		ctxt XmlShellCtxtPtr,
+		arg *Char,
+		node XmlNodePtr,
+		node2 XmlNodePtr) int
+
+	XmlShellDir func(
+		ctxt XmlShellCtxtPtr,
+		arg *Char,
+		node XmlNodePtr,
+		node2 XmlNodePtr) int
+
+	XmlShellLoad func(
+		ctxt XmlShellCtxtPtr,
+		filename *Char,
+		node XmlNodePtr,
+		node2 XmlNodePtr) int
+
+	XmlShellPrintNode func(
+		node XmlNodePtr) Void
+
+	XmlShellCat func(
+		ctxt XmlShellCtxtPtr,
+		arg *Char,
+		node XmlNodePtr,
+		node2 XmlNodePtr) int
+
+	XmlShellWrite func(
+		ctxt XmlShellCtxtPtr,
+		filename *Char,
+		node XmlNodePtr,
+		node2 XmlNodePtr) int
+
+	XmlShellSave func(
+		ctxt XmlShellCtxtPtr,
+		filename *Char,
+		node XmlNodePtr,
+		node2 XmlNodePtr) int
+
+	XmlShellValidate func(
+		ctxt XmlShellCtxtPtr,
+		dtd *Char,
+		node XmlNodePtr,
+		node2 XmlNodePtr) int
+
+	XmlShellDu func(
+		ctxt XmlShellCtxtPtr,
+		arg *Char,
+		tree XmlNodePtr,
+		node2 XmlNodePtr) int
+
+	XmlShellPwd func(
+		ctxt XmlShellCtxtPtr,
+		buffer *Char,
+		node XmlNodePtr,
+		node2 XmlNodePtr) int
+
+	XmlShell func(
+		doc XmlDocPtr,
+		filename *Char,
+		input XmlShellReadlineFunc,
+		output *FILE) Void
+
+	XmlNewTextWriter func(
+		out XmlOutputBufferPtr) XmlTextWriterPtr
+
+	XmlNewTextWriterFilename func(
+		uri *Char,
+		compression int) XmlTextWriterPtr
+
+	XmlNewTextWriterMemory func(
+		buf XmlBufferPtr,
+		compression int) XmlTextWriterPtr
+
+	XmlNewTextWriterPushParser func(
+		ctxt XmlParserCtxtPtr,
+		compression int) XmlTextWriterPtr
+
+	XmlNewTextWriterDoc func(
+		doc *XmlDocPtr,
+		compression int) XmlTextWriterPtr
+
+	XmlNewTextWriterTree func(
+		doc XmlDocPtr,
+		node XmlNodePtr,
+		compression int) XmlTextWriterPtr
+
+	XmlFreeTextWriter func(
+		writer XmlTextWriterPtr) Void
+
+	XmlTextWriterStartDocument func(
+		writer XmlTextWriterPtr,
+		version *Char,
+		encoding *Char,
+		standalone *Char) int
+
+	XmlTextWriterEndDocument func(
+		writer XmlTextWriterPtr) int
+
+	XmlTextWriterStartComment func(
+		writer XmlTextWriterPtr) int
+
+	XmlTextWriterEndComment func(
+		writer XmlTextWriterPtr) int
+
+	XmlTextWriterWriteFormatComment func(
+		writer XmlTextWriterPtr,
+		format *Char,
+		v ...VArg) int
+
+	XmlTextWriterWriteVFormatComment func(
+		writer XmlTextWriterPtr,
+		format *Char,
+		argptr Va_list) int
+
+	XmlTextWriterWriteComment func(
+		writer XmlTextWriterPtr,
+		Content *XmlChar) int
+
+	XmlTextWriterStartElement func(
+		writer XmlTextWriterPtr,
+		name *XmlChar) int
+
+	XmlTextWriterStartElementNS func(
+		writer XmlTextWriterPtr,
+		prefix *XmlChar,
+		name *XmlChar,
+		namespaceURI *XmlChar) int
+
+	XmlTextWriterEndElement func(
+		writer XmlTextWriterPtr) int
+
+	XmlTextWriterFullEndElement func(
+		writer XmlTextWriterPtr) int
+
+	XmlTextWriterWriteFormatElement func(
+		writer XmlTextWriterPtr,
+		name *XmlChar,
+		format *Char,
+		v ...VArg) int
+
+	XmlTextWriterWriteVFormatElement func(
+		writer XmlTextWriterPtr,
+		name *XmlChar,
+		format *Char,
+		argptr Va_list) int
+
+	XmlTextWriterWriteElement func(
+		writer XmlTextWriterPtr,
+		name *XmlChar,
+		Content *XmlChar) int
+
+	XmlTextWriterWriteFormatElementNS func(
+		writer XmlTextWriterPtr,
+		prefix *XmlChar,
+		name *XmlChar,
+		namespaceURI *XmlChar,
+		format *Char,
+		v ...VArg) int
+
+	XmlTextWriterWriteVFormatElementNS func(
+		writer XmlTextWriterPtr,
+		prefix *XmlChar,
+		name *XmlChar,
+		namespaceURI *XmlChar,
+		format *Char,
+		argptr Va_list) int
+
+	XmlTextWriterWriteElementNS func(
+		writer XmlTextWriterPtr,
+		prefix *XmlChar,
+		name *XmlChar,
+		namespaceURI *XmlChar,
+		Content *XmlChar) int
+
+	XmlTextWriterWriteFormatRaw func(
+		writer XmlTextWriterPtr,
+		format *Char,
+		v ...VArg) int
+
+	XmlTextWriterWriteVFormatRaw func(
+		writer XmlTextWriterPtr,
+		format *Char,
+		argptr Va_list) int
+
+	XmlTextWriterWriteRawLen func(
+		writer XmlTextWriterPtr,
+		content *XmlChar,
+		len int) int
+
+	XmlTextWriterWriteRaw func(
+		writer XmlTextWriterPtr,
+		content *XmlChar) int
+
+	XmlTextWriterWriteFormatString func(
+		writer XmlTextWriterPtr,
+		format *Char,
+		v ...VArg) int
+
+	XmlTextWriterWriteVFormatString func(
+		writer XmlTextWriterPtr,
+		format *Char,
+		argptr Va_list) int
+
+	XmlTextWriterWriteString func(
+		writer XmlTextWriterPtr,
+		Content *XmlChar) int
+
+	XmlTextWriterWriteBase64 func(
+		writer XmlTextWriterPtr,
+		data *Char,
+		start int,
+		len int) int
+
+	XmlTextWriterWriteBinHex func(
+		writer XmlTextWriterPtr,
+		data *Char,
+		start int,
+		len int) int
+
+	XmlTextWriterStartAttribute func(
+		writer XmlTextWriterPtr,
+		name *XmlChar) int
+
+	XmlTextWriterStartAttributeNS func(
+		writer XmlTextWriterPtr,
+		prefix *XmlChar,
+		name *XmlChar,
+		namespaceURI *XmlChar) int
+
+	XmlTextWriterEndAttribute func(
+		writer XmlTextWriterPtr) int
+
+	XmlTextWriterWriteFormatAttribute func(
+		writer XmlTextWriterPtr,
+		name *XmlChar,
+		format *Char,
+		v ...VArg) int
+
+	XmlTextWriterWriteVFormatAttribute func(
+		writer XmlTextWriterPtr,
+		name *XmlChar,
+		format *Char,
+		argptr Va_list) int
+
+	XmlTextWriterWriteAttribute func(
+		writer XmlTextWriterPtr,
+		name *XmlChar,
+		Content *XmlChar) int
+
+	XmlTextWriterWriteFormatAttributeNS func(
+		writer XmlTextWriterPtr,
+		prefix *XmlChar,
+		name *XmlChar,
+		namespaceURI *XmlChar,
+		format *Char,
+		v ...VArg) int
+
+	XmlTextWriterWriteVFormatAttributeNS func(
+		writer XmlTextWriterPtr,
+		prefix *XmlChar,
+		name *XmlChar,
+		namespaceURI *XmlChar,
+		format *Char,
+		argptr Va_list) int
+
+	XmlTextWriterWriteAttributeNS func(
+		writer XmlTextWriterPtr,
+		prefix *XmlChar,
+		name *XmlChar,
+		namespaceURI *XmlChar,
+		Content *XmlChar) int
+
+	XmlTextWriterStartPI func(
+		writer XmlTextWriterPtr,
+		target *XmlChar) int
+
+	XmlTextWriterEndPI func(
+		writer XmlTextWriterPtr) int
+
+	XmlTextWriterWriteFormatPI func(
+		writer XmlTextWriterPtr,
+		target *XmlChar,
+		format *Char,
+		v ...VArg) int
+
+	XmlTextWriterWriteVFormatPI func(
+		writer XmlTextWriterPtr,
+		target *XmlChar,
+		format *Char,
+		argptr Va_list) int
+
+	XmlTextWriterWritePI func(
+		writer XmlTextWriterPtr,
+		target *XmlChar,
+		content *XmlChar) int
+
+	XmlTextWriterStartCDATA func(
+		writer XmlTextWriterPtr) int
+
+	XmlTextWriterEndCDATA func(
+		writer XmlTextWriterPtr) int
+
+	XmlTextWriterWriteFormatCDATA func(
+		writer XmlTextWriterPtr,
+		format *Char,
+		v ...VArg) int
+
+	XmlTextWriterWriteVFormatCDATA func(
+		writer XmlTextWriterPtr,
+		format *Char,
+		argptr Va_list) int
+
+	XmlTextWriterWriteCDATA func(
+		writer XmlTextWriterPtr,
+		content *XmlChar) int
+
+	XmlTextWriterStartDTD func(
+		writer XmlTextWriterPtr,
+		name *XmlChar,
+		pubid *XmlChar,
+		sysid *XmlChar) int
+
+	XmlTextWriterEndDTD func(
+		writer XmlTextWriterPtr) int
+
+	XmlTextWriterWriteFormatDTD func(
+		writer XmlTextWriterPtr,
+		name *XmlChar,
+		pubid *XmlChar,
+		sysid *XmlChar,
+		format *Char,
+		v ...VArg) int
+
+	XmlTextWriterWriteVFormatDTD func(
+		writer XmlTextWriterPtr,
+		name *XmlChar,
+		pubid *XmlChar,
+		sysid *XmlChar,
+		format *Char,
+		argptr Va_list) int
+
+	XmlTextWriterWriteDTD func(
+		writer XmlTextWriterPtr,
+		name *XmlChar,
+		pubid *XmlChar,
+		sysid *XmlChar,
+		subset *XmlChar) int
+
+	XmlTextWriterStartDTDElement func(
+		writer XmlTextWriterPtr,
+		name *XmlChar) int
+
+	XmlTextWriterEndDTDElement func(
+		writer XmlTextWriterPtr) int
+
+	XmlTextWriterWriteFormatDTDElement func(
+		writer XmlTextWriterPtr,
+		name *XmlChar,
+		format *Char,
+		v ...VArg) int
+
+	XmlTextWriterWriteVFormatDTDElement func(
+		writer XmlTextWriterPtr,
+		name *XmlChar,
+		format *Char,
+		argptr Va_list) int
+
+	XmlTextWriterWriteDTDElement func(
+		writer XmlTextWriterPtr,
+		name *XmlChar,
+		Content *XmlChar) int
+
+	XmlTextWriterStartDTDAttlist func(
+		writer XmlTextWriterPtr,
+		name *XmlChar) int
+
+	XmlTextWriterEndDTDAttlist func(
+		writer XmlTextWriterPtr) int
+
+	XmlTextWriterWriteFormatDTDAttlist func(
+		writer XmlTextWriterPtr,
+		name *XmlChar,
+		format *Char,
+		v ...VArg) int
+
+	XmlTextWriterWriteVFormatDTDAttlist func(
+		writer XmlTextWriterPtr,
+		name *XmlChar,
+		format *Char,
+		argptr Va_list) int
+
+	XmlTextWriterWriteDTDAttlist func(
+		writer XmlTextWriterPtr,
+		name *XmlChar,
+		Content *XmlChar) int
+
+	XmlTextWriterStartDTDEntity func(
+		writer XmlTextWriterPtr,
+		pe int,
+		name *XmlChar) int
+
+	XmlTextWriterEndDTDEntity func(
+		writer XmlTextWriterPtr) int
+
+	XmlTextWriterWriteFormatDTDInternalEntity func(
+		writer XmlTextWriterPtr,
+		pe int,
+		name *XmlChar,
+		format *Char,
+		v ...VArg) int
+
+	XmlTextWriterWriteVFormatDTDInternalEntity func(
+		writer XmlTextWriterPtr,
+		pe int,
+		name *XmlChar,
+		format *Char,
+		argptr Va_list) int
+
+	XmlTextWriterWriteDTDInternalEntity func(
+		writer XmlTextWriterPtr,
+		pe int,
+		name *XmlChar,
+		content *XmlChar) int
+
+	XmlTextWriterWriteDTDExternalEntity func(
+		writer XmlTextWriterPtr,
+		pe int,
+		name *XmlChar,
+		pubid *XmlChar,
+		sysid *XmlChar,
+		ndataid *XmlChar) int
+
+	XmlTextWriterWriteDTDExternalEntityContents func(
+		writer XmlTextWriterPtr,
+		pubid *XmlChar,
+		sysid *XmlChar,
+		ndataid *XmlChar) int
+
+	XmlTextWriterWriteDTDEntity func(
+		writer XmlTextWriterPtr,
+		pe int,
+		name *XmlChar,
+		pubid *XmlChar,
+		sysid *XmlChar,
+		ndataid *XmlChar,
+		content *XmlChar) int
+
+	XmlTextWriterWriteDTDNotation func(
+		writer XmlTextWriterPtr,
+		name *XmlChar,
+		pubid *XmlChar,
+		sysid *XmlChar) int
+
+	XmlTextWriterSetIndent func(
+		writer XmlTextWriterPtr,
+		indent int) int
+
+	XmlTextWriterSetIndentString func(
+		writer XmlTextWriterPtr,
+		str *XmlChar) int
+
+	XmlTextWriterSetQuoteChar func(
+		writer XmlTextWriterPtr,
+		quotechar XmlChar) int
+
+	XmlTextWriterFlush func(
+		writer XmlTextWriterPtr) int
 )
 
 var dll = "libxml2-2.dll"
@@ -7339,7 +7889,7 @@ var apiList = Apis{
 	{"xmlAutomataNewTransition", &XmlAutomataNewTransition},
 	{"xmlAutomataNewTransition2", &XmlAutomataNewTransition2},
 	{"xmlAutomataSetFinalState", &XmlAutomataSetFinalState},
-	// {"xmlBoolToText", &XmlBoolToText},
+	{"xmlBoolToText", &XmlBoolToText},
 	{"xmlBufferAdd", &XmlBufferAdd},
 	{"xmlBufferAddHead", &XmlBufferAddHead},
 	{"xmlBufferCCat", &XmlBufferCCat},
@@ -7459,18 +8009,18 @@ var apiList = Apis{
 	{"xmlDOMWrapNewCtxt", &XmlDOMWrapNewCtxt},
 	{"xmlDOMWrapReconcileNamespaces", &XmlDOMWrapReconcileNamespaces},
 	{"xmlDOMWrapRemoveNode", &XmlDOMWrapRemoveNode},
-	// {"xmlDebugCheckDocument", &XmlDebugCheckDocument},
-	// {"xmlDebugDumpAttr", &XmlDebugDumpAttr},
-	// {"xmlDebugDumpAttrList", &XmlDebugDumpAttrList},
-	// {"xmlDebugDumpDTD", &XmlDebugDumpDTD},
-	// {"xmlDebugDumpDocument", &XmlDebugDumpDocument},
-	// {"xmlDebugDumpDocumentHead", &XmlDebugDumpDocumentHead},
-	// {"xmlDebugDumpEntities", &XmlDebugDumpEntities},
-	// {"xmlDebugDumpNode", &XmlDebugDumpNode},
-	// {"xmlDebugDumpNodeList", &XmlDebugDumpNodeList},
-	// {"xmlDebugDumpOneNode", &XmlDebugDumpOneNode},
-	// {"xmlDebugDumpString", &XmlDebugDumpString},
-	// {"xmlDecodeEntities", &XmlDecodeEntities},
+	{"xmlDebugCheckDocument", &XmlDebugCheckDocument},
+	{"xmlDebugDumpAttr", &XmlDebugDumpAttr},
+	{"xmlDebugDumpAttrList", &XmlDebugDumpAttrList},
+	{"xmlDebugDumpDTD", &XmlDebugDumpDTD},
+	{"xmlDebugDumpDocument", &XmlDebugDumpDocument},
+	{"xmlDebugDumpDocumentHead", &XmlDebugDumpDocumentHead},
+	{"xmlDebugDumpEntities", &XmlDebugDumpEntities},
+	{"xmlDebugDumpNode", &XmlDebugDumpNode},
+	{"xmlDebugDumpNodeList", &XmlDebugDumpNodeList},
+	{"xmlDebugDumpOneNode", &XmlDebugDumpOneNode},
+	{"xmlDebugDumpString", &XmlDebugDumpString},
+	{"xmlDecodeEntities", &XmlDecodeEntities},
 	{"xmlDefaultSAXHandlerInit", &XmlDefaultSAXHandlerInit},
 	{"xmlDelEncodingAlias", &XmlDelEncodingAlias},
 	{"xmlDeregisterNodeDefault", &XmlDeregisterNodeDefault},
@@ -7561,8 +8111,8 @@ var apiList = Apis{
 	{"xmlFreeRMutex", &XmlFreeRMutex},
 	{"xmlFreeRefTable", &XmlFreeRefTable},
 	// {"xmlFreeStreamCtxt", &XmlFreeStreamCtxt},
-	// {"xmlFreeTextReader", &XmlFreeTextReader},
-	// {"xmlFreeTextWriter", &XmlFreeTextWriter},
+	{"xmlFreeTextReader", &XmlFreeTextReader},
+	{"xmlFreeTextWriter", &XmlFreeTextWriter},
 	// {"xmlFreeURI", &XmlFreeURI},
 	{"xmlFreeValidCtxt", &XmlFreeValidCtxt},
 	{"xmlGcMemGet", &XmlGcMemGet},
@@ -7704,8 +8254,8 @@ var apiList = Apis{
 	{"xmlLoadExternalEntity", &XmlLoadExternalEntity},
 	{"xmlLoadSGMLSuperCatalog", &XmlLoadSGMLSuperCatalog},
 	{"xmlLockLibrary", &XmlLockLibrary},
-	// {"xmlLsCountNode", &XmlLsCountNode},
-	// {"xmlLsOneNode", &XmlLsOneNode},
+	{"xmlLsCountNode", &XmlLsCountNode},
+	{"xmlLsOneNode", &XmlLsOneNode},
 	// {"xmlMalloc", &XmlMalloc},
 	// {"xmlMallocAtomic", &XmlMallocAtomic},
 	{"xmlMallocAtomicLoc", &XmlMallocAtomicLoc},
@@ -7815,12 +8365,12 @@ var apiList = Apis{
 	{"xmlNewTextLen", &XmlNewTextLen},
 	{"xmlNewTextReader", &XmlNewTextReader},
 	{"xmlNewTextReaderFilename", &XmlNewTextReaderFilename},
-	// {"xmlNewTextWriter", &XmlNewTextWriter},
-	// {"xmlNewTextWriterDoc", &XmlNewTextWriterDoc},
-	// {"xmlNewTextWriterFilename", &XmlNewTextWriterFilename},
-	// {"xmlNewTextWriterMemory", &XmlNewTextWriterMemory},
-	// {"xmlNewTextWriterPushParser", &XmlNewTextWriterPushParser},
-	// {"xmlNewTextWriterTree", &XmlNewTextWriterTree},
+	{"xmlNewTextWriter", &XmlNewTextWriter},
+	{"xmlNewTextWriterDoc", &XmlNewTextWriterDoc},
+	{"xmlNewTextWriterFilename", &XmlNewTextWriterFilename},
+	{"xmlNewTextWriterMemory", &XmlNewTextWriterMemory},
+	{"xmlNewTextWriterPushParser", &XmlNewTextWriterPushParser},
+	{"xmlNewTextWriterTree", &XmlNewTextWriterTree},
 	{"xmlNewValidCtxt", &XmlNewValidCtxt},
 	{"xmlNextChar", &XmlNextChar},
 	{"xmlNextElementSibling", &XmlNextElementSibling},
@@ -8094,7 +8644,7 @@ var apiList = Apis{
 	// {"xmlSaveToIO", &XmlSaveToIO},
 	// {"xmlSaveTree", &XmlSaveTree},
 	// {"xmlSaveUri", &XmlSaveUri},
-	// {"xmlScanName", &XmlScanName},
+	{"xmlScanName", &XmlScanName},
 	{"xmlSchemaCheckFacet", &XmlSchemaCheckFacet},
 	{"xmlSchemaCleanupTypes", &XmlSchemaCleanupTypes},
 	{"xmlSchemaCollapseString", &XmlSchemaCollapseString},
@@ -8182,20 +8732,20 @@ var apiList = Apis{
 	{"xmlSetStructuredErrorFunc", &XmlSetStructuredErrorFunc},
 	{"xmlSetTreeDoc", &XmlSetTreeDoc},
 	{"xmlSetupParserForBuffer", &XmlSetupParserForBuffer},
-	// {"xmlShell", &XmlShell},
-	// {"xmlShellBase", &XmlShellBase},
-	// {"xmlShellCat", &XmlShellCat},
-	// {"xmlShellDir", &XmlShellDir},
-	// {"xmlShellDu", &XmlShellDu},
-	// {"xmlShellList", &XmlShellList},
-	// {"xmlShellLoad", &XmlShellLoad},
-	// {"xmlShellPrintNode", &XmlShellPrintNode},
-	// {"xmlShellPrintXPathError", &XmlShellPrintXPathError},
-	// {"xmlShellPrintXPathResult", &XmlShellPrintXPathResult},
-	// {"xmlShellPwd", &XmlShellPwd},
-	// {"xmlShellSave", &XmlShellSave},
-	// {"xmlShellValidate", &XmlShellValidate},
-	// {"xmlShellWrite", &XmlShellWrite},
+	{"xmlShell", &XmlShell},
+	{"xmlShellBase", &XmlShellBase},
+	{"xmlShellCat", &XmlShellCat},
+	{"xmlShellDir", &XmlShellDir},
+	{"xmlShellDu", &XmlShellDu},
+	{"xmlShellList", &XmlShellList},
+	{"xmlShellLoad", &XmlShellLoad},
+	{"xmlShellPrintNode", &XmlShellPrintNode},
+	{"xmlShellPrintXPathError", &XmlShellPrintXPathError},
+	{"xmlShellPrintXPathResult", &XmlShellPrintXPathResult},
+	{"xmlShellPwd", &XmlShellPwd},
+	{"xmlShellSave", &XmlShellSave},
+	{"xmlShellValidate", &XmlShellValidate},
+	{"xmlShellWrite", &XmlShellWrite},
 	{"xmlSkipBlankChars", &XmlSkipBlankChars},
 	{"xmlSnprintfElementContent", &XmlSnprintfElementContent},
 	{"xmlSplitQName", &XmlSplitQName},
@@ -8240,148 +8790,148 @@ var apiList = Apis{
 	{"xmlSwitchToEncoding", &XmlSwitchToEncoding},
 	{"xmlTextConcat", &XmlTextConcat},
 	{"xmlTextMerge", &XmlTextMerge},
-	// {"xmlTextReaderAttributeCount", &XmlTextReaderAttributeCount},
-	// {"xmlTextReaderBaseUri", &XmlTextReaderBaseUri},
-	// {"xmlTextReaderByteConsumed", &XmlTextReaderByteConsumed},
-	// {"xmlTextReaderClose", &XmlTextReaderClose},
-	// {"xmlTextReaderConstBaseUri", &XmlTextReaderConstBaseUri},
-	// {"xmlTextReaderConstEncoding", &XmlTextReaderConstEncoding},
-	// {"xmlTextReaderConstLocalName", &XmlTextReaderConstLocalName},
-	// {"xmlTextReaderConstName", &XmlTextReaderConstName},
-	// {"xmlTextReaderConstNamespaceUri", &XmlTextReaderConstNamespaceUri},
-	// {"xmlTextReaderConstPrefix", &XmlTextReaderConstPrefix},
-	// {"xmlTextReaderConstString", &XmlTextReaderConstString},
-	// {"xmlTextReaderConstValue", &XmlTextReaderConstValue},
-	// {"xmlTextReaderConstXmlLang", &XmlTextReaderConstXmlLang},
-	// {"xmlTextReaderConstXmlVersion", &XmlTextReaderConstXmlVersion},
-	// {"xmlTextReaderCurrentDoc", &XmlTextReaderCurrentDoc},
-	// {"xmlTextReaderCurrentNode", &XmlTextReaderCurrentNode},
-	// {"xmlTextReaderDepth", &XmlTextReaderDepth},
-	// {"xmlTextReaderExpand", &XmlTextReaderExpand},
-	// {"xmlTextReaderGetAttribute", &XmlTextReaderGetAttribute},
-	// {"xmlTextReaderGetAttributeNo", &XmlTextReaderGetAttributeNo},
-	// {"xmlTextReaderGetAttributeNs", &XmlTextReaderGetAttributeNs},
-	// {"xmlTextReaderGetErrorHandler", &XmlTextReaderGetErrorHandler},
-	// {"xmlTextReaderGetParserColumnNumber", &XmlTextReaderGetParserColumnNumber},
-	// {"xmlTextReaderGetParserLineNumber", &XmlTextReaderGetParserLineNumber},
-	// {"xmlTextReaderGetParserProp", &XmlTextReaderGetParserProp},
-	// {"xmlTextReaderGetRemainder", &XmlTextReaderGetRemainder},
-	// {"xmlTextReaderHasAttributes", &XmlTextReaderHasAttributes},
-	// {"xmlTextReaderHasValue", &XmlTextReaderHasValue},
-	// {"xmlTextReaderIsDefault", &XmlTextReaderIsDefault},
-	// {"xmlTextReaderIsEmptyElement", &XmlTextReaderIsEmptyElement},
-	// {"xmlTextReaderIsNamespaceDecl", &XmlTextReaderIsNamespaceDecl},
-	// {"xmlTextReaderIsValid", &XmlTextReaderIsValid},
-	// {"xmlTextReaderLocalName", &XmlTextReaderLocalName},
-	// {"xmlTextReaderLocatorBaseURI", &XmlTextReaderLocatorBaseURI},
-	// {"xmlTextReaderLocatorLineNumber", &XmlTextReaderLocatorLineNumber},
-	// {"xmlTextReaderLookupNamespace", &XmlTextReaderLookupNamespace},
-	// {"xmlTextReaderMoveToAttribute", &XmlTextReaderMoveToAttribute},
-	// {"xmlTextReaderMoveToAttributeNo", &XmlTextReaderMoveToAttributeNo},
-	// {"xmlTextReaderMoveToAttributeNs", &XmlTextReaderMoveToAttributeNs},
-	// {"xmlTextReaderMoveToElement", &XmlTextReaderMoveToElement},
-	// {"xmlTextReaderMoveToFirstAttribute", &XmlTextReaderMoveToFirstAttribute},
-	// {"xmlTextReaderMoveToNextAttribute", &XmlTextReaderMoveToNextAttribute},
-	// {"xmlTextReaderName", &XmlTextReaderName},
-	// {"xmlTextReaderNamespaceUri", &XmlTextReaderNamespaceUri},
-	// {"xmlTextReaderNext", &XmlTextReaderNext},
-	// {"xmlTextReaderNextSibling", &XmlTextReaderNextSibling},
-	// {"xmlTextReaderNodeType", &XmlTextReaderNodeType},
-	// {"xmlTextReaderNormalization", &XmlTextReaderNormalization},
-	// {"xmlTextReaderPrefix", &XmlTextReaderPrefix},
-	// {"xmlTextReaderPreserve", &XmlTextReaderPreserve},
-	// {"xmlTextReaderPreservePattern", &XmlTextReaderPreservePattern},
-	// {"xmlTextReaderQuoteChar", &XmlTextReaderQuoteChar},
-	// {"xmlTextReaderRead", &XmlTextReaderRead},
-	// {"xmlTextReaderReadAttributeValue", &XmlTextReaderReadAttributeValue},
-	// {"xmlTextReaderReadInnerXml", &XmlTextReaderReadInnerXml},
-	// {"xmlTextReaderReadOuterXml", &XmlTextReaderReadOuterXml},
-	// {"xmlTextReaderReadState", &XmlTextReaderReadState},
-	// {"xmlTextReaderReadString", &XmlTextReaderReadString},
-	// {"xmlTextReaderRelaxNGSetSchema", &XmlTextReaderRelaxNGSetSchema},
-	// {"xmlTextReaderRelaxNGValidate", &XmlTextReaderRelaxNGValidate},
-	// {"xmlTextReaderSchemaValidate", &XmlTextReaderSchemaValidate},
-	// {"xmlTextReaderSchemaValidateCtxt", &XmlTextReaderSchemaValidateCtxt},
-	// {"xmlTextReaderSetErrorHandler", &XmlTextReaderSetErrorHandler},
-	// {"xmlTextReaderSetParserProp", &XmlTextReaderSetParserProp},
-	// {"xmlTextReaderSetSchema", &XmlTextReaderSetSchema},
-	// {"xmlTextReaderSetStructuredErrorHandler", &XmlTextReaderSetStructuredErrorHandler},
-	// {"xmlTextReaderSetup", &XmlTextReaderSetup},
-	// {"xmlTextReaderStandalone", &XmlTextReaderStandalone},
-	// {"xmlTextReaderValue", &XmlTextReaderValue},
-	// {"xmlTextReaderXmlLang", &XmlTextReaderXmlLang},
-	// {"xmlTextWriterEndAttribute", &XmlTextWriterEndAttribute},
-	// {"xmlTextWriterEndCDATA", &XmlTextWriterEndCDATA},
-	// {"xmlTextWriterEndComment", &XmlTextWriterEndComment},
-	// {"xmlTextWriterEndDTD", &XmlTextWriterEndDTD},
-	// {"xmlTextWriterEndDTDAttlist", &XmlTextWriterEndDTDAttlist},
-	// {"xmlTextWriterEndDTDElement", &XmlTextWriterEndDTDElement},
-	// {"xmlTextWriterEndDTDEntity", &XmlTextWriterEndDTDEntity},
-	// {"xmlTextWriterEndDocument", &XmlTextWriterEndDocument},
-	// {"xmlTextWriterEndElement", &XmlTextWriterEndElement},
-	// {"xmlTextWriterEndPI", &XmlTextWriterEndPI},
-	// {"xmlTextWriterFlush", &XmlTextWriterFlush},
-	// {"xmlTextWriterFullEndElement", &XmlTextWriterFullEndElement},
-	// {"xmlTextWriterSetIndent", &XmlTextWriterSetIndent},
-	// {"xmlTextWriterSetIndentString", &XmlTextWriterSetIndentString},
-	// {"xmlTextWriterStartAttribute", &XmlTextWriterStartAttribute},
-	// {"xmlTextWriterStartAttributeNS", &XmlTextWriterStartAttributeNS},
-	// {"xmlTextWriterStartCDATA", &XmlTextWriterStartCDATA},
-	// {"xmlTextWriterStartComment", &XmlTextWriterStartComment},
-	// {"xmlTextWriterStartDTD", &XmlTextWriterStartDTD},
-	// {"xmlTextWriterStartDTDAttlist", &XmlTextWriterStartDTDAttlist},
-	// {"xmlTextWriterStartDTDElement", &XmlTextWriterStartDTDElement},
-	// {"xmlTextWriterStartDTDEntity", &XmlTextWriterStartDTDEntity},
-	// {"xmlTextWriterStartDocument", &XmlTextWriterStartDocument},
-	// {"xmlTextWriterStartElement", &XmlTextWriterStartElement},
-	// {"xmlTextWriterStartElementNS", &XmlTextWriterStartElementNS},
-	// {"xmlTextWriterStartPI", &XmlTextWriterStartPI},
-	// {"xmlTextWriterWriteAttribute", &XmlTextWriterWriteAttribute},
-	// {"xmlTextWriterWriteAttributeNS", &XmlTextWriterWriteAttributeNS},
-	// {"xmlTextWriterWriteBase64", &XmlTextWriterWriteBase64},
-	// {"xmlTextWriterWriteBinHex", &XmlTextWriterWriteBinHex},
-	// {"xmlTextWriterWriteCDATA", &XmlTextWriterWriteCDATA},
-	// {"xmlTextWriterWriteComment", &XmlTextWriterWriteComment},
-	// {"xmlTextWriterWriteDTD", &XmlTextWriterWriteDTD},
-	// {"xmlTextWriterWriteDTDAttlist", &XmlTextWriterWriteDTDAttlist},
-	// {"xmlTextWriterWriteDTDElement", &XmlTextWriterWriteDTDElement},
-	// {"xmlTextWriterWriteDTDEntity", &XmlTextWriterWriteDTDEntity},
-	// {"xmlTextWriterWriteDTDExternalEntity", &XmlTextWriterWriteDTDExternalEntity},
-	// {"xmlTextWriterWriteDTDExternalEntityContents", &XmlTextWriterWriteDTDExternalEntityContents},
-	// {"xmlTextWriterWriteDTDInternalEntity", &XmlTextWriterWriteDTDInternalEntity},
-	// {"xmlTextWriterWriteDTDNotation", &XmlTextWriterWriteDTDNotation},
-	// {"xmlTextWriterWriteElement", &XmlTextWriterWriteElement},
-	// {"xmlTextWriterWriteElementNS", &XmlTextWriterWriteElementNS},
-	// {"xmlTextWriterWriteFormatAttribute", &XmlTextWriterWriteFormatAttribute},
-	// {"xmlTextWriterWriteFormatAttributeNS", &XmlTextWriterWriteFormatAttributeNS},
-	// {"xmlTextWriterWriteFormatCDATA", &XmlTextWriterWriteFormatCDATA},
-	// {"xmlTextWriterWriteFormatComment", &XmlTextWriterWriteFormatComment},
-	// {"xmlTextWriterWriteFormatDTD", &XmlTextWriterWriteFormatDTD},
-	// {"xmlTextWriterWriteFormatDTDAttlist", &XmlTextWriterWriteFormatDTDAttlist},
-	// {"xmlTextWriterWriteFormatDTDElement", &XmlTextWriterWriteFormatDTDElement},
-	// {"xmlTextWriterWriteFormatDTDInternalEntity", &XmlTextWriterWriteFormatDTDInternalEntity},
-	// {"xmlTextWriterWriteFormatElement", &XmlTextWriterWriteFormatElement},
-	// {"xmlTextWriterWriteFormatElementNS", &XmlTextWriterWriteFormatElementNS},
-	// {"xmlTextWriterWriteFormatPI", &XmlTextWriterWriteFormatPI},
-	// {"xmlTextWriterWriteFormatRaw", &XmlTextWriterWriteFormatRaw},
-	// {"xmlTextWriterWriteFormatString", &XmlTextWriterWriteFormatString},
-	// {"xmlTextWriterWritePI", &XmlTextWriterWritePI},
-	// {"xmlTextWriterWriteRaw", &XmlTextWriterWriteRaw},
-	// {"xmlTextWriterWriteRawLen", &XmlTextWriterWriteRawLen},
-	// {"xmlTextWriterWriteString", &XmlTextWriterWriteString},
-	// {"xmlTextWriterWriteVFormatAttribute", &XmlTextWriterWriteVFormatAttribute},
-	// {"xmlTextWriterWriteVFormatAttributeNS", &XmlTextWriterWriteVFormatAttributeNS},
-	// {"xmlTextWriterWriteVFormatCDATA", &XmlTextWriterWriteVFormatCDATA},
-	// {"xmlTextWriterWriteVFormatComment", &XmlTextWriterWriteVFormatComment},
-	// {"xmlTextWriterWriteVFormatDTD", &XmlTextWriterWriteVFormatDTD},
-	// {"xmlTextWriterWriteVFormatDTDAttlist", &XmlTextWriterWriteVFormatDTDAttlist},
-	// {"xmlTextWriterWriteVFormatDTDElement", &XmlTextWriterWriteVFormatDTDElement},
-	// {"xmlTextWriterWriteVFormatDTDInternalEntity", &XmlTextWriterWriteVFormatDTDInternalEntity},
-	// {"xmlTextWriterWriteVFormatElement", &XmlTextWriterWriteVFormatElement},
-	// {"xmlTextWriterWriteVFormatElementNS", &XmlTextWriterWriteVFormatElementNS},
-	// {"xmlTextWriterWriteVFormatPI", &XmlTextWriterWriteVFormatPI},
-	// {"xmlTextWriterWriteVFormatRaw", &XmlTextWriterWriteVFormatRaw},
-	// {"xmlTextWriterWriteVFormatString", &XmlTextWriterWriteVFormatString},
+	{"xmlTextReaderAttributeCount", &XmlTextReaderAttributeCount},
+	{"xmlTextReaderBaseUri", &XmlTextReaderBaseUri},
+	{"xmlTextReaderByteConsumed", &XmlTextReaderByteConsumed},
+	{"xmlTextReaderClose", &XmlTextReaderClose},
+	{"xmlTextReaderConstBaseUri", &XmlTextReaderConstBaseUri},
+	{"xmlTextReaderConstEncoding", &XmlTextReaderConstEncoding},
+	{"xmlTextReaderConstLocalName", &XmlTextReaderConstLocalName},
+	{"xmlTextReaderConstName", &XmlTextReaderConstName},
+	{"xmlTextReaderConstNamespaceUri", &XmlTextReaderConstNamespaceUri},
+	{"xmlTextReaderConstPrefix", &XmlTextReaderConstPrefix},
+	{"xmlTextReaderConstString", &XmlTextReaderConstString},
+	{"xmlTextReaderConstValue", &XmlTextReaderConstValue},
+	{"xmlTextReaderConstXmlLang", &XmlTextReaderConstXmlLang},
+	{"xmlTextReaderConstXmlVersion", &XmlTextReaderConstXmlVersion},
+	{"xmlTextReaderCurrentDoc", &XmlTextReaderCurrentDoc},
+	{"xmlTextReaderCurrentNode", &XmlTextReaderCurrentNode},
+	{"xmlTextReaderDepth", &XmlTextReaderDepth},
+	{"xmlTextReaderExpand", &XmlTextReaderExpand},
+	{"xmlTextReaderGetAttribute", &XmlTextReaderGetAttribute},
+	{"xmlTextReaderGetAttributeNo", &XmlTextReaderGetAttributeNo},
+	{"xmlTextReaderGetAttributeNs", &XmlTextReaderGetAttributeNs},
+	{"xmlTextReaderGetErrorHandler", &XmlTextReaderGetErrorHandler},
+	{"xmlTextReaderGetParserColumnNumber", &XmlTextReaderGetParserColumnNumber},
+	{"xmlTextReaderGetParserLineNumber", &XmlTextReaderGetParserLineNumber},
+	{"xmlTextReaderGetParserProp", &XmlTextReaderGetParserProp},
+	{"xmlTextReaderGetRemainder", &XmlTextReaderGetRemainder},
+	{"xmlTextReaderHasAttributes", &XmlTextReaderHasAttributes},
+	{"xmlTextReaderHasValue", &XmlTextReaderHasValue},
+	{"xmlTextReaderIsDefault", &XmlTextReaderIsDefault},
+	{"xmlTextReaderIsEmptyElement", &XmlTextReaderIsEmptyElement},
+	{"xmlTextReaderIsNamespaceDecl", &XmlTextReaderIsNamespaceDecl},
+	{"xmlTextReaderIsValid", &XmlTextReaderIsValid},
+	{"xmlTextReaderLocalName", &XmlTextReaderLocalName},
+	{"xmlTextReaderLocatorBaseURI", &XmlTextReaderLocatorBaseURI},
+	{"xmlTextReaderLocatorLineNumber", &XmlTextReaderLocatorLineNumber},
+	{"xmlTextReaderLookupNamespace", &XmlTextReaderLookupNamespace},
+	{"xmlTextReaderMoveToAttribute", &XmlTextReaderMoveToAttribute},
+	{"xmlTextReaderMoveToAttributeNo", &XmlTextReaderMoveToAttributeNo},
+	{"xmlTextReaderMoveToAttributeNs", &XmlTextReaderMoveToAttributeNs},
+	{"xmlTextReaderMoveToElement", &XmlTextReaderMoveToElement},
+	{"xmlTextReaderMoveToFirstAttribute", &XmlTextReaderMoveToFirstAttribute},
+	{"xmlTextReaderMoveToNextAttribute", &XmlTextReaderMoveToNextAttribute},
+	{"xmlTextReaderName", &XmlTextReaderName},
+	{"xmlTextReaderNamespaceUri", &XmlTextReaderNamespaceUri},
+	{"xmlTextReaderNext", &XmlTextReaderNext},
+	{"xmlTextReaderNextSibling", &XmlTextReaderNextSibling},
+	{"xmlTextReaderNodeType", &XmlTextReaderNodeType},
+	{"xmlTextReaderNormalization", &XmlTextReaderNormalization},
+	{"xmlTextReaderPrefix", &XmlTextReaderPrefix},
+	{"xmlTextReaderPreserve", &XmlTextReaderPreserve},
+	{"xmlTextReaderPreservePattern", &XmlTextReaderPreservePattern},
+	{"xmlTextReaderQuoteChar", &XmlTextReaderQuoteChar},
+	{"xmlTextReaderRead", &XmlTextReaderRead},
+	{"xmlTextReaderReadAttributeValue", &XmlTextReaderReadAttributeValue},
+	{"xmlTextReaderReadInnerXml", &XmlTextReaderReadInnerXml},
+	{"xmlTextReaderReadOuterXml", &XmlTextReaderReadOuterXml},
+	{"xmlTextReaderReadState", &XmlTextReaderReadState},
+	{"xmlTextReaderReadString", &XmlTextReaderReadString},
+	{"xmlTextReaderRelaxNGSetSchema", &XmlTextReaderRelaxNGSetSchema},
+	{"xmlTextReaderRelaxNGValidate", &XmlTextReaderRelaxNGValidate},
+	{"xmlTextReaderSchemaValidate", &XmlTextReaderSchemaValidate},
+	{"xmlTextReaderSchemaValidateCtxt", &XmlTextReaderSchemaValidateCtxt},
+	{"xmlTextReaderSetErrorHandler", &XmlTextReaderSetErrorHandler},
+	{"xmlTextReaderSetParserProp", &XmlTextReaderSetParserProp},
+	{"xmlTextReaderSetSchema", &XmlTextReaderSetSchema},
+	{"xmlTextReaderSetStructuredErrorHandler", &XmlTextReaderSetStructuredErrorHandler},
+	{"xmlTextReaderSetup", &XmlTextReaderSetup},
+	{"xmlTextReaderStandalone", &XmlTextReaderStandalone},
+	{"xmlTextReaderValue", &XmlTextReaderValue},
+	{"xmlTextReaderXmlLang", &XmlTextReaderXmlLang},
+	{"xmlTextWriterEndAttribute", &XmlTextWriterEndAttribute},
+	{"xmlTextWriterEndCDATA", &XmlTextWriterEndCDATA},
+	{"xmlTextWriterEndComment", &XmlTextWriterEndComment},
+	{"xmlTextWriterEndDTD", &XmlTextWriterEndDTD},
+	{"xmlTextWriterEndDTDAttlist", &XmlTextWriterEndDTDAttlist},
+	{"xmlTextWriterEndDTDElement", &XmlTextWriterEndDTDElement},
+	{"xmlTextWriterEndDTDEntity", &XmlTextWriterEndDTDEntity},
+	{"xmlTextWriterEndDocument", &XmlTextWriterEndDocument},
+	{"xmlTextWriterEndElement", &XmlTextWriterEndElement},
+	{"xmlTextWriterEndPI", &XmlTextWriterEndPI},
+	{"xmlTextWriterFlush", &XmlTextWriterFlush},
+	{"xmlTextWriterFullEndElement", &XmlTextWriterFullEndElement},
+	{"xmlTextWriterSetIndent", &XmlTextWriterSetIndent},
+	{"xmlTextWriterSetIndentString", &XmlTextWriterSetIndentString},
+	{"xmlTextWriterStartAttribute", &XmlTextWriterStartAttribute},
+	{"xmlTextWriterStartAttributeNS", &XmlTextWriterStartAttributeNS},
+	{"xmlTextWriterStartCDATA", &XmlTextWriterStartCDATA},
+	{"xmlTextWriterStartComment", &XmlTextWriterStartComment},
+	{"xmlTextWriterStartDTD", &XmlTextWriterStartDTD},
+	{"xmlTextWriterStartDTDAttlist", &XmlTextWriterStartDTDAttlist},
+	{"xmlTextWriterStartDTDElement", &XmlTextWriterStartDTDElement},
+	{"xmlTextWriterStartDTDEntity", &XmlTextWriterStartDTDEntity},
+	{"xmlTextWriterStartDocument", &XmlTextWriterStartDocument},
+	{"xmlTextWriterStartElement", &XmlTextWriterStartElement},
+	{"xmlTextWriterStartElementNS", &XmlTextWriterStartElementNS},
+	{"xmlTextWriterStartPI", &XmlTextWriterStartPI},
+	{"xmlTextWriterWriteAttribute", &XmlTextWriterWriteAttribute},
+	{"xmlTextWriterWriteAttributeNS", &XmlTextWriterWriteAttributeNS},
+	{"xmlTextWriterWriteBase64", &XmlTextWriterWriteBase64},
+	{"xmlTextWriterWriteBinHex", &XmlTextWriterWriteBinHex},
+	{"xmlTextWriterWriteCDATA", &XmlTextWriterWriteCDATA},
+	{"xmlTextWriterWriteComment", &XmlTextWriterWriteComment},
+	{"xmlTextWriterWriteDTD", &XmlTextWriterWriteDTD},
+	{"xmlTextWriterWriteDTDAttlist", &XmlTextWriterWriteDTDAttlist},
+	{"xmlTextWriterWriteDTDElement", &XmlTextWriterWriteDTDElement},
+	{"xmlTextWriterWriteDTDEntity", &XmlTextWriterWriteDTDEntity},
+	{"xmlTextWriterWriteDTDExternalEntity", &XmlTextWriterWriteDTDExternalEntity},
+	{"xmlTextWriterWriteDTDExternalEntityContents", &XmlTextWriterWriteDTDExternalEntityContents},
+	{"xmlTextWriterWriteDTDInternalEntity", &XmlTextWriterWriteDTDInternalEntity},
+	{"xmlTextWriterWriteDTDNotation", &XmlTextWriterWriteDTDNotation},
+	{"xmlTextWriterWriteElement", &XmlTextWriterWriteElement},
+	{"xmlTextWriterWriteElementNS", &XmlTextWriterWriteElementNS},
+	{"xmlTextWriterWriteFormatAttribute", &XmlTextWriterWriteFormatAttribute},
+	{"xmlTextWriterWriteFormatAttributeNS", &XmlTextWriterWriteFormatAttributeNS},
+	{"xmlTextWriterWriteFormatCDATA", &XmlTextWriterWriteFormatCDATA},
+	{"xmlTextWriterWriteFormatComment", &XmlTextWriterWriteFormatComment},
+	{"xmlTextWriterWriteFormatDTD", &XmlTextWriterWriteFormatDTD},
+	{"xmlTextWriterWriteFormatDTDAttlist", &XmlTextWriterWriteFormatDTDAttlist},
+	{"xmlTextWriterWriteFormatDTDElement", &XmlTextWriterWriteFormatDTDElement},
+	{"xmlTextWriterWriteFormatDTDInternalEntity", &XmlTextWriterWriteFormatDTDInternalEntity},
+	{"xmlTextWriterWriteFormatElement", &XmlTextWriterWriteFormatElement},
+	{"xmlTextWriterWriteFormatElementNS", &XmlTextWriterWriteFormatElementNS},
+	{"xmlTextWriterWriteFormatPI", &XmlTextWriterWriteFormatPI},
+	{"xmlTextWriterWriteFormatRaw", &XmlTextWriterWriteFormatRaw},
+	{"xmlTextWriterWriteFormatString", &XmlTextWriterWriteFormatString},
+	{"xmlTextWriterWritePI", &XmlTextWriterWritePI},
+	{"xmlTextWriterWriteRaw", &XmlTextWriterWriteRaw},
+	{"xmlTextWriterWriteRawLen", &XmlTextWriterWriteRawLen},
+	{"xmlTextWriterWriteString", &XmlTextWriterWriteString},
+	{"xmlTextWriterWriteVFormatAttribute", &XmlTextWriterWriteVFormatAttribute},
+	{"xmlTextWriterWriteVFormatAttributeNS", &XmlTextWriterWriteVFormatAttributeNS},
+	{"xmlTextWriterWriteVFormatCDATA", &XmlTextWriterWriteVFormatCDATA},
+	{"xmlTextWriterWriteVFormatComment", &XmlTextWriterWriteVFormatComment},
+	{"xmlTextWriterWriteVFormatDTD", &XmlTextWriterWriteVFormatDTD},
+	{"xmlTextWriterWriteVFormatDTDAttlist", &XmlTextWriterWriteVFormatDTDAttlist},
+	{"xmlTextWriterWriteVFormatDTDElement", &XmlTextWriterWriteVFormatDTDElement},
+	{"xmlTextWriterWriteVFormatDTDInternalEntity", &XmlTextWriterWriteVFormatDTDInternalEntity},
+	{"xmlTextWriterWriteVFormatElement", &XmlTextWriterWriteVFormatElement},
+	{"xmlTextWriterWriteVFormatElementNS", &XmlTextWriterWriteVFormatElementNS},
+	{"xmlTextWriterWriteVFormatPI", &XmlTextWriterWriteVFormatPI},
+	{"xmlTextWriterWriteVFormatRaw", &XmlTextWriterWriteVFormatRaw},
+	{"xmlTextWriterWriteVFormatString", &XmlTextWriterWriteVFormatString},
 	{"xmlThrDefBufferAllocScheme", &XmlThrDefBufferAllocScheme},
 	{"xmlThrDefDefaultBufferSize", &XmlThrDefDefaultBufferSize},
 	{"xmlThrDefDeregisterNodeDefault", &XmlThrDefDeregisterNodeDefault},
