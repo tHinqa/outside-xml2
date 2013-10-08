@@ -30,6 +30,13 @@ type (
 )
 
 type (
+	DocbDocPtr                 XmlDocPtr
+	DocbParserCtxt             XmlParserCtxt
+	DocbParserCtxtPtr          XmlParserCtxtPtr
+	DocbParserInput            XmlParserInput
+	DocbParserInputPtr         XmlParserInputPtr
+	DocbSAXHandler             XmlSAXHandler
+	DocbSAXHandlerPtr          XmlSAXHandlerPtr
 	HtmlDocPtr                 XmlDocPtr
 	HtmlNodePtr                XmlNodePtr
 	HtmlParserCtxt             XmlParserCtxt
@@ -416,6 +423,11 @@ type (
 		day, hour, minute int)
 
 	FtpDataCallback func(userData *Void, data string, leng int)
+
+	XmlC14NIsVisibleCallback func(
+		user_data *Void,
+		node XmlNodePtr,
+		parent XmlNodePtr) int
 
 	XmlParserCtxt struct {
 		sax               *XmlSAXHandler
@@ -4464,93 +4476,93 @@ var (
 
 	XmlHasFeature func(feature XmlFeature) int
 
-	xlinkGetDefaultDetect func() XlinkNodeDetectFunc
+	XlinkGetDefaultDetect func() XlinkNodeDetectFunc
 
-	xlinkSetDefaultDetect func(f XlinkNodeDetectFunc)
+	XlinkSetDefaultDetect func(f XlinkNodeDetectFunc)
 
-	xlinkGetDefaultHandler func() XlinkHandlerPtr
+	XlinkGetDefaultHandler func() XlinkHandlerPtr
 
-	xlinkSetDefaultHandler func(handler XlinkHandlerPtr)
+	XlinkSetDefaultHandler func(handler XlinkHandlerPtr)
 
-	xlinkIsLink func(doc, node XmlNodePtr) XlinkType
+	XlinkIsLink func(doc, node XmlNodePtr) XlinkType
 
-	getPublicId func(ctx *Void) string
+	GetPublicId func(ctx *Void) string
 
-	getSystemId func(ctx *Void) string
+	GetSystemId func(ctx *Void) string
 
-	setDocumentLocator func(ctx *Void, loc XmlSAXLocatorPtr)
+	SetDocumentLocator func(ctx *Void, loc XmlSAXLocatorPtr)
 
-	getLineNumber func(ctx *Void) int
+	GetLineNumber func(ctx *Void) int
 
-	getColumnNumber func(ctx *Void) int
+	GetColumnNumber func(ctx *Void) int
 
 	IsStandalone func(ctx *Void) int
 
-	hasInternalSubset func(ctx *Void) int
+	HasInternalSubset func(ctx *Void) int
 
-	hasExternalSubset func(ctx *Void) int
+	HasExternalSubset func(ctx *Void) int
 
 	InternalSubset func(
 		ctx *Void, name, ExternalID, SystemID string)
 
-	externalSubset func(
+	ExternalSubset func(
 		ctx *Void, name, ExternalID, SystemID string)
 
-	getEntity func(ctx *Void, name string) XmlEntityPtr
+	GetEntity func(ctx *Void, name string) XmlEntityPtr
 
-	getParameterEntity func(
+	GetParameterEntity func(
 		ctx *Void, name string) XmlEntityPtr
 
-	resolveEntity func(ctx *Void,
+	ResolveEntity func(ctx *Void,
 		publicId, systemId string) XmlParserInputPtr
 
-	entityDecl func(ctx *Void, name string, typ int,
+	EntityDecl func(ctx *Void, name string, typ int,
 		publicId, systemId, content string)
 
-	attributeDecl func(ctx *Void, elem, fullname string,
+	AttributeDecl func(ctx *Void, elem, fullname string,
 		typ, def int, defaultValue string,
 		tree XmlEnumerationPtr)
 
-	elementDecl func(ctx *Void, name string,
+	ElementDecl func(ctx *Void, name string,
 		typ int, content XmlElementContentPtr)
 
-	notationDecl func(
+	NotationDecl func(
 		ctx *Void, name, publicId, systemId string)
 
 	UnparsedEntityDecl func(ctx *Void,
 		name, publicId, systemId, notationName string)
 
-	startDocument func(ctx *Void)
+	StartDocument func(ctx *Void)
 
-	endDocument func(ctx *Void)
+	EndDocument func(ctx *Void)
 
-	attribute func(ctx *Void, fullname, value string)
+	Attribute func(ctx *Void, fullname, value string)
 
-	startElement func(ctx *Void, fullname, atts *string)
+	StartElement func(ctx *Void, fullname, atts *string)
 
-	endElement func(ctx *Void, name string)
+	EndElement func(ctx *Void, name string)
 
-	reference func(ctx *Void, name string)
+	Reference func(ctx *Void, name string)
 
-	characters func(ctx *Void, ch string, leng int)
+	Characters func(ctx *Void, ch string, leng int)
 
 	IgnorableWhitespace func(ctx *Void, ch string, leng int)
 
-	processingInstruction func(ctx *Void, target, data string)
+	ProcessingInstruction func(ctx *Void, target, data string)
 
-	globalNamespace func(ctx *Void, href, prefix string)
+	GlobalNamespace func(ctx *Void, href, prefix string)
 
-	setNamespace func(ctx *Void, name string)
+	SetNamespace func(ctx *Void, name string)
 
-	getNamespace func(ctx *Void) XmlNsPtr
+	GetNamespace func(ctx *Void) XmlNsPtr
 
-	checkNamespace func(ctx *Void, nameSpace string) int
+	CheckNamespace func(ctx *Void, nameSpace string) int
 
-	namespaceDecl func(ctx *Void, href, prefix string)
+	NamespaceDecl func(ctx *Void, href, prefix string)
 
-	comment func(ctx *Void, value string)
+	Comment func(ctx *Void, value string)
 
-	cdataBlock func(ctx *Void, value string, leng int)
+	CdataBlock func(ctx *Void, value string, leng int)
 
 	InitXmlDefaultSAXHandler func(
 		hdlr *XmlSAXHandlerV1, warning int)
@@ -4715,7 +4727,8 @@ var (
 
 	XmlSAX2InitDocbDefaultSAXHandler func(
 		hdlr *XmlSAXHandler)
-	docbDefaultSAXHandlerInit func()
+
+	DocbDefaultSAXHandlerInit func()
 
 	XmlDefaultSAXHandlerInit func()
 
@@ -8038,6 +8051,99 @@ var (
 
 	XmlModuleFree func(
 		module XmlModulePtr) int
+
+	DocbEncodeEntities func(
+		out *Unsigned_char,
+		outlen *int,
+		in *Unsigned_char,
+		inlen *int,
+		quoteChar int) int
+
+	DocbSAXParseDoc func(
+		cur *XmlChar,
+		encoding *Char,
+		sax DocbSAXHandlerPtr,
+		userData *Void) DocbDocPtr
+
+	DocbParseDoc func(
+		cur *XmlChar,
+		encoding *Char) DocbDocPtr
+
+	DocbSAXParseFile func(
+		filename *Char,
+		encoding *Char,
+		sax DocbSAXHandlerPtr,
+		userData *Void) DocbDocPtr
+
+	DocbParseFile func(
+		filename *Char,
+		encoding *Char) DocbDocPtr
+
+	DocbFreeParserCtxt func(
+		ctxt DocbParserCtxtPtr)
+
+	DocbCreatePushParserCtxt func(
+		sax DocbSAXHandlerPtr,
+		user_data *Void,
+		chunk *Char,
+		size int,
+		filename *Char,
+		enc XmlCharEncoding) DocbParserCtxtPtr
+
+	DocbParseChunk func(
+		ctxt DocbParserCtxtPtr,
+		chunk *Char,
+		size int,
+		terminate int) int
+
+	DocbCreateFileParserCtxt func(
+		filename *Char,
+		encoding *Char) DocbParserCtxtPtr
+
+	DocbParseDocument func(
+		ctxt DocbParserCtxtPtr) int
+
+	InitxmlDefaultSAXHandler func(
+		hdlr *XmlSAXHandlerV1,
+		warning int)
+
+	XmlC14NDocSaveTo func(
+		doc XmlDocPtr,
+		nodes XmlNodeSetPtr,
+		mode int,
+		inclusive_ns_prefixes **XmlChar,
+		with_comments int,
+		buf XmlOutputBufferPtr) int
+
+	XmlC14NDocDumpMemory func(
+		doc XmlDocPtr,
+		nodes XmlNodeSetPtr,
+		mode int,
+		inclusive_ns_prefixes **XmlChar,
+		with_comments int,
+		doc_txt_ptr **XmlChar) int
+
+	XmlC14NDocSave func(
+		doc XmlDocPtr,
+		nodes XmlNodeSetPtr,
+		mode int,
+		inclusive_ns_prefixes **XmlChar,
+		with_comments int,
+		filename *Char,
+		compression int) int
+
+	XmlC14NExecute func(
+		doc XmlDocPtr,
+		is_visible_callback XmlC14NIsVisibleCallback,
+		user_data *Void,
+		mode int,
+		inclusive_ns_prefixes **XmlChar,
+		with_comments int,
+		buf XmlOutputBufferPtr) int
+
+	XmlErrMemory func(
+		ctxt XmlParserCtxtPtr,
+		extra *Char)
 )
 
 var dll = "libxml2-2.dll"
@@ -8076,38 +8182,38 @@ var apiList = Apis{
 	{"__xmlStructuredErrorContext", &XmlStructuredErrorContext},
 	{"__xmlSubstituteEntitiesDefaultValue", &XmlSubstituteEntitiesDefaultValue},
 	{"__xmlTreeIndentString", &XmlTreeIndentString},
-	{"attribute", &attribute},
-	{"attributeDecl", &attributeDecl},
-	{"cdataBlock", &cdataBlock},
-	{"characters", &characters},
-	{"checkNamespace", &checkNamespace},
-	{"comment", &comment},
-	// {"docbCreateFileParserCtxt", &DocbCreateFileParserCtxt},
-	// {"docbCreatePushParserCtxt", &DocbCreatePushParserCtxt},
-	// {"docbDefaultSAXHandlerInit", &DocbDefaultSAXHandlerInit},
-	// {"docbEncodeEntities", &DocbEncodeEntities},
-	// {"docbFreeParserCtxt", &DocbFreeParserCtxt},
-	// {"docbParseChunk", &DocbParseChunk},
-	// {"docbParseDoc", &DocbParseDoc},
-	// {"docbParseDocument", &DocbParseDocument},
-	// {"docbParseFile", &DocbParseFile},
-	// {"docbSAXParseDoc", &DocbSAXParseDoc},
-	// {"docbSAXParseFile", &DocbSAXParseFile},
-	{"elementDecl", &elementDecl},
-	{"endDocument", &endDocument},
-	{"endElement", &endElement},
-	{"entityDecl", &entityDecl},
-	{"externalSubset", &externalSubset},
-	{"getColumnNumber", &getColumnNumber},
-	{"getEntity", &getEntity},
-	{"getLineNumber", &getLineNumber},
-	{"getNamespace", &getNamespace},
-	{"getParameterEntity", &getParameterEntity},
-	{"getPublicId", &getPublicId},
-	{"getSystemId", &getSystemId},
-	{"globalNamespace", &globalNamespace},
-	{"hasExternalSubset", &hasExternalSubset},
-	{"hasInternalSubset", &hasInternalSubset},
+	{"attribute", &Attribute},
+	{"attributeDecl", &AttributeDecl},
+	{"cdataBlock", &CdataBlock},
+	{"characters", &Characters},
+	{"checkNamespace", &CheckNamespace},
+	{"comment", &Comment},
+	{"docbCreateFileParserCtxt", &DocbCreateFileParserCtxt},
+	{"docbCreatePushParserCtxt", &DocbCreatePushParserCtxt},
+	{"docbDefaultSAXHandlerInit", &DocbDefaultSAXHandlerInit},
+	{"docbEncodeEntities", &DocbEncodeEntities},
+	{"docbFreeParserCtxt", &DocbFreeParserCtxt},
+	{"docbParseChunk", &DocbParseChunk},
+	{"docbParseDoc", &DocbParseDoc},
+	{"docbParseDocument", &DocbParseDocument},
+	{"docbParseFile", &DocbParseFile},
+	{"docbSAXParseDoc", &DocbSAXParseDoc},
+	{"docbSAXParseFile", &DocbSAXParseFile},
+	{"elementDecl", &ElementDecl},
+	{"endDocument", &EndDocument},
+	{"endElement", &EndElement},
+	{"entityDecl", &EntityDecl},
+	{"externalSubset", &ExternalSubset},
+	{"getColumnNumber", &GetColumnNumber},
+	{"getEntity", &GetEntity},
+	{"getLineNumber", &GetLineNumber},
+	{"getNamespace", &GetNamespace},
+	{"getParameterEntity", &GetParameterEntity},
+	{"getPublicId", &GetPublicId},
+	{"getSystemId", &GetSystemId},
+	{"globalNamespace", &GlobalNamespace},
+	{"hasExternalSubset", &HasExternalSubset},
+	{"hasInternalSubset", &HasInternalSubset},
 	{"htmlAttrAllowed", &HtmlAttrAllowed},
 	{"htmlAutoCloseTag", &HtmlAutoCloseTag},
 	{"htmlCreateFileParserCtxt", &HtmlCreateFileParserCtxt},
@@ -8170,7 +8276,7 @@ var apiList = Apis{
 	{"initGenericErrorDefaultFunc", &InitGenericErrorDefaultFunc},
 	{"initdocbDefaultSAXHandler", &InitdocbDefaultSAXHandler},
 	{"inithtmlDefaultSAXHandler", &InithtmlDefaultSAXHandler},
-	// {"initxmlDefaultSAXHandler", &InitxmlDefaultSAXHandler},
+	{"initxmlDefaultSAXHandler", &InitxmlDefaultSAXHandler},
 	{"inputPop", &InputPop},
 	{"inputPush", &InputPush},
 	{"internalSubset", &InternalSubset},
@@ -8178,25 +8284,25 @@ var apiList = Apis{
 	{"isolat1ToUTF8", &Isolat1ToUTF8},
 	{"namePop", &NamePop},
 	{"namePush", &NamePush},
-	// {"namespaceDecl", &NamespaceDecl},
+	{"namespaceDecl", &NamespaceDecl},
 	{"nodePop", &NodePop},
 	{"nodePush", &NodePush},
-	// {"notationDecl", &NotationDecl},
-	{"processingInstruction", &processingInstruction},
-	{"reference", &reference},
-	{"resolveEntity", &resolveEntity},
-	{"setDocumentLocator", &setDocumentLocator},
-	{"setNamespace", &setNamespace},
-	{"startDocument", &startDocument},
-	{"startElement", &startElement},
+	{"notationDecl", &NotationDecl},
+	{"processingInstruction", &ProcessingInstruction},
+	{"reference", &Reference},
+	{"resolveEntity", &ResolveEntity},
+	{"setDocumentLocator", &SetDocumentLocator},
+	{"setNamespace", &SetNamespace},
+	{"startDocument", &StartDocument},
+	{"startElement", &StartElement},
 	{"unparsedEntityDecl", &UnparsedEntityDecl},
 	{"valuePop", &ValuePop},
 	{"valuePush", &ValuePush},
-	{"xlinkGetDefaultDetect", &xlinkGetDefaultDetect},
-	{"xlinkGetDefaultHandler", &xlinkGetDefaultHandler},
-	{"xlinkIsLink", &xlinkIsLink},
-	{"xlinkSetDefaultDetect", &xlinkSetDefaultDetect},
-	{"xlinkSetDefaultHandler", &xlinkSetDefaultHandler},
+	{"xlinkGetDefaultDetect", &XlinkGetDefaultDetect},
+	{"xlinkGetDefaultHandler", &XlinkGetDefaultHandler},
+	{"xlinkIsLink", &XlinkIsLink},
+	{"xlinkSetDefaultDetect", &XlinkSetDefaultDetect},
+	{"xlinkSetDefaultHandler", &XlinkSetDefaultHandler},
 	{"xmlACatalogAdd", &XmlACatalogAdd},
 	{"xmlACatalogDump", &XmlACatalogDump},
 	{"xmlACatalogRemove", &XmlACatalogRemove},
@@ -8261,10 +8367,10 @@ var apiList = Apis{
 	{"xmlBuildRelativeURI", &XmlBuildRelativeURI},
 	{"xmlBuildURI", &XmlBuildURI},
 	{"xmlByteConsumed", &XmlByteConsumed},
-	// {"xmlC14NDocDumpMemory", &XmlC14NDocDumpMemory},
-	// {"xmlC14NDocSave", &XmlC14NDocSave},
-	// {"xmlC14NDocSaveTo", &XmlC14NDocSaveTo},
-	// {"xmlC14NExecute", &XmlC14NExecute},
+	{"xmlC14NDocDumpMemory", &XmlC14NDocDumpMemory},
+	{"xmlC14NDocSave", &XmlC14NDocSave},
+	{"xmlC14NDocSaveTo", &XmlC14NDocSaveTo},
+	{"xmlC14NExecute", &XmlC14NExecute},
 	{"xmlCanonicPath", &XmlCanonicPath},
 	{"xmlCatalogAdd", &XmlCatalogAdd},
 	{"xmlCatalogAddLocal", &XmlCatalogAddLocal},
@@ -8405,7 +8511,7 @@ var apiList = Apis{
 	{"xmlEncodeEntities", &XmlEncodeEntities},
 	{"xmlEncodeEntitiesReentrant", &XmlEncodeEntitiesReentrant},
 	{"xmlEncodeSpecialChars", &XmlEncodeSpecialChars},
-	// {"xmlErrMemory", &XmlErrMemory},
+	{"xmlErrMemory", &XmlErrMemory},
 	{"xmlExpCtxtNbCons", &XmlExpCtxtNbCons},
 	{"xmlExpCtxtNbNodes", &XmlExpCtxtNbNodes},
 	{"xmlExpDump", &XmlExpDump},
