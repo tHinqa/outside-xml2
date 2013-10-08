@@ -430,321 +430,321 @@ type (
 		parent XmlNodePtr) int
 
 	XmlParserCtxt struct {
-		sax               *XmlSAXHandler
-		userData          *Void
-		myDoc             XmlDocPtr
-		wellFormed        int
-		replaceEntities   int
-		version           *XmlChar
-		encoding          *XmlChar
-		standalone        int
-		html              int
-		input             XmlParserInputPtr
-		inputNr           int
-		inputMax          int
-		inputTab          *XmlParserInputPtr
-		node              XmlNodePtr
-		nodeNr            int
-		nodeMax           int
-		nodeTab           *XmlNodePtr
-		record_info       int
-		node_seq          XmlParserNodeInfoSeq
-		errNo             int
-		hasExternalSubset int
-		hasPErefs         int
-		external          int
-		valid             int
-		validate          int
-		vctxt             XmlValidCtxt
-		instate           XmlParserInputState
-		token             int
-		directory         *Char
-		name              *XmlChar
-		nameNr            int
-		nameMax           int
-		nameTab           **XmlChar
-		nbChars           Long
-		checkIndex        Long
-		keepBlanks        int
-		disableSAX        int
-		inSubset          int
-		intSubName        *XmlChar
-		extSubURI         *XmlChar
-		extSubSystem      *XmlChar
-		space             *int
-		spaceNr           int
-		spaceMax          int
-		spaceTab          *int
-		depth             int
-		entity            XmlParserInputPtr
-		charset           int
-		nodelen           int
-		nodemem           int
-		pedantic          int
-		_private          *Void
-		loadsubset        int
-		linenumbers       int
-		catalogs          *Void
-		recovery          int
-		progressive       int
-		dict              XmlDictPtr
-		atts              **XmlChar
-		maxatts           int
-		docdict           int
-		str_xml           *XmlChar
-		str_XmlNs         *XmlChar
-		str_xml_ns        *XmlChar
-		sax2              int
-		nsNr              int
-		nsMax             int
-		nsTab             **XmlChar
-		attallocs         *int
-		pushTab           **Void
-		attsDefault       XmlHashTablePtr
-		attsSpecial       XmlHashTablePtr
-		nsWellFormed      int
-		options           int
-		dictNames         int
-		freeElemsNr       int
-		freeElems         XmlNodePtr
-		freeAttrsNr       int
-		freeAttrs         XmlAttrPtr
-		lastError         XmlError
-		parseMode         XmlParserMode
-		nbentities        Unsigned_long
-		sizeentities      Unsigned_long
-		nodeInfo          *XmlParserNodeInfo
-		nodeInfoNr        int
-		nodeInfoMax       int
-		nodeInfoTab       *XmlParserNodeInfo
-		input_id          int
+		Sax               *XmlSAXHandler
+		UserData          *Void
+		MyDoc             XmlDocPtr
+		WellFormed        int
+		ReplaceEntities   int
+		Version           *XmlChar
+		Encoding          *XmlChar
+		Standalone        int
+		Html              int
+		Input             XmlParserInputPtr
+		InputNr           int
+		InputMax          int
+		InputTab          *XmlParserInputPtr
+		Node              XmlNodePtr
+		NodeNr            int
+		NodeMax           int
+		NodeTab           *XmlNodePtr
+		Record_info       int
+		Node_seq          XmlParserNodeInfoSeq
+		ErrNo             int
+		HasExternalSubset int
+		HasPErefs         int
+		External          int
+		Valid             int
+		Validate          int
+		Vctxt             XmlValidCtxt
+		Instate           XmlParserInputState
+		Token             int
+		Directory         *Char
+		Name              *XmlChar
+		NameNr            int
+		NameMax           int
+		NameTab           **XmlChar
+		NbChars           Long
+		CheckIndex        Long
+		KeepBlanks        int
+		DisableSAX        int
+		InSubset          int
+		IntSubName        *XmlChar
+		ExtSubURI         *XmlChar
+		ExtSubSystem      *XmlChar
+		Space             *int
+		SpaceNr           int
+		SpaceMax          int
+		SpaceTab          *int
+		Depth             int
+		Entity            XmlParserInputPtr
+		Charset           int
+		Nodelen           int
+		Nodemem           int
+		Pedantic          int
+		_                 *Void
+		Loadsubset        int
+		Linenumbers       int
+		Catalogs          *Void
+		Recovery          int
+		Progressive       int
+		Dict              XmlDictPtr
+		Atts              **XmlChar
+		Maxatts           int
+		Docdict           int
+		Str_xml           *XmlChar
+		Str_XmlNs         *XmlChar
+		Str_xml_ns        *XmlChar
+		Sax2              int
+		NsNr              int
+		NsMax             int
+		NsTab             **XmlChar
+		Attallocs         *int
+		PushTab           **Void
+		AttsDefault       XmlHashTablePtr
+		AttsSpecial       XmlHashTablePtr
+		NsWellFormed      int
+		Options           int
+		DictNames         int
+		FreeElemsNr       int
+		FreeElems         XmlNodePtr
+		FreeAttrsNr       int
+		FreeAttrs         XmlAttrPtr
+		LastError         XmlError
+		ParseMode         XmlParserMode
+		Nbentities        Unsigned_long
+		Sizeentities      Unsigned_long
+		NodeInfo          *XmlParserNodeInfo
+		NodeInfoNr        int
+		NodeInfoMax       int
+		NodeInfoTab       *XmlParserNodeInfo
+		Input_id          int
 	}
 
 	XmlSAXHandlerV1 struct {
-		internalSubset        InternalSubsetSAXFunc
-		isStandalone          IsStandaloneSAXFunc
-		hasInternalSubset     HasInternalSubsetSAXFunc
-		hasExternalSubset     HasExternalSubsetSAXFunc
-		resolveEntity         ResolveEntitySAXFunc
-		getEntity             GetEntitySAXFunc
-		entityDecl            EntityDeclSAXFunc
-		notationDecl          NotationDeclSAXFunc
-		attributeDecl         AttributeDeclSAXFunc
-		elementDecl           ElementDeclSAXFunc
-		unparsedEntityDecl    UnparsedEntityDeclSAXFunc
-		setDocumentLocator    SetDocumentLocatorSAXFunc
-		startDocument         StartDocumentSAXFunc
-		endDocument           EndDocumentSAXFunc
-		startElement          StartElementSAXFunc
-		endElement            EndElementSAXFunc
-		reference             ReferenceSAXFunc
-		characters            CharactersSAXFunc
-		ignorableWhitespace   IgnorableWhitespaceSAXFunc
-		processingInstruction ProcessingInstructionSAXFunc
-		comment               CommentSAXFunc
-		warning               WarningSAXFunc
-		error                 ErrorSAXFunc
-		fatalError            FatalErrorSAXFunc
-		getParameterEntity    GetParameterEntitySAXFunc
-		cdataBlock            CdataBlockSAXFunc
-		externalSubset        ExternalSubsetSAXFunc
-		initialized           Unsigned_int
+		InternalSubset        InternalSubsetSAXFunc
+		IsStandalone          IsStandaloneSAXFunc
+		HasInternalSubset     HasInternalSubsetSAXFunc
+		HasExternalSubset     HasExternalSubsetSAXFunc
+		ResolveEntity         ResolveEntitySAXFunc
+		GetEntity             GetEntitySAXFunc
+		EntityDecl            EntityDeclSAXFunc
+		NotationDecl          NotationDeclSAXFunc
+		AttributeDecl         AttributeDeclSAXFunc
+		ElementDecl           ElementDeclSAXFunc
+		UnparsedEntityDecl    UnparsedEntityDeclSAXFunc
+		SetDocumentLocator    SetDocumentLocatorSAXFunc
+		StartDocument         StartDocumentSAXFunc
+		EndDocument           EndDocumentSAXFunc
+		StartElement          StartElementSAXFunc
+		EndElement            EndElementSAXFunc
+		Reference             ReferenceSAXFunc
+		Characters            CharactersSAXFunc
+		IgnorableWhitespace   IgnorableWhitespaceSAXFunc
+		ProcessingInstruction ProcessingInstructionSAXFunc
+		Comment               CommentSAXFunc
+		Warning               WarningSAXFunc
+		Error                 ErrorSAXFunc
+		FatalError            FatalErrorSAXFunc
+		GetParameterEntity    GetParameterEntitySAXFunc
+		CdataBlock            CdataBlockSAXFunc
+		ExternalSubset        ExternalSubsetSAXFunc
+		Initialized           Unsigned_int
 	}
 
 	XmlParserInput struct {
-		buf        XmlParserInputBufferPtr
-		filename   *Char
-		directory  *Char
-		base       *XmlChar
-		cur        *XmlChar
-		end        *XmlChar
-		length     int
-		line       int
-		col        int
-		consumed   Unsigned_long
-		free       XmlParserInputDeallocate
-		encoding   *XmlChar
-		version    *XmlChar
-		standalone int
-		id         int
+		Buf        XmlParserInputBufferPtr
+		Filename   *Char
+		Directory  *Char
+		Base       *XmlChar
+		Cur        *XmlChar
+		End        *XmlChar
+		Length     int
+		Line       int
+		Col        int
+		Consumed   Unsigned_long
+		Free       XmlParserInputDeallocate
+		Encoding   *XmlChar
+		Version    *XmlChar
+		Standalone int
+		Id         int
 	}
 
 	XmlCharEncodingHandler struct {
-		name   *Char
-		input  XmlCharEncodingInputFunc
-		output XmlCharEncodingOutputFunc
+		Name   *Char
+		Input  XmlCharEncodingInputFunc
+		Output XmlCharEncodingOutputFunc
 	}
 
 	XmlError struct {
-		domain  int
-		code    int
-		message *Char
-		level   XmlErrorLevel
-		file    *Char
-		line    int
-		str1    *Char
-		str2    *Char
-		str3    *Char
-		int1    int
-		int2    int
-		ctxt    *Void
-		node    *Void
+		Domain  int
+		Code    int
+		Message *Char
+		Level   XmlErrorLevel
+		File    *Char
+		Line    int
+		Str1    *Char
+		Str2    *Char
+		Str3    *Char
+		Int1    int
+		Int2    int
+		Ctxt    *Void
+		Node    *Void
 	}
 
 	XmlOutputBuffer struct {
-		context       *Void
-		writecallback XmlOutputWriteCallback
-		closecallback XmlOutputCloseCallback
-		encoder       XmlCharEncodingHandlerPtr
-		buffer        XmlBufPtr
-		conv          XmlBufPtr
-		written       int
+		Context       *Void
+		Writecallback XmlOutputWriteCallback
+		Closecallback XmlOutputCloseCallback
+		Encoder       XmlCharEncodingHandlerPtr
+		Buffer        XmlBufPtr
+		Conv          XmlBufPtr
+		Written       int
 		Error         int
 	}
 
 	XmlParserInputBuffer struct {
-		context       *Void
-		readcallback  XmlInputReadCallback
-		closecallback XmlInputCloseCallback
-		encoder       XmlCharEncodingHandlerPtr
-		buffer        XmlBufPtr
-		raw           XmlBufPtr
-		compressed    int
-		error         int
-		rawconsumed   Unsigned_long
+		Context       *Void
+		Readcallback  XmlInputReadCallback
+		Closecallback XmlInputCloseCallback
+		Encoder       XmlCharEncodingHandlerPtr
+		Buffer        XmlBufPtr
+		Raw           XmlBufPtr
+		Compressed    int
+		Error         int
+		Rawconsumed   Unsigned_long
 	}
 
 	XmlSAXLocator struct {
-		getPublicId     func(ctx *Void) *XmlChar
-		getSystemId     func(ctx *Void) *XmlChar
-		getLineNumber   func(ctx *Void) int
-		getColumnNumber func(ctx *Void) int
+		GetPublicId     func(ctx *Void) *XmlChar
+		GetSystemId     func(ctx *Void) *XmlChar
+		GetLineNumber   func(ctx *Void) int
+		GetColumnNumber func(ctx *Void) int
 	}
 
 	XmlSAXHandler struct {
-		internalSubset        InternalSubsetSAXFunc
-		isStandalone          IsStandaloneSAXFunc
-		hasInternalSubset     HasInternalSubsetSAXFunc
-		hasExternalSubset     HasExternalSubsetSAXFunc
-		resolveEntity         ResolveEntitySAXFunc
-		getEntity             GetEntitySAXFunc
-		entityDecl            EntityDeclSAXFunc
-		notationDecl          NotationDeclSAXFunc
-		attributeDecl         AttributeDeclSAXFunc
-		elementDecl           ElementDeclSAXFunc
-		unparsedEntityDecl    UnparsedEntityDeclSAXFunc
-		setDocumentLocator    SetDocumentLocatorSAXFunc
-		startDocument         StartDocumentSAXFunc
-		endDocument           EndDocumentSAXFunc
-		startElement          StartElementSAXFunc
-		endElement            EndElementSAXFunc
-		reference             ReferenceSAXFunc
-		characters            CharactersSAXFunc
-		ignorableWhitespace   IgnorableWhitespaceSAXFunc
-		processingInstruction ProcessingInstructionSAXFunc
-		comment               CommentSAXFunc
-		warning               WarningSAXFunc
-		error                 ErrorSAXFunc
-		fatalError            FatalErrorSAXFunc
-		getParameterEntity    GetParameterEntitySAXFunc
-		cdataBlock            CdataBlockSAXFunc
-		externalSubset        ExternalSubsetSAXFunc
-		initialized           Unsigned_int
+		InternalSubset        InternalSubsetSAXFunc
+		IsStandalone          IsStandaloneSAXFunc
+		HasInternalSubset     HasInternalSubsetSAXFunc
+		HasExternalSubset     HasExternalSubsetSAXFunc
+		ResolveEntity         ResolveEntitySAXFunc
+		GetEntity             GetEntitySAXFunc
+		EntityDecl            EntityDeclSAXFunc
+		NotationDecl          NotationDeclSAXFunc
+		AttributeDecl         AttributeDeclSAXFunc
+		ElementDecl           ElementDeclSAXFunc
+		UnparsedEntityDecl    UnparsedEntityDeclSAXFunc
+		SetDocumentLocator    SetDocumentLocatorSAXFunc
+		StartDocument         StartDocumentSAXFunc
+		EndDocument           EndDocumentSAXFunc
+		StartElement          StartElementSAXFunc
+		EndElement            EndElementSAXFunc
+		Reference             ReferenceSAXFunc
+		Characters            CharactersSAXFunc
+		IgnorableWhitespace   IgnorableWhitespaceSAXFunc
+		ProcessingInstruction ProcessingInstructionSAXFunc
+		Comment               CommentSAXFunc
+		Warning               WarningSAXFunc
+		Error                 ErrorSAXFunc
+		FatalError            FatalErrorSAXFunc
+		GetParameterEntity    GetParameterEntitySAXFunc
+		CdataBlock            CdataBlockSAXFunc
+		ExternalSubset        ExternalSubsetSAXFunc
+		Initialized           Unsigned_int
 		_                     *Void
-		startElementNs        StartElementNsSAX2Func
-		endElementNs          EndElementNsSAX2Func
-		serror                XmlStructuredErrorFunc
+		StartElementNs        StartElementNsSAX2Func
+		EndElementNs          EndElementNsSAX2Func
+		Serror                XmlStructuredErrorFunc
 	}
 
 	XmlParserNodeInfoSeq struct {
-		maximum Unsigned_long
-		length  Unsigned_long
-		buffer  *XmlParserNodeInfo
+		Maximum Unsigned_long
+		Length  Unsigned_long
+		Buffer  *XmlParserNodeInfo
 	}
 
 	XmlParserNodeInfo struct {
-		node       *XmlNode
-		begin_pos  Unsigned_long
-		begin_line Unsigned_long
-		end_pos    Unsigned_long
-		end_line   Unsigned_long
+		Node       *XmlNode
+		Begin_pos  Unsigned_long
+		Begin_line Unsigned_long
+		End_pos    Unsigned_long
+		End_line   Unsigned_long
 	}
 
 	XmlValidCtxt struct {
-		userData  *Void
+		UserData  *Void
 		Error     XmlValidityErrorFunc
-		warning   XmlValidityWarningFunc
-		node      XmlNodePtr
-		nodeNr    int
-		nodeMax   int
-		nodeTab   *XmlNodePtr
-		finishDtd Unsigned_int
-		doc       XmlDocPtr
-		valid     int
-		vstate    *XmlValidState
-		vstateNr  int
-		vstateMax int
-		vstateTab *XmlValidState
-		am        XmlAutomataPtr
-		state     XmlAutomataStatePtr
+		Warning   XmlValidityWarningFunc
+		Node      XmlNodePtr
+		NodeNr    int
+		NodeMax   int
+		NodeTab   *XmlNodePtr
+		FinishDtd Unsigned_int
+		Doc       XmlDocPtr
+		Valid     int
+		Vstate    *XmlValidState
+		VstateNr  int
+		VstateMax int
+		VstateTab *XmlValidState
+		Am        XmlAutomataPtr
+		State     XmlAutomataStatePtr
 	}
 
 	XmlDtd struct {
 		_          *Void
 		Type       XmlElementType
-		name       *XmlChar
-		children   *XmlNode
-		last       *XmlNode
-		parent     *XmlDoc
-		next       *XmlNode
-		prev       *XmlNode
-		doc        *XmlDoc
-		notations  *Void
-		elements   *Void
-		attributes *Void
-		entities   *Void
+		Name       *XmlChar
+		Children   *XmlNode
+		Last       *XmlNode
+		Parent     *XmlDoc
+		Next       *XmlNode
+		Prev       *XmlNode
+		Doc        *XmlDoc
+		Notations  *Void
+		Elements   *Void
+		Attributes *Void
+		Entities   *Void
 		ExternalID *XmlChar
 		SystemID   *XmlChar
-		pentities  *Void
+		Pentities  *Void
 	}
 
 	HtmlElemDesc struct {
-		name          *Char
-		startTag      Char
-		endTag        Char
-		saveEndTag    Char
-		empty         Char
-		depr          Char
-		dtd           Char
-		isinline      Char
-		desc          *Char
-		subelts       **Char
-		defaultsubelt *Char
-		attrs_opt     **Char
-		attrs_depr    **Char
-		attrs_req     **Char
+		Name          *Char
+		StartTag      Char
+		EndTag        Char
+		SaveEndTag    Char
+		Empty         Char
+		Depr          Char
+		Dtd           Char
+		Isinline      Char
+		Desc          *Char
+		Subelts       **Char
+		Defaultsubelt *Char
+		Attrs_opt     **Char
+		Attrs_depr    **Char
+		Attrs_req     **Char
 	}
 
 	HtmlEntityDesc struct {
-		value Unsigned_int
-		name  *Char
-		desc  *Char
+		Value Unsigned_int
+		Name  *Char
+		Desc  *Char
 	}
 
 	XlinkHandler struct {
-		simple   XlinkSimpleLinkFunk
-		extended XlinkExtendedLinkFunk
-		set      XlinkExtendedLinkSetFunk
+		Simple   XlinkSimpleLinkFunk
+		Extended XlinkExtendedLinkFunk
+		Set      XlinkExtendedLinkSetFunk
 	}
 
 	XmlAttribute struct {
 		_    *Void
 		Type XmlElementType
-		name *XmlChar
+		Name *XmlChar
 	}
 
 	XmlNotation struct {
-		name     *XmlChar
+		Name     *XmlChar
 		PublicID *XmlChar
 		SystemID *XmlChar
 	}
@@ -752,319 +752,319 @@ type (
 	XmlElement struct {
 		_          *Void
 		Type       XmlElementType
-		name       *XmlChar
-		children   *XmlNode
-		last       *XmlNode
-		parent     *XmlDtd
-		next       *XmlNode
-		prev       *XmlNode
-		doc        *XmlDoc
-		etype      XmlElementTypeVal
-		content    XmlElementContentPtr
-		attributes XmlAttributePtr
-		prefix     *XmlChar
-		contModel  XmlRegexpPtr
+		Name       *XmlChar
+		Children   *XmlNode
+		Last       *XmlNode
+		Parent     *XmlDtd
+		Next       *XmlNode
+		Prev       *XmlNode
+		Doc        *XmlDoc
+		Etype      XmlElementTypeVal
+		Content    XmlElementContentPtr
+		Attributes XmlAttributePtr
+		Prefix     *XmlChar
+		ContModel  XmlRegexpPtr
 	}
 
 	XmlID struct {
-		next   *XmlID
-		value  *XmlChar
-		attr   XmlAttrPtr
-		name   *XmlChar
-		lineno int
-		doc    *XmlDoc
+		Next   *XmlID
+		Value  *XmlChar
+		Attr   XmlAttrPtr
+		Name   *XmlChar
+		Lineno int
+		Doc    *XmlDoc
 	}
 
 	XmlRef struct {
-		next   *XmlRef
-		value  *XmlChar
-		attr   XmlAttrPtr
-		name   *XmlChar
-		lineno int
+		Next   *XmlRef
+		Value  *XmlChar
+		Attr   XmlAttrPtr
+		Name   *XmlChar
+		Lineno int
 	}
 
 	XmlGlobalState struct {
-		xmlParserVersion                        *Char
-		xmlDefaultSAXLocator                    XmlSAXLocator
-		xmlDefaultSAXHandler                    XmlSAXHandlerV1
-		docbDefaultSAXHandler                   XmlSAXHandlerV1
-		htmlDefaultSAXHandler                   XmlSAXHandlerV1
-		xmlFree                                 XmlFreeFunc
-		xmlMalloc                               XmlMallocFunc
-		xmlMemStrdup                            XmlStrdupFunc
-		xmlRealloc                              XmlReallocFunc
-		xmlGenericError                         XmlGenericErrorFunc
-		xmlStructuredError                      XmlStructuredErrorFunc
-		xmlGenericErrorContext                  *Void
-		oldXMLWDcompatibility                   int
+		XmlParserVersion                        *Char
+		XmlDefaultSAXLocator                    XmlSAXLocator
+		XmlDefaultSAXHandler                    XmlSAXHandlerV1
+		DocbDefaultSAXHandler                   XmlSAXHandlerV1
+		HtmlDefaultSAXHandler                   XmlSAXHandlerV1
+		XmlFree                                 XmlFreeFunc
+		XmlMalloc                               XmlMallocFunc
+		XmlMemStrdup                            XmlStrdupFunc
+		XmlRealloc                              XmlReallocFunc
+		XmlGenericError                         XmlGenericErrorFunc
+		XmlStructuredError                      XmlStructuredErrorFunc
+		XmlGenericErrorContext                  *Void
+		OldXMLWDcompatibility                   int
 		XmlBufferAllocScheme                    XmlBufferAllocationScheme
-		xmlDefaultBufferSize                    int
-		xmlSubstituteEntitiesDefaultValue       int
-		xmlDoValidityCheckingDefaultValue       int
-		xmlGetWarningsDefaultValue              int
-		xmlKeepBlanksDefaultValue               int
-		xmlLineNumbersDefaultValue              int
-		xmlLoadExtDtdDefaultValue               int
-		xmlParserDebugEntities                  int
-		xmlPedanticParserDefaultValue           int
-		xmlSaveNoEmptyTags                      int
-		xmlIndentTreeOutput                     int
-		xmlTreeIndentString                     *Char
-		xmlRegisterNodeDefaultValue             XmlRegisterNodeFunc
-		xmlDeregisterNodeDefaultValue           XmlDeregisterNodeFunc
-		xmlMallocAtomic                         XmlMallocFunc
-		xmlLastError                            XmlError
-		xmlParserInputBufferCreateFilenameValue XmlParserInputBufferCreateFilenameFunc
-		xmlOutputBufferCreateFilenameValue      XmlOutputBufferCreateFilenameFunc
-		xmlStructuredErrorContext               *Void
+		XmlDefaultBufferSize                    int
+		XmlSubstituteEntitiesDefaultValue       int
+		XmlDoValidityCheckingDefaultValue       int
+		XmlGetWarningsDefaultValue              int
+		XmlKeepBlanksDefaultValue               int
+		XmlLineNumbersDefaultValue              int
+		XmlLoadExtDtdDefaultValue               int
+		XmlParserDebugEntities                  int
+		XmlPedanticParserDefaultValue           int
+		XmlSaveNoEmptyTags                      int
+		XmlIndentTreeOutput                     int
+		XmlTreeIndentString                     *Char
+		XmlRegisterNodeDefaultValue             XmlRegisterNodeFunc
+		XmlDeregisterNodeDefaultValue           XmlDeregisterNodeFunc
+		XmlMallocAtomic                         XmlMallocFunc
+		XmlLastError                            XmlError
+		XmlParserInputBufferCreateFilenameValue XmlParserInputBufferCreateFilenameFunc
+		XmlOutputBufferCreateFilenameValue      XmlOutputBufferCreateFilenameFunc
+		XmlStructuredErrorContext               *Void
 	}
 
 	XmlEnumeration struct {
-		next *XmlEnumeration
-		name *XmlChar
+		Next *XmlEnumeration
+		Name *XmlChar
 	}
 
 	XmlNode struct {
 		_          *Void
 		Type       XmlElementType
-		name       *XmlChar
-		children   *XmlNode
-		last       *XmlNode
-		parent     *XmlNode
-		next       *XmlNode
-		prev       *XmlNode
-		doc        *XmlDoc
-		ns         *XmlNs
-		content    *XmlChar
-		properties *XmlAttr
-		nsDef      *XmlNs
-		psvi       *Void
-		line       Unsigned_short
-		extra      Unsigned_short
+		Name       *XmlChar
+		Children   *XmlNode
+		Last       *XmlNode
+		Parent     *XmlNode
+		Next       *XmlNode
+		Prev       *XmlNode
+		Doc        *XmlDoc
+		Ns         *XmlNs
+		Content    *XmlChar
+		Properties *XmlAttr
+		NsDef      *XmlNs
+		Psvi       *Void
+		Line       Unsigned_short
+		Extra      Unsigned_short
 	}
 
 	XmlDoc struct {
 		_           *Void
 		Type        XmlElementType
-		name        *Char
-		children    *XmlNode
-		last        *XmlNode
-		parent      *XmlNode
-		next        *XmlNode
-		prev        *XmlNode
-		doc         *XmlDoc
-		compression int
-		standalone  int
-		intSubset   *XmlDtd
-		extSubset   *XmlDtd
-		oldNs       *XmlNs
-		version     *XmlChar
-		encoding    *XmlChar
-		ids         *Void
-		refs        *Void
+		Name        *Char
+		Children    *XmlNode
+		Last        *XmlNode
+		Parent      *XmlNode
+		Next        *XmlNode
+		Prev        *XmlNode
+		Doc         *XmlDoc
+		Compression int
+		Standalone  int
+		IntSubset   *XmlDtd
+		ExtSubset   *XmlDtd
+		OldNs       *XmlNs
+		Version     *XmlChar
+		Encoding    *XmlChar
+		Ids         *Void
+		Refs        *Void
 		URL         *XmlChar
-		charset     int
-		dict        *XmlDict
-		psvi        *Void
-		parseFlags  int
-		properties  int
+		Charset     int
+		Dict        *XmlDict
+		Psvi        *Void
+		ParseFlags  int
+		Properties  int
 	}
 
 	XmlEntity struct {
 		_          *Void
 		Type       XmlElementType
-		name       *XmlChar
-		children   *XmlNode
-		last       *XmlNode
-		parent     *XmlDtd
-		next       *XmlNode
-		prev       *XmlNode
-		doc        *XmlDoc
-		orig       *XmlChar
-		content    *XmlChar
-		length     int
-		etype      XmlEntityType
+		Name       *XmlChar
+		Children   *XmlNode
+		Last       *XmlNode
+		Parent     *XmlDtd
+		Next       *XmlNode
+		Prev       *XmlNode
+		Doc        *XmlDoc
+		Orig       *XmlChar
+		Content    *XmlChar
+		Length     int
+		Etype      XmlEntityType
 		ExternalID *XmlChar
 		SystemID   *XmlChar
-		nexte      *XmlEntity
+		Nexte      *XmlEntity
 		URI        *XmlChar
-		owner      int
-		checked    int
+		Owner      int
+		Checked    int
 	}
 
 	XmlElementContent struct {
 		Type   XmlElementContentType
-		ocur   XmlElementContentOccur
-		name   *XmlChar
-		c1     *XmlElementContent
-		c2     *XmlElementContent
-		parent *XmlElementContent
-		prefix *XmlChar
+		Ocur   XmlElementContentOccur
+		Name   *XmlChar
+		C1     *XmlElementContent
+		C2     *XmlElementContent
+		Parent *XmlElementContent
+		Prefix *XmlChar
 	}
 
 	XmlAttr struct {
 		_        *Void
 		Type     XmlElementType
-		name     *XmlChar
-		children *XmlNode
-		last     *XmlNode
-		parent   *XmlNode
-		next     *XmlAttr
-		prev     *XmlAttr
-		doc      *XmlDoc
-		ns       *XmlNs
-		atype    XmlAttributeType
-		psvi     *Void
+		Name     *XmlChar
+		Children *XmlNode
+		Last     *XmlNode
+		Parent   *XmlNode
+		Next     *XmlAttr
+		Prev     *XmlAttr
+		Doc      *XmlDoc
+		Ns       *XmlNs
+		Atype    XmlAttributeType
+		Psvi     *Void
 	}
 
 	XmlNs struct {
-		next    *XmlNs
+		Next    *XmlNs
 		Type    XmlNsType
-		href    *XmlChar
-		prefix  *XmlChar
+		Href    *XmlChar
+		Prefix  *XmlChar
 		_       *Void
-		context *XmlDoc
+		Context *XmlDoc
 	}
 
 	XmlNodeSet struct {
-		nodeNr  int
-		nodeMax int
-		nodeTab *XmlNodePtr
+		NodeNr  int
+		NodeMax int
+		NodeTab *XmlNodePtr
 	}
 
 	XmlXPathObject struct {
 		Type       XmlXPathObjectType
-		nodesetval XmlNodeSetPtr
-		boolval    int
-		floatval   Double
-		stringval  *XmlChar
-		user       *Void
-		index      int
-		user2      *Void
-		index2     int
+		Nodesetval XmlNodeSetPtr
+		Boolval    int
+		Floatval   Double
+		Stringval  *XmlChar
+		User       *Void
+		Index      int
+		User2      *Void
+		Index2     int
 	}
 
 	XmlXPathContext struct {
-		doc                  XmlDocPtr
-		node                 XmlNodePtr
-		nb_variables_unused  int
-		max_variables_unused int
-		varHash              XmlHashTablePtr
-		nb_types             int
-		max_types            int
-		types                XmlXPathTypePtr
-		nb_funcs_unused      int
-		max_funcs_unused     int
-		funcHash             XmlHashTablePtr
-		nb_axis              int
-		max_axis             int
-		axis                 XmlXPathAxisPtr
-		namespaces           *XmlNsPtr
-		nsNr                 int
-		user                 *Void
-		contextSize          int
-		proximityPosition    int
-		xptr                 int
-		here                 XmlNodePtr
-		origin               XmlNodePtr
-		nsHash               XmlHashTablePtr
-		varLookupFunc        XmlXPathVariableLookupFunc
-		varLookupData        *Void
-		extra                *Void
-		function             *XmlChar
-		functionURI          *XmlChar
-		funcLookupFunc       XmlXPathFuncLookupFunc
-		funcLookupData       *Void
-		tmpNsList            *XmlNsPtr
-		tmpNsNr              int
-		userData             *Void
-		error                XmlStructuredErrorFunc
-		lastError            XmlError
-		debugNode            XmlNodePtr
-		dict                 XmlDictPtr
-		flags                int
-		cache                *Void
+		Doc                  XmlDocPtr
+		Node                 XmlNodePtr
+		Nb_variables_unused  int
+		Max_variables_unused int
+		VarHash              XmlHashTablePtr
+		Nb_types             int
+		Max_types            int
+		Types                XmlXPathTypePtr
+		Nb_funcs_unused      int
+		Max_funcs_unused     int
+		FuncHash             XmlHashTablePtr
+		Nb_axis              int
+		Max_axis             int
+		Axis                 XmlXPathAxisPtr
+		Namespaces           *XmlNsPtr
+		NsNr                 int
+		User                 *Void
+		ContextSize          int
+		ProximityPosition    int
+		Xptr                 int
+		Here                 XmlNodePtr
+		Origin               XmlNodePtr
+		NsHash               XmlHashTablePtr
+		VarLookupFunc        XmlXPathVariableLookupFunc
+		VarLookupData        *Void
+		Extra                *Void
+		Function             *XmlChar
+		FunctionURI          *XmlChar
+		FuncLookupFunc       XmlXPathFuncLookupFunc
+		FuncLookupData       *Void
+		TmpNsList            *XmlNsPtr
+		TmpNsNr              int
+		UserData             *Void
+		Error                XmlStructuredErrorFunc
+		LastError            XmlError
+		DebugNode            XmlNodePtr
+		Dict                 XmlDictPtr
+		Flags                int
+		Cache                *Void
 	}
 
 	XmlXPathType struct {
-		name *XmlChar
+		Name *XmlChar
 		Func XmlXPathConvertFunc
 	}
 
 	XmlXPathAxis struct {
-		name *XmlChar
+		Name *XmlChar
 		Func XmlXPathAxisFunc
 	}
 
 	XmlLocationSet struct {
-		locNr  int
-		locMax int
-		locTab *XmlXPathObjectPtr
+		LocNr  int
+		LocMax int
+		LocTab *XmlXPathObjectPtr
 	}
 
 	XmlSchemaWildcard struct {
 		Type            XmlSchemaTypeType
-		id              *XmlChar
-		annot           XmlSchemaAnnotPtr
-		node            XmlNodePtr
-		minOccurs       int
-		maxOccurs       int
-		processContents int
-		any             int
-		nsSet           XmlSchemaWildcardNsPtr
-		negNsSet        XmlSchemaWildcardNsPtr
-		flags           int
+		Id              *XmlChar
+		Annot           XmlSchemaAnnotPtr
+		Node            XmlNodePtr
+		MinOccurs       int
+		MaxOccurs       int
+		ProcessContents int
+		Any             int
+		NsSet           XmlSchemaWildcardNsPtr
+		NegNsSet        XmlSchemaWildcardNsPtr
+		Flags           int
 	}
 
 	XmlSchemaAnnot struct {
-		next    *XmlSchemaAnnot
-		content XmlNodePtr
+		Next    *XmlSchemaAnnot
+		Content XmlNodePtr
 	}
 
 	XmlSchemaWildcardNs struct {
-		next  *XmlSchemaWildcardNs
-		value *XmlChar
+		Next  *XmlSchemaWildcardNs
+		Value *XmlChar
 	}
 
 	XmlChRangeGroup struct {
-		nbShortRange int
-		nbLongRange  int
-		shortRange   *XmlChSRange
-		longRange    *XmlChLRange
+		NbShortRange int
+		NbLongRange  int
+		ShortRange   *XmlChSRange
+		LongRange    *XmlChLRange
 	}
 
 	XmlChSRange struct {
-		low  Unsigned_short
-		high Unsigned_short
+		Low  Unsigned_short
+		High Unsigned_short
 	}
 
 	XmlChLRange struct {
-		low  Unsigned_int
-		high Unsigned_int
+		Low  Unsigned_int
+		High Unsigned_int
 	}
 
 	XmlShellCtxt struct {
-		filename *Char
-		doc      XmlDocPtr
-		node     XmlNodePtr
-		pctxt    XmlXPathContextPtr
-		loaded   int
-		output   *FILE
-		input    XmlShellReadlineFunc
+		Filename *Char
+		Doc      XmlDocPtr
+		Node     XmlNodePtr
+		Pctxt    XmlXPathContextPtr
+		Loaded   int
+		Output   *FILE
+		Input    XmlShellReadlineFunc
 	}
 
 	XmlURI struct {
-		scheme    *Char
-		opaque    *Char
-		authority *Char
-		server    *Char
-		user      *Char
-		port      int
-		path      *Char
-		query     *Char
-		fragment  *Char
-		cleanup   int
-		query_raw *Char
+		Scheme    *Char
+		Opaque    *Char
+		Authority *Char
+		Server    *Char
+		User      *Char
+		Port      int
+		Path      *Char
+		Query     *Char
+		Fragment  *Char
+		Cleanup   int
+		Query_raw *Char
 	}
 )
 
