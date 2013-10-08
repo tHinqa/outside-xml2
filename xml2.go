@@ -2098,7 +2098,7 @@ const (
 type XmlXPathObjectType Enum
 
 const (
-	XPATH_UNDEFINED = iota
+	XPATH_UNDEFINED XmlXPathObjectType = iota
 	XPATH_NODESET
 	XPATH_BOOLEAN
 	XPATH_NUMBER
