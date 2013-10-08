@@ -8144,6 +8144,28 @@ var (
 	XmlErrMemory func(
 		ctxt XmlParserCtxtPtr,
 		extra *Char)
+
+	XmlParserInputBufferCreateFilenameDefault func(
+		XmlParserInputBufferCreateFilenameFunc) XmlParserInputBufferCreateFilenameFunc
+
+	XmlOutputBufferCreateFilenameDefault func(
+		XmlOutputBufferCreateFilenameFunc) XmlOutputBufferCreateFilenameFunc
+
+	XmlIsBaseChar func(ch Unsigned_int) int
+
+	XmlIsBlank func(ch Unsigned_int) int
+
+	XmlIsChar func(ch Unsigned_int) int
+
+	XmlIsCombining func(ch Unsigned_int) int
+
+	XmlIsDigit func(ch Unsigned_int) int
+
+	XmlIsExtender func(ch Unsigned_int) int
+
+	XmlIsIdeographic func(ch Unsigned_int) int
+
+	XmlIsPubidChar func(ch Unsigned_int) int
 )
 
 var dll = "libxml2-2.dll"
@@ -8537,7 +8559,6 @@ var apiList = Apis{
 	{"xmlFileRead", &XmlFileRead},
 	{"xmlFindCharEncodingHandler", &XmlFindCharEncodingHandler},
 	{"xmlFirstElementChild", &XmlFirstElementChild},
-	// {"xmlFree", &XmlFree},
 	{"xmlFreeAttributeTable", &XmlFreeAttributeTable},
 	{"xmlFreeAutomata", &XmlFreeAutomata},
 	{"xmlFreeCatalog", &XmlFreeCatalog},
@@ -8651,26 +8672,19 @@ var apiList = Apis{
 	{"xmlInitializeCatalog", &XmlInitializeCatalog},
 	{"xmlInitializeGlobalState", &XmlInitializeGlobalState},
 	{"xmlInitializePredefinedEntities", &XmlInitializePredefinedEntities},
-	// {"xmlIsBaseChar", &XmlIsBaseChar},
-	// {"xmlIsBaseCharGroup", &XmlIsBaseCharGroup},
-	// {"xmlIsBlank", &XmlIsBlank},
+	{"xmlIsBaseChar", &XmlIsBaseChar},
+	{"xmlIsBlank", &XmlIsBlank},
 	{"xmlIsBlankNode", &XmlIsBlankNode},
-	// {"xmlIsChar", &XmlIsChar},
-	// {"xmlIsCharGroup", &XmlIsCharGroup},
-	// {"xmlIsCombining", &XmlIsCombining},
-	// {"xmlIsCombiningGroup", &XmlIsCombiningGroup},
-	// {"xmlIsDigit", &XmlIsDigit},
-	// {"xmlIsDigitGroup", &XmlIsDigitGroup},
-	// {"xmlIsExtender", &XmlIsExtender},
-	// {"xmlIsExtenderGroup", &XmlIsExtenderGroup},
+	{"xmlIsChar", &XmlIsChar},
+	{"xmlIsCombining", &XmlIsCombining},
+	{"xmlIsDigit", &XmlIsDigit},
+	{"xmlIsExtender", &XmlIsExtender},
 	{"xmlIsID", &XmlIsID},
-	// {"xmlIsIdeographic", &XmlIsIdeographic},
-	// {"xmlIsIdeographicGroup", &XmlIsIdeographicGroup},
+	{"xmlIsIdeographic", &XmlIsIdeographic},
 	{"xmlIsLetter", &XmlIsLetter},
 	{"xmlIsMainThread", &XmlIsMainThread},
 	{"xmlIsMixedElement", &XmlIsMixedElement},
-	// {"xmlIsPubidChar", &XmlIsPubidChar},
-	// {"xmlIsPubidChar_tab", &XmlIsPubidChar_tab},
+	{"xmlIsPubidChar", &XmlIsPubidChar},
 	{"xmlIsRef", &XmlIsRef},
 	{"xmlIsXHTML", &XmlIsXHTML},
 	{"xmlKeepBlanksDefault", &XmlKeepBlanksDefault},
@@ -8710,8 +8724,6 @@ var apiList = Apis{
 	{"xmlLockLibrary", &XmlLockLibrary},
 	{"xmlLsCountNode", &XmlLsCountNode},
 	{"xmlLsOneNode", &XmlLsOneNode},
-	// {"xmlMalloc", &XmlMalloc},
-	// {"xmlMallocAtomic", &XmlMallocAtomic},
 	{"xmlMallocAtomicLoc", &XmlMallocAtomicLoc},
 	{"xmlMallocLoc", &XmlMallocLoc},
 	{"xmlMemBlocks", &XmlMemBlocks},
@@ -8723,7 +8735,6 @@ var apiList = Apis{
 	{"xmlMemRealloc", &XmlMemRealloc},
 	{"xmlMemSetup", &XmlMemSetup},
 	{"xmlMemShow", &XmlMemShow},
-	// {"xmlMemStrdup", &XmlMemStrdup},
 	{"xmlMemStrdupLoc", &XmlMemStrdupLoc},
 	{"xmlMemUsed", &XmlMemUsed},
 	{"xmlMemoryDump", &XmlMemoryDump},
@@ -8854,7 +8865,7 @@ var apiList = Apis{
 	{"xmlOutputBufferCreateFd", &XmlOutputBufferCreateFd},
 	{"xmlOutputBufferCreateFile", &XmlOutputBufferCreateFile},
 	{"xmlOutputBufferCreateFilename", &XmlOutputBufferCreateFilename},
-	// {"xmlOutputBufferCreateFilenameDefault", &XmlOutputBufferCreateFilenameDefault},
+	{"xmlOutputBufferCreateFilenameDefault", &XmlOutputBufferCreateFilenameDefault},
 	{"xmlOutputBufferCreateIO", &XmlOutputBufferCreateIO},
 	{"xmlOutputBufferFlush", &XmlOutputBufferFlush},
 	{"xmlOutputBufferWrite", &XmlOutputBufferWrite},
@@ -8934,7 +8945,7 @@ var apiList = Apis{
 	{"xmlParserInputBufferCreateFd", &XmlParserInputBufferCreateFd},
 	{"xmlParserInputBufferCreateFile", &XmlParserInputBufferCreateFile},
 	{"xmlParserInputBufferCreateFilename", &XmlParserInputBufferCreateFilename},
-	// {"xmlParserInputBufferCreateFilenameDefault", &XmlParserInputBufferCreateFilenameDefault},
+	{"xmlParserInputBufferCreateFilenameDefault", &XmlParserInputBufferCreateFilenameDefault},
 	{"xmlParserInputBufferCreateIO", &XmlParserInputBufferCreateIO},
 	{"xmlParserInputBufferCreateMem", &XmlParserInputBufferCreateMem},
 	{"xmlParserInputBufferCreateStatic", &XmlParserInputBufferCreateStatic},
@@ -8944,7 +8955,6 @@ var apiList = Apis{
 	{"xmlParserInputGrow", &XmlParserInputGrow},
 	{"xmlParserInputRead", &XmlParserInputRead},
 	{"xmlParserInputShrink", &XmlParserInputShrink},
-	// {"xmlParserMaxDepth", &XmlParserMaxDepth},
 	{"xmlParserPrintFileContext", &XmlParserPrintFileContext},
 	{"xmlParserPrintFileInfo", &XmlParserPrintFileInfo},
 	{"xmlParserValidityError", &XmlParserValidityError},
@@ -8983,7 +8993,6 @@ var apiList = Apis{
 	{"xmlReaderNewMemory", &XmlReaderNewMemory},
 	{"xmlReaderNewWalker", &XmlReaderNewWalker},
 	{"xmlReaderWalker", &XmlReaderWalker},
-	// {"xmlRealloc", &XmlRealloc},
 	{"xmlReallocLoc", &XmlReallocLoc},
 	{"xmlReconciliateNs", &XmlReconciliateNs},
 	{"xmlRecoverDoc", &XmlRecoverDoc},
@@ -9222,14 +9231,11 @@ var apiList = Apis{
 	{"xmlStreamPushAttr", &XmlStreamPushAttr},
 	{"xmlStreamPushNode", &XmlStreamPushNode},
 	{"xmlStreamWantsAnyNode", &XmlStreamWantsAnyNode},
-	// {"xmlStringComment", &XmlStringComment},
 	{"xmlStringCurrentChar", &XmlStringCurrentChar},
 	{"xmlStringDecodeEntities", &XmlStringDecodeEntities},
 	{"xmlStringGetNodeList", &XmlStringGetNodeList},
 	{"xmlStringLenDecodeEntities", &XmlStringLenDecodeEntities},
 	{"xmlStringLenGetNodeList", &XmlStringLenGetNodeList},
-	// {"xmlStringText", &XmlStringText},
-	// {"xmlStringTextNoenc", &XmlStringTextNoenc},
 	{"xmlStrlen", &XmlStrlen},
 	{"xmlStrncasecmp", &XmlStrncasecmp},
 	{"xmlStrncat", &XmlStrncat},
@@ -9805,6 +9811,22 @@ var apiList = Apis{
 var dataList = Data{
 // {"emptyExp", new(emptyExp)},
 // {"forbiddenExp", new(forbiddenExp)},
+// {"xmlFree", new(XmlFree)},
+// {"xmlIsBaseCharGroup", new(XmlIsBaseCharGroup)},
+// {"xmlIsCharGroup", new(XmlIsCharGroup)},
+// {"xmlIsCombiningGroup", new(XmlIsCombiningGroup)},
+// {"xmlIsDigitGroup", new(XmlIsDigitGroup)},
+// {"xmlIsExtenderGroup", new(XmlIsExtenderGroup)},
+// {"xmlIsIdeographicGroup", new(XmlIsIdeographicGroup)},
+// {"xmlIsPubidChar_tab", new(XmlIsPubidChar_tab)},
+// {"xmlMalloc", new(XmlMalloc)},
+// {"xmlMallocAtomic", new(XmlMallocAtomic)},
+// {"xmlMemStrdup", new(XmlMemStrdup)},
+// {"xmlParserMaxDepth", new(XmlParserMaxDepth)},
+// {"xmlRealloc", new(XmlRealloc)},
+// {"xmlStringComment", new(XmlStringComment)},
+// {"xmlStringText", new(XmlStringText)},
+// {"xmlStringTextNoenc", new(XmlStringTextNoenc)},
 // {"xmlXPathNAN", new(XmlXPathNAN)},
 // {"xmlXPathNINF", new(XmlXPathNINF)},
 // {"xmlXPathPINF", new(XmlXPathPINF)},
