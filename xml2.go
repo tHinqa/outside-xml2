@@ -13,6 +13,7 @@ type (
 	fix uintptr
 
 	FILE    fix
+	SOCKET  fix
 	Va_list fix
 
 	Char           int8
@@ -73,6 +74,7 @@ type (
 	XmlLinkPtr                 *XmlLink
 	XmlListPtr                 *XmlList
 	XmlLocationSetPtr          *XmlLocationSet
+	XmlModulePtr               *XmlModule
 	XmlMutexPtr                *XmlMutex
 	XmlNodePtr                 *XmlNode
 	XmlNodeSetPtr              *XmlNodeSet
@@ -87,6 +89,7 @@ type (
 	XmlParserInputPtr          *XmlParserInput
 	XmlParserNodeInfoPtr       *XmlParserNodeInfo
 	XmlParserNodeInfoSeqPtr    *XmlParserNodeInfoSeq
+	XmlPatternPtr              *XmlPattern
 	XmlRefPtr                  *XmlRef
 	XmlRefTable                XmlHashTable
 	XmlRefTablePtr             *XmlRefTable
@@ -96,6 +99,7 @@ type (
 	XmlRelaxNGPtr              *XmlRelaxNG
 	XmlRelaxNGValidCtxtPtr     *XmlRelaxNGValidCtxt
 	XmlRMutexPtr               *XmlRMutex
+	XmlSaveCtxtPtr             *XmlSaveCtxt
 	XmlSAXHandlerPtr           *XmlSAXHandler
 	XmlSAXLocatorPtr           *XmlSAXLocator
 	XmlSchemaAnnotPtr          *XmlSchemaAnnot
@@ -112,9 +116,11 @@ type (
 	XmlSchemaWildcardNsPtr     *XmlSchemaWildcardNs
 	XmlSchemaWildcardPtr       *XmlSchemaWildcard
 	XmlShellCtxtPtr            *XmlShellCtxt
+	XmlStreamCtxtPtr           *XmlStreamCtxt
 	XmlTextReaderLocatorPtr    *Void
 	XmlTextReaderPtr           *XmlTextReader
 	XmlTextWriterPtr           *XmlTextWriter
+	XmlURIPtr                  *XmlURI
 	XmlValidCtxtPtr            *XmlValidCtxt
 	XmlValidStatePtr           *XmlValidState
 	XmlXIncludeCtxtPtr         *XmlXIncludeCtxt
@@ -137,13 +143,16 @@ type (
 	XmlHashTable            struct{}
 	XmlLink                 struct{}
 	XmlList                 struct{}
+	XmlModule               struct{}
 	XmlMutex                struct{}
+	XmlPattern              struct{}
 	XmlRegExecCtxt          struct{}
 	XmlRegexp               struct{}
 	XmlRelaxNG              struct{}
 	XmlRelaxNGParserCtxt    struct{}
 	XmlRelaxNGValidCtxt     struct{}
 	XmlRMutex               struct{}
+	XmlSaveCtxt             struct{}
 	XmlSchema               struct{}
 	XmlSchemaFacet          struct{}
 	XmlSchemaParserCtxt     struct{}
@@ -154,6 +163,7 @@ type (
 	XmlSchemaType           struct{}
 	XmlSchemaVal            struct{}
 	XmlSchemaValidCtxt      struct{}
+	XmlStreamCtxt           struct{}
 	XmlTextReader           struct{}
 	XmlTextWriter           struct{}
 	XmlValidState           struct{}
@@ -162,7 +172,7 @@ type (
 	XmlXPathParserContext   struct{}
 
 	InternalSubsetSAXFunc func(
-		ctx *Void, name, ExternalID, SystemID *XmlChar)
+		ctx *Void, name, ExternalID, SystemID string)
 
 	IsStandaloneSAXFunc func(ctx *Void) int
 
@@ -171,45 +181,45 @@ type (
 	HasExternalSubsetSAXFunc func(ctx *Void) int
 
 	StartElementNsSAX2Func func(ctx *Void,
-		localname, prefix, URI *XmlChar,
-		nb_namespaces int, namespaces **XmlChar,
-		nb_attributes, nb_defaulted int, attributes **XmlChar)
+		localname, prefix, URI string,
+		nb_namespaces int, namespaces *string,
+		nb_attributes, nb_defaulted int, attributes *string)
 
 	EndElementNsSAX2Func func(
-		ctx *Void, localname, prefix, URI *XmlChar)
+		ctx *Void, localname, prefix, URI string)
 
 	ResolveEntitySAXFunc func(
 		ctx *Void,
-		publicId *XmlChar,
-		systemId *XmlChar) XmlParserInputPtr
+		publicId string,
+		systemId string) XmlParserInputPtr
 
 	ExternalSubsetSAXFunc func(
 		ctx *Void,
-		name *XmlChar,
-		ExternalID *XmlChar,
-		SystemID *XmlChar)
+		name string,
+		ExternalID string,
+		SystemID string)
 
 	GetEntitySAXFunc func(
-		ctx *Void, name *XmlChar) XmlEntityPtr
+		ctx *Void, name string) XmlEntityPtr
 
 	GetParameterEntitySAXFunc func(
-		ctx *Void, name *XmlChar) XmlEntityPtr
+		ctx *Void, name string) XmlEntityPtr
 
-	EntityDeclSAXFunc func(ctx *Void, name *XmlChar,
-		typ int, publicId, systemId, content *XmlChar)
+	EntityDeclSAXFunc func(ctx *Void, name string,
+		typ int, publicId, systemId, content string)
 
 	NotationDeclSAXFunc func(
-		ctx *Void, name, publicId, systemId *XmlChar)
+		ctx *Void, name, publicId, systemId string)
 
 	AttributeDeclSAXFunc func(ctx *Void, elem,
-		fullname *XmlChar, typ, def int,
-		defaultValue *XmlChar, tree XmlEnumerationPtr)
+		fullname string, typ, def int,
+		defaultValue string, tree XmlEnumerationPtr)
 
-	ElementDeclSAXFunc func(ctx *Void, name *XmlChar,
+	ElementDeclSAXFunc func(ctx *Void, name string,
 		typ int, content XmlElementContentPtr)
 
 	UnparsedEntityDeclSAXFunc func(ctx *Void,
-		name, publicId, systemId, notationName *XmlChar)
+		name, publicId, systemId, notationName string)
 
 	SetDocumentLocatorSAXFunc func(
 		ctx *Void, loc XmlSAXLocatorPtr)
@@ -219,42 +229,42 @@ type (
 	EndDocumentSAXFunc func(ctx *Void)
 
 	StartElementSAXFunc func(
-		ctx *Void, name *XmlChar, atts **XmlChar)
+		ctx *Void, name string, atts *string)
 
-	EndElementSAXFunc func(ctx *Void, name *XmlChar)
+	EndElementSAXFunc func(ctx *Void, name string)
 
-	AttributeSAXFunc func(ctx *Void, name, value *XmlChar)
+	AttributeSAXFunc func(ctx *Void, name, value string)
 
-	ReferenceSAXFunc func(ctx *Void, name *XmlChar)
+	ReferenceSAXFunc func(ctx *Void, name string)
 
-	CharactersSAXFunc func(ctx *Void, ch *XmlChar, leng int)
+	CharactersSAXFunc func(ctx *Void, ch string, leng int)
 
 	IgnorableWhitespaceSAXFunc func(
-		ctx *Void, ch *XmlChar, leng int)
+		ctx *Void, ch string, leng int)
 
 	ProcessingInstructionSAXFunc func(
-		ctx *Void, target, data *XmlChar)
+		ctx *Void, target, data string)
 
-	CommentSAXFunc func(ctx *Void, value *XmlChar)
+	CommentSAXFunc func(ctx *Void, value string)
 
-	CdataBlockSAXFunc func(ctx *Void, value *XmlChar, leng int)
+	CdataBlockSAXFunc func(ctx *Void, value string, leng int)
 
-	XmlParserInputDeallocate func(str *XmlChar)
+	XmlParserInputDeallocate func(str string)
 
 	XmlInputReadCallback func(
-		context *Void, buffer *Char, leng int) int
+		context *Void, buffer string, leng int) int
 
 	XmlInputCloseCallback func(context *Void) int
 
-	WarningSAXFunc func(ctx *Void, msg *Char, v ...VArg)
+	WarningSAXFunc func(ctx *Void, msg string, v ...VArg)
 
-	ErrorSAXFunc func(ctx *Void, msg *Char, v ...VArg)
+	ErrorSAXFunc func(ctx *Void, msg string, v ...VArg)
 
-	FatalErrorSAXFunc func(ctx *Void, msg *Char, v ...VArg)
+	FatalErrorSAXFunc func(ctx *Void, msg string, v ...VArg)
 
 	XmlDeregisterNodeFunc func(node XmlNodePtr)
 
-	XmlGenericErrorFunc func(ctx *Void, msg *Char, v ...VArg)
+	XmlGenericErrorFunc func(ctx *Void, msg string, v ...VArg)
 
 	XmlCharEncodingInputFunc func(
 		out *Unsigned_char, outlen *int,
@@ -265,7 +275,7 @@ type (
 		in *Unsigned_char, inlen *int) int
 
 	XmlParserInputBufferCreateFilenameFunc func(
-		URI *Char, enc XmlCharEncoding) XmlParserInputBufferPtr
+		URI string, enc XmlCharEncoding) XmlParserInputBufferPtr
 
 	XmlRegisterNodeFunc func(node XmlNodePtr)
 
@@ -273,9 +283,139 @@ type (
 		userData *Void, Error XmlErrorPtr)
 
 	XmlOutputWriteCallback func(
-		context *Void, buffer *Char, leng int) int
+		context *Void, buffer string, leng int) int
 
 	XmlOutputCloseCallback func(context *Void) int
+
+	XmlValidityErrorFunc func(ctx *Void, msg string, v ...VArg)
+
+	XmlValidityWarningFunc func(ctx *Void, msg string, v ...VArg)
+
+	XmlOutputBufferCreateFilenameFunc func(
+		URI string,
+		encoder XmlCharEncodingHandlerPtr,
+		compression int) XmlOutputBufferPtr
+
+	XlinkNodeDetectFunc func(
+		ctx *Void,
+		node XmlNodePtr)
+
+	XlinkSimpleLinkFunk func(
+		ctx *Void,
+		node XmlNodePtr,
+		href XlinkHRef,
+		role XlinkRole,
+		title XlinkTitle)
+
+	XlinkExtendedLinkFunk func(
+		ctx *Void,
+		node XmlNodePtr,
+		nbLocators int,
+		hrefs *XlinkHRef,
+		roles *XlinkRole,
+		nbArcs int,
+		from *XlinkRole,
+		to *XlinkRole,
+		show *XlinkShow,
+		actuate *XlinkActuate,
+		nbTitles int,
+		titles *XlinkTitle,
+		langs *string)
+
+	XlinkExtendedLinkSetFunk func(
+		ctx *Void,
+		node XmlNodePtr,
+		nbLocators int,
+		hrefs *XlinkHRef,
+		roles *XlinkRole,
+		nbTitles int,
+		titles *XlinkTitle,
+		langs *string)
+
+	XmlFreeFunc func(mem *Void)
+
+	XmlMallocFunc func(size Size_t) *Void
+
+	XmlReallocFunc func(mem *Void, size Size_t) *Void
+
+	XmlStrdupFunc func(str string) string
+
+	XmlHashDeallocator func(payload *Void, name string)
+
+	XmlHashCopier func(payload *Void, name string) *Void
+
+	XmlHashScanner func(payload, data *Void, name string)
+
+	XmlHashScannerFull func(payload, data *Void,
+		name, name2, name3 string)
+
+	XmlExternalEntityLoader func(URL, ID string,
+		context XmlParserCtxtPtr) XmlParserInputPtr
+
+	XmlRegExecCallbacks func(exec XmlRegExecCtxtPtr,
+		token string, transdata, inputdata *Void)
+
+	XmlListDeallocator func(lk XmlLinkPtr)
+
+	XmlListDataCompare func(data0, data1 *Void) int
+
+	XmlListWalker func(data, user *Void) int
+
+	XmlInputMatchCallback func(filename string) int
+
+	XmlInputOpenCallback func(filename string) *Void
+
+	XmlOutputMatchCallback func(filename string) int
+
+	XmlOutputOpenCallback func(filename string) *Void
+
+	XmlXPathAxisFunc func(ctxt XmlXPathParserContextPtr,
+		cur XmlXPathObjectPtr) XmlXPathObjectPtr
+
+	XmlXPathVariableLookupFunc func(
+		ctxt *Void, name, ns_uri string) XmlXPathObjectPtr
+
+	XmlXPathFuncLookupFunc func(
+		ctxt *Void, name, ns_uri string) XmlXPathFunction
+
+	XmlXPathFunction func(
+		ctxt XmlXPathParserContextPtr, nargs int)
+
+	XmlXPathConvertFunc func(obj XmlXPathObjectPtr, typ int) int
+
+	XmlSchemaValidityErrorFunc func(
+		ctx *Void, msg string, v ...VArg)
+
+	XmlSchemaValidityWarningFunc func(
+		ctx *Void, msg string, v ...VArg)
+
+	XmlSchemaValidityLocatorFunc func(
+		ctx *Void, file *string, line *Unsigned_long) int
+
+	XmlEntityReferenceFunc func(
+		ent XmlEntityPtr, firstNode, lastNode XmlNodePtr)
+
+	XmlRelaxNGValidityErrorFunc func(
+		ctx *Void, msg string, v ...VArg)
+
+	XmlRelaxNGValidityWarningFunc func(
+		ctx *Void, msg string, v ...VArg)
+
+	XmlTextReaderErrorFunc func(arg *Void, msg string,
+		severity XmlParserSeverities,
+		locator XmlTextReaderLocatorPtr)
+
+	XmlShellReadlineFunc func(prompt string) string
+
+	FtpListCallback func(
+		userData *Void,
+		filename, attrib, owner, group string,
+		size Unsigned_long,
+		links, year int,
+		month string,
+		day, hour, minute int)
+
+	FtpDataCallback func(userData *Void, data string, leng int)
 
 	XmlParserCtxt struct {
 		sax               *XmlSAXHandler
@@ -367,126 +507,6 @@ type (
 		nodeInfoTab       *XmlParserNodeInfo
 		input_id          int
 	}
-
-	XmlValidityErrorFunc func(ctx *Void, msg string, v ...VArg)
-
-	XmlValidityWarningFunc func(ctx *Void, msg string, v ...VArg)
-
-	XmlOutputBufferCreateFilenameFunc func(
-		URI *Char,
-		encoder XmlCharEncodingHandlerPtr,
-		compression int) XmlOutputBufferPtr
-
-	XlinkNodeDetectFunc func(
-		ctx *Void,
-		node XmlNodePtr)
-
-	XlinkSimpleLinkFunk func(
-		ctx *Void,
-		node XmlNodePtr,
-		href XlinkHRef,
-		role XlinkRole,
-		title XlinkTitle)
-
-	XlinkExtendedLinkFunk func(
-		ctx *Void,
-		node XmlNodePtr,
-		nbLocators int,
-		hrefs *XlinkHRef,
-		roles *XlinkRole,
-		nbArcs int,
-		from *XlinkRole,
-		to *XlinkRole,
-		show *XlinkShow,
-		actuate *XlinkActuate,
-		nbTitles int,
-		titles *XlinkTitle,
-		langs **XmlChar)
-
-	XlinkExtendedLinkSetFunk func(
-		ctx *Void,
-		node XmlNodePtr,
-		nbLocators int,
-		hrefs *XlinkHRef,
-		roles *XlinkRole,
-		nbTitles int,
-		titles *XlinkTitle,
-		langs **XmlChar)
-
-	XmlFreeFunc func(mem *Void)
-
-	XmlMallocFunc func(size Size_t) *Void
-
-	XmlReallocFunc func(mem *Void, size Size_t) *Void
-
-	XmlStrdupFunc func(str *Char) *Char
-
-	XmlHashDeallocator func(payload *Void, name *XmlChar)
-
-	XmlHashCopier func(payload *Void, name *XmlChar) *Void
-
-	XmlHashScanner func(payload, data *Void, name *XmlChar)
-
-	XmlHashScannerFull func(payload, data *Void,
-		name, name2, name3 *XmlChar)
-
-	XmlExternalEntityLoader func(URL, ID *Char,
-		context XmlParserCtxtPtr) XmlParserInputPtr
-
-	XmlRegExecCallbacks func(exec XmlRegExecCtxtPtr,
-		token *XmlChar, transdata, inputdata *Void)
-
-	XmlListDeallocator func(lk XmlLinkPtr)
-
-	XmlListDataCompare func(data0, data1 *Void) int
-
-	XmlListWalker func(data, user *Void) int
-
-	XmlInputMatchCallback func(filename string) int
-
-	XmlInputOpenCallback func(filename string) *Void
-
-	XmlOutputMatchCallback func(filename string) int
-
-	XmlOutputOpenCallback func(filename string) *Void
-
-	XmlXPathAxisFunc func(ctxt XmlXPathParserContextPtr,
-		cur XmlXPathObjectPtr) XmlXPathObjectPtr
-
-	XmlXPathVariableLookupFunc func(
-		ctxt *Void, name, ns_uri *XmlChar) XmlXPathObjectPtr
-
-	XmlXPathFuncLookupFunc func(
-		ctxt *Void, name, ns_uri *XmlChar) XmlXPathFunction
-
-	XmlXPathFunction func(
-		ctxt XmlXPathParserContextPtr, nargs int)
-
-	XmlXPathConvertFunc func(obj XmlXPathObjectPtr, typ int) int
-
-	XmlSchemaValidityErrorFunc func(
-		ctx *Void, msg *Char, v ...VArg)
-
-	XmlSchemaValidityWarningFunc func(
-		ctx *Void, msg *Char, v ...VArg)
-
-	XmlSchemaValidityLocatorFunc func(
-		ctx *Void, file **Char, line *Unsigned_long) int
-
-	XmlEntityReferenceFunc func(
-		ent XmlEntityPtr, firstNode, lastNode XmlNodePtr)
-
-	XmlRelaxNGValidityErrorFunc func(
-		ctx *Void, msg *Char, v ...VArg)
-
-	XmlRelaxNGValidityWarningFunc func(
-		ctx *Void, msg *Char, v ...VArg)
-
-	XmlTextReaderErrorFunc func(arg *Void, msg *Char,
-		severity XmlParserSeverities,
-		locator XmlTextReaderLocatorPtr)
-
-	XmlShellReadlineFunc func(prompt *Char) *Char
 
 	XmlSAXHandlerV1 struct {
 		internalSubset        InternalSubsetSAXFunc
@@ -1019,6 +1039,20 @@ type (
 		loaded   int
 		output   *FILE
 		input    XmlShellReadlineFunc
+	}
+
+	XmlURI struct {
+		scheme    *Char
+		opaque    *Char
+		authority *Char
+		server    *Char
+		user      *Char
+		port      int
+		path      *Char
+		query     *Char
+		fragment  *Char
+		cleanup   int
+		query_raw *Char
 	}
 )
 
@@ -2200,74 +2234,81 @@ const (
 	XML_CATA_ALLOW_ALL
 )
 
+type XmlModuleOption Enum
+
+const (
+	XML_MODULE_LAZY XmlModuleOption = iota + 1
+	XML_MODULE_LOCAL
+)
+
 var (
 	XmlCheckVersion func(version int)
 
-	XmlStrdup func(cur *XmlChar) *XmlChar
+	XmlStrdup func(cur string) string
 
-	XmlStrndup func(cur *XmlChar, leng int) *XmlChar
+	XmlStrndup func(cur string, leng int) string
 
-	XmlCharStrndup func(cur *Char, leng int) *XmlChar
+	XmlCharStrndup func(cur string, leng int) string
 
-	XmlCharStrdup func(cur *Char) *XmlChar
+	XmlCharStrdup func(cur string) string
 
-	XmlStrsub func(str *XmlChar, start int, leng int) *XmlChar
+	XmlStrsub func(str string, start int, leng int) string
 
-	XmlStrchr func(str *XmlChar, val XmlChar) *XmlChar
+	XmlStrchr func(str string, val XmlChar) string
 
-	XmlStrstr func(str, val *XmlChar) *XmlChar
+	XmlStrstr func(str, val string) string
 
-	XmlStrcasestr func(str, val *XmlChar) *XmlChar
+	XmlStrcasestr func(str, val string) string
 
-	XmlStrcmp func(str1, str2 *XmlChar) int
+	XmlStrcmp func(str1, str2 string) int
 
-	XmlStrncmp func(str1, str2 *XmlChar, leng int) int
+	XmlStrncmp func(str1, str2 string, leng int) int
 
-	XmlStrcasecmp func(str1, str2 *XmlChar) int
+	XmlStrcasecmp func(str1, str2 string) int
 
-	XmlStrncasecmp func(str1, str2 *XmlChar, leng int) int
+	XmlStrncasecmp func(str1, str2 string, leng int) int
 
-	XmlStrEqual func(str1, str2 *XmlChar) int
+	XmlStrEqual func(str1, str2 string) int
 
-	XmlStrQEqual func(pref, name, str *XmlChar) int
+	XmlStrQEqual func(pref, name, str string) int
 
-	XmlStrlen func(str *XmlChar) int
+	XmlStrlen func(str string) int
 
-	XmlStrcat func(cur, add *XmlChar) *XmlChar
+	XmlStrcat func(cur, add string) string
 
-	XmlStrncat func(cur, add *XmlChar, leng int) *XmlChar
+	XmlStrncat func(cur, add string, leng int) string
 
-	XmlStrncatNew func(str1, str2 *XmlChar, leng int) *XmlChar
+	XmlStrncatNew func(str1, str2 string, leng int) string
 
 	XmlStrPrintf func(
-		buf *XmlChar, leng int, msg *XmlChar, v ...VArg) int
+		buf string, leng int, msg string, v ...VArg) int
 
 	XmlStrVPrintf func(
-		buf *XmlChar, leng int, msg *XmlChar, ap Va_list) int
+		buf string, leng int, msg string, ap Va_list) int
 
 	XmlGetUTF8Char func(utf *Unsigned_char, leng *int) int
 
 	XmlCheckUTF8 func(utf *Unsigned_char) int
 
-	XmlUTF8Strsize func(utf *XmlChar, leng int) int
+	XmlUTF8Strsize func(utf string, leng int) int
 
-	XmlUTF8Strndup func(utf *XmlChar, leng int) *XmlChar
+	XmlUTF8Strndup func(utf string, leng int) string
 
-	XmlUTF8Strpos func(utf *XmlChar, pos int) *XmlChar
+	XmlUTF8Strpos func(utf string, pos int) string
 
-	XmlUTF8Strloc func(utf *XmlChar, utfchar *XmlChar) int
+	XmlUTF8Strloc func(utf string, utfchar string) int
 
-	XmlUTF8Strsub func(utf *XmlChar, start, leng int) *XmlChar
+	XmlUTF8Strsub func(utf string, start, leng int) string
 
-	XmlUTF8Strlen func(utf *XmlChar) int
+	XmlUTF8Strlen func(utf string) int
 
-	XmlUTF8Size func(utf *XmlChar) int
+	XmlUTF8Size func(utf string) int
 
-	XmlUTF8Charcmp func(utf1, utf2 *XmlChar) int
+	XmlUTF8Charcmp func(utf1, utf2 string) int
 
-	XmlBufContent func(buf XmlBufPtr) *XmlChar
+	XmlBufContent func(buf XmlBufPtr) string
 
-	XmlBufEnd func(buf XmlBufPtr) *XmlChar
+	XmlBufEnd func(buf XmlBufPtr) string
 
 	XmlBufUse func(buf XmlBufPtr) Size_t
 
@@ -2288,25 +2329,25 @@ var (
 	XmlDictFree func(dict XmlDictPtr)
 
 	XmlDictLookup func(
-		dict XmlDictPtr, name *XmlChar, leng int) *XmlChar
+		dict XmlDictPtr, name string, leng int) string
 
 	XmlDictExists func(
-		dict XmlDictPtr, name *XmlChar, leng int) *XmlChar
+		dict XmlDictPtr, name string, leng int) string
 
 	XmlDictQLookup func(
-		dict XmlDictPtr, prefix, name *XmlChar) *XmlChar
+		dict XmlDictPtr, prefix, name string) string
 
-	XmlDictOwns func(dict XmlDictPtr, str *XmlChar) int
+	XmlDictOwns func(dict XmlDictPtr, str string) int
 
 	XmlDictSize func(dict XmlDictPtr) int
 
 	XmlDictCleanup func()
 
-	XmlRegexpCompile func(regexp *XmlChar) XmlRegexpPtr
+	XmlRegexpCompile func(regexp string) XmlRegexpPtr
 
 	XmlRegFreeRegexp func(regexp XmlRegexpPtr)
 
-	XmlRegexpExec func(comp XmlRegexpPtr, value *XmlChar) int
+	XmlRegexpExec func(comp XmlRegexpPtr, value string) int
 
 	XmlRegexpPrint func(output *FILE, regexp XmlRegexpPtr)
 
@@ -2322,28 +2363,28 @@ var (
 
 	XmlRegExecPushString func(
 		exec XmlRegExecCtxtPtr,
-		value *XmlChar,
+		value string,
 		data *Void) int
 
 	XmlRegExecPushString2 func(
 		exec XmlRegExecCtxtPtr,
-		value *XmlChar,
-		value2 *XmlChar,
+		value string,
+		value2 string,
 		data *Void) int
 
 	XmlRegExecNextValues func(
 		exec XmlRegExecCtxtPtr,
 		nbval *int,
 		nbneg *int,
-		values **XmlChar,
+		values *string,
 		terminal *int) int
 
 	XmlRegExecErrInfo func(
 		exec XmlRegExecCtxtPtr,
-		string **XmlChar,
+		string *string,
 		nbval *int,
 		nbneg *int,
-		values **XmlChar,
+		values *string,
 		terminal *int) int
 
 	XmlExpFreeCtxt func(ctxt XmlExpCtxtPtr)
@@ -2360,10 +2401,10 @@ var (
 	XmlExpRef func(expr XmlExpNodePtr)
 
 	XmlExpParse func(
-		ctxt XmlExpCtxtPtr, expr *Char) XmlExpNodePtr
+		ctxt XmlExpCtxtPtr, expr string) XmlExpNodePtr
 
 	XmlExpNewAtom func(ctxt XmlExpCtxtPtr,
-		name *XmlChar, leng int) XmlExpNodePtr
+		name string, leng int) XmlExpNodePtr
 
 	XmlExpNewOr func(
 		ctxt XmlExpCtxtPtr,
@@ -2390,19 +2431,19 @@ var (
 	XmlExpGetLanguage func(
 		ctxt XmlExpCtxtPtr,
 		expr XmlExpNodePtr,
-		langList **XmlChar,
+		langList *string,
 		leng int) int
 
 	XmlExpGetStart func(
 		ctxt XmlExpCtxtPtr,
 		expr XmlExpNodePtr,
-		tokList **XmlChar,
+		tokList *string,
 		leng int) int
 
 	XmlExpStringDerive func(
 		ctxt XmlExpCtxtPtr,
 		expr XmlExpNodePtr,
-		str *XmlChar,
+		str string,
 		leng int) XmlExpNodePtr
 
 	XmlExpExpDerive func(
@@ -2420,34 +2461,34 @@ var (
 		expr XmlExpNodePtr)
 
 	XmlValidateNCName func(
-		value *XmlChar,
+		value string,
 		space int) int
 
 	XmlValidateQName func(
-		value *XmlChar,
+		value string,
 		space int) int
 
 	XmlValidateName func(
-		value *XmlChar,
+		value string,
 		space int) int
 
 	XmlValidateNMToken func(
-		value *XmlChar,
+		value string,
 		space int) int
 
 	XmlBuildQName func(
-		ncname *XmlChar,
-		prefix *XmlChar,
-		memory *XmlChar,
-		leng int) *XmlChar
+		ncname string,
+		prefix string,
+		memory string,
+		leng int) string
 
 	XmlSplitQName2 func(
-		name *XmlChar,
-		prefix **XmlChar) *XmlChar
+		name string,
+		prefix *string) string
 
 	XmlSplitQName3 func(
-		name *XmlChar,
-		leng *int) *XmlChar
+		name string,
+		leng *int) string
 
 	XmlSetBufferAllocationScheme func(
 		scheme XmlBufferAllocationScheme)
@@ -2471,21 +2512,21 @@ var (
 
 	XmlBufferAdd func(
 		buf XmlBufferPtr,
-		str *XmlChar,
+		str string,
 		leng int) int
 
 	XmlBufferAddHead func(
 		buf XmlBufferPtr,
-		str *XmlChar,
+		str string,
 		leng int) int
 
 	XmlBufferCat func(
 		buf XmlBufferPtr,
-		str *XmlChar) int
+		str string) int
 
 	XmlBufferCCat func(
 		buf XmlBufferPtr,
-		str *Char) int
+		str string) int
 
 	XmlBufferShrink func(
 		buf XmlBufferPtr,
@@ -2499,10 +2540,10 @@ var (
 		buf XmlBufferPtr)
 
 	XmlBufferContent func(
-		buf XmlBufferPtr) *XmlChar
+		buf XmlBufferPtr) string
 
 	XmlBufferDetach func(
-		buf XmlBufferPtr) *XmlChar
+		buf XmlBufferPtr) string
 
 	XmlBufferSetAllocationScheme func(
 		buf XmlBufferPtr,
@@ -2513,15 +2554,15 @@ var (
 
 	XmlCreateIntSubset func(
 		doc XmlDocPtr,
-		name *XmlChar,
-		ExternalID *XmlChar,
-		SystemID *XmlChar) XmlDtdPtr
+		name string,
+		ExternalID string,
+		SystemID string) XmlDtdPtr
 
 	XmlNewDtd func(
 		doc XmlDocPtr,
-		name *XmlChar,
-		ExternalID *XmlChar,
-		SystemID *XmlChar) XmlDtdPtr
+		name string,
+		ExternalID string,
+		SystemID string) XmlDtdPtr
 
 	XmlGetIntSubset func(
 		doc XmlDocPtr) XmlDtdPtr
@@ -2531,13 +2572,13 @@ var (
 
 	XmlNewGlobalNs func(
 		doc XmlDocPtr,
-		href *XmlChar,
-		prefix *XmlChar) XmlNsPtr
+		href string,
+		prefix string) XmlNsPtr
 
 	XmlNewNs func(
 		node XmlNodePtr,
-		href *XmlChar,
-		prefix *XmlChar) XmlNsPtr
+		href string,
+		prefix string) XmlNsPtr
 
 	XmlFreeNs func(
 		cur XmlNsPtr)
@@ -2546,32 +2587,32 @@ var (
 		cur XmlNsPtr)
 
 	XmlNewDoc func(
-		version *XmlChar) XmlDocPtr
+		version string) XmlDocPtr
 
 	XmlFreeDoc func(
 		cur XmlDocPtr)
 
 	XmlNewDocProp func(
 		doc XmlDocPtr,
-		name *XmlChar,
-		value *XmlChar) XmlAttrPtr
+		name string,
+		value string) XmlAttrPtr
 
 	XmlNewProp func(
 		node XmlNodePtr,
-		name *XmlChar,
-		value *XmlChar) XmlAttrPtr
+		name string,
+		value string) XmlAttrPtr
 
 	XmlNewNsProp func(
 		node XmlNodePtr,
 		ns XmlNsPtr,
-		name *XmlChar,
-		value *XmlChar) XmlAttrPtr
+		name string,
+		value string) XmlAttrPtr
 
 	XmlNewNsPropEatName func(
 		node XmlNodePtr,
 		ns XmlNsPtr,
-		name *XmlChar,
-		value *XmlChar) XmlAttrPtr
+		name string,
+		value string) XmlAttrPtr
 
 	XmlFreePropList func(
 		cur XmlAttrPtr)
@@ -2597,73 +2638,73 @@ var (
 	XmlNewDocNode func(
 		doc XmlDocPtr,
 		ns XmlNsPtr,
-		name *XmlChar,
-		content *XmlChar) XmlNodePtr
+		name string,
+		content string) XmlNodePtr
 
 	XmlNewDocNodeEatName func(
 		doc XmlDocPtr,
 		ns XmlNsPtr,
-		name *XmlChar,
-		content *XmlChar) XmlNodePtr
+		name string,
+		content string) XmlNodePtr
 
 	XmlNewNode func(
 		ns XmlNsPtr,
-		name *XmlChar) XmlNodePtr
+		name string) XmlNodePtr
 
 	XmlNewNodeEatName func(
 		ns XmlNsPtr,
-		name *XmlChar) XmlNodePtr
+		name string) XmlNodePtr
 
 	XmlNewChild func(
 		parent XmlNodePtr,
 		ns XmlNsPtr,
-		name *XmlChar,
-		content *XmlChar) XmlNodePtr
+		name string,
+		content string) XmlNodePtr
 
 	XmlNewDocText func(
 		doc XmlDocPtr,
-		content *XmlChar) XmlNodePtr
+		content string) XmlNodePtr
 
 	XmlNewText func(
-		content *XmlChar) XmlNodePtr
+		content string) XmlNodePtr
 
 	XmlNewDocPI func(
 		doc XmlDocPtr,
-		name *XmlChar,
-		content *XmlChar) XmlNodePtr
+		name string,
+		content string) XmlNodePtr
 
 	XmlNewPI func(
-		name *XmlChar,
-		content *XmlChar) XmlNodePtr
+		name string,
+		content string) XmlNodePtr
 
 	XmlNewDocTextLen func(
 		doc XmlDocPtr,
-		content *XmlChar,
+		content string,
 		leng int) XmlNodePtr
 
 	XmlNewTextLen func(
-		content *XmlChar,
+		content string,
 		leng int) XmlNodePtr
 
 	XmlNewDocComment func(
 		doc XmlDocPtr,
-		content *XmlChar) XmlNodePtr
+		content string) XmlNodePtr
 
 	XmlNewComment func(
-		content *XmlChar) XmlNodePtr
+		content string) XmlNodePtr
 
 	XmlNewCDataBlock func(
 		doc XmlDocPtr,
-		content *XmlChar,
+		content string,
 		leng int) XmlNodePtr
 
 	XmlNewCharRef func(
 		doc XmlDocPtr,
-		name *XmlChar) XmlNodePtr
+		name string) XmlNodePtr
 
 	XmlNewReference func(
 		doc XmlDocPtr,
-		name *XmlChar) XmlNodePtr
+		name string) XmlNodePtr
 
 	XmlCopyNode func(
 		node XmlNodePtr,
@@ -2684,14 +2725,14 @@ var (
 	XmlNewTextChild func(
 		parent XmlNodePtr,
 		ns XmlNsPtr,
-		name *XmlChar,
-		content *XmlChar) XmlNodePtr
+		name string,
+		content string) XmlNodePtr
 
 	XmlNewDocRawNode func(
 		doc XmlDocPtr,
 		ns XmlNsPtr,
-		name *XmlChar,
-		content *XmlChar) XmlNodePtr
+		name string,
+		content string) XmlNodePtr
 
 	XmlNewDocFragment func(
 		doc XmlDocPtr) XmlNodePtr
@@ -2700,7 +2741,7 @@ var (
 		node XmlNodePtr) Long
 
 	XmlGetNodePath func(
-		node XmlNodePtr) *XmlChar
+		node XmlNodePtr) string
 
 	XmlDocGetRootElement func(
 		doc XmlDocPtr) XmlNodePtr
@@ -2720,7 +2761,7 @@ var (
 
 	XmlNodeSetName func(
 		cur XmlNodePtr,
-		name *XmlChar)
+		name string)
 
 	XmlAddChild func(
 		parent XmlNodePtr,
@@ -2755,7 +2796,7 @@ var (
 
 	XmlTextConcat func(
 		node XmlNodePtr,
-		content *XmlChar,
+		content string,
 		leng int) int
 
 	XmlFreeNodeList func(
@@ -2775,12 +2816,12 @@ var (
 	XmlSearchNs func(
 		doc XmlDocPtr,
 		node XmlNodePtr,
-		nameSpace *XmlChar) XmlNsPtr
+		nameSpace string) XmlNsPtr
 
 	XmlSearchNsByHref func(
 		doc XmlDocPtr,
 		node XmlNodePtr,
-		href *XmlChar) XmlNsPtr
+		href string) XmlNsPtr
 
 	XmlGetNsList func(
 		doc XmlDocPtr,
@@ -2798,76 +2839,76 @@ var (
 
 	XmlSetProp func(
 		node XmlNodePtr,
-		name *XmlChar,
-		value *XmlChar) XmlAttrPtr
+		name string,
+		value string) XmlAttrPtr
 
 	XmlSetNsProp func(
 		node XmlNodePtr,
 		ns XmlNsPtr,
-		name *XmlChar,
-		value *XmlChar) XmlAttrPtr
+		name string,
+		value string) XmlAttrPtr
 
 	XmlGetNoNsProp func(
 		node XmlNodePtr,
-		name *XmlChar) *XmlChar
+		name string) string
 
 	XmlGetProp func(
 		node XmlNodePtr,
-		name *XmlChar) *XmlChar
+		name string) string
 
 	XmlHasProp func(
 		node XmlNodePtr,
-		name *XmlChar) XmlAttrPtr
+		name string) XmlAttrPtr
 
 	XmlHasNsProp func(
 		node XmlNodePtr,
-		name *XmlChar,
-		nameSpace *XmlChar) XmlAttrPtr
+		name string,
+		nameSpace string) XmlAttrPtr
 
 	XmlGetNsProp func(
 		node XmlNodePtr,
-		name *XmlChar,
-		nameSpace *XmlChar) *XmlChar
+		name string,
+		nameSpace string) string
 
 	XmlStringGetNodeList func(
 		doc XmlDocPtr,
-		value *XmlChar) XmlNodePtr
+		value string) XmlNodePtr
 
 	XmlStringLenGetNodeList func(
 		doc XmlDocPtr,
-		value *XmlChar,
+		value string,
 		leng int) XmlNodePtr
 
 	XmlNodeListGetString func(
 		doc XmlDocPtr,
 		list XmlNodePtr,
-		inLine int) *XmlChar
+		inLine int) string
 
 	XmlNodeListGetRawString func(
 		doc XmlDocPtr,
 		list XmlNodePtr,
-		inLine int) *XmlChar
+		inLine int) string
 
 	XmlNodeSetContent func(
 		cur XmlNodePtr,
-		content *XmlChar)
+		content string)
 
 	XmlNodeSetContentLen func(
 		cur XmlNodePtr,
-		content *XmlChar,
+		content string,
 		leng int)
 
 	XmlNodeAddContent func(
 		cur XmlNodePtr,
-		content *XmlChar)
+		content string)
 
 	XmlNodeAddContentLen func(
 		cur XmlNodePtr,
-		content *XmlChar,
+		content string,
 		leng int)
 
 	XmlNodeGetContent func(
-		cur XmlNodePtr) *XmlChar
+		cur XmlNodePtr) string
 
 	XmlNodeBufGetContent func(
 		buffer XmlBufferPtr,
@@ -2878,14 +2919,14 @@ var (
 		cur XmlNodePtr) int
 
 	XmlNodeGetLang func(
-		cur XmlNodePtr) *XmlChar
+		cur XmlNodePtr) string
 
 	XmlNodeGetSpacePreserve func(
 		cur XmlNodePtr) int
 
 	XmlNodeSetLang func(
 		cur XmlNodePtr,
-		lang *XmlChar)
+		lang string)
 
 	XmlNodeSetSpacePreserve func(
 		cur XmlNodePtr,
@@ -2893,11 +2934,11 @@ var (
 
 	XmlNodeGetBase func(
 		doc XmlDocPtr,
-		cur XmlNodePtr) *XmlChar
+		cur XmlNodePtr) string
 
 	XmlNodeSetBase func(
 		cur XmlNodePtr,
-		uri *XmlChar)
+		uri string)
 
 	XmlRemoveProp func(
 		cur XmlAttrPtr) int
@@ -2905,29 +2946,29 @@ var (
 	XmlUnsetNsProp func(
 		node XmlNodePtr,
 		ns XmlNsPtr,
-		name *XmlChar) int
+		name string) int
 
 	XmlUnsetProp func(
 		node XmlNodePtr,
-		name *XmlChar) int
+		name string) int
 
 	XmlBufferWriteCHAR func(
 		buf XmlBufferPtr,
-		string *XmlChar)
+		string string)
 
 	XmlBufferWriteChar func(
 		buf XmlBufferPtr,
-		string *Char)
+		string string)
 
 	XmlBufferWriteQuotedString func(
 		buf XmlBufferPtr,
-		string *XmlChar)
+		string string)
 
 	XmlAttrSerializeTxtContent func(
 		buf XmlBufferPtr,
 		doc XmlDocPtr,
 		attr XmlAttrPtr,
-		string *XmlChar)
+		string string)
 
 	XmlReconciliateNs func(
 		doc XmlDocPtr,
@@ -2935,26 +2976,26 @@ var (
 
 	XmlDocDumpFormatMemory func(
 		cur XmlDocPtr,
-		mem **XmlChar,
+		mem *string,
 		size *int,
 		format int)
 
 	XmlDocDumpMemory func(
 		cur XmlDocPtr,
-		mem **XmlChar,
+		mem *string,
 		size *int)
 
 	XmlDocDumpMemoryEnc func(
 		out_doc XmlDocPtr,
-		doc_txt_ptr **XmlChar,
+		doc_txt_ptr *string,
 		doc_txt_len *int,
-		txt_encoding *Char)
+		txt_encoding string)
 
 	XmlDocDumpFormatMemoryEnc func(
 		out_doc XmlDocPtr,
-		doc_txt_ptr **XmlChar,
+		doc_txt_ptr *string,
 		doc_txt_len *int,
-		txt_encoding *Char,
+		txt_encoding string,
 		format int)
 
 	XmlDocFormatDump func(
@@ -2966,10 +3007,10 @@ var (
 
 	XmlElemDump func(f *FILE, doc XmlDocPtr, cur XmlNodePtr)
 
-	XmlSaveFile func(filename *Char, cur XmlDocPtr) int
+	XmlSaveFile func(filename string, cur XmlDocPtr) int
 
 	XmlSaveFormatFile func(
-		filename *Char, cur XmlDocPtr, format int) int
+		filename string, cur XmlDocPtr, format int) int
 
 	XmlBufNodeDump func(buf XmlBufPtr, doc XmlDocPtr,
 		cur XmlNodePtr, level, format int) Size_t
@@ -2980,12 +3021,12 @@ var (
 	XmlSaveFileTo func(
 		buf XmlOutputBufferPtr,
 		cur XmlDocPtr,
-		encoding *Char) int
+		encoding string) int
 
 	XmlSaveFormatFileTo func(
 		buf XmlOutputBufferPtr,
 		cur XmlDocPtr,
-		encoding *Char,
+		encoding string,
 		format int) int
 
 	XmlNodeDumpOutput func(
@@ -2994,22 +3035,22 @@ var (
 		cur XmlNodePtr,
 		level int,
 		format int,
-		encoding *Char)
+		encoding string)
 
 	XmlSaveFormatFileEnc func(
-		filename *Char,
+		filename string,
 		cur XmlDocPtr,
-		encoding *Char,
+		encoding string,
 		format int) int
 
 	XmlSaveFileEnc func(
-		filename *Char,
+		filename string,
 		cur XmlDocPtr,
-		encoding *Char) int
+		encoding string) int
 
 	XmlIsXHTML func(
-		systemID *XmlChar,
-		publicID *XmlChar) int
+		systemID string,
+		publicID string) int
 
 	XmlGetDocCompressMode func(
 		doc XmlDocPtr) int
@@ -3121,22 +3162,22 @@ var (
 
 	XmlMemFree func(ptr *Void)
 
-	XmlMemoryStrdup func(str *Char) *Char
+	XmlMemoryStrdup func(str string) string
 
-	XmlMallocLoc func(size Size_t, file *Char, line int) *Void
+	XmlMallocLoc func(size Size_t, file string, line int) *Void
 
 	XmlReallocLoc func(
-		ptr *Void, size Size_t, file *Char, line int) *Void
+		ptr *Void, size Size_t, file string, line int) *Void
 
 	XmlMallocAtomicLoc func(
 		size Size_t,
-		file *Char,
+		file string,
 		line int) *Void
 
 	XmlMemStrdupLoc func(
-		str *Char,
-		file *Char,
-		line int) *Char
+		str string,
+		file string,
+		line int) string
 
 	XmlHashCreate func(
 		size int) XmlHashTablePtr
@@ -3151,96 +3192,96 @@ var (
 
 	XmlHashAddEntry func(
 		table XmlHashTablePtr,
-		name *XmlChar,
+		name string,
 		userdata *Void) int
 
 	XmlHashUpdateEntry func(
 		table XmlHashTablePtr,
-		name *XmlChar,
+		name string,
 		userdata *Void,
 		f XmlHashDeallocator) int
 
 	XmlHashAddEntry2 func(
 		table XmlHashTablePtr,
-		name *XmlChar,
-		name2 *XmlChar,
+		name string,
+		name2 string,
 		userdata *Void) int
 
 	XmlHashUpdateEntry2 func(
 		table XmlHashTablePtr,
-		name *XmlChar,
-		name2 *XmlChar,
+		name string,
+		name2 string,
 		userdata *Void,
 		f XmlHashDeallocator) int
 
 	XmlHashAddEntry3 func(
 		table XmlHashTablePtr,
-		name *XmlChar,
-		name2 *XmlChar,
-		name3 *XmlChar,
+		name string,
+		name2 string,
+		name3 string,
 		userdata *Void) int
 
 	XmlHashUpdateEntry3 func(
 		table XmlHashTablePtr,
-		name *XmlChar,
-		name2 *XmlChar,
-		name3 *XmlChar,
+		name string,
+		name2 string,
+		name3 string,
 		userdata *Void,
 		f XmlHashDeallocator) int
 
 	XmlHashRemoveEntry func(
 		table XmlHashTablePtr,
-		name *XmlChar,
+		name string,
 		f XmlHashDeallocator) int
 
 	XmlHashRemoveEntry2 func(
 		table XmlHashTablePtr,
-		name *XmlChar,
-		name2 *XmlChar,
+		name string,
+		name2 string,
 		f XmlHashDeallocator) int
 
 	XmlHashRemoveEntry3 func(
 		table XmlHashTablePtr,
-		name *XmlChar,
-		name2 *XmlChar,
-		name3 *XmlChar,
+		name string,
+		name2 string,
+		name3 string,
 		f XmlHashDeallocator) int
 
 	XmlHashLookup func(
 		table XmlHashTablePtr,
-		name *XmlChar) *Void
+		name string) *Void
 
 	XmlHashLookup2 func(
 		table XmlHashTablePtr,
-		name *XmlChar,
-		name2 *XmlChar) *Void
+		name string,
+		name2 string) *Void
 
 	XmlHashLookup3 func(
 		table XmlHashTablePtr,
-		name *XmlChar,
-		name2 *XmlChar,
-		name3 *XmlChar) *Void
+		name string,
+		name2 string,
+		name3 string) *Void
 
 	XmlHashQLookup func(
 		table XmlHashTablePtr,
-		name *XmlChar,
-		prefix *XmlChar) *Void
+		name string,
+		prefix string) *Void
 
 	XmlHashQLookup2 func(
 		table XmlHashTablePtr,
-		name *XmlChar,
-		prefix *XmlChar,
-		name2 *XmlChar,
-		prefix2 *XmlChar) *Void
+		name string,
+		prefix string,
+		name2 string,
+		prefix2 string) *Void
 
 	XmlHashQLookup3 func(
 		table XmlHashTablePtr,
-		name *XmlChar,
-		prefix *XmlChar,
-		name2 *XmlChar,
-		prefix2 *XmlChar,
-		name3 *XmlChar,
-		prefix3 *XmlChar) *Void
+		name string,
+		prefix string,
+		name2 string,
+		prefix2 string,
+		name3 string,
+		prefix3 string) *Void
 
 	XmlHashCopy func(
 		table XmlHashTablePtr,
@@ -3256,9 +3297,9 @@ var (
 
 	XmlHashScan3 func(
 		table XmlHashTablePtr,
-		name *XmlChar,
-		name2 *XmlChar,
-		name3 *XmlChar,
+		name string,
+		name2 string,
+		name3 string,
 		f XmlHashScanner,
 		data *Void)
 
@@ -3269,9 +3310,9 @@ var (
 
 	XmlHashScanFull3 func(
 		table XmlHashTablePtr,
-		name *XmlChar,
-		name2 *XmlChar,
-		name3 *XmlChar,
+		name string,
+		name2 string,
+		name3 string,
 		f XmlHashScannerFull,
 		data *Void)
 
@@ -3288,12 +3329,12 @@ var (
 
 	XmlParserError func(
 		ctx *Void,
-		msg *Char,
+		msg string,
 		v ...VArg)
 
 	XmlParserWarning func(
 		ctx *Void,
-		msg *Char,
+		msg string,
 		v ...VArg)
 
 	XmlParserValidityError func(
@@ -3431,30 +3472,30 @@ var (
 		am XmlAutomataPtr,
 		from XmlAutomataStatePtr,
 		to XmlAutomataStatePtr,
-		token *XmlChar,
+		token string,
 		data *Void) XmlAutomataStatePtr
 
 	XmlAutomataNewTransition2 func(
 		am XmlAutomataPtr,
 		from XmlAutomataStatePtr,
 		to XmlAutomataStatePtr,
-		token *XmlChar,
-		token2 *XmlChar,
+		token string,
+		token2 string,
 		data *Void) XmlAutomataStatePtr
 
 	XmlAutomataNewNegTrans func(
 		am XmlAutomataPtr,
 		from XmlAutomataStatePtr,
 		to XmlAutomataStatePtr,
-		token *XmlChar,
-		token2 *XmlChar,
+		token string,
+		token2 string,
 		data *Void) XmlAutomataStatePtr
 
 	XmlAutomataNewCountTrans func(
 		am XmlAutomataPtr,
 		from XmlAutomataStatePtr,
 		to XmlAutomataStatePtr,
-		token *XmlChar,
+		token string,
 		min int,
 		max int,
 		data *Void) XmlAutomataStatePtr
@@ -3463,8 +3504,8 @@ var (
 		am XmlAutomataPtr,
 		from XmlAutomataStatePtr,
 		to XmlAutomataStatePtr,
-		token *XmlChar,
-		token2 *XmlChar,
+		token string,
+		token2 string,
 		min int,
 		max int,
 		data *Void) XmlAutomataStatePtr
@@ -3473,7 +3514,7 @@ var (
 		am XmlAutomataPtr,
 		from XmlAutomataStatePtr,
 		to XmlAutomataStatePtr,
-		token *XmlChar,
+		token string,
 		min int,
 		max int,
 		data *Void) XmlAutomataStatePtr
@@ -3482,8 +3523,8 @@ var (
 		am XmlAutomataPtr,
 		from XmlAutomataStatePtr,
 		to XmlAutomataStatePtr,
-		token *XmlChar,
-		token2 *XmlChar,
+		token string,
+		token2 string,
 		min int,
 		max int,
 		data *Void) XmlAutomataStatePtr
@@ -3525,9 +3566,9 @@ var (
 	XmlAddNotationDecl func(
 		ctxt XmlValidCtxtPtr,
 		dtd XmlDtdPtr,
-		name *XmlChar,
-		PublicID *XmlChar,
-		SystemID *XmlChar) XmlNotationPtr
+		name string,
+		PublicID string,
+		SystemID string) XmlNotationPtr
 
 	XmlCopyNotationTable func(
 		table XmlNotationTablePtr) XmlNotationTablePtr
@@ -3540,7 +3581,7 @@ var (
 	XmlDumpNotationTable func(
 		buf XmlBufferPtr, table XmlNotationTablePtr)
 
-	XmlNewElementContent func(name *XmlChar,
+	XmlNewElementContent func(name string,
 		t XmlElementContentType) XmlElementContentPtr
 
 	XmlCopyElementContent func(
@@ -3549,7 +3590,7 @@ var (
 	XmlFreeElementContent func(cur XmlElementContentPtr)
 
 	XmlNewDocElementContent func(doc XmlDocPtr,
-		name *XmlChar, t XmlElementContentType) XmlElementContentPtr
+		name string, t XmlElementContentType) XmlElementContentPtr
 
 	XmlCopyDocElementContent func(doc XmlDocPtr,
 		content XmlElementContentPtr) XmlElementContentPtr
@@ -3557,16 +3598,16 @@ var (
 	XmlFreeDocElementContent func(
 		doc XmlDocPtr, cur XmlElementContentPtr)
 
-	XmlSnprintfElementContent func(buf *Char, size int,
+	XmlSnprintfElementContent func(buf string, size int,
 		content XmlElementContentPtr, englob int)
 
 	XmlSprintfElementContent func(
-		buf *Char, content XmlElementContentPtr, englob int)
+		buf string, content XmlElementContentPtr, englob int)
 
 	XmlAddElementDecl func(
 		ctxt XmlValidCtxtPtr,
 		dtd XmlDtdPtr,
-		name *XmlChar,
+		name string,
 		t XmlElementTypeVal,
 		content XmlElementContentPtr) XmlElementPtr
 
@@ -3581,7 +3622,7 @@ var (
 	XmlDumpElementDecl func(
 		buf XmlBufferPtr, elem XmlElementPtr)
 
-	XmlCreateEnumeration func(name *XmlChar) XmlEnumerationPtr
+	XmlCreateEnumeration func(name string) XmlEnumerationPtr
 
 	XmlFreeEnumeration func(cur XmlEnumerationPtr)
 
@@ -3591,10 +3632,10 @@ var (
 	XmlAddAttributeDecl func(
 		ctxt XmlValidCtxtPtr,
 		dtd XmlDtdPtr,
-		elem, name, ns *XmlChar,
+		elem, name, ns string,
 		t XmlAttributeType,
 		def XmlAttributeDefault,
-		defaultValue *XmlChar,
+		defaultValue string,
 		tree XmlEnumerationPtr) XmlAttributePtr
 
 	XmlCopyAttributeTable func(
@@ -3609,11 +3650,11 @@ var (
 		buf XmlBufferPtr, attr XmlAttributePtr)
 
 	XmlAddID func(ctxt XmlValidCtxtPtr, doc XmlDocPtr,
-		value *XmlChar, attr XmlAttrPtr) XmlIDPtr
+		value string, attr XmlAttrPtr) XmlIDPtr
 
 	XmlFreeIDTable func(table XmlIDTablePtr)
 
-	XmlGetID func(doc XmlDocPtr, ID *XmlChar) XmlAttrPtr
+	XmlGetID func(doc XmlDocPtr, ID string) XmlAttrPtr
 
 	XmlIsID func(
 		doc XmlDocPtr, elem XmlNodePtr, attr XmlAttrPtr) int
@@ -3621,7 +3662,7 @@ var (
 	XmlRemoveID func(doc XmlDocPtr, attr XmlAttrPtr) int
 
 	XmlAddRef func(ctxt XmlValidCtxtPtr, doc XmlDocPtr,
-		value *XmlChar, attr XmlAttrPtr) XmlRefPtr
+		value string, attr XmlAttrPtr) XmlRefPtr
 
 	XmlFreeRefTable func(table XmlRefTablePtr)
 
@@ -3629,7 +3670,7 @@ var (
 
 	XmlRemoveRef func(doc XmlDocPtr, attr XmlAttrPtr) int
 
-	XmlGetRefs func(doc XmlDocPtr, ID *XmlChar) XmlListPtr
+	XmlGetRefs func(doc XmlDocPtr, ID string) XmlListPtr
 
 	XmlNewValidCtxt func() XmlValidCtxtPtr
 
@@ -3641,20 +3682,20 @@ var (
 		doc XmlDocPtr, elem XmlElementPtr) int
 
 	XmlValidNormalizeAttributeValue func(doc XmlDocPtr,
-		elem XmlNodePtr, name *XmlChar, value *XmlChar) *XmlChar
+		elem XmlNodePtr, name string, value string) string
 
 	XmlValidCtxtNormalizeAttributeValue func(
 		ctxt XmlValidCtxtPtr,
 		doc XmlDocPtr,
 		elem XmlNodePtr,
-		name *XmlChar,
-		value *XmlChar) *XmlChar
+		name string,
+		value string) string
 
 	XmlValidateAttributeDecl func(ctxt XmlValidCtxtPtr,
 		doc XmlDocPtr, attr XmlAttributePtr) int
 
 	XmlValidateAttributeValue func(
-		t XmlAttributeType, value *XmlChar) int
+		t XmlAttributeType, value string) int
 
 	XmlValidateNotationDecl func(ctxt XmlValidCtxtPtr,
 		doc XmlDocPtr, nota XmlNotationPtr) int
@@ -3685,15 +3726,15 @@ var (
 		doc XmlDocPtr,
 		elem XmlNodePtr,
 		attr XmlAttrPtr,
-		value *XmlChar) int
+		value string) int
 
 	XmlValidateOneNamespace func(
 		ctxt XmlValidCtxtPtr,
 		doc XmlDocPtr,
 		elem XmlNodePtr,
-		prefix *XmlChar,
+		prefix string,
 		ns XmlNsPtr,
-		value *XmlChar) int
+		value string) int
 
 	XmlValidateDocumentFinal func(
 		ctxt XmlValidCtxtPtr,
@@ -3702,58 +3743,58 @@ var (
 	XmlValidateNotationUse func(
 		ctxt XmlValidCtxtPtr,
 		doc XmlDocPtr,
-		notationName *XmlChar) int
+		notationName string) int
 
 	XmlIsMixedElement func(
 		doc XmlDocPtr,
-		name *XmlChar) int
+		name string) int
 
 	XmlGetDtdAttrDesc func(
 		dtd XmlDtdPtr,
-		elem *XmlChar,
-		name *XmlChar) XmlAttributePtr
+		elem string,
+		name string) XmlAttributePtr
 
 	XmlGetDtdQAttrDesc func(
 		dtd XmlDtdPtr,
-		elem *XmlChar,
-		name *XmlChar,
-		prefix *XmlChar) XmlAttributePtr
+		elem string,
+		name string,
+		prefix string) XmlAttributePtr
 
 	XmlGetDtdNotationDesc func(
 		dtd XmlDtdPtr,
-		name *XmlChar) XmlNotationPtr
+		name string) XmlNotationPtr
 
 	XmlGetDtdQElementDesc func(
 		dtd XmlDtdPtr,
-		name *XmlChar,
-		prefix *XmlChar) XmlElementPtr
+		name string,
+		prefix string) XmlElementPtr
 
 	XmlGetDtdElementDesc func(
 		dtd XmlDtdPtr,
-		name *XmlChar) XmlElementPtr
+		name string) XmlElementPtr
 
 	XmlValidGetPotentialChildren func(
 		ctree *XmlElementContent,
-		names **XmlChar,
+		names *string,
 		leng *int,
 		max int) int
 
 	XmlValidGetValidElements func(
 		prev, next *XmlNode,
-		names **XmlChar,
+		names *string,
 		max int) int
 
 	XmlValidateNameValue func(
-		value *XmlChar) int
+		value string) int
 
 	XmlValidateNamesValue func(
-		value *XmlChar) int
+		value string) int
 
 	XmlValidateNmtokenValue func(
-		value *XmlChar) int
+		value string) int
 
 	XmlValidateNmtokensValue func(
-		value *XmlChar) int
+		value string) int
 
 	XmlValidBuildContentModel func(
 		ctxt XmlValidCtxtPtr,
@@ -3763,71 +3804,71 @@ var (
 		ctxt XmlValidCtxtPtr,
 		doc XmlDocPtr,
 		elem XmlNodePtr,
-		qname *XmlChar) int
+		qname string) int
 
 	XmlValidatePushCData func(
 		ctxt XmlValidCtxtPtr,
-		data *XmlChar,
+		data string,
 		leng int) int
 
 	XmlValidatePopElement func(
 		ctxt XmlValidCtxtPtr,
 		doc XmlDocPtr,
 		elem XmlNodePtr,
-		qname *XmlChar) int
+		qname string) int
 
 	XmlInitializePredefinedEntities func()
 
 	XmlNewEntity func(
 		doc XmlDocPtr,
-		name *XmlChar,
+		name string,
 		typ int,
-		ExternalID *XmlChar,
-		SystemID *XmlChar,
-		content *XmlChar) XmlEntityPtr
+		ExternalID string,
+		SystemID string,
+		content string) XmlEntityPtr
 
 	XmlAddDocEntity func(
 		doc XmlDocPtr,
-		name *XmlChar,
+		name string,
 		typ int,
-		ExternalID *XmlChar,
-		SystemID *XmlChar,
-		content *XmlChar) XmlEntityPtr
+		ExternalID string,
+		SystemID string,
+		content string) XmlEntityPtr
 
 	XmlAddDtdEntity func(
 		doc XmlDocPtr,
-		name *XmlChar,
+		name string,
 		typ int,
-		ExternalID *XmlChar,
-		SystemID *XmlChar,
-		content *XmlChar) XmlEntityPtr
+		ExternalID string,
+		SystemID string,
+		content string) XmlEntityPtr
 
 	XmlGetPredefinedEntity func(
-		name *XmlChar) XmlEntityPtr
+		name string) XmlEntityPtr
 
 	XmlGetDocEntity func(
 		doc XmlDocPtr,
-		name *XmlChar) XmlEntityPtr
+		name string) XmlEntityPtr
 
 	XmlGetDtdEntity func(
 		doc XmlDocPtr,
-		name *XmlChar) XmlEntityPtr
+		name string) XmlEntityPtr
 
 	XmlGetParameterEntity func(
 		doc XmlDocPtr,
-		name *XmlChar) XmlEntityPtr
+		name string) XmlEntityPtr
 
 	XmlEncodeEntities func(
 		doc XmlDocPtr,
-		input *XmlChar) *XmlChar
+		input string) string
 
 	XmlEncodeEntitiesReentrant func(
 		doc XmlDocPtr,
-		input *XmlChar) *XmlChar
+		input string) string
 
 	XmlEncodeSpecialChars func(
 		doc XmlDocPtr,
-		input *XmlChar) *XmlChar
+		input string) string
 
 	XmlCreateEntitiesTable func() XmlEntitiesTablePtr
 
@@ -3858,30 +3899,30 @@ var (
 		enc XmlCharEncoding) XmlCharEncodingHandlerPtr
 
 	XmlFindCharEncodingHandler func(
-		name *Char) XmlCharEncodingHandlerPtr
+		name string) XmlCharEncodingHandlerPtr
 
 	XmlNewCharEncodingHandler func(
-		name *Char,
+		name string,
 		input XmlCharEncodingInputFunc,
 		output XmlCharEncodingOutputFunc) XmlCharEncodingHandlerPtr
 
 	XmlAddEncodingAlias func(
-		name *Char,
-		alias *Char) int
+		name string,
+		alias string) int
 
 	XmlDelEncodingAlias func(
-		alias *Char) int
+		alias string) int
 
 	XmlGetEncodingAlias func(
-		alias *Char) *Char
+		alias string) string
 
 	XmlCleanupEncodingAliases func()
 
 	XmlParseCharEncoding func(
-		name *Char) XmlCharEncoding
+		name string) XmlCharEncoding
 
 	XmlGetCharEncodingName func(
-		enc XmlCharEncoding) *Char
+		enc XmlCharEncoding) string
 
 	XmlDetectCharEncoding func(
 		in *Unsigned_char,
@@ -3903,7 +3944,7 @@ var (
 		in XmlBufferPtr) int
 
 	XmlCharEncCloseFunc func(
-		handler *XmlCharEncodingHandler) int
+		handler XmlCharEncodingHandler) int
 
 	UTF8Toisolat1 func(
 		out *Unsigned_char,
@@ -3935,12 +3976,12 @@ var (
 		enc XmlCharEncoding) XmlParserInputBufferPtr
 
 	XmlParserInputBufferCreateMem func(
-		mem *Char,
+		mem string,
 		size int,
 		enc XmlCharEncoding) XmlParserInputBufferPtr
 
 	XmlParserInputBufferCreateStatic func(
-		mem *Char,
+		mem string,
 		size int,
 		enc XmlCharEncoding) XmlParserInputBufferPtr
 
@@ -3961,13 +4002,13 @@ var (
 	XmlParserInputBufferPush func(
 		in XmlParserInputBufferPtr,
 		leng int,
-		buf *Char) int
+		buf string) int
 
 	XmlFreeParserInputBuffer func(
 		in XmlParserInputBufferPtr)
 
 	XmlParserGetDirectory func(
-		filename *Char) *Char
+		filename string) string
 
 	XmlRegisterInputCallbacks func(
 		matchFunc XmlInputMatchCallback,
@@ -3976,7 +4017,7 @@ var (
 		closeFunc XmlInputCloseCallback) int
 
 	XmlParserInputBufferCreateFilename func(
-		URI *Char,
+		URI string,
 		enc XmlCharEncoding) XmlParserInputBufferPtr
 
 	XmlCleanupOutputCallbacks func()
@@ -3987,7 +4028,7 @@ var (
 		encoder XmlCharEncodingHandlerPtr) XmlOutputBufferPtr
 
 	XmlOutputBufferCreateFilename func(
-		URI *Char,
+		URI string,
 		encoder XmlCharEncodingHandlerPtr,
 		compression int) XmlOutputBufferPtr
 
@@ -4010,7 +4051,7 @@ var (
 		encoder XmlCharEncodingHandlerPtr) XmlOutputBufferPtr
 
 	XmlOutputBufferGetContent func(
-		out XmlOutputBufferPtr) *XmlChar
+		out XmlOutputBufferPtr) string
 
 	XmlOutputBufferGetSize func(
 		out XmlOutputBufferPtr) Size_t
@@ -4018,15 +4059,15 @@ var (
 	XmlOutputBufferWrite func(
 		out XmlOutputBufferPtr,
 		leng int,
-		buf *Char) int
+		buf string) int
 
 	XmlOutputBufferWriteString func(
 		out XmlOutputBufferPtr,
-		str *Char) int
+		str string) int
 
 	XmlOutputBufferWriteEscape func(
 		out XmlOutputBufferPtr,
-		str *XmlChar,
+		str string,
 		escaping XmlCharEncodingOutputFunc) int
 
 	XmlOutputBufferFlush func(
@@ -4048,49 +4089,49 @@ var (
 		ret XmlParserInputPtr) XmlParserInputPtr
 
 	XmlNoNetExternalEntityLoader func(
-		URL *Char,
-		ID *Char,
+		URL string,
+		ID string,
 		ctxt XmlParserCtxtPtr) XmlParserInputPtr
 
 	XmlNormalizeWindowsPath func(
-		path *XmlChar) *XmlChar
+		path string) string
 
 	XmlCheckFilename func(
-		path *Char) int
+		path string) int
 
 	XmlFileMatch func(
-		filename *Char) int
+		filename string) int
 
 	XmlFileOpen func(
-		filename *Char) *Void
+		filename string) *Void
 
 	XmlFileRead func(
 		context *Void,
-		buffer *Char,
+		buffer string,
 		leng int) int
 
 	XmlFileClose func(context *Void) int
 
-	XmlIOHTTPMatch func(filename *Char) int
+	XmlIOHTTPMatch func(filename string) int
 
-	XmlIOHTTPOpen func(filename *Char) *Void
+	XmlIOHTTPOpen func(filename string) *Void
 
-	XmlIOHTTPOpenW func(post_uri *Char, compression int) *Void
+	XmlIOHTTPOpenW func(post_uri string, compression int) *Void
 
-	XmlIOHTTPRead func(context *Void, buffer *Char, leng int) int
+	XmlIOHTTPRead func(context *Void, buffer string, leng int) int
 
 	XmlIOHTTPClose func(
 		context *Void) int
 
 	XmlIOFTPMatch func(
-		filename *Char) int
+		filename string) int
 
 	XmlIOFTPOpen func(
-		filename *Char) *Void
+		filename string) *Void
 
 	XmlIOFTPRead func(
 		context *Void,
-		buffer *Char,
+		buffer string,
 		leng int) int
 
 	XmlIOFTPClose func(
@@ -4109,13 +4150,13 @@ var (
 		leng int) int
 
 	XmlParseDoc func(
-		cur *XmlChar) XmlDocPtr
+		cur string) XmlDocPtr
 
 	XmlParseFile func(
-		filename *Char) XmlDocPtr
+		filename string) XmlDocPtr
 
 	XmlParseMemory func(
-		buffer *Char,
+		buffer string,
 		size int) XmlDocPtr
 
 	XmlSubstituteEntitiesDefault func(
@@ -4134,14 +4175,14 @@ var (
 		val int) int
 
 	XmlRecoverDoc func(
-		cur *XmlChar) XmlDocPtr
+		cur string) XmlDocPtr
 
 	XmlRecoverMemory func(
-		buffer *Char,
+		buffer string,
 		size int) XmlDocPtr
 
 	XmlRecoverFile func(
-		filename *Char) XmlDocPtr
+		filename string) XmlDocPtr
 
 	XmlParseDocument func(
 		ctxt XmlParserCtxtPtr) int
@@ -4152,58 +4193,58 @@ var (
 	XmlSAXUserParseFile func(
 		sax XmlSAXHandlerPtr,
 		user_data *Void,
-		filename *Char) int
+		filename string) int
 
 	XmlSAXUserParseMemory func(
 		sax XmlSAXHandlerPtr,
 		user_data *Void,
-		buffer *Char,
+		buffer string,
 		size int) int
 
 	XmlSAXParseDoc func(
 		sax XmlSAXHandlerPtr,
-		cur *XmlChar,
+		cur string,
 		recovery int) XmlDocPtr
 
 	XmlSAXParseMemory func(
 		sax XmlSAXHandlerPtr,
-		buffer *Char,
+		buffer string,
 		size int,
 		recovery int) XmlDocPtr
 
 	XmlSAXParseMemoryWithData func(
 		sax XmlSAXHandlerPtr,
-		buffer *Char,
+		buffer string,
 		size int,
 		recovery int,
 		data *Void) XmlDocPtr
 
 	XmlSAXParseFile func(
 		sax XmlSAXHandlerPtr,
-		filename *Char,
+		filename string,
 		recovery int) XmlDocPtr
 
 	XmlSAXParseFileWithData func(
 		sax XmlSAXHandlerPtr,
-		filename *Char,
+		filename string,
 		recovery int,
 		data *Void) XmlDocPtr
 
 	XmlSAXParseEntity func(
 		sax XmlSAXHandlerPtr,
-		filename *Char) XmlDocPtr
+		filename string) XmlDocPtr
 
 	XmlParseEntity func(
-		filename *Char) XmlDocPtr
+		filename string) XmlDocPtr
 
 	XmlSAXParseDTD func(
 		sax XmlSAXHandlerPtr,
-		ExternalID *XmlChar,
-		SystemID *XmlChar) XmlDtdPtr
+		ExternalID string,
+		SystemID string) XmlDtdPtr
 
 	XmlParseDTD func(
-		ExternalID *XmlChar,
-		SystemID *XmlChar) XmlDtdPtr
+		ExternalID string,
+		SystemID string) XmlDtdPtr
 
 	XmlIOParseDTD func(
 		sax XmlSAXHandlerPtr,
@@ -4215,12 +4256,12 @@ var (
 		sax XmlSAXHandlerPtr,
 		user_data *Void,
 		depth int,
-		string *XmlChar,
+		string string,
 		lst *XmlNodePtr) int
 
 	XmlParseInNodeContext func(
 		node XmlNodePtr,
-		data *Char,
+		data string,
 		datalen int,
 		options int,
 		lst *XmlNodePtr) XmlParserErrors
@@ -4230,7 +4271,7 @@ var (
 		sax XmlSAXHandlerPtr,
 		user_data *Void,
 		depth int,
-		string *XmlChar,
+		string string,
 		lst *XmlNodePtr,
 		recover int) int
 
@@ -4239,14 +4280,14 @@ var (
 		sax XmlSAXHandlerPtr,
 		user_data *Void,
 		depth int,
-		URL *XmlChar,
-		ID *XmlChar,
+		URL string,
+		ID string,
 		lst *XmlNodePtr) int
 
 	XmlParseCtxtExternalEntity func(
 		ctx XmlParserCtxtPtr,
-		URL *XmlChar,
-		ID *XmlChar,
+		URL string,
+		ID string,
 		lst *XmlNodePtr) int
 
 	XmlNewParserCtxt func() XmlParserCtxtPtr
@@ -4262,36 +4303,36 @@ var (
 
 	XmlSetupParserForBuffer func(
 		ctxt XmlParserCtxtPtr,
-		buffer *XmlChar,
-		filename *Char)
+		buffer string,
+		filename string)
 
 	XmlCreateDocParserCtxt func(
-		cur *XmlChar) XmlParserCtxtPtr
+		cur string) XmlParserCtxtPtr
 
 	XmlGetFeaturesList func(
 		leng *int,
-		result **Char) int
+		result *string) int
 
 	XmlGetFeature func(
 		ctxt XmlParserCtxtPtr,
-		name *Char,
+		name string,
 		result *Void) int
 
 	XmlSetFeature func(
 		ctxt XmlParserCtxtPtr,
-		name *Char,
+		name string,
 		value *Void) int
 
 	XmlCreatePushParserCtxt func(
 		sax XmlSAXHandlerPtr,
 		user_data *Void,
-		chunk *Char,
+		chunk string,
 		size int,
-		filename *Char) XmlParserCtxtPtr
+		filename string) XmlParserCtxtPtr
 
 	XmlParseChunk func(
 		ctxt XmlParserCtxtPtr,
-		chunk *Char,
+		chunk string,
 		size int,
 		terminate int) int
 
@@ -4332,8 +4373,8 @@ var (
 	XmlGetExternalEntityLoader func() XmlExternalEntityLoader
 
 	XmlLoadExternalEntity func(
-		URL *Char,
-		ID *Char,
+		URL string,
+		ID string,
 		ctxt XmlParserCtxtPtr) XmlParserInputPtr
 
 	XmlByteConsumed func(
@@ -4344,73 +4385,73 @@ var (
 
 	XmlCtxtResetPush func(
 		ctxt XmlParserCtxtPtr,
-		chunk *Char,
+		chunk string,
 		size int,
-		filename *Char,
-		encoding *Char) int
+		filename string,
+		encoding string) int
 
 	XmlCtxtUseOptions func(
 		ctxt XmlParserCtxtPtr,
 		options int) int
 
 	XmlReadDoc func(
-		cur *XmlChar,
-		URL *Char,
-		encoding *Char,
+		cur string,
+		URL string,
+		encoding string,
 		options int) XmlDocPtr
 
 	XmlReadFile func(
-		URL *Char,
-		encoding *Char,
+		URL string,
+		encoding string,
 		options int) XmlDocPtr
 
 	XmlReadMemory func(
-		buffer *Char,
+		buffer string,
 		size int,
-		URL *Char,
-		encoding *Char,
+		URL string,
+		encoding string,
 		options int) XmlDocPtr
 
 	XmlReadFd func(
 		fd int,
-		URL *Char,
-		encoding *Char,
+		URL string,
+		encoding string,
 		options int) XmlDocPtr
 
 	XmlReadIO func(
 		ioread XmlInputReadCallback,
 		ioclose XmlInputCloseCallback,
 		ioctx *Void,
-		URL *Char,
-		encoding *Char,
+		URL string,
+		encoding string,
 		options int) XmlDocPtr
 
 	XmlCtxtReadDoc func(
 		ctxt XmlParserCtxtPtr,
-		cur *XmlChar,
-		URL *Char,
-		encoding *Char,
+		cur string,
+		URL string,
+		encoding string,
 		options int) XmlDocPtr
 
 	XmlCtxtReadFile func(
 		ctxt XmlParserCtxtPtr,
-		filename *Char,
-		encoding *Char,
+		filename string,
+		encoding string,
 		options int) XmlDocPtr
 
 	XmlCtxtReadMemory func(
 		ctxt XmlParserCtxtPtr,
-		buffer *Char,
+		buffer string,
 		size int,
-		URL *Char,
-		encoding *Char,
+		URL string,
+		encoding string,
 		options int) XmlDocPtr
 
 	XmlCtxtReadFd func(
 		ctxt XmlParserCtxtPtr,
 		fd int,
-		URL *Char,
-		encoding *Char,
+		URL string,
+		encoding string,
 		options int) XmlDocPtr
 
 	XmlCtxtReadIO func(
@@ -4418,7 +4459,7 @@ var (
 		ioread XmlInputReadCallback,
 		ioclose XmlInputCloseCallback,
 		ioctx *Void,
-		URL, encoding *Char,
+		URL, encoding string,
 		options int) XmlDocPtr
 
 	XmlHasFeature func(feature XmlFeature) int
@@ -4433,9 +4474,9 @@ var (
 
 	xlinkIsLink func(doc, node XmlNodePtr) XlinkType
 
-	getPublicId func(ctx *Void) *XmlChar
+	getPublicId func(ctx *Void) string
 
-	getSystemId func(ctx *Void) *XmlChar
+	getSystemId func(ctx *Void) string
 
 	setDocumentLocator func(ctx *Void, loc XmlSAXLocatorPtr)
 
@@ -4450,66 +4491,66 @@ var (
 	hasExternalSubset func(ctx *Void) int
 
 	InternalSubset func(
-		ctx *Void, name, ExternalID, SystemID *XmlChar)
+		ctx *Void, name, ExternalID, SystemID string)
 
 	externalSubset func(
-		ctx *Void, name, ExternalID, SystemID *XmlChar)
+		ctx *Void, name, ExternalID, SystemID string)
 
-	getEntity func(ctx *Void, name *XmlChar) XmlEntityPtr
+	getEntity func(ctx *Void, name string) XmlEntityPtr
 
 	getParameterEntity func(
-		ctx *Void, name *XmlChar) XmlEntityPtr
+		ctx *Void, name string) XmlEntityPtr
 
 	resolveEntity func(ctx *Void,
-		publicId, systemId *XmlChar) XmlParserInputPtr
+		publicId, systemId string) XmlParserInputPtr
 
-	entityDecl func(ctx *Void, name *XmlChar, typ int,
-		publicId, systemId, content *XmlChar)
+	entityDecl func(ctx *Void, name string, typ int,
+		publicId, systemId, content string)
 
-	attributeDecl func(ctx *Void, elem, fullname *XmlChar,
-		typ, def int, defaultValue *XmlChar,
+	attributeDecl func(ctx *Void, elem, fullname string,
+		typ, def int, defaultValue string,
 		tree XmlEnumerationPtr)
 
-	elementDecl func(ctx *Void, name *XmlChar,
+	elementDecl func(ctx *Void, name string,
 		typ int, content XmlElementContentPtr)
 
 	notationDecl func(
-		ctx *Void, name, publicId, systemId *XmlChar)
+		ctx *Void, name, publicId, systemId string)
 
 	UnparsedEntityDecl func(ctx *Void,
-		name, publicId, systemId, notationName *XmlChar)
+		name, publicId, systemId, notationName string)
 
 	startDocument func(ctx *Void)
 
 	endDocument func(ctx *Void)
 
-	attribute func(ctx *Void, fullname, value *XmlChar)
+	attribute func(ctx *Void, fullname, value string)
 
-	startElement func(ctx *Void, fullname, atts **XmlChar)
+	startElement func(ctx *Void, fullname, atts *string)
 
-	endElement func(ctx *Void, name *XmlChar)
+	endElement func(ctx *Void, name string)
 
-	reference func(ctx *Void, name *XmlChar)
+	reference func(ctx *Void, name string)
 
-	characters func(ctx *Void, ch *XmlChar, leng int)
+	characters func(ctx *Void, ch string, leng int)
 
-	IgnorableWhitespace func(ctx *Void, ch *XmlChar, leng int)
+	IgnorableWhitespace func(ctx *Void, ch string, leng int)
 
-	processingInstruction func(ctx *Void, target, data *XmlChar)
+	processingInstruction func(ctx *Void, target, data string)
 
-	globalNamespace func(ctx *Void, href, prefix *XmlChar)
+	globalNamespace func(ctx *Void, href, prefix string)
 
-	setNamespace func(ctx *Void, name *XmlChar)
+	setNamespace func(ctx *Void, name string)
 
 	getNamespace func(ctx *Void) XmlNsPtr
 
-	checkNamespace func(ctx *Void, nameSpace *XmlChar) int
+	checkNamespace func(ctx *Void, nameSpace string) int
 
-	namespaceDecl func(ctx *Void, href, prefix *XmlChar)
+	namespaceDecl func(ctx *Void, href, prefix string)
 
-	comment func(ctx *Void, value *XmlChar)
+	comment func(ctx *Void, value string)
 
-	cdataBlock func(ctx *Void, value *XmlChar, leng int)
+	cdataBlock func(ctx *Void, value string, leng int)
 
 	InitXmlDefaultSAXHandler func(
 		hdlr *XmlSAXHandlerV1, warning int)
@@ -4518,9 +4559,9 @@ var (
 
 	InitdocbDefaultSAXHandler func(hdlr *XmlSAXHandlerV1)
 
-	XmlSAX2GetPublicId func(ctx *Void) *XmlChar
+	XmlSAX2GetPublicId func(ctx *Void) string
 
-	XmlSAX2GetSystemId func(ctx *Void) *XmlChar
+	XmlSAX2GetSystemId func(ctx *Void) string
 
 	XmlSAX2SetDocumentLocator func(
 		ctx *Void, loc XmlSAXLocatorPtr)
@@ -4537,64 +4578,64 @@ var (
 
 	XmlSAX2InternalSubset func(
 		ctx *Void,
-		name *XmlChar,
-		ExternalID *XmlChar,
-		SystemID *XmlChar)
+		name string,
+		ExternalID string,
+		SystemID string)
 
 	XmlSAX2ExternalSubset func(
 		ctx *Void,
-		name *XmlChar,
-		ExternalID *XmlChar,
-		SystemID *XmlChar)
+		name string,
+		ExternalID string,
+		SystemID string)
 
 	XmlSAX2GetEntity func(
 		ctx *Void,
-		name *XmlChar) XmlEntityPtr
+		name string) XmlEntityPtr
 
 	XmlSAX2GetParameterEntity func(
 		ctx *Void,
-		name *XmlChar) XmlEntityPtr
+		name string) XmlEntityPtr
 
 	XmlSAX2ResolveEntity func(
 		ctx *Void,
-		publicId *XmlChar,
-		systemId *XmlChar) XmlParserInputPtr
+		publicId string,
+		systemId string) XmlParserInputPtr
 
 	XmlSAX2EntityDecl func(
 		ctx *Void,
-		name *XmlChar,
+		name string,
 		typ int,
-		publicId *XmlChar,
-		systemId *XmlChar,
-		content *XmlChar)
+		publicId string,
+		systemId string,
+		content string)
 
 	XmlSAX2AttributeDecl func(
 		ctx *Void,
-		elem *XmlChar,
-		fullname *XmlChar,
+		elem string,
+		fullname string,
 		typ int,
 		def int,
-		defaultValue *XmlChar,
+		defaultValue string,
 		tree XmlEnumerationPtr)
 
 	XmlSAX2ElementDecl func(
 		ctx *Void,
-		name *XmlChar,
+		name string,
 		typ int,
 		content XmlElementContentPtr)
 
 	XmlSAX2NotationDecl func(
 		ctx *Void,
-		name *XmlChar,
-		publicId *XmlChar,
-		systemId *XmlChar)
+		name string,
+		publicId string,
+		systemId string)
 
 	XmlSAX2UnparsedEntityDecl func(
 		ctx *Void,
-		name *XmlChar,
-		publicId *XmlChar,
-		systemId *XmlChar,
-		notationName *XmlChar)
+		name string,
+		publicId string,
+		systemId string,
+		notationName string)
 
 	XmlSAX2StartDocument func(
 		ctx *Void)
@@ -4604,56 +4645,56 @@ var (
 
 	XmlSAX2StartElement func(
 		ctx *Void,
-		fullname *XmlChar,
-		atts **XmlChar)
+		fullname string,
+		atts *string)
 
 	XmlSAX2EndElement func(
 		ctx *Void,
-		name *XmlChar)
+		name string)
 
 	XmlSAX2StartElementNs func(
 		ctx *Void,
-		localname *XmlChar,
-		prefix *XmlChar,
-		URI *XmlChar,
+		localname string,
+		prefix string,
+		URI string,
 		nb_namespaces int,
-		namespaces **XmlChar,
+		namespaces *string,
 		nb_attributes int,
 		nb_defaulted int,
-		attributes **XmlChar)
+		attributes *string)
 
 	XmlSAX2EndElementNs func(
 		ctx *Void,
-		localname *XmlChar,
-		prefix *XmlChar,
-		URI *XmlChar)
+		localname string,
+		prefix string,
+		URI string)
 
 	XmlSAX2Reference func(
 		ctx *Void,
-		name *XmlChar)
+		name string)
 
 	XmlSAX2Characters func(
 		ctx *Void,
-		ch *XmlChar,
+		ch string,
 		leng int)
 
 	XmlSAX2IgnorableWhitespace func(
 		ctx *Void,
-		ch *XmlChar,
+		ch string,
 		leng int)
 
 	XmlSAX2ProcessingInstruction func(
 		ctx *Void,
-		target *XmlChar,
-		data *XmlChar)
+		target string,
+		data string)
 
 	XmlSAX2Comment func(
 		ctx *Void,
-		value *XmlChar)
+		value string)
 
 	XmlSAX2CDataBlock func(
 		ctx *Void,
-		value *XmlChar,
+		value string,
 		leng int)
 
 	XmlSAXDefaultVersion func(
@@ -4752,9 +4793,9 @@ var (
 
 	XmlThrDefIndentTreeOutput func(v int) int
 
-	XmlTreeIndentString func() **Char
+	XmlTreeIndentString func() *string
 
-	XmlThrDefTreeIndentString func(v *Char) *Char
+	XmlThrDefTreeIndentString func(v string) string
 
 	XmlKeepBlanksDefaultValue func() *int
 
@@ -4772,7 +4813,7 @@ var (
 
 	XmlThrDefParserDebugEntities func(v int) int
 
-	XmlParserVersion func() **Char
+	XmlParserVersion func() *string
 
 	XmlPedanticParserDefaultValue func() *int
 
@@ -4829,9 +4870,9 @@ var (
 	XmlGetGlobalState func() XmlGlobalStatePtr
 
 	HtmlTagLookup func(
-		tag *XmlChar) *HtmlElemDesc
+		tag string) *HtmlElemDesc
 
-	HtmlEntityLookup func(name *XmlChar) *HtmlEntityDesc
+	HtmlEntityLookup func(name string) *HtmlEntityDesc
 
 	HtmlEntityValueLookup func(
 		value Unsigned_int) *HtmlEntityDesc
@@ -4839,10 +4880,10 @@ var (
 	HtmlIsAutoClosed func(doc HtmlDocPtr, elem HtmlNodePtr) int
 
 	HtmlAutoCloseTag func(
-		doc HtmlDocPtr, name *XmlChar, elem HtmlNodePtr) int
+		doc HtmlDocPtr, name string, elem HtmlNodePtr) int
 
 	HtmlParseEntityRef func(
-		ctxt HtmlParserCtxtPtr, str **XmlChar) *HtmlEntityDesc
+		ctxt HtmlParserCtxtPtr, str *string) *HtmlEntityDesc
 
 	HtmlParseCharRef func(ctxt HtmlParserCtxtPtr) int
 
@@ -4851,29 +4892,29 @@ var (
 	HtmlNewParserCtxt func() HtmlParserCtxtPtr
 
 	HtmlCreateMemoryParserCtxt func(
-		buffer *Char, size int) HtmlParserCtxtPtr
+		buffer string, size int) HtmlParserCtxtPtr
 
 	HtmlParseDocument func(ctxt HtmlParserCtxtPtr) int
 
 	HtmlSAXParseDoc func(
-		cur *XmlChar,
-		encoding *Char,
+		cur string,
+		encoding string,
 		sax HtmlSAXHandlerPtr,
 		userData *Void) HtmlDocPtr
 
 	HtmlParseDoc func(
-		cur *XmlChar,
-		encoding *Char) HtmlDocPtr
+		cur string,
+		encoding string) HtmlDocPtr
 
 	HtmlSAXParseFile func(
-		filename *Char,
-		encoding *Char,
+		filename string,
+		encoding string,
 		sax HtmlSAXHandlerPtr,
 		userData *Void) HtmlDocPtr
 
 	HtmlParseFile func(
-		filename *Char,
-		encoding *Char) HtmlDocPtr
+		filename string,
+		encoding string) HtmlDocPtr
 	UTF8ToHtml func(
 		out *Unsigned_char,
 		outlen *int,
@@ -4888,7 +4929,7 @@ var (
 		quoteChar int) int
 
 	HtmlIsScriptAttribute func(
-		name *XmlChar) int
+		name string) int
 
 	HtmlHandleOmittedElem func(
 		val int) int
@@ -4896,14 +4937,14 @@ var (
 	HtmlCreatePushParserCtxt func(
 		sax HtmlSAXHandlerPtr,
 		user_data *Void,
-		chunk *Char,
+		chunk string,
 		size int,
-		filename *Char,
+		filename string,
 		enc XmlCharEncoding) HtmlParserCtxtPtr
 
 	HtmlParseChunk func(
 		ctxt HtmlParserCtxtPtr,
-		chunk *Char,
+		chunk string,
 		size int,
 		terminate int) int
 
@@ -4918,63 +4959,63 @@ var (
 		options int) int
 
 	HtmlReadDoc func(
-		cur *XmlChar,
-		URL *Char,
-		encoding *Char,
+		cur string,
+		URL string,
+		encoding string,
 		options int) HtmlDocPtr
 
 	HtmlReadFile func(
-		URL *Char,
-		encoding *Char,
+		URL string,
+		encoding string,
 		options int) HtmlDocPtr
 
 	HtmlReadMemory func(
-		buffer *Char,
+		buffer string,
 		size int,
-		URL *Char,
-		encoding *Char,
+		URL string,
+		encoding string,
 		options int) HtmlDocPtr
 
 	HtmlReadFd func(
 		fd int,
-		URL *Char,
-		encoding *Char,
+		URL string,
+		encoding string,
 		options int) HtmlDocPtr
 
 	HtmlReadIO func(
 		ioread XmlInputReadCallback,
 		ioclose XmlInputCloseCallback,
 		ioctx *Void,
-		URL *Char,
-		encoding *Char,
+		URL string,
+		encoding string,
 		options int) HtmlDocPtr
 
 	HtmlCtxtReadDoc func(
 		ctxt XmlParserCtxtPtr,
-		cur *XmlChar,
-		URL *Char,
-		encoding *Char,
+		cur string,
+		URL string,
+		encoding string,
 		options int) HtmlDocPtr
 
 	HtmlCtxtReadFile func(
 		ctxt XmlParserCtxtPtr,
-		filename *Char,
-		encoding *Char,
+		filename string,
+		encoding string,
 		options int) HtmlDocPtr
 
 	HtmlCtxtReadMemory func(
 		ctxt XmlParserCtxtPtr,
-		buffer *Char,
+		buffer string,
 		size int,
-		URL *Char,
-		encoding *Char,
+		URL string,
+		encoding string,
 		options int) HtmlDocPtr
 
 	HtmlCtxtReadFd func(
 		ctxt XmlParserCtxtPtr,
 		fd int,
-		URL *Char,
-		encoding *Char,
+		URL string,
+		encoding string,
 		options int) HtmlDocPtr
 
 	HtmlCtxtReadIO func(
@@ -4982,18 +5023,18 @@ var (
 		ioread XmlInputReadCallback,
 		ioclose XmlInputCloseCallback,
 		ioctx *Void,
-		URL *Char,
-		encoding *Char,
+		URL string,
+		encoding string,
 		options int) HtmlDocPtr
 
 	HtmlAttrAllowed func(
 		*HtmlElemDesc,
-		*XmlChar,
+		string,
 		int) HtmlStatus
 
 	HtmlElementAllowedHere func(
 		*HtmlElemDesc,
-		*XmlChar) int
+		string) int
 
 	HtmlElementStatusHere func(
 		*HtmlElemDesc,
@@ -5004,28 +5045,28 @@ var (
 		int) HtmlStatus
 
 	HtmlNewDoc func(
-		URI *XmlChar,
-		ExternalID *XmlChar) HtmlDocPtr
+		URI string,
+		ExternalID string) HtmlDocPtr
 
 	HtmlNewDocNoDtD func(
-		URI *XmlChar,
-		ExternalID *XmlChar) HtmlDocPtr
+		URI string,
+		ExternalID string) HtmlDocPtr
 
 	HtmlGetMetaEncoding func(
-		doc HtmlDocPtr) *XmlChar
+		doc HtmlDocPtr) string
 
 	HtmlSetMetaEncoding func(
 		doc HtmlDocPtr,
-		encoding *XmlChar) int
+		encoding string) int
 
 	HtmlDocDumpMemory func(
 		cur XmlDocPtr,
-		mem **XmlChar,
+		mem *string,
 		size *int)
 
 	HtmlDocDumpMemoryFormat func(
 		cur XmlDocPtr,
-		mem **XmlChar,
+		mem *string,
 		size *int,
 		format int)
 
@@ -5034,7 +5075,7 @@ var (
 		cur XmlDocPtr) int
 
 	HtmlSaveFile func(
-		filename *Char,
+		filename string,
 		cur XmlDocPtr) int
 
 	HtmlNodeDump func(
@@ -5051,46 +5092,46 @@ var (
 		out *FILE,
 		doc XmlDocPtr,
 		cur XmlNodePtr,
-		encoding *Char,
+		encoding string,
 		format int) int
 
 	HtmlSaveFileEnc func(
-		filename *Char,
+		filename string,
 		cur XmlDocPtr,
-		encoding *Char) int
+		encoding string) int
 
 	HtmlSaveFileFormat func(
-		filename *Char,
+		filename string,
 		cur XmlDocPtr,
-		encoding *Char,
+		encoding string,
 		format int) int
 
 	HtmlNodeDumpFormatOutput func(
 		buf XmlOutputBufferPtr,
 		doc XmlDocPtr,
 		cur XmlNodePtr,
-		encoding *Char,
+		encoding string,
 		format int)
 
 	HtmlDocContentDumpOutput func(
 		buf XmlOutputBufferPtr,
 		cur XmlDocPtr,
-		encoding *Char)
+		encoding string)
 
 	HtmlDocContentDumpFormatOutput func(
 		buf XmlOutputBufferPtr,
 		cur XmlDocPtr,
-		encoding *Char,
+		encoding string,
 		format int)
 
 	HtmlNodeDumpOutput func(
 		buf XmlOutputBufferPtr,
 		doc XmlDocPtr,
 		cur XmlNodePtr,
-		encoding *Char)
+		encoding string)
 
 	HtmlIsBooleanAttr func(
-		name *XmlChar) int
+		name string) int
 
 	XmlXPathFreeObject func(obj XmlXPathObjectPtr)
 
@@ -5107,7 +5148,7 @@ var (
 
 	XmlXPathCastNumberToBoolean func(val Double) int
 
-	XmlXPathCastStringToBoolean func(val *XmlChar) int
+	XmlXPathCastStringToBoolean func(val string) int
 
 	XmlXPathCastNodeSetToBoolean func(ns XmlNodeSetPtr) int
 
@@ -5115,7 +5156,7 @@ var (
 
 	XmlXPathCastBooleanToNumber func(val int) Double
 
-	XmlXPathCastStringToNumber func(val *XmlChar) Double
+	XmlXPathCastStringToNumber func(val string) Double
 
 	XmlXPathCastNodeToNumber func(node XmlNodePtr) Double
 
@@ -5123,15 +5164,15 @@ var (
 
 	XmlXPathCastToNumber func(val XmlXPathObjectPtr) Double
 
-	XmlXPathCastBooleanToString func(val int) *XmlChar
+	XmlXPathCastBooleanToString func(val int) string
 
-	XmlXPathCastNumberToString func(val Double) *XmlChar
+	XmlXPathCastNumberToString func(val Double) string
 
-	XmlXPathCastNodeToString func(node XmlNodePtr) *XmlChar
+	XmlXPathCastNodeToString func(node XmlNodePtr) string
 
-	XmlXPathCastNodeSetToString func(ns XmlNodeSetPtr) *XmlChar
+	XmlXPathCastNodeSetToString func(ns XmlNodeSetPtr) string
 
-	XmlXPathCastToString func(val XmlXPathObjectPtr) *XmlChar
+	XmlXPathCastToString func(val XmlXPathObjectPtr) string
 
 	XmlXPathConvertBoolean func(
 		val XmlXPathObjectPtr) XmlXPathObjectPtr
@@ -5152,18 +5193,18 @@ var (
 	XmlXPathOrderDocElems func(doc XmlDocPtr) Long
 
 	XmlXPathEval func(
-		str *XmlChar, ctx XmlXPathContextPtr) XmlXPathObjectPtr
+		str string, ctx XmlXPathContextPtr) XmlXPathObjectPtr
 
 	XmlXPathEvalExpression func(
-		str *XmlChar, ctxt XmlXPathContextPtr) XmlXPathObjectPtr
+		str string, ctxt XmlXPathContextPtr) XmlXPathObjectPtr
 
 	XmlXPathEvalPredicate func(
 		ctxt XmlXPathContextPtr, res XmlXPathObjectPtr) int
 
-	XmlXPathCompile func(str *XmlChar) XmlXPathCompExprPtr
+	XmlXPathCompile func(str string) XmlXPathCompExprPtr
 
 	XmlXPathCtxtCompile func(ctxt XmlXPathContextPtr,
-		str *XmlChar) XmlXPathCompExprPtr
+		str string) XmlXPathCompExprPtr
 
 	XmlXPathCompiledEval func(comp XmlXPathCompExprPtr,
 		ctx XmlXPathContextPtr) XmlXPathObjectPtr
@@ -5186,7 +5227,7 @@ var (
 		ctxt XmlXPathParserContextPtr) Double
 
 	XmlXPathPopString func(
-		ctxt XmlXPathParserContextPtr) *XmlChar
+		ctxt XmlXPathParserContextPtr) string
 
 	XmlXPathPopNodeSet func(
 		ctxt XmlXPathParserContextPtr) XmlNodeSetPtr
@@ -5206,7 +5247,7 @@ var (
 
 	XmlXPatherror func(
 		ctxt XmlXPathParserContextPtr,
-		file *Char,
+		file string,
 		line int,
 		no int)
 
@@ -5280,53 +5321,53 @@ var (
 
 	XmlXPathRegisterNs func(
 		ctxt XmlXPathContextPtr,
-		prefix *XmlChar,
-		ns_uri *XmlChar) int
+		prefix string,
+		ns_uri string) int
 
 	XmlXPathNsLookup func(
 		ctxt XmlXPathContextPtr,
-		prefix *XmlChar) *XmlChar
+		prefix string) string
 
 	XmlXPathRegisteredNsCleanup func(
 		ctxt XmlXPathContextPtr)
 
 	XmlXPathRegisterFunc func(
 		ctxt XmlXPathContextPtr,
-		name *XmlChar,
+		name string,
 		f XmlXPathFunction) int
 
 	XmlXPathRegisterFuncNS func(
 		ctxt XmlXPathContextPtr,
-		name *XmlChar,
-		ns_uri *XmlChar,
+		name string,
+		ns_uri string,
 		f XmlXPathFunction) int
 
 	XmlXPathRegisterVariable func(
 		ctxt XmlXPathContextPtr,
-		name *XmlChar,
+		name string,
 		value XmlXPathObjectPtr) int
 
 	XmlXPathRegisterVariableNS func(ctxt XmlXPathContextPtr,
-		name, ns_uri *XmlChar, value XmlXPathObjectPtr) int
+		name, ns_uri string, value XmlXPathObjectPtr) int
 
 	XmlXPathFunctionLookup func(
-		ctxt XmlXPathContextPtr, name *XmlChar) XmlXPathFunction
+		ctxt XmlXPathContextPtr, name string) XmlXPathFunction
 
 	XmlXPathFunctionLookupNS func(ctxt XmlXPathContextPtr,
-		name, ns_uri *XmlChar) XmlXPathFunction
+		name, ns_uri string) XmlXPathFunction
 
 	XmlXPathRegisteredFuncsCleanup func(ctxt XmlXPathContextPtr)
 
 	XmlXPathVariableLookup func(
-		ctxt XmlXPathContextPtr, name *XmlChar) XmlXPathObjectPtr
+		ctxt XmlXPathContextPtr, name string) XmlXPathObjectPtr
 
 	XmlXPathVariableLookupNS func(ctxt XmlXPathContextPtr,
-		name *XmlChar, ns_uri *XmlChar) XmlXPathObjectPtr
+		name string, ns_uri string) XmlXPathObjectPtr
 
 	XmlXPathRegisteredVariablesCleanup func(
 		ctxt XmlXPathContextPtr)
 
-	XmlXPathNewParserContext func(str *XmlChar,
+	XmlXPathNewParserContext func(str string,
 		ctxt XmlXPathContextPtr) XmlXPathParserContextPtr
 
 	XmlXPathFreeParserContext func(
@@ -5338,13 +5379,13 @@ var (
 	ValuePush func(ctxt XmlXPathParserContextPtr,
 		value XmlXPathObjectPtr) int
 
-	XmlXPathNewString func(val *XmlChar) XmlXPathObjectPtr
+	XmlXPathNewString func(val string) XmlXPathObjectPtr
 
-	XmlXPathNewCString func(val *Char) XmlXPathObjectPtr
+	XmlXPathNewCString func(val string) XmlXPathObjectPtr
 
-	XmlXPathWrapString func(val *XmlChar) XmlXPathObjectPtr
+	XmlXPathWrapString func(val string) XmlXPathObjectPtr
 
-	XmlXPathWrapCString func(val *Char) XmlXPathObjectPtr
+	XmlXPathWrapCString func(val string) XmlXPathObjectPtr
 
 	XmlXPathNewFloat func(val Double) XmlXPathObjectPtr
 
@@ -5370,12 +5411,12 @@ var (
 	XmlXPathEvalExpr func(ctxt XmlXPathParserContextPtr)
 
 	XmlXPathParseName func(
-		ctxt XmlXPathParserContextPtr) *XmlChar
+		ctxt XmlXPathParserContextPtr) string
 
 	XmlXPathParseNCName func(
-		ctxt XmlXPathParserContextPtr) *XmlChar
+		ctxt XmlXPathParserContextPtr) string
 
-	XmlXPathStringEvalNumber func(str *XmlChar) Double
+	XmlXPathStringEvalNumber func(str string) Double
 
 	XmlXPathEvaluatePredicateResult func(
 		ctxt XmlXPathParserContextPtr, res XmlXPathObjectPtr) int
@@ -5416,7 +5457,7 @@ var (
 
 	XmlXPathModValues func(ctxt XmlXPathParserContextPtr)
 
-	XmlXPathIsNodeType func(name *XmlChar) int
+	XmlXPathIsNodeType func(name string) int
 
 	XmlXPathNextSelf func(
 		ctxt XmlXPathParserContextPtr,
@@ -5567,7 +5608,7 @@ var (
 		val XmlXPathObjectPtr) XmlLocationSetPtr
 
 	XmlXPtrFreeLocationSet func(
-		obj XmlLocationSetPtr) Void
+		obj XmlLocationSetPtr)
 
 	XmlXPtrLocationSetMerge func(
 		val1 XmlLocationSetPtr,
@@ -5611,24 +5652,24 @@ var (
 
 	XmlXPtrLocationSetAdd func(
 		cur XmlLocationSetPtr,
-		val XmlXPathObjectPtr) Void
+		val XmlXPathObjectPtr)
 
 	XmlXPtrWrapLocationSet func(
 		val XmlLocationSetPtr) XmlXPathObjectPtr
 
 	XmlXPtrLocationSetDel func(
 		cur XmlLocationSetPtr,
-		val XmlXPathObjectPtr) Void
+		val XmlXPathObjectPtr)
 
 	XmlXPtrLocationSetRemove func(
 		cur XmlLocationSetPtr,
-		val int) Void
+		val int)
 
 	XmlXPtrNewContext func(doc XmlDocPtr,
 		here, origin XmlNodePtr) XmlXPathContextPtr
 
 	XmlXPtrEval func(
-		str *XmlChar, ctx XmlXPathContextPtr) XmlXPathObjectPtr
+		str string, ctx XmlXPathContextPtr) XmlXPathObjectPtr
 
 	XmlXPtrRangeToFunction func(
 		ctxt XmlXPathParserContextPtr, nargs int)
@@ -5893,7 +5934,7 @@ var (
 
 	XmlUCSIsYijingHexagramSymbols func(code int) int
 
-	XmlUCSIsBlock func(code int, block *Char) int
+	XmlUCSIsBlock func(code int, block string) int
 
 	XmlUCSIsCatC func(code int) int
 
@@ -5967,30 +6008,30 @@ var (
 
 	XmlUCSIsCatZs func(code int) int
 
-	XmlUCSIsCat func(code int, cat *Char) int
+	XmlUCSIsCat func(code int, cat string) int
 
 	XmlSchemaNewParserCtxt func(
-		URL *Char) XmlSchemaParserCtxtPtr
+		URL string) XmlSchemaParserCtxtPtr
 
-	XmlSchemaNewMemParserCtxt func(buffer *Char,
+	XmlSchemaNewMemParserCtxt func(buffer string,
 		size int) XmlSchemaParserCtxtPtr
 
 	XmlSchemaNewDocParserCtxt func(
 		doc XmlDocPtr) XmlSchemaParserCtxtPtr
 
 	XmlSchemaFreeParserCtxt func(
-		ctxt XmlSchemaParserCtxtPtr) Void
+		ctxt XmlSchemaParserCtxtPtr)
 
 	XmlSchemaSetParserErrors func(
 		ctxt XmlSchemaParserCtxtPtr,
 		err XmlSchemaValidityErrorFunc,
 		warn XmlSchemaValidityWarningFunc,
-		ctx *Void) Void
+		ctx *Void)
 
 	XmlSchemaSetParserStructuredErrors func(
 		ctxt XmlSchemaParserCtxtPtr,
 		serror XmlStructuredErrorFunc,
-		ctx *Void) Void
+		ctx *Void)
 
 	XmlSchemaGetParserErrors func(
 		ctxt XmlSchemaParserCtxtPtr,
@@ -6002,20 +6043,20 @@ var (
 
 	XmlSchemaParse func(ctxt XmlSchemaParserCtxtPtr) XmlSchemaPtr
 
-	XmlSchemaFree func(schema XmlSchemaPtr) Void
+	XmlSchemaFree func(schema XmlSchemaPtr)
 
-	XmlSchemaDump func(output *FILE, schema XmlSchemaPtr) Void
+	XmlSchemaDump func(output *FILE, schema XmlSchemaPtr)
 
 	XmlSchemaSetValidErrors func(
 		ctxt XmlSchemaValidCtxtPtr,
 		err XmlSchemaValidityErrorFunc,
 		warn XmlSchemaValidityWarningFunc,
-		ctx *Void) Void
+		ctx *Void)
 
 	XmlSchemaSetValidStructuredErrors func(
 		ctxt XmlSchemaValidCtxtPtr,
 		serror XmlStructuredErrorFunc,
-		ctx *Void) Void
+		ctx *Void)
 
 	XmlSchemaGetValidErrors func(
 		ctxt XmlSchemaValidCtxtPtr,
@@ -6029,7 +6070,7 @@ var (
 
 	XmlSchemaValidateSetFilename func(
 		vctxt XmlSchemaValidCtxtPtr,
-		filename *Char) Void
+		filename string)
 
 	XmlSchemaValidCtxtGetOptions func(
 		ctxt XmlSchemaValidCtxtPtr) int
@@ -6038,7 +6079,7 @@ var (
 		schema XmlSchemaPtr) XmlSchemaValidCtxtPtr
 
 	XmlSchemaFreeValidCtxt func(
-		ctxt XmlSchemaValidCtxtPtr) Void
+		ctxt XmlSchemaValidCtxtPtr)
 
 	XmlSchemaValidateDoc func(
 		ctxt XmlSchemaValidCtxtPtr,
@@ -6057,7 +6098,7 @@ var (
 
 	XmlSchemaValidateFile func(
 		ctxt XmlSchemaValidCtxtPtr,
-		filename *Char,
+		filename string,
 		options int) int
 
 	XmlSchemaValidCtxtGetParserCtxt func(
@@ -6069,7 +6110,7 @@ var (
 	XmlSchemaValidateSetLocator func(
 		vctxt XmlSchemaValidCtxtPtr,
 		f XmlSchemaValidityLocatorFunc,
-		ctxt *Void) Void
+		ctxt *Void)
 
 	XmlSchemaSAXPlug func(
 		ctxt XmlSchemaValidCtxtPtr,
@@ -6077,60 +6118,57 @@ var (
 		user_data **Void) XmlSchemaSAXPlugPtr
 
 	XmlSchemaFreeType func(
-		typ XmlSchemaTypePtr) Void
+		typ XmlSchemaTypePtr)
 
 	XmlSchemaFreeWildcard func(
-		wildcard XmlSchemaWildcardPtr) Void
+		wildcard XmlSchemaWildcardPtr)
 
-	XmlSchemaInitTypes func(
-		Void) Void
+	XmlSchemaInitTypes func()
 
-	XmlSchemaCleanupTypes func(
-		Void) Void
+	XmlSchemaCleanupTypes func()
 
 	XmlSchemaGetPredefinedType func(
-		name *XmlChar,
-		ns *XmlChar) XmlSchemaTypePtr
+		name string,
+		ns string) XmlSchemaTypePtr
 
 	XmlSchemaValidatePredefinedType func(
 		typ XmlSchemaTypePtr,
-		value *XmlChar,
+		value string,
 		val *XmlSchemaValPtr) int
 
 	XmlSchemaValPredefTypeNode func(
 		typ XmlSchemaTypePtr,
-		value *XmlChar,
+		value string,
 		val *XmlSchemaValPtr,
 		node XmlNodePtr) int
 
 	XmlSchemaValidateFacet func(
 		base XmlSchemaTypePtr,
 		facet XmlSchemaFacetPtr,
-		value *XmlChar,
+		value string,
 		val XmlSchemaValPtr) int
 
 	XmlSchemaValidateFacetWhtsp func(
 		facet XmlSchemaFacetPtr,
 		fws XmlSchemaWhitespaceValueType,
 		valType XmlSchemaValType,
-		value *XmlChar,
+		value string,
 		val XmlSchemaValPtr,
 		ws XmlSchemaWhitespaceValueType) int
 
 	XmlSchemaFreeValue func(
-		val XmlSchemaValPtr) Void
+		val XmlSchemaValPtr)
 
-	XmlSchemaNewFacet func(
-		Void) XmlSchemaFacetPtr
+	XmlSchemaNewFacet func() XmlSchemaFacetPtr
 
 	XmlSchemaCheckFacet func(
 		facet XmlSchemaFacetPtr,
 		typeDecl XmlSchemaTypePtr,
 		ctxt XmlSchemaParserCtxtPtr,
-		name *XmlChar) int
+		name string) int
 
 	XmlSchemaFreeFacet func(
-		facet XmlSchemaFacetPtr) Void
+		facet XmlSchemaFacetPtr)
 
 	XmlSchemaCompareValues func(
 		x XmlSchemaValPtr,
@@ -6141,7 +6179,7 @@ var (
 
 	XmlSchemaValidateListSimpleTypeFacet func(
 		facet XmlSchemaFacetPtr,
-		value *XmlChar,
+		value string,
 		actualLen Unsigned_long,
 		expectedLen *Unsigned_long) int
 
@@ -6153,10 +6191,10 @@ var (
 		facetType int) int
 
 	XmlSchemaCollapseString func(
-		value *XmlChar) *XmlChar
+		value string) string
 
 	XmlSchemaWhiteSpaceReplace func(
-		value *XmlChar) *XmlChar
+		value string) string
 
 	XmlSchemaGetFacetValueAsULong func(
 		facet XmlSchemaFacetPtr) Unsigned_long
@@ -6164,31 +6202,31 @@ var (
 	XmlSchemaValidateLengthFacet func(
 		typ XmlSchemaTypePtr,
 		facet XmlSchemaFacetPtr,
-		value *XmlChar,
+		value string,
 		val XmlSchemaValPtr,
 		length *Unsigned_long) int
 
 	XmlSchemaValidateLengthFacetWhtsp func(
 		facet XmlSchemaFacetPtr,
 		valType XmlSchemaValType,
-		value *XmlChar,
+		value string,
 		val XmlSchemaValPtr,
 		length *Unsigned_long,
 		ws XmlSchemaWhitespaceValueType) int
 
 	XmlSchemaValPredefTypeNodeNoNorm func(
 		typ XmlSchemaTypePtr,
-		value *XmlChar,
+		value string,
 		val *XmlSchemaValPtr,
 		node XmlNodePtr) int
 
 	XmlSchemaGetCanonValue func(
 		val XmlSchemaValPtr,
-		retValue **XmlChar) int
+		retValue *string) int
 
 	XmlSchemaGetCanonValueWhtsp func(
 		val XmlSchemaValPtr,
-		retValue **XmlChar,
+		retValue *string,
 		ws XmlSchemaWhitespaceValueType) int
 
 	XmlSchemaValueAppend func(
@@ -6199,22 +6237,22 @@ var (
 		cur XmlSchemaValPtr) XmlSchemaValPtr
 
 	XmlSchemaValueGetAsString func(
-		val XmlSchemaValPtr) *XmlChar
+		val XmlSchemaValPtr) string
 
 	XmlSchemaValueGetAsBoolean func(
 		val XmlSchemaValPtr) int
 
 	XmlSchemaNewStringValue func(
 		typ XmlSchemaValType,
-		value *XmlChar) XmlSchemaValPtr
+		value string) XmlSchemaValPtr
 
 	XmlSchemaNewNOTATIONValue func(
-		name *XmlChar,
-		ns *XmlChar) XmlSchemaValPtr
+		name string,
+		ns string) XmlSchemaValPtr
 
 	XmlSchemaNewQNameValue func(
-		namespaceName *XmlChar,
-		localName *XmlChar) XmlSchemaValPtr
+		namespaceName string,
+		localName string) XmlSchemaValPtr
 
 	XmlSchemaCompareValuesWhtsp func(
 		x XmlSchemaValPtr,
@@ -6229,35 +6267,35 @@ var (
 		val XmlSchemaValPtr) XmlSchemaValType
 
 	XmlSchematronNewParserCtxt func(
-		URL *Char) XmlSchematronParserCtxtPtr
+		URL string) XmlSchematronParserCtxtPtr
 
 	XmlSchematronNewMemParserCtxt func(
-		buffer *Char,
+		buffer string,
 		size int) XmlSchematronParserCtxtPtr
 
 	XmlSchematronNewDocParserCtxt func(
 		doc XmlDocPtr) XmlSchematronParserCtxtPtr
 
 	XmlSchematronFreeParserCtxt func(
-		ctxt XmlSchematronParserCtxtPtr) Void
+		ctxt XmlSchematronParserCtxtPtr)
 
 	XmlSchematronParse func(
 		ctxt XmlSchematronParserCtxtPtr) XmlSchematronPtr
 
 	XmlSchematronFree func(
-		schema XmlSchematronPtr) Void
+		schema XmlSchematronPtr)
 
 	XmlSchematronSetValidStructuredErrors func(
 		ctxt XmlSchematronValidCtxtPtr,
 		serror XmlStructuredErrorFunc,
-		ctx *Void) Void
+		ctx *Void)
 
 	XmlSchematronNewValidCtxt func(
 		schema XmlSchematronPtr,
 		options int) XmlSchematronValidCtxtPtr
 
 	XmlSchematronFreeValidCtxt func(
-		ctxt XmlSchematronValidCtxtPtr) Void
+		ctxt XmlSchematronValidCtxtPtr)
 
 	XmlSchematronValidateDoc func(
 		ctxt XmlSchematronValidCtxtPtr,
@@ -6271,20 +6309,20 @@ var (
 		c int) int
 
 	XmlCreateFileParserCtxt func(
-		filename *Char) XmlParserCtxtPtr
+		filename string) XmlParserCtxtPtr
 
 	XmlCreateURLParserCtxt func(
-		filename *Char,
+		filename string,
 		options int) XmlParserCtxtPtr
 
 	XmlCreateMemoryParserCtxt func(
-		buffer *Char,
+		buffer string,
 		size int) XmlParserCtxtPtr
 
 	XmlCreateEntityParserCtxt func(
-		URL *XmlChar,
-		ID *XmlChar,
-		base *XmlChar) XmlParserCtxtPtr
+		URL string,
+		ID string,
+		base string) XmlParserCtxtPtr
 
 	XmlSwitchEncoding func(
 		ctxt XmlParserCtxtPtr,
@@ -6301,7 +6339,7 @@ var (
 
 	XmlNewStringInputStream func(
 		ctxt XmlParserCtxtPtr,
-		buffer *XmlChar) XmlParserInputPtr
+		buffer string) XmlParserInputPtr
 
 	XmlNewEntityInputStream func(
 		ctxt XmlParserCtxtPtr,
@@ -6315,66 +6353,66 @@ var (
 		ctxt XmlParserCtxtPtr) XmlChar
 
 	XmlFreeInputStream func(
-		input XmlParserInputPtr) Void
+		input XmlParserInputPtr)
 
 	XmlNewInputFromFile func(
 		ctxt XmlParserCtxtPtr,
-		filename *Char) XmlParserInputPtr
+		filename string) XmlParserInputPtr
 
 	XmlNewInputStream func(
 		ctxt XmlParserCtxtPtr) XmlParserInputPtr
 
 	XmlSplitQName func(
 		ctxt XmlParserCtxtPtr,
-		name *XmlChar,
-		prefix **XmlChar) *XmlChar
+		name string,
+		prefix *string) string
 
 	XmlParseName func(
-		ctxt XmlParserCtxtPtr) *XmlChar
+		ctxt XmlParserCtxtPtr) string
 
 	XmlParseNmtoken func(
-		ctxt XmlParserCtxtPtr) *XmlChar
+		ctxt XmlParserCtxtPtr) string
 
 	XmlParseEntityValue func(
 		ctxt XmlParserCtxtPtr,
-		orig **XmlChar) *XmlChar
+		orig *string) string
 
 	XmlParseAttValue func(
-		ctxt XmlParserCtxtPtr) *XmlChar
+		ctxt XmlParserCtxtPtr) string
 
 	XmlParseSystemLiteral func(
-		ctxt XmlParserCtxtPtr) *XmlChar
+		ctxt XmlParserCtxtPtr) string
 
 	XmlParsePubidLiteral func(
-		ctxt XmlParserCtxtPtr) *XmlChar
+		ctxt XmlParserCtxtPtr) string
 
 	XmlParseCharData func(
 		ctxt XmlParserCtxtPtr,
-		cdata int) Void
+		cdata int)
 
 	XmlParseExternalID func(
 		ctxt XmlParserCtxtPtr,
-		publicID **XmlChar,
-		strict int) *XmlChar
+		publicID *string,
+		strict int) string
 
 	XmlParseComment func(
-		ctxt XmlParserCtxtPtr) Void
+		ctxt XmlParserCtxtPtr)
 
 	XmlParsePITarget func(
-		ctxt XmlParserCtxtPtr) *XmlChar
+		ctxt XmlParserCtxtPtr) string
 
 	XmlParsePI func(
-		ctxt XmlParserCtxtPtr) Void
+		ctxt XmlParserCtxtPtr)
 
 	XmlParseNotationDecl func(
-		ctxt XmlParserCtxtPtr) Void
+		ctxt XmlParserCtxtPtr)
 
 	XmlParseEntityDecl func(
-		ctxt XmlParserCtxtPtr) Void
+		ctxt XmlParserCtxtPtr)
 
 	XmlParseDefaultDecl func(
 		ctxt XmlParserCtxtPtr,
-		value **XmlChar) int
+		value *string) int
 
 	XmlParseNotationType func(
 		ctxt XmlParserCtxtPtr) XmlEnumerationPtr
@@ -6391,7 +6429,7 @@ var (
 		tree *XmlEnumerationPtr) int
 
 	XmlParseAttributeListDecl func(
-		ctxt XmlParserCtxtPtr) Void
+		ctxt XmlParserCtxtPtr)
 
 	XmlParseElementMixedContentDecl func(
 		ctxt XmlParserCtxtPtr,
@@ -6403,14 +6441,14 @@ var (
 
 	XmlParseElementContentDecl func(
 		ctxt XmlParserCtxtPtr,
-		name *XmlChar,
+		name string,
 		result *XmlElementContentPtr) int
 
 	XmlParseElementDecl func(
 		ctxt XmlParserCtxtPtr) int
 
 	XmlParseMarkupDecl func(
-		ctxt XmlParserCtxtPtr) Void
+		ctxt XmlParserCtxtPtr)
 
 	XmlParseCharRef func(
 		ctxt XmlParserCtxtPtr) int
@@ -6419,78 +6457,78 @@ var (
 		ctxt XmlParserCtxtPtr) XmlEntityPtr
 
 	XmlParseReference func(
-		ctxt XmlParserCtxtPtr) Void
+		ctxt XmlParserCtxtPtr)
 
 	XmlParsePEReference func(
-		ctxt XmlParserCtxtPtr) Void
+		ctxt XmlParserCtxtPtr)
 
 	XmlParseDocTypeDecl func(
-		ctxt XmlParserCtxtPtr) Void
+		ctxt XmlParserCtxtPtr)
 
 	XmlParseAttribute func(
 		ctxt XmlParserCtxtPtr,
-		value **XmlChar) *XmlChar
+		value *string) string
 
 	XmlParseStartTag func(
-		ctxt XmlParserCtxtPtr) *XmlChar
+		ctxt XmlParserCtxtPtr) string
 
 	XmlParseEndTag func(
-		ctxt XmlParserCtxtPtr) Void
+		ctxt XmlParserCtxtPtr)
 
 	XmlParseCDSect func(
-		ctxt XmlParserCtxtPtr) Void
+		ctxt XmlParserCtxtPtr)
 
 	XmlParseContent func(
-		ctxt XmlParserCtxtPtr) Void
+		ctxt XmlParserCtxtPtr)
 
 	XmlParseElement func(
-		ctxt XmlParserCtxtPtr) Void
+		ctxt XmlParserCtxtPtr)
 
 	XmlParseVersionNum func(
-		ctxt XmlParserCtxtPtr) *XmlChar
+		ctxt XmlParserCtxtPtr) string
 
 	XmlParseVersionInfo func(
-		ctxt XmlParserCtxtPtr) *XmlChar
+		ctxt XmlParserCtxtPtr) string
 
 	XmlParseEncName func(
-		ctxt XmlParserCtxtPtr) *XmlChar
+		ctxt XmlParserCtxtPtr) string
 
 	XmlParseEncodingDecl func(
-		ctxt XmlParserCtxtPtr) *XmlChar
+		ctxt XmlParserCtxtPtr) string
 
 	XmlParseSDDecl func(
 		ctxt XmlParserCtxtPtr) int
 
 	XmlParseXMLDecl func(
-		ctxt XmlParserCtxtPtr) Void
+		ctxt XmlParserCtxtPtr)
 
 	XmlParseTextDecl func(
-		ctxt XmlParserCtxtPtr) Void
+		ctxt XmlParserCtxtPtr)
 
 	XmlParseMisc func(
-		ctxt XmlParserCtxtPtr) Void
+		ctxt XmlParserCtxtPtr)
 
 	XmlParseExternalSubset func(
 		ctxt XmlParserCtxtPtr,
-		ExternalID *XmlChar,
-		SystemID *XmlChar) Void
+		ExternalID string,
+		SystemID string)
 
 	XmlStringDecodeEntities func(
 		ctxt XmlParserCtxtPtr,
-		str *XmlChar,
+		str string,
 		what int,
 		end XmlChar,
 		end2 XmlChar,
-		end3 XmlChar) *XmlChar
+		end3 XmlChar) string
 
 	XmlStringLenDecodeEntities func(
 		ctxt XmlParserCtxtPtr,
-		str *XmlChar,
+		str string,
 		len int,
 		what int,
 		end XmlChar,
 		end2 XmlChar,
-		end3 XmlChar) *XmlChar
+		end3 XmlChar) string
 
 	NodePush func(
 		ctxt XmlParserCtxtPtr,
@@ -6507,76 +6545,74 @@ var (
 		ctxt XmlParserCtxtPtr) XmlParserInputPtr
 
 	NamePop func(
-		ctxt XmlParserCtxtPtr) *XmlChar
+		ctxt XmlParserCtxtPtr) string
 
 	NamePush func(
 		ctxt XmlParserCtxtPtr,
-		value *XmlChar) int
+		value string) int
 
 	XmlSkipBlankChars func(
 		ctxt XmlParserCtxtPtr) int
 
 	XmlStringCurrentChar func(
 		ctxt XmlParserCtxtPtr,
-		cur *XmlChar,
+		cur string,
 		len *int) int
 
 	XmlParserHandlePEReference func(
-		ctxt XmlParserCtxtPtr) Void
+		ctxt XmlParserCtxtPtr)
 
 	XmlCheckLanguageID func(
-		lang *XmlChar) int
+		lang string) int
 
 	XmlCurrentChar func(
 		ctxt XmlParserCtxtPtr,
 		len *int) int
 
 	XmlCopyCharMultiByte func(
-		out *XmlChar,
+		out string,
 		val int) int
 
 	XmlCopyChar func(
 		len int,
-		out *XmlChar,
+		out string,
 		val int) int
 
 	XmlNextChar func(
-		ctxt XmlParserCtxtPtr) Void
+		ctxt XmlParserCtxtPtr)
 
 	XmlParserInputShrink func(
-		in XmlParserInputPtr) Void
+		in XmlParserInputPtr)
 
-	HtmlInitAutoClose func(
-		Void) Void
+	HtmlInitAutoClose func()
 
 	HtmlCreateFileParserCtxt func(
-		filename *Char,
-		encoding *Char) HtmlParserCtxtPtr
+		filename, encoding string) HtmlParserCtxtPtr
 
 	XmlSetEntityReferenceFunc func(
-		f XmlEntityReferenceFunc) Void
+		f XmlEntityReferenceFunc)
 
 	XmlParseQuotedString func(
-		ctxt XmlParserCtxtPtr) *XmlChar
+		ctxt XmlParserCtxtPtr) string
 
 	XmlParseNamespace func(
-		ctxt XmlParserCtxtPtr) Void
+		ctxt XmlParserCtxtPtr)
 
 	XmlNamespaceParseNSDef func(
-		ctxt XmlParserCtxtPtr) *XmlChar
+		ctxt XmlParserCtxtPtr) string
 
 	XmlScanName func(
-		ctxt XmlParserCtxtPtr) *XmlChar
+		ctxt XmlParserCtxtPtr) string
 
 	XmlNamespaceParseNCName func(
-		ctxt XmlParserCtxtPtr) *XmlChar
+		ctxt XmlParserCtxtPtr) string
 
 	XmlParserHandleReference func(
-		ctxt XmlParserCtxtPtr) Void
+		ctxt XmlParserCtxtPtr)
 
 	XmlNamespaceParseQName func(
 		ctxt XmlParserCtxtPtr,
-		prefix **XmlChar) *XmlChar
+		prefix *string) string
 
 	XmlDecodeEntities func(
 		ctxt XmlParserCtxtPtr,
@@ -6584,23 +6620,23 @@ var (
 		what int,
 		end XmlChar,
 		end2 XmlChar,
-		end3 XmlChar) *XmlChar
+		end3 XmlChar) string
 
 	XmlHandleEntity func(
 		ctxt XmlParserCtxtPtr,
-		entity XmlEntityPtr) Void
+		entity XmlEntityPtr)
 
 	XmlRelaxNGInitTypes func(
 		Void) int
 
 	XmlRelaxNGCleanupTypes func(
-		Void) Void
+		Void)
 
 	XmlRelaxNGNewParserCtxt func(
-		URL *Char) XmlRelaxNGParserCtxtPtr
+		URL string) XmlRelaxNGParserCtxtPtr
 
 	XmlRelaxNGNewMemParserCtxt func(
-		buffer *Char,
+		buffer string,
 		size int) XmlRelaxNGParserCtxtPtr
 
 	XmlRelaxNGNewDocParserCtxt func(
@@ -6611,13 +6647,13 @@ var (
 		flag int) int
 
 	XmlRelaxNGFreeParserCtxt func(
-		ctxt XmlRelaxNGParserCtxtPtr) Void
+		ctxt XmlRelaxNGParserCtxtPtr)
 
 	XmlRelaxNGSetParserErrors func(
 		ctxt XmlRelaxNGParserCtxtPtr,
 		err XmlRelaxNGValidityErrorFunc,
 		warn XmlRelaxNGValidityWarningFunc,
-		ctx *Void) Void
+		ctx *Void)
 
 	XmlRelaxNGGetParserErrors func(
 		ctxt XmlRelaxNGParserCtxtPtr,
@@ -6628,27 +6664,27 @@ var (
 	XmlRelaxNGSetParserStructuredErrors func(
 		ctxt XmlRelaxNGParserCtxtPtr,
 		serror XmlStructuredErrorFunc,
-		ctx *Void) Void
+		ctx *Void)
 
 	XmlRelaxNGParse func(
 		ctxt XmlRelaxNGParserCtxtPtr) XmlRelaxNGPtr
 
 	XmlRelaxNGFree func(
-		schema XmlRelaxNGPtr) Void
+		schema XmlRelaxNGPtr)
 
 	XmlRelaxNGDump func(
 		output *FILE,
-		schema XmlRelaxNGPtr) Void
+		schema XmlRelaxNGPtr)
 
 	XmlRelaxNGDumpTree func(
 		output *FILE,
-		schema XmlRelaxNGPtr) Void
+		schema XmlRelaxNGPtr)
 
 	XmlRelaxNGSetValidErrors func(
 		ctxt XmlRelaxNGValidCtxtPtr,
 		err XmlRelaxNGValidityErrorFunc,
 		warn XmlRelaxNGValidityWarningFunc,
-		ctx *Void) Void
+		ctx *Void)
 
 	XmlRelaxNGGetValidErrors func(
 		ctxt XmlRelaxNGValidCtxtPtr,
@@ -6659,13 +6695,13 @@ var (
 	XmlRelaxNGSetValidStructuredErrors func(
 		ctxt XmlRelaxNGValidCtxtPtr,
 		serror XmlStructuredErrorFunc,
-		ctx *Void) Void
+		ctx *Void)
 
 	XmlRelaxNGNewValidCtxt func(
 		schema XmlRelaxNGPtr) XmlRelaxNGValidCtxtPtr
 
 	XmlRelaxNGFreeValidCtxt func(
-		ctxt XmlRelaxNGValidCtxtPtr) Void
+		ctxt XmlRelaxNGValidCtxtPtr)
 
 	XmlRelaxNGValidateDoc func(
 		ctxt XmlRelaxNGValidCtxtPtr,
@@ -6678,7 +6714,7 @@ var (
 
 	XmlRelaxNGValidatePushCData func(
 		ctxt XmlRelaxNGValidCtxtPtr,
-		data *XmlChar,
+		data string,
 		len int) int
 
 	XmlRelaxNGValidatePopElement func(
@@ -6693,32 +6729,32 @@ var (
 
 	XmlNewTextReader func(
 		input XmlParserInputBufferPtr,
-		URI *Char) XmlTextReaderPtr
+		URI string) XmlTextReaderPtr
 
 	XmlNewTextReaderFilename func(
-		URI *Char) XmlTextReaderPtr
+		URI string) XmlTextReaderPtr
 
 	XmlFreeTextReader func(
-		reader XmlTextReaderPtr) Void
+		reader XmlTextReaderPtr)
 
 	XmlTextReaderSetup func(
 		reader XmlTextReaderPtr,
 		input XmlParserInputBufferPtr,
-		URL *Char,
-		encoding *Char,
+		URL string,
+		encoding string,
 		options int) int
 
 	XmlTextReaderRead func(
 		reader XmlTextReaderPtr) int
 
 	XmlTextReaderReadInnerXml func(
-		reader XmlTextReaderPtr) *XmlChar
+		reader XmlTextReaderPtr) string
 
 	XmlTextReaderReadOuterXml func(
-		reader XmlTextReaderPtr) *XmlChar
+		reader XmlTextReaderPtr) string
 
 	XmlTextReaderReadString func(
-		reader XmlTextReaderPtr) *XmlChar
+		reader XmlTextReaderPtr) string
 
 	XmlTextReaderReadAttributeValue func(
 		reader XmlTextReaderPtr) int
@@ -6754,73 +6790,73 @@ var (
 		reader XmlTextReaderPtr) int
 
 	XmlTextReaderConstBaseUri func(
-		reader XmlTextReaderPtr) *XmlChar
+		reader XmlTextReaderPtr) string
 
 	XmlTextReaderConstLocalName func(
-		reader XmlTextReaderPtr) *XmlChar
+		reader XmlTextReaderPtr) string
 
 	XmlTextReaderConstName func(
-		reader XmlTextReaderPtr) *XmlChar
+		reader XmlTextReaderPtr) string
 
 	XmlTextReaderConstNamespaceUri func(
-		reader XmlTextReaderPtr) *XmlChar
+		reader XmlTextReaderPtr) string
 
 	XmlTextReaderConstPrefix func(
-		reader XmlTextReaderPtr) *XmlChar
+		reader XmlTextReaderPtr) string
 
 	XmlTextReaderConstXmlLang func(
-		reader XmlTextReaderPtr) *XmlChar
+		reader XmlTextReaderPtr) string
 
 	XmlTextReaderConstString func(
 		reader XmlTextReaderPtr,
-		str *XmlChar) *XmlChar
+		str string) string
 
 	XmlTextReaderConstValue func(
-		reader XmlTextReaderPtr) *XmlChar
+		reader XmlTextReaderPtr) string
 
 	XmlTextReaderBaseUri func(
-		reader XmlTextReaderPtr) *XmlChar
+		reader XmlTextReaderPtr) string
 
 	XmlTextReaderLocalName func(
-		reader XmlTextReaderPtr) *XmlChar
+		reader XmlTextReaderPtr) string
 
 	XmlTextReaderName func(
-		reader XmlTextReaderPtr) *XmlChar
+		reader XmlTextReaderPtr) string
 
 	XmlTextReaderNamespaceUri func(
-		reader XmlTextReaderPtr) *XmlChar
+		reader XmlTextReaderPtr) string
 
 	XmlTextReaderPrefix func(
-		reader XmlTextReaderPtr) *XmlChar
+		reader XmlTextReaderPtr) string
 
 	XmlTextReaderXmlLang func(
-		reader XmlTextReaderPtr) *XmlChar
+		reader XmlTextReaderPtr) string
 
 	XmlTextReaderValue func(
-		reader XmlTextReaderPtr) *XmlChar
+		reader XmlTextReaderPtr) string
 
 	XmlTextReaderClose func(
 		reader XmlTextReaderPtr) int
 
 	XmlTextReaderGetAttributeNo func(
 		reader XmlTextReaderPtr,
-		no int) *XmlChar
+		no int) string
 
 	XmlTextReaderGetAttribute func(
 		reader XmlTextReaderPtr,
-		name *XmlChar) *XmlChar
+		name string) string
 
 	XmlTextReaderGetAttributeNs func(
 		reader XmlTextReaderPtr,
-		localName *XmlChar,
-		namespaceURI *XmlChar) *XmlChar
+		localName string,
+		namespaceURI string) string
 
 	XmlTextReaderGetRemainder func(
 		reader XmlTextReaderPtr) XmlParserInputBufferPtr
 
 	XmlTextReaderLookupNamespace func(
 		reader XmlTextReaderPtr,
-		prefix *XmlChar) *XmlChar
+		prefix string) string
 
 	XmlTextReaderMoveToAttributeNo func(
 		reader XmlTextReaderPtr,
@@ -6828,12 +6864,12 @@ var (
 
 	XmlTextReaderMoveToAttribute func(
 		reader XmlTextReaderPtr,
-		name *XmlChar) int
+		name string) int
 
 	XmlTextReaderMoveToAttributeNs func(
 		reader XmlTextReaderPtr,
-		localName *XmlChar,
-		namespaceURI *XmlChar) int
+		localName string,
+		namespaceURI string) int
 
 	XmlTextReaderMoveToFirstAttribute func(
 		reader XmlTextReaderPtr) int
@@ -6848,7 +6884,7 @@ var (
 		reader XmlTextReaderPtr) int
 
 	XmlTextReaderConstEncoding func(
-		reader XmlTextReaderPtr) *XmlChar
+		reader XmlTextReaderPtr) string
 
 	XmlTextReaderSetParserProp func(
 		reader XmlTextReaderPtr,
@@ -6873,8 +6909,8 @@ var (
 
 	XmlTextReaderPreservePattern func(
 		reader XmlTextReaderPtr,
-		pattern *XmlChar,
-		namespaces **XmlChar) int
+		pattern string,
+		namespaces *string) int
 
 	XmlTextReaderCurrentDoc func(
 		reader XmlTextReaderPtr) XmlDocPtr
@@ -6893,7 +6929,7 @@ var (
 
 	XmlTextReaderRelaxNGValidate func(
 		reader XmlTextReaderPtr,
-		rng *Char) int
+		rng string) int
 
 	XmlTextReaderRelaxNGValidateCtxt func(
 		reader XmlTextReaderPtr,
@@ -6906,7 +6942,7 @@ var (
 
 	XmlTextReaderSchemaValidate func(
 		reader XmlTextReaderPtr,
-		xsd *Char) int
+		xsd string) int
 
 	XmlTextReaderSchemaValidateCtxt func(
 		reader XmlTextReaderPtr,
@@ -6918,7 +6954,7 @@ var (
 		schema XmlSchemaPtr) int
 
 	XmlTextReaderConstXmlVersion func(
-		reader XmlTextReaderPtr) *XmlChar
+		reader XmlTextReaderPtr) string
 
 	XmlTextReaderStandalone func(
 		reader XmlTextReaderPtr) int
@@ -6930,35 +6966,35 @@ var (
 		doc XmlDocPtr) XmlTextReaderPtr
 
 	XmlReaderForDoc func(
-		cur *XmlChar,
-		URL *Char,
-		encoding *Char,
+		cur string,
+		URL string,
+		encoding string,
 		options int) XmlTextReaderPtr
 
 	XmlReaderForFile func(
-		filename *Char,
-		encoding *Char,
+		filename string,
+		encoding string,
 		options int) XmlTextReaderPtr
 
 	XmlReaderForMemory func(
-		buffer *Char,
+		buffer string,
 		size int,
-		URL *Char,
-		encoding *Char,
+		URL string,
+		encoding string,
 		options int) XmlTextReaderPtr
 
 	XmlReaderForFd func(
 		fd int,
-		URL *Char,
-		encoding *Char,
+		URL string,
+		encoding string,
 		options int) XmlTextReaderPtr
 
 	XmlReaderForIO func(
 		ioread XmlInputReadCallback,
 		ioclose XmlInputCloseCallback,
 		ioctx *Void,
-		URL *Char,
-		encoding *Char,
+		URL string,
+		encoding string,
 		options int) XmlTextReaderPtr
 
 	XmlReaderNewWalker func(
@@ -6967,30 +7003,30 @@ var (
 
 	XmlReaderNewDoc func(
 		reader XmlTextReaderPtr,
-		cur *XmlChar,
-		URL *Char,
-		encoding *Char,
+		cur string,
+		URL string,
+		encoding string,
 		options int) int
 
 	XmlReaderNewFile func(
 		reader XmlTextReaderPtr,
-		filename *Char,
-		encoding *Char,
+		filename string,
+		encoding string,
 		options int) int
 
 	XmlReaderNewMemory func(
 		reader XmlTextReaderPtr,
-		buffer *Char,
+		buffer string,
 		size int,
-		URL *Char,
-		encoding *Char,
+		URL string,
+		encoding string,
 		options int) int
 
 	XmlReaderNewFd func(
 		reader XmlTextReaderPtr,
 		fd int,
-		URL *Char,
-		encoding *Char,
+		URL string,
+		encoding string,
 		options int) int
 
 	XmlReaderNewIO func(
@@ -6998,137 +7034,137 @@ var (
 		ioread XmlInputReadCallback,
 		ioclose XmlInputCloseCallback,
 		ioctx *Void,
-		URL *Char,
-		encoding *Char,
+		URL string,
+		encoding string,
 		options int) int
 
 	XmlTextReaderLocatorLineNumber func(
 		locator XmlTextReaderLocatorPtr) int
 
 	XmlTextReaderLocatorBaseURI func(
-		locator XmlTextReaderLocatorPtr) *XmlChar
+		locator XmlTextReaderLocatorPtr) string
 
 	XmlTextReaderSetErrorHandler func(
 		reader XmlTextReaderPtr,
 		f XmlTextReaderErrorFunc,
-		arg *Void) Void
+		arg *Void)
 
 	XmlTextReaderSetStructuredErrorHandler func(
 		reader XmlTextReaderPtr,
 		f XmlStructuredErrorFunc,
-		arg *Void) Void
+		arg *Void)
 
 	XmlTextReaderGetErrorHandler func(
 		reader XmlTextReaderPtr,
 		f *XmlTextReaderErrorFunc,
-		arg **Void) Void
+		arg **Void)
 
 	XmlNewCatalog func(
 		sgml int) XmlCatalogPtr
 
 	XmlLoadACatalog func(
-		filename *Char) XmlCatalogPtr
+		filename string) XmlCatalogPtr
 
 	XmlLoadSGMLSuperCatalog func(
-		filename *Char) XmlCatalogPtr
+		filename string) XmlCatalogPtr
 
 	XmlConvertSGMLCatalog func(
 		catal XmlCatalogPtr) int
 
 	XmlACatalogAdd func(
 		catal XmlCatalogPtr,
-		typ *XmlChar,
-		orig *XmlChar,
-		replace *XmlChar) int
+		typ string,
+		orig string,
+		replace string) int
 
 	XmlACatalogRemove func(
 		catal XmlCatalogPtr,
-		value *XmlChar) int
+		value string) int
 
 	XmlACatalogResolve func(
 		catal XmlCatalogPtr,
-		pubID *XmlChar,
-		sysID *XmlChar) *XmlChar
+		pubID string,
+		sysID string) string
 
 	XmlACatalogResolveSystem func(
 		catal XmlCatalogPtr,
-		sysID *XmlChar) *XmlChar
+		sysID string) string
 
 	XmlACatalogResolvePublic func(
 		catal XmlCatalogPtr,
-		pubID *XmlChar) *XmlChar
+		pubID string) string
 
 	XmlACatalogResolveURI func(
 		catal XmlCatalogPtr,
-		URI *XmlChar) *XmlChar
+		URI string) string
 
 	XmlACatalogDump func(
 		catal XmlCatalogPtr,
-		out *FILE) Void
+		out *FILE)
 
 	XmlFreeCatalog func(
-		catal XmlCatalogPtr) Void
+		catal XmlCatalogPtr)
 
 	XmlCatalogIsEmpty func(
 		catal XmlCatalogPtr) int
 
 	XmlInitializeCatalog func(
-		Void) Void
+		Void)
 
 	XmlLoadCatalog func(
-		filename *Char) int
+		filename string) int
 
 	XmlLoadCatalogs func(
-		paths *Char) Void
+		paths string)
 
 	XmlCatalogCleanup func(
-		Void) Void
+		Void)
 
 	XmlCatalogDump func(
-		out *FILE) Void
+		out *FILE)
 
 	XmlCatalogResolve func(
-		pubID *XmlChar,
-		sysID *XmlChar) *XmlChar
+		pubID string,
+		sysID string) string
 
 	XmlCatalogResolveSystem func(
-		sysID *XmlChar) *XmlChar
+		sysID string) string
 
 	XmlCatalogResolvePublic func(
-		pubID *XmlChar) *XmlChar
+		pubID string) string
 
 	XmlCatalogResolveURI func(
-		URI *XmlChar) *XmlChar
+		URI string) string
 
 	XmlCatalogAdd func(
-		typ *XmlChar,
-		orig *XmlChar,
-		replace *XmlChar) int
+		typ string,
+		orig string,
+		replace string) int
 
 	XmlCatalogRemove func(
-		value *XmlChar) int
+		value string) int
 
 	XmlParseCatalogFile func(
-		filename *Char) XmlDocPtr
+		filename string) XmlDocPtr
 
 	XmlCatalogConvert func(
 		Void) int
 
 	XmlCatalogFreeLocal func(
-		catalogs *Void) Void
+		catalogs *Void)
 
 	XmlCatalogAddLocal func(
 		catalogs *Void,
-		URL *XmlChar) *Void
+		URL string) *Void
 
 	XmlCatalogLocalResolve func(
 		catalogs *Void,
-		pubID *XmlChar,
-		sysID *XmlChar) *XmlChar
+		pubID string,
+		sysID string) string
 
 	XmlCatalogLocalResolveURI func(
 		catalogs *Void,
-		URI *XmlChar) *XmlChar
+		URI string) string
 
 	XmlCatalogSetDebug func(
 		level int) int
@@ -7137,61 +7173,61 @@ var (
 		prefer XmlCatalogPrefer) XmlCatalogPrefer
 
 	XmlCatalogSetDefaults func(
-		allow XmlCatalogAllow) Void
+		allow XmlCatalogAllow)
 
 	XmlCatalogGetDefaults func(
 		Void) XmlCatalogAllow
 
 	XmlCatalogGetSystem func(
-		sysID *XmlChar) *XmlChar
+		sysID string) string
 
 	XmlCatalogGetPublic func(
-		pubID *XmlChar) *XmlChar
+		pubID string) string
 
 	XmlDebugDumpString func(
 		output *FILE,
-		str *XmlChar) Void
+		str string)
 
 	XmlDebugDumpAttr func(
 		output *FILE,
 		attr XmlAttrPtr,
-		depth int) Void
+		depth int)
 
 	XmlDebugDumpAttrList func(
 		output *FILE,
 		attr XmlAttrPtr,
-		depth int) Void
+		depth int)
 
 	XmlDebugDumpOneNode func(
 		output *FILE,
 		node XmlNodePtr,
-		depth int) Void
+		depth int)
 
 	XmlDebugDumpNode func(
 		output *FILE,
 		node XmlNodePtr,
-		depth int) Void
+		depth int)
 
 	XmlDebugDumpNodeList func(
 		output *FILE,
 		node XmlNodePtr,
-		depth int) Void
+		depth int)
 
 	XmlDebugDumpDocumentHead func(
 		output *FILE,
-		doc XmlDocPtr) Void
+		doc XmlDocPtr)
 
 	XmlDebugDumpDocument func(
 		output *FILE,
-		doc XmlDocPtr) Void
+		doc XmlDocPtr)
 
 	XmlDebugDumpDTD func(
 		output *FILE,
-		dtd XmlDtdPtr) Void
+		dtd XmlDtdPtr)
 
 	XmlDebugDumpEntities func(
 		output *FILE,
-		doc XmlDocPtr) Void
+		doc XmlDocPtr)
 
 	XmlDebugCheckDocument func(
 		output *FILE,
@@ -7199,95 +7235,95 @@ var (
 
 	XmlLsOneNode func(
 		output *FILE,
-		node XmlNodePtr) Void
+		node XmlNodePtr)
 
 	XmlLsCountNode func(
 		node XmlNodePtr) int
 
 	XmlBoolToText func(
-		boolval int) *Char
+		boolval int) string
 
 	XmlShellPrintXPathError func(
 		errorType int,
-		arg *Char) Void
+		arg string)
 
 	XmlShellPrintXPathResult func(
-		list XmlXPathObjectPtr) Void
+		list XmlXPathObjectPtr)
 
 	XmlShellList func(
 		ctxt XmlShellCtxtPtr,
-		arg *Char,
+		arg string,
 		node XmlNodePtr,
 		node2 XmlNodePtr) int
 
 	XmlShellBase func(
 		ctxt XmlShellCtxtPtr,
-		arg *Char,
+		arg string,
 		node XmlNodePtr,
 		node2 XmlNodePtr) int
 
 	XmlShellDir func(
 		ctxt XmlShellCtxtPtr,
-		arg *Char,
+		arg string,
 		node XmlNodePtr,
 		node2 XmlNodePtr) int
 
 	XmlShellLoad func(
 		ctxt XmlShellCtxtPtr,
-		filename *Char,
+		filename string,
 		node XmlNodePtr,
 		node2 XmlNodePtr) int
 
 	XmlShellPrintNode func(
-		node XmlNodePtr) Void
+		node XmlNodePtr)
 
 	XmlShellCat func(
 		ctxt XmlShellCtxtPtr,
-		arg *Char,
+		arg string,
 		node XmlNodePtr,
 		node2 XmlNodePtr) int
 
 	XmlShellWrite func(
 		ctxt XmlShellCtxtPtr,
-		filename *Char,
+		filename string,
 		node XmlNodePtr,
 		node2 XmlNodePtr) int
 
 	XmlShellSave func(
 		ctxt XmlShellCtxtPtr,
-		filename *Char,
+		filename string,
 		node XmlNodePtr,
 		node2 XmlNodePtr) int
 
 	XmlShellValidate func(
 		ctxt XmlShellCtxtPtr,
-		dtd *Char,
+		dtd string,
 		node XmlNodePtr,
 		node2 XmlNodePtr) int
 
 	XmlShellDu func(
 		ctxt XmlShellCtxtPtr,
-		arg *Char,
+		arg string,
 		tree XmlNodePtr,
 		node2 XmlNodePtr) int
 
 	XmlShellPwd func(
 		ctxt XmlShellCtxtPtr,
-		buffer *Char,
+		buffer string,
 		node XmlNodePtr,
 		node2 XmlNodePtr) int
 
 	XmlShell func(
 		doc XmlDocPtr,
-		filename *Char,
+		filename string,
 		input XmlShellReadlineFunc,
-		output *FILE) Void
+		output *FILE)
 
 	XmlNewTextWriter func(
 		out XmlOutputBufferPtr) XmlTextWriterPtr
 
 	XmlNewTextWriterFilename func(
-		uri *Char,
+		uri string,
 		compression int) XmlTextWriterPtr
 
 	XmlNewTextWriterMemory func(
@@ -7308,13 +7344,13 @@ var (
 		compression int) XmlTextWriterPtr
 
 	XmlFreeTextWriter func(
-		writer XmlTextWriterPtr) Void
+		writer XmlTextWriterPtr)
 
 	XmlTextWriterStartDocument func(
 		writer XmlTextWriterPtr,
-		version *Char,
-		encoding *Char,
-		standalone *Char) int
+		version string,
+		encoding string,
+		standalone string) int
 
 	XmlTextWriterEndDocument func(
 		writer XmlTextWriterPtr) int
@@ -7327,27 +7363,27 @@ var (
 
 	XmlTextWriterWriteFormatComment func(
 		writer XmlTextWriterPtr,
-		format *Char,
+		format string,
 		v ...VArg) int
 
 	XmlTextWriterWriteVFormatComment func(
 		writer XmlTextWriterPtr,
-		format *Char,
+		format string,
 		argptr Va_list) int
 
 	XmlTextWriterWriteComment func(
 		writer XmlTextWriterPtr,
-		Content *XmlChar) int
+		Content string) int
 
 	XmlTextWriterStartElement func(
 		writer XmlTextWriterPtr,
-		name *XmlChar) int
+		name string) int
 
 	XmlTextWriterStartElementNS func(
 		writer XmlTextWriterPtr,
-		prefix *XmlChar,
-		name *XmlChar,
-		namespaceURI *XmlChar) int
+		prefix string,
+		name string,
+		namespaceURI string) int
 
 	XmlTextWriterEndElement func(
 		writer XmlTextWriterPtr) int
@@ -7357,165 +7393,165 @@ var (
 
 	XmlTextWriterWriteFormatElement func(
 		writer XmlTextWriterPtr,
-		name *XmlChar,
-		format *Char,
+		name string,
+		format string,
 		v ...VArg) int
 
 	XmlTextWriterWriteVFormatElement func(
 		writer XmlTextWriterPtr,
-		name *XmlChar,
-		format *Char,
+		name string,
+		format string,
 		argptr Va_list) int
 
 	XmlTextWriterWriteElement func(
 		writer XmlTextWriterPtr,
-		name *XmlChar,
-		Content *XmlChar) int
+		name string,
+		Content string) int
 
 	XmlTextWriterWriteFormatElementNS func(
 		writer XmlTextWriterPtr,
-		prefix *XmlChar,
-		name *XmlChar,
-		namespaceURI *XmlChar,
-		format *Char,
+		prefix string,
+		name string,
+		namespaceURI string,
+		format string,
 		v ...VArg) int
 
 	XmlTextWriterWriteVFormatElementNS func(
 		writer XmlTextWriterPtr,
-		prefix *XmlChar,
-		name *XmlChar,
-		namespaceURI *XmlChar,
-		format *Char,
+		prefix string,
+		name string,
+		namespaceURI string,
+		format string,
 		argptr Va_list) int
 
 	XmlTextWriterWriteElementNS func(
 		writer XmlTextWriterPtr,
-		prefix *XmlChar,
-		name *XmlChar,
-		namespaceURI *XmlChar,
-		Content *XmlChar) int
+		prefix string,
+		name string,
+		namespaceURI string,
+		Content string) int
 
 	XmlTextWriterWriteFormatRaw func(
 		writer XmlTextWriterPtr,
-		format *Char,
+		format string,
 		v ...VArg) int
 
 	XmlTextWriterWriteVFormatRaw func(
 		writer XmlTextWriterPtr,
-		format *Char,
+		format string,
 		argptr Va_list) int
 
 	XmlTextWriterWriteRawLen func(
 		writer XmlTextWriterPtr,
-		content *XmlChar,
+		content string,
 		len int) int
 
 	XmlTextWriterWriteRaw func(
 		writer XmlTextWriterPtr,
-		content *XmlChar) int
+		content string) int
 
 	XmlTextWriterWriteFormatString func(
 		writer XmlTextWriterPtr,
-		format *Char,
+		format string,
 		v ...VArg) int
 
 	XmlTextWriterWriteVFormatString func(
 		writer XmlTextWriterPtr,
-		format *Char,
+		format string,
 		argptr Va_list) int
 
 	XmlTextWriterWriteString func(
 		writer XmlTextWriterPtr,
-		Content *XmlChar) int
+		Content string) int
 
 	XmlTextWriterWriteBase64 func(
 		writer XmlTextWriterPtr,
-		data *Char,
+		data string,
 		start int,
 		len int) int
 
 	XmlTextWriterWriteBinHex func(
 		writer XmlTextWriterPtr,
-		data *Char,
+		data string,
 		start int,
 		len int) int
 
 	XmlTextWriterStartAttribute func(
 		writer XmlTextWriterPtr,
-		name *XmlChar) int
+		name string) int
 
 	XmlTextWriterStartAttributeNS func(
 		writer XmlTextWriterPtr,
-		prefix *XmlChar,
-		name *XmlChar,
-		namespaceURI *XmlChar) int
+		prefix string,
+		name string,
+		namespaceURI string) int
 
 	XmlTextWriterEndAttribute func(
 		writer XmlTextWriterPtr) int
 
 	XmlTextWriterWriteFormatAttribute func(
 		writer XmlTextWriterPtr,
-		name *XmlChar,
-		format *Char,
+		name string,
+		format string,
 		v ...VArg) int
 
 	XmlTextWriterWriteVFormatAttribute func(
 		writer XmlTextWriterPtr,
-		name *XmlChar,
-		format *Char,
+		name string,
+		format string,
 		argptr Va_list) int
 
 	XmlTextWriterWriteAttribute func(
 		writer XmlTextWriterPtr,
-		name *XmlChar,
-		Content *XmlChar) int
+		name string,
+		Content string) int
 
 	XmlTextWriterWriteFormatAttributeNS func(
 		writer XmlTextWriterPtr,
-		prefix *XmlChar,
-		name *XmlChar,
-		namespaceURI *XmlChar,
-		format *Char,
+		prefix string,
+		name string,
+		namespaceURI string,
+		format string,
 		v ...VArg) int
 
 	XmlTextWriterWriteVFormatAttributeNS func(
 		writer XmlTextWriterPtr,
-		prefix *XmlChar,
-		name *XmlChar,
-		namespaceURI *XmlChar,
-		format *Char,
+		prefix string,
+		name string,
+		namespaceURI string,
+		format string,
 		argptr Va_list) int
 
 	XmlTextWriterWriteAttributeNS func(
 		writer XmlTextWriterPtr,
-		prefix *XmlChar,
-		name *XmlChar,
-		namespaceURI *XmlChar,
-		Content *XmlChar) int
+		prefix string,
+		name string,
+		namespaceURI string,
+		Content string) int
 
 	XmlTextWriterStartPI func(
 		writer XmlTextWriterPtr,
-		target *XmlChar) int
+		target string) int
 
 	XmlTextWriterEndPI func(
 		writer XmlTextWriterPtr) int
 
 	XmlTextWriterWriteFormatPI func(
 		writer XmlTextWriterPtr,
-		target *XmlChar,
-		format *Char,
+		target string,
+		format string,
 		v ...VArg) int
 
 	XmlTextWriterWriteVFormatPI func(
 		writer XmlTextWriterPtr,
-		target *XmlChar,
-		format *Char,
+		target string,
+		format string,
 		argptr Va_list) int
 
 	XmlTextWriterWritePI func(
 		writer XmlTextWriterPtr,
-		target *XmlChar,
-		content *XmlChar) int
+		target string,
+		content string) int
 
 	XmlTextWriterStartCDATA func(
 		writer XmlTextWriterPtr) int
@@ -7525,102 +7561,102 @@ var (
 
 	XmlTextWriterWriteFormatCDATA func(
 		writer XmlTextWriterPtr,
-		format *Char,
+		format string,
 		v ...VArg) int
 
 	XmlTextWriterWriteVFormatCDATA func(
 		writer XmlTextWriterPtr,
-		format *Char,
+		format string,
 		argptr Va_list) int
 
 	XmlTextWriterWriteCDATA func(
 		writer XmlTextWriterPtr,
-		content *XmlChar) int
+		content string) int
 
 	XmlTextWriterStartDTD func(
 		writer XmlTextWriterPtr,
-		name *XmlChar,
-		pubid *XmlChar,
-		sysid *XmlChar) int
+		name string,
+		pubid string,
+		sysid string) int
 
 	XmlTextWriterEndDTD func(
 		writer XmlTextWriterPtr) int
 
 	XmlTextWriterWriteFormatDTD func(
 		writer XmlTextWriterPtr,
-		name *XmlChar,
-		pubid *XmlChar,
-		sysid *XmlChar,
-		format *Char,
+		name string,
+		pubid string,
+		sysid string,
+		format string,
 		v ...VArg) int
 
 	XmlTextWriterWriteVFormatDTD func(
 		writer XmlTextWriterPtr,
-		name *XmlChar,
-		pubid *XmlChar,
-		sysid *XmlChar,
-		format *Char,
+		name string,
+		pubid string,
+		sysid string,
+		format string,
 		argptr Va_list) int
 
 	XmlTextWriterWriteDTD func(
 		writer XmlTextWriterPtr,
-		name *XmlChar,
-		pubid *XmlChar,
-		sysid *XmlChar,
-		subset *XmlChar) int
+		name string,
+		pubid string,
+		sysid string,
+		subset string) int
 
 	XmlTextWriterStartDTDElement func(
 		writer XmlTextWriterPtr,
-		name *XmlChar) int
+		name string) int
 
 	XmlTextWriterEndDTDElement func(
 		writer XmlTextWriterPtr) int
 
 	XmlTextWriterWriteFormatDTDElement func(
 		writer XmlTextWriterPtr,
-		name *XmlChar,
-		format *Char,
+		name string,
+		format string,
 		v ...VArg) int
 
 	XmlTextWriterWriteVFormatDTDElement func(
 		writer XmlTextWriterPtr,
-		name *XmlChar,
-		format *Char,
+		name string,
+		format string,
 		argptr Va_list) int
 
 	XmlTextWriterWriteDTDElement func(
 		writer XmlTextWriterPtr,
-		name *XmlChar,
-		Content *XmlChar) int
+		name string,
+		Content string) int
 
 	XmlTextWriterStartDTDAttlist func(
 		writer XmlTextWriterPtr,
-		name *XmlChar) int
+		name string) int
 
 	XmlTextWriterEndDTDAttlist func(
 		writer XmlTextWriterPtr) int
 
 	XmlTextWriterWriteFormatDTDAttlist func(
 		writer XmlTextWriterPtr,
-		name *XmlChar,
-		format *Char,
+		name string,
+		format string,
 		v ...VArg) int
 
 	XmlTextWriterWriteVFormatDTDAttlist func(
 		writer XmlTextWriterPtr,
-		name *XmlChar,
-		format *Char,
+		name string,
+		format string,
 		argptr Va_list) int
 
 	XmlTextWriterWriteDTDAttlist func(
 		writer XmlTextWriterPtr,
-		name *XmlChar,
-		Content *XmlChar) int
+		name string,
+		Content string) int
 
 	XmlTextWriterStartDTDEntity func(
 		writer XmlTextWriterPtr,
 		pe int,
-		name *XmlChar) int
+		name string) int
 
 	XmlTextWriterEndDTDEntity func(
 		writer XmlTextWriterPtr) int
@@ -7628,51 +7664,51 @@ var (
 	XmlTextWriterWriteFormatDTDInternalEntity func(
 		writer XmlTextWriterPtr,
 		pe int,
-		name *XmlChar,
-		format *Char,
+		name string,
+		format string,
 		v ...VArg) int
 
 	XmlTextWriterWriteVFormatDTDInternalEntity func(
 		writer XmlTextWriterPtr,
 		pe int,
-		name *XmlChar,
-		format *Char,
+		name string,
+		format string,
 		argptr Va_list) int
 
 	XmlTextWriterWriteDTDInternalEntity func(
 		writer XmlTextWriterPtr,
 		pe int,
-		name *XmlChar,
-		content *XmlChar) int
+		name string,
+		content string) int
 
 	XmlTextWriterWriteDTDExternalEntity func(
 		writer XmlTextWriterPtr,
 		pe int,
-		name *XmlChar,
-		pubid *XmlChar,
-		sysid *XmlChar,
-		ndataid *XmlChar) int
+		name string,
+		pubid string,
+		sysid string,
+		ndataid string) int
 
 	XmlTextWriterWriteDTDExternalEntityContents func(
 		writer XmlTextWriterPtr,
-		pubid *XmlChar,
-		sysid *XmlChar,
-		ndataid *XmlChar) int
+		pubid string,
+		sysid string,
+		ndataid string) int
 
 	XmlTextWriterWriteDTDEntity func(
 		writer XmlTextWriterPtr,
 		pe int,
-		name *XmlChar,
-		pubid *XmlChar,
-		sysid *XmlChar,
-		ndataid *XmlChar,
-		content *XmlChar) int
+		name string,
+		pubid string,
+		sysid string,
+		ndataid string,
+		content string) int
 
 	XmlTextWriterWriteDTDNotation func(
 		writer XmlTextWriterPtr,
-		name *XmlChar,
-		pubid *XmlChar,
-		sysid *XmlChar) int
+		name string,
+		pubid string,
+		sysid string) int
 
 	XmlTextWriterSetIndent func(
 		writer XmlTextWriterPtr,
@@ -7680,7 +7716,7 @@ var (
 
 	XmlTextWriterSetIndentString func(
 		writer XmlTextWriterPtr,
-		str *XmlChar) int
+		str string) int
 
 	XmlTextWriterSetQuoteChar func(
 		writer XmlTextWriterPtr,
@@ -7688,6 +7724,320 @@ var (
 
 	XmlTextWriterFlush func(
 		writer XmlTextWriterPtr) int
+
+	XmlNanoFTPInit func()
+
+	XmlNanoFTPCleanup func()
+
+	XmlNanoFTPNewCtxt func(
+		URL string) *Void
+
+	XmlNanoFTPFreeCtxt func(
+		ctx *Void)
+
+	XmlNanoFTPConnectTo func(
+		server string,
+		port int) *Void
+
+	XmlNanoFTPOpen func(
+		URL string) *Void
+
+	XmlNanoFTPConnect func(
+		ctx *Void) int
+
+	XmlNanoFTPClose func(
+		ctx *Void) int
+
+	XmlNanoFTPQuit func(
+		ctx *Void) int
+
+	XmlNanoFTPScanProxy func(
+		URL string)
+
+	XmlNanoFTPProxy func(
+		host string,
+		port int,
+		user string,
+		passwd string,
+		typ int)
+
+	XmlNanoFTPUpdateURL func(
+		ctx *Void,
+		URL string) int
+
+	XmlNanoFTPGetResponse func(
+		ctx *Void) int
+
+	XmlNanoFTPCheckResponse func(
+		ctx *Void) int
+
+	XmlNanoFTPCwd func(
+		ctx *Void,
+		directory string) int
+
+	XmlNanoFTPDele func(
+		ctx *Void,
+		file string) int
+
+	XmlNanoFTPGetConnection func(
+		ctx *Void) SOCKET
+
+	XmlNanoFTPCloseConnection func(
+		ctx *Void) int
+
+	XmlNanoFTPList func(
+		ctx *Void,
+		callback FtpListCallback,
+		userData *Void,
+		filename string) int
+
+	XmlNanoFTPGetSocket func(
+		ctx *Void,
+		filename string) SOCKET
+
+	XmlNanoFTPGet func(
+		ctx *Void,
+		callback FtpDataCallback,
+		userData *Void,
+		filename string) int
+
+	XmlNanoFTPRead func(
+		ctx *Void,
+		dest *Void,
+		len int) int
+
+	XmlNanoHTTPInit func(
+		Void)
+
+	XmlNanoHTTPCleanup func(
+		Void)
+
+	XmlNanoHTTPScanProxy func(
+		URL string)
+
+	XmlNanoHTTPFetch func(
+		URL string,
+		filename string,
+		contentType *string) int
+
+	XmlNanoHTTPMethod func(
+		URL string,
+		method string,
+		input string,
+		contentType *string,
+		headers string,
+		ilen int) *Void
+
+	XmlNanoHTTPMethodRedir func(
+		URL string,
+		method string,
+		input string,
+		contentType *string,
+		redir *string,
+		headers string,
+		ilen int) *Void
+
+	XmlNanoHTTPOpen func(
+		URL string,
+		contentType *string) *Void
+
+	XmlNanoHTTPOpenRedir func(
+		URL string,
+		contentType *string,
+		redir *string) *Void
+
+	XmlNanoHTTPReturnCode func(
+		ctx *Void) int
+
+	XmlNanoHTTPAuthHeader func(
+		ctx *Void) string
+
+	XmlNanoHTTPRedir func(
+		ctx *Void) string
+
+	XmlNanoHTTPContentLength func(
+		ctx *Void) int
+
+	XmlNanoHTTPEncoding func(
+		ctx *Void) string
+
+	XmlNanoHTTPMimeType func(
+		ctx *Void) string
+
+	XmlNanoHTTPRead func(
+		ctx *Void,
+		dest *Void,
+		len int) int
+
+	XmlNanoHTTPSave func(
+		ctxt *Void,
+		filename string) int
+
+	XmlNanoHTTPClose func(
+		ctx *Void)
+
+	XmlFreePattern func(comp XmlPatternPtr)
+
+	XmlFreePatternList func(
+		comp XmlPatternPtr)
+
+	XmlPatterncompile func(
+		pattern string,
+		dict *XmlDict,
+		flags int,
+		namespaces *string) XmlPatternPtr
+
+	XmlPatternMatch func(
+		comp XmlPatternPtr,
+		node XmlNodePtr) int
+
+	XmlPatternStreamable func(
+		comp XmlPatternPtr) int
+
+	XmlPatternMaxDepth func(
+		comp XmlPatternPtr) int
+
+	XmlPatternMinDepth func(
+		comp XmlPatternPtr) int
+
+	XmlPatternFromRoot func(
+		comp XmlPatternPtr) int
+
+	XmlPatternGetStreamCtxt func(
+		comp XmlPatternPtr) XmlStreamCtxtPtr
+
+	XmlFreeStreamCtxt func(
+		stream XmlStreamCtxtPtr)
+
+	XmlStreamPushNode func(
+		stream XmlStreamCtxtPtr,
+		name string,
+		ns string,
+		nodeType int) int
+
+	XmlStreamPush func(
+		stream XmlStreamCtxtPtr,
+		name string,
+		ns string) int
+
+	XmlStreamPushAttr func(
+		stream XmlStreamCtxtPtr,
+		name string,
+		ns string) int
+
+	XmlStreamPop func(
+		stream XmlStreamCtxtPtr) int
+
+	XmlStreamWantsAnyNode func(
+		stream XmlStreamCtxtPtr) int
+
+	XmlSaveToFd func(
+		fd int,
+		encoding string,
+		options int) XmlSaveCtxtPtr
+
+	XmlSaveToFilename func(
+		filename string,
+		encoding string,
+		options int) XmlSaveCtxtPtr
+
+	XmlSaveToBuffer func(
+		buffer XmlBufferPtr,
+		encoding string,
+		options int) XmlSaveCtxtPtr
+
+	XmlSaveToIO func(
+		iowrite XmlOutputWriteCallback,
+		ioclose XmlOutputCloseCallback,
+		ioctx *Void,
+		encoding string,
+		options int) XmlSaveCtxtPtr
+
+	XmlSaveDoc func(
+		ctxt XmlSaveCtxtPtr,
+		doc XmlDocPtr) Long
+
+	XmlSaveTree func(
+		ctxt XmlSaveCtxtPtr,
+		node XmlNodePtr) Long
+
+	XmlSaveFlush func(
+		ctxt XmlSaveCtxtPtr) int
+
+	XmlSaveClose func(
+		ctxt XmlSaveCtxtPtr) int
+
+	XmlSaveSetEscape func(
+		ctxt XmlSaveCtxtPtr,
+		escape XmlCharEncodingOutputFunc) int
+
+	XmlSaveSetAttrEscape func(
+		ctxt XmlSaveCtxtPtr,
+		escape XmlCharEncodingOutputFunc) int
+
+	XmlCreateURI func() XmlURIPtr
+
+	XmlBuildURI func(URI, base string) string
+
+	XmlBuildRelativeURI func(URI, base string) string
+
+	XmlParseURI func(str string) XmlURIPtr
+
+	XmlParseURIRaw func(str string, raw int) XmlURIPtr
+
+	XmlParseURIReference func(uri XmlURIPtr, str string) int
+
+	XmlSaveUri func(uri XmlURIPtr) string
+
+	XmlPrintURI func(stream *FILE, uri XmlURIPtr)
+
+	XmlURIEscapeStr func(str, list string) string
+
+	XmlURIUnescapeString func(
+		str string, len int, target string) string
+
+	XmlNormalizeURIPath func(path string) int
+
+	XmlURIEscape func(str string) string
+
+	XmlFreeURI func(uri XmlURIPtr)
+
+	XmlCanonicPath func(path string) string
+
+	XmlPathToURI func(path string) string
+
+	XmlRaiseError func(
+		schannel XmlStructuredErrorFunc,
+		channel XmlGenericErrorFunc,
+		data, ctx, node *Void,
+		domain, code int,
+		level XmlErrorLevel,
+		file string,
+		line int,
+		str1, str2, str3 string,
+		int1, col int,
+		msg string,
+		v ...VArg)
+
+	XmlSimpleError func(
+		domain, code int, node XmlNodePtr, msg, extra string)
+
+	XmlErrEncoding func(
+		ctxt XmlParserCtxtPtr,
+		xmlerr XmlParserErrors,
+		msg, str1, str2 string)
+
+	XmlModuleOpen func(filename string,
+		XmlModuleOption int) XmlModulePtr
+
+	XmlModuleSymbol func(module XmlModulePtr, name string,
+		result **Void) int
+
+	XmlModuleClose func(
+		module XmlModulePtr) int
+
+	XmlModuleFree func(
+		module XmlModulePtr) int
 )
 
 var dll = "libxml2-2.dll"
@@ -7704,7 +8054,7 @@ var apiList = Apis{
 	{"__xmlDefaultSAXLocator", &XmlDefaultSAXLocator},
 	{"__xmlDeregisterNodeDefaultValue", &XmlDeregisterNodeDefaultValue},
 	{"__xmlDoValidityCheckingDefaultValue", &XmlDoValidityCheckingDefaultValue},
-	// {"__xmlErrEncoding", &XmlErrEncoding},
+	{"__xmlErrEncoding", &XmlErrEncoding},
 	{"__xmlGenericError", &XmlGenericError},
 	{"__xmlGenericErrorContext", &XmlGenericErrorContext},
 	{"__xmlGetWarningsDefaultValue", &XmlGetWarningsDefaultValue},
@@ -7718,10 +8068,10 @@ var apiList = Apis{
 	{"__xmlParserInputBufferCreateFilenameValue", &XmlParserInputBufferCreateFilenameValue},
 	{"__xmlParserVersion", &XmlParserVersion},
 	{"__xmlPedanticParserDefaultValue", &XmlPedanticParserDefaultValue},
-	// {"__xmlRaiseError", &XmlRaiseError},
+	{"__xmlRaiseError", &XmlRaiseError},
 	{"__xmlRegisterNodeDefaultValue", &XmlRegisterNodeDefaultValue},
 	{"__xmlSaveNoEmptyTags", &XmlSaveNoEmptyTags},
-	// {"__xmlSimpleError", &XmlSimpleError},
+	{"__xmlSimpleError", &XmlSimpleError},
 	{"__xmlStructuredError", &XmlStructuredError},
 	{"__xmlStructuredErrorContext", &XmlStructuredErrorContext},
 	{"__xmlSubstituteEntitiesDefaultValue", &XmlSubstituteEntitiesDefaultValue},
@@ -7744,12 +8094,10 @@ var apiList = Apis{
 	// {"docbSAXParseDoc", &DocbSAXParseDoc},
 	// {"docbSAXParseFile", &DocbSAXParseFile},
 	{"elementDecl", &elementDecl},
-	// {"emptyExp", &emptyExp},
 	{"endDocument", &endDocument},
 	{"endElement", &endElement},
 	{"entityDecl", &entityDecl},
 	{"externalSubset", &externalSubset},
-	// {"forbiddenExp", &forbiddenExp},
 	{"getColumnNumber", &getColumnNumber},
 	{"getEntity", &getEntity},
 	{"getLineNumber", &getLineNumber},
@@ -7910,14 +8258,14 @@ var apiList = Apis{
 	{"xmlBufferWriteChar", &XmlBufferWriteChar},
 	{"xmlBufferWriteQuotedString", &XmlBufferWriteQuotedString},
 	{"xmlBuildQName", &XmlBuildQName},
-	// {"xmlBuildRelativeURI", &XmlBuildRelativeURI},
-	// {"xmlBuildURI", &XmlBuildURI},
+	{"xmlBuildRelativeURI", &XmlBuildRelativeURI},
+	{"xmlBuildURI", &XmlBuildURI},
 	{"xmlByteConsumed", &XmlByteConsumed},
 	// {"xmlC14NDocDumpMemory", &XmlC14NDocDumpMemory},
 	// {"xmlC14NDocSave", &XmlC14NDocSave},
 	// {"xmlC14NDocSaveTo", &XmlC14NDocSaveTo},
 	// {"xmlC14NExecute", &XmlC14NExecute},
-	// {"xmlCanonicPath", &XmlCanonicPath},
+	{"xmlCanonicPath", &XmlCanonicPath},
 	{"xmlCatalogAdd", &XmlCatalogAdd},
 	{"xmlCatalogAddLocal", &XmlCatalogAddLocal},
 	{"xmlCatalogCleanup", &XmlCatalogCleanup},
@@ -7990,7 +8338,7 @@ var apiList = Apis{
 	{"xmlCreateIntSubset", &XmlCreateIntSubset},
 	{"xmlCreateMemoryParserCtxt", &XmlCreateMemoryParserCtxt},
 	{"xmlCreatePushParserCtxt", &XmlCreatePushParserCtxt},
-	// {"xmlCreateURI", &XmlCreateURI},
+	{"xmlCreateURI", &XmlCreateURI},
 	{"xmlCreateURLParserCtxt", &XmlCreateURLParserCtxt},
 	{"xmlCtxtGetLastError", &XmlCtxtGetLastError},
 	{"xmlCtxtReadDoc", &XmlCtxtReadDoc},
@@ -8104,16 +8452,16 @@ var apiList = Apis{
 	{"xmlFreeNsList", &XmlFreeNsList},
 	{"xmlFreeParserCtxt", &XmlFreeParserCtxt},
 	{"xmlFreeParserInputBuffer", &XmlFreeParserInputBuffer},
-	// {"xmlFreePattern", &XmlFreePattern},
-	// {"xmlFreePatternList", &XmlFreePatternList},
+	{"xmlFreePattern", &XmlFreePattern},
+	{"xmlFreePatternList", &XmlFreePatternList},
 	{"xmlFreeProp", &XmlFreeProp},
 	{"xmlFreePropList", &XmlFreePropList},
 	{"xmlFreeRMutex", &XmlFreeRMutex},
 	{"xmlFreeRefTable", &XmlFreeRefTable},
-	// {"xmlFreeStreamCtxt", &XmlFreeStreamCtxt},
+	{"xmlFreeStreamCtxt", &XmlFreeStreamCtxt},
 	{"xmlFreeTextReader", &XmlFreeTextReader},
 	{"xmlFreeTextWriter", &XmlFreeTextWriter},
-	// {"xmlFreeURI", &XmlFreeURI},
+	{"xmlFreeURI", &XmlFreeURI},
 	{"xmlFreeValidCtxt", &XmlFreeValidCtxt},
 	{"xmlGcMemGet", &XmlGcMemGet},
 	{"xmlGcMemSetup", &XmlGcMemSetup},
@@ -8274,54 +8622,54 @@ var apiList = Apis{
 	{"xmlMemUsed", &XmlMemUsed},
 	{"xmlMemoryDump", &XmlMemoryDump},
 	{"xmlMemoryStrdup", &XmlMemoryStrdup},
-	// {"xmlModuleClose", &XmlModuleClose},
-	// {"xmlModuleFree", &XmlModuleFree},
-	// {"xmlModuleOpen", &XmlModuleOpen},
-	// {"xmlModuleSymbol", &XmlModuleSymbol},
+	{"xmlModuleClose", &XmlModuleClose},
+	{"xmlModuleFree", &XmlModuleFree},
+	{"xmlModuleOpen", &XmlModuleOpen},
+	{"xmlModuleSymbol", &XmlModuleSymbol},
 	{"xmlMutexLock", &XmlMutexLock},
 	{"xmlMutexUnlock", &XmlMutexUnlock},
 	{"xmlNamespaceParseNCName", &XmlNamespaceParseNCName},
 	{"xmlNamespaceParseNSDef", &XmlNamespaceParseNSDef},
 	{"xmlNamespaceParseQName", &XmlNamespaceParseQName},
-	// {"xmlNanoFTPCheckResponse", &XmlNanoFTPCheckResponse},
-	// {"xmlNanoFTPCleanup", &XmlNanoFTPCleanup},
-	// {"xmlNanoFTPClose", &XmlNanoFTPClose},
-	// {"xmlNanoFTPCloseConnection", &XmlNanoFTPCloseConnection},
-	// {"xmlNanoFTPConnect", &XmlNanoFTPConnect},
-	// {"xmlNanoFTPConnectTo", &XmlNanoFTPConnectTo},
-	// {"xmlNanoFTPCwd", &XmlNanoFTPCwd},
-	// {"xmlNanoFTPDele", &XmlNanoFTPDele},
-	// {"xmlNanoFTPFreeCtxt", &XmlNanoFTPFreeCtxt},
-	// {"xmlNanoFTPGet", &XmlNanoFTPGet},
-	// {"xmlNanoFTPGetConnection", &XmlNanoFTPGetConnection},
-	// {"xmlNanoFTPGetResponse", &XmlNanoFTPGetResponse},
-	// {"xmlNanoFTPGetSocket", &XmlNanoFTPGetSocket},
-	// {"xmlNanoFTPInit", &XmlNanoFTPInit},
-	// {"xmlNanoFTPList", &XmlNanoFTPList},
-	// {"xmlNanoFTPNewCtxt", &XmlNanoFTPNewCtxt},
-	// {"xmlNanoFTPOpen", &XmlNanoFTPOpen},
-	// {"xmlNanoFTPProxy", &XmlNanoFTPProxy},
-	// {"xmlNanoFTPQuit", &XmlNanoFTPQuit},
-	// {"xmlNanoFTPRead", &XmlNanoFTPRead},
-	// {"xmlNanoFTPScanProxy", &XmlNanoFTPScanProxy},
-	// {"xmlNanoFTPUpdateURL", &XmlNanoFTPUpdateURL},
-	// {"xmlNanoHTTPAuthHeader", &XmlNanoHTTPAuthHeader},
-	// {"xmlNanoHTTPCleanup", &XmlNanoHTTPCleanup},
-	// {"xmlNanoHTTPClose", &XmlNanoHTTPClose},
-	// {"xmlNanoHTTPContentLength", &XmlNanoHTTPContentLength},
-	// {"xmlNanoHTTPEncoding", &XmlNanoHTTPEncoding},
-	// {"xmlNanoHTTPFetch", &XmlNanoHTTPFetch},
-	// {"xmlNanoHTTPInit", &XmlNanoHTTPInit},
-	// {"xmlNanoHTTPMethod", &XmlNanoHTTPMethod},
-	// {"xmlNanoHTTPMethodRedir", &XmlNanoHTTPMethodRedir},
-	// {"xmlNanoHTTPMimeType", &XmlNanoHTTPMimeType},
-	// {"xmlNanoHTTPOpen", &XmlNanoHTTPOpen},
-	// {"xmlNanoHTTPOpenRedir", &XmlNanoHTTPOpenRedir},
-	// {"xmlNanoHTTPRead", &XmlNanoHTTPRead},
-	// {"xmlNanoHTTPRedir", &XmlNanoHTTPRedir},
-	// {"xmlNanoHTTPReturnCode", &XmlNanoHTTPReturnCode},
-	// {"xmlNanoHTTPSave", &XmlNanoHTTPSave},
-	// {"xmlNanoHTTPScanProxy", &XmlNanoHTTPScanProxy},
+	{"xmlNanoFTPCheckResponse", &XmlNanoFTPCheckResponse},
+	{"xmlNanoFTPCleanup", &XmlNanoFTPCleanup},
+	{"xmlNanoFTPClose", &XmlNanoFTPClose},
+	{"xmlNanoFTPCloseConnection", &XmlNanoFTPCloseConnection},
+	{"xmlNanoFTPConnect", &XmlNanoFTPConnect},
+	{"xmlNanoFTPConnectTo", &XmlNanoFTPConnectTo},
+	{"xmlNanoFTPCwd", &XmlNanoFTPCwd},
+	{"xmlNanoFTPDele", &XmlNanoFTPDele},
+	{"xmlNanoFTPFreeCtxt", &XmlNanoFTPFreeCtxt},
+	{"xmlNanoFTPGet", &XmlNanoFTPGet},
+	{"xmlNanoFTPGetConnection", &XmlNanoFTPGetConnection},
+	{"xmlNanoFTPGetResponse", &XmlNanoFTPGetResponse},
+	{"xmlNanoFTPGetSocket", &XmlNanoFTPGetSocket},
+	{"xmlNanoFTPInit", &XmlNanoFTPInit},
+	{"xmlNanoFTPList", &XmlNanoFTPList},
+	{"xmlNanoFTPNewCtxt", &XmlNanoFTPNewCtxt},
+	{"xmlNanoFTPOpen", &XmlNanoFTPOpen},
+	{"xmlNanoFTPProxy", &XmlNanoFTPProxy},
+	{"xmlNanoFTPQuit", &XmlNanoFTPQuit},
+	{"xmlNanoFTPRead", &XmlNanoFTPRead},
+	{"xmlNanoFTPScanProxy", &XmlNanoFTPScanProxy},
+	{"xmlNanoFTPUpdateURL", &XmlNanoFTPUpdateURL},
+	{"xmlNanoHTTPAuthHeader", &XmlNanoHTTPAuthHeader},
+	{"xmlNanoHTTPCleanup", &XmlNanoHTTPCleanup},
+	{"xmlNanoHTTPClose", &XmlNanoHTTPClose},
+	{"xmlNanoHTTPContentLength", &XmlNanoHTTPContentLength},
+	{"xmlNanoHTTPEncoding", &XmlNanoHTTPEncoding},
+	{"xmlNanoHTTPFetch", &XmlNanoHTTPFetch},
+	{"xmlNanoHTTPInit", &XmlNanoHTTPInit},
+	{"xmlNanoHTTPMethod", &XmlNanoHTTPMethod},
+	{"xmlNanoHTTPMethodRedir", &XmlNanoHTTPMethodRedir},
+	{"xmlNanoHTTPMimeType", &XmlNanoHTTPMimeType},
+	{"xmlNanoHTTPOpen", &XmlNanoHTTPOpen},
+	{"xmlNanoHTTPOpenRedir", &XmlNanoHTTPOpenRedir},
+	{"xmlNanoHTTPRead", &XmlNanoHTTPRead},
+	{"xmlNanoHTTPRedir", &XmlNanoHTTPRedir},
+	{"xmlNanoHTTPReturnCode", &XmlNanoHTTPReturnCode},
+	{"xmlNanoHTTPSave", &XmlNanoHTTPSave},
+	{"xmlNanoHTTPScanProxy", &XmlNanoHTTPScanProxy},
 	{"xmlNewAutomata", &XmlNewAutomata},
 	{"xmlNewCDataBlock", &XmlNewCDataBlock},
 	{"xmlNewCatalog", &XmlNewCatalog},
@@ -8393,7 +8741,7 @@ var apiList = Apis{
 	{"xmlNodeSetLang", &XmlNodeSetLang},
 	{"xmlNodeSetName", &XmlNodeSetName},
 	{"xmlNodeSetSpacePreserve", &XmlNodeSetSpacePreserve},
-	// {"xmlNormalizeURIPath", &XmlNormalizeURIPath},
+	{"xmlNormalizeURIPath", &XmlNormalizeURIPath},
 	{"xmlNormalizeWindowsPath", &XmlNormalizeWindowsPath},
 	{"xmlOutputBufferClose", &XmlOutputBufferClose},
 	{"xmlOutputBufferCreateBuffer", &XmlOutputBufferCreateBuffer},
@@ -8464,9 +8812,9 @@ var apiList = Apis{
 	{"xmlParseStartTag", &XmlParseStartTag},
 	{"xmlParseSystemLiteral", &XmlParseSystemLiteral},
 	{"xmlParseTextDecl", &XmlParseTextDecl},
-	// {"xmlParseURI", &XmlParseURI},
-	// {"xmlParseURIRaw", &XmlParseURIRaw},
-	// {"xmlParseURIReference", &XmlParseURIReference},
+	{"xmlParseURI", &XmlParseURI},
+	{"xmlParseURIRaw", &XmlParseURIRaw},
+	{"xmlParseURIReference", &XmlParseURIReference},
 	{"xmlParseVersionInfo", &XmlParseVersionInfo},
 	{"xmlParseVersionNum", &XmlParseVersionNum},
 	{"xmlParseXMLDecl", &XmlParseXMLDecl},
@@ -8496,19 +8844,19 @@ var apiList = Apis{
 	{"xmlParserValidityError", &XmlParserValidityError},
 	{"xmlParserValidityWarning", &XmlParserValidityWarning},
 	{"xmlParserWarning", &XmlParserWarning},
-	// {"xmlPathToURI", &XmlPathToURI},
-	// {"xmlPatternFromRoot", &XmlPatternFromRoot},
-	// {"xmlPatternGetStreamCtxt", &XmlPatternGetStreamCtxt},
-	// {"xmlPatternMatch", &XmlPatternMatch},
-	// {"xmlPatternMaxDepth", &XmlPatternMaxDepth},
-	// {"xmlPatternMinDepth", &XmlPatternMinDepth},
-	// {"xmlPatternStreamable", &XmlPatternStreamable},
-	// {"xmlPatterncompile", &XmlPatterncompile},
+	{"xmlPathToURI", &XmlPathToURI},
+	{"xmlPatternFromRoot", &XmlPatternFromRoot},
+	{"xmlPatternGetStreamCtxt", &XmlPatternGetStreamCtxt},
+	{"xmlPatternMatch", &XmlPatternMatch},
+	{"xmlPatternMaxDepth", &XmlPatternMaxDepth},
+	{"xmlPatternMinDepth", &XmlPatternMinDepth},
+	{"xmlPatternStreamable", &XmlPatternStreamable},
+	{"xmlPatterncompile", &XmlPatterncompile},
 	{"xmlPedanticParserDefault", &XmlPedanticParserDefault},
 	{"xmlPopInput", &XmlPopInput},
 	{"xmlPopInputCallbacks", &XmlPopInputCallbacks},
 	{"xmlPreviousElementSibling", &XmlPreviousElementSibling},
-	// {"xmlPrintURI", &XmlPrintURI},
+	{"xmlPrintURI", &XmlPrintURI},
 	{"xmlPushInput", &XmlPushInput},
 	{"xmlRMutexLock", &XmlRMutexLock},
 	{"xmlRMutexUnlock", &XmlRMutexUnlock},
@@ -8627,23 +8975,23 @@ var apiList = Apis{
 	{"xmlSAXUserParseFile", &XmlSAXUserParseFile},
 	{"xmlSAXUserParseMemory", &XmlSAXUserParseMemory},
 	{"xmlSAXVersion", &XmlSAXVersion},
-	// {"xmlSaveClose", &XmlSaveClose},
-	// {"xmlSaveDoc", &XmlSaveDoc},
+	{"xmlSaveClose", &XmlSaveClose},
+	{"xmlSaveDoc", &XmlSaveDoc},
 	{"xmlSaveFile", &XmlSaveFile},
 	{"xmlSaveFileEnc", &XmlSaveFileEnc},
 	{"xmlSaveFileTo", &XmlSaveFileTo},
-	// {"xmlSaveFlush", &XmlSaveFlush},
+	{"xmlSaveFlush", &XmlSaveFlush},
 	{"xmlSaveFormatFile", &XmlSaveFormatFile},
 	{"xmlSaveFormatFileEnc", &XmlSaveFormatFileEnc},
 	{"xmlSaveFormatFileTo", &XmlSaveFormatFileTo},
-	// {"xmlSaveSetAttrEscape", &XmlSaveSetAttrEscape},
-	// {"xmlSaveSetEscape", &XmlSaveSetEscape},
-	// {"xmlSaveToBuffer", &XmlSaveToBuffer},
-	// {"xmlSaveToFd", &XmlSaveToFd},
-	// {"xmlSaveToFilename", &XmlSaveToFilename},
-	// {"xmlSaveToIO", &XmlSaveToIO},
-	// {"xmlSaveTree", &XmlSaveTree},
-	// {"xmlSaveUri", &XmlSaveUri},
+	{"xmlSaveSetAttrEscape", &XmlSaveSetAttrEscape},
+	{"xmlSaveSetEscape", &XmlSaveSetEscape},
+	{"xmlSaveToBuffer", &XmlSaveToBuffer},
+	{"xmlSaveToFd", &XmlSaveToFd},
+	{"xmlSaveToFilename", &XmlSaveToFilename},
+	{"xmlSaveToIO", &XmlSaveToIO},
+	{"xmlSaveTree", &XmlSaveTree},
+	{"xmlSaveUri", &XmlSaveUri},
 	{"xmlScanName", &XmlScanName},
 	{"xmlSchemaCheckFacet", &XmlSchemaCheckFacet},
 	{"xmlSchemaCleanupTypes", &XmlSchemaCleanupTypes},
@@ -8763,11 +9111,11 @@ var apiList = Apis{
 	{"xmlStrchr", &XmlStrchr},
 	{"xmlStrcmp", &XmlStrcmp},
 	{"xmlStrdup", &XmlStrdup},
-	// {"xmlStreamPop", &XmlStreamPop},
-	// {"xmlStreamPush", &XmlStreamPush},
-	// {"xmlStreamPushAttr", &XmlStreamPushAttr},
-	// {"xmlStreamPushNode", &XmlStreamPushNode},
-	// {"xmlStreamWantsAnyNode", &XmlStreamWantsAnyNode},
+	{"xmlStreamPop", &XmlStreamPop},
+	{"xmlStreamPush", &XmlStreamPush},
+	{"xmlStreamPushAttr", &XmlStreamPushAttr},
+	{"xmlStreamPushNode", &XmlStreamPushNode},
+	{"xmlStreamWantsAnyNode", &XmlStreamWantsAnyNode},
 	// {"xmlStringComment", &XmlStringComment},
 	{"xmlStringCurrentChar", &XmlStringCurrentChar},
 	{"xmlStringDecodeEntities", &XmlStringDecodeEntities},
@@ -9117,9 +9465,9 @@ var apiList = Apis{
 	{"xmlUCSIsYiRadicals", &XmlUCSIsYiRadicals},
 	{"xmlUCSIsYiSyllables", &XmlUCSIsYiSyllables},
 	{"xmlUCSIsYijingHexagramSymbols", &XmlUCSIsYijingHexagramSymbols},
-	// {"xmlURIEscape", &XmlURIEscape},
-	// {"xmlURIEscapeStr", &XmlURIEscapeStr},
-	// {"xmlURIUnescapeString", &XmlURIUnescapeString},
+	{"xmlURIEscape", &XmlURIEscape},
+	{"xmlURIEscapeStr", &XmlURIEscapeStr},
+	{"xmlURIUnescapeString", &XmlURIUnescapeString},
 	{"xmlUTF8Charcmp", &XmlUTF8Charcmp},
 	{"xmlUTF8Size", &XmlUTF8Size},
 	{"xmlUTF8Strlen", &XmlUTF8Strlen},
@@ -9349,6 +9697,8 @@ var apiList = Apis{
 }
 
 var dataList = Data{
+// {"emptyExp", new(emptyExp)},
+// {"forbiddenExp", new(forbiddenExp)},
 // {"xmlXPathNAN", new(XmlXPathNAN)},
 // {"xmlXPathNINF", new(XmlXPathNINF)},
 // {"xmlXPathPINF", new(XmlXPathPINF)},
