@@ -1,3 +1,7 @@
+// Copyright (c) 2013 Tony Wilson. All rights reserved.
+// See LICENSE file for permissions and restrictions.
+
+//Package xml2 provides API definitions for accessing the libxml2 dll.
 package xml2
 
 import (
@@ -7016,7 +7020,7 @@ var (
 	XmlReaderForFile func(
 		filename string,
 		encoding string,
-		options int) *XmlTextReader//Ptr
+		options int) *XmlTextReader //Ptr
 
 	XmlReaderForMemory func(
 		buffer string,
