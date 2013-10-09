@@ -2253,6 +2253,34 @@ const (
 	XML_MODULE_LOCAL
 )
 
+type XmlParserOption Enum
+
+const (
+	XML_PARSE_RECOVER XmlParserOption = 1 << iota
+	XML_PARSE_NOENT
+	XML_PARSE_DTDLOAD
+	XML_PARSE_DTDATTR
+	XML_PARSE_DTDVALID
+	XML_PARSE_NOERROR
+	XML_PARSE_NOWARNING
+	XML_PARSE_PEDANTIC
+	XML_PARSE_NOBLANKS
+	XML_PARSE_SAX1
+	XML_PARSE_XINCLUDE
+	XML_PARSE_NONET
+	XML_PARSE_NODICT
+	XML_PARSE_NSCLEAN
+	XML_PARSE_NOCDATA
+	XML_PARSE_NOXINCNODE
+	XML_PARSE_COMPACT
+	XML_PARSE_OLD10
+	XML_PARSE_NOBASEFIX
+	XML_PARSE_HUGE
+	XML_PARSE_OLDSAX
+	XML_PARSE_IGNORE_ENC
+	XML_PARSE_BIG_LINES
+)
+
 var (
 	XmlCheckVersion func(version int)
 
@@ -2602,7 +2630,8 @@ var (
 		version string) XmlDocPtr
 
 	XmlFreeDoc func(
-		cur XmlDocPtr)
+		cur *XmlDoc)
+	// cur XmlDocPtr)
 
 	XmlNewDocProp func(
 		doc XmlDocPtr,
@@ -4302,7 +4331,7 @@ var (
 		ID string,
 		lst *XmlNodePtr) int
 
-	XmlNewParserCtxt func() XmlParserCtxtPtr
+	XmlNewParserCtxt func() *XmlParserCtxt //Ptr
 
 	XmlInitParserCtxt func(
 		ctxt XmlParserCtxtPtr) int
@@ -4415,14 +4444,14 @@ var (
 	XmlReadFile func(
 		URL string,
 		encoding string,
-		options int) XmlDocPtr
+		options int) *XmlDoc //Ptr
 
 	XmlReadMemory func(
 		buffer string,
 		size int,
 		URL string,
 		encoding string,
-		options int) XmlDocPtr
+		options int) *XmlDoc //Ptr
 
 	XmlReadFd func(
 		fd int,
@@ -4446,10 +4475,10 @@ var (
 		options int) XmlDocPtr
 
 	XmlCtxtReadFile func(
-		ctxt XmlParserCtxtPtr,
+		ctxt *XmlParserCtxt, //Ptr
 		filename string,
 		encoding string,
-		options int) XmlDocPtr
+		options XmlParserOption /*int*/) *XmlDoc //Ptr
 
 	XmlCtxtReadMemory func(
 		ctxt XmlParserCtxtPtr,
@@ -6987,7 +7016,7 @@ var (
 	XmlReaderForFile func(
 		filename string,
 		encoding string,
-		options int) XmlTextReaderPtr
+		options int) *XmlTextReader//Ptr
 
 	XmlReaderForMemory func(
 		buffer string,
