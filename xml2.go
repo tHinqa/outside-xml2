@@ -2634,8 +2634,7 @@ var (
 		version string) XmlDocPtr
 
 	XmlFreeDoc func(
-		cur *XmlDoc)
-	// cur XmlDocPtr)
+		cur XmlDocPtr)
 
 	XmlNewDocProp func(
 		doc XmlDocPtr,
@@ -4335,7 +4334,7 @@ var (
 		ID string,
 		lst *XmlNodePtr) int
 
-	XmlNewParserCtxt func() *XmlParserCtxt //Ptr
+	XmlNewParserCtxt func() XmlParserCtxtPtr
 
 	XmlInitParserCtxt func(
 		ctxt XmlParserCtxtPtr) int
@@ -4448,14 +4447,14 @@ var (
 	XmlReadFile func(
 		URL string,
 		encoding string,
-		options int) *XmlDoc //Ptr
+		options int) XmlDocPtr
 
 	XmlReadMemory func(
 		buffer string,
 		size int,
 		URL string,
 		encoding string,
-		options int) *XmlDoc //Ptr
+		options int) XmlDocPtr
 
 	XmlReadFd func(
 		fd int,
@@ -4479,10 +4478,10 @@ var (
 		options int) XmlDocPtr
 
 	XmlCtxtReadFile func(
-		ctxt *XmlParserCtxt, //Ptr
+		ctxt XmlParserCtxtPtr,
 		filename string,
 		encoding string,
-		options XmlParserOption /*int*/) *XmlDoc //Ptr
+		options XmlParserOption /*was int*/) XmlDocPtr
 
 	XmlCtxtReadMemory func(
 		ctxt XmlParserCtxtPtr,
@@ -7020,7 +7019,7 @@ var (
 	XmlReaderForFile func(
 		filename string,
 		encoding string,
-		options int) *XmlTextReader //Ptr
+		options int) XmlTextReaderPtr
 
 	XmlReaderForMemory func(
 		buffer string,
