@@ -5,12 +5,13 @@
 package xml2
 
 import (
-	. "github.com/tHinqa/outside"
+	"github.com/tHinqa/outside"
+	. "github.com/tHinqa/outside/types"
 )
 
 func init() {
-	AddDllApis(dll, false, apiList)
-	AddDllData(dll, false, dataList)
+	outside.AddDllApis(dll, false, apiList)
+	outside.AddDllData(dll, false, dataList)
 }
 
 type (
@@ -24,7 +25,7 @@ type (
 	Double         float64
 	Enum           int
 	Long           int32 // TODO(t): Size?
-	Size_t         uint
+	Size_t         uintptr
 	Unsigned_char  uint8
 	Unsigned_int   uint
 	Unsigned_long  uint32 //TODO(t): check  size
@@ -8202,7 +8203,7 @@ var (
 
 var dll = "libxml2-2.dll"
 
-var apiList = Apis{
+var apiList = outside.Apis{
 	{"UTF8ToHtml", &UTF8ToHtml},
 	{"UTF8Toisolat1", &UTF8Toisolat1},
 	{"__docbDefaultSAXHandler", &DocbDefaultSAXHandler},
@@ -9840,7 +9841,7 @@ var apiList = Apis{
 	{"xmlXPtrWrapLocationSet", &XmlXPtrWrapLocationSet},
 }
 
-var dataList = Data{
+var dataList = outside.Data{
 // {"emptyExp", new(emptyExp)},
 // {"forbiddenExp", new(forbiddenExp)},
 // {"xmlFree", new(XmlFree)},
