@@ -14,177 +14,90 @@ func init() {
 	outside.AddDllData(dll, false, dataList)
 }
 
+//TODO(t):check for *Char->string and arithmetic candidates
+
 type (
 	fix uintptr
 
-	FILE    fix
-	SOCKET  fix
-	Va_list fix
+	FILE   fix
+	SOCKET fix
+	VaList fix
 
-	Char           int8
-	Double         float64
-	Enum           int
-	Long           int32 // TODO(t): Size?
-	Size_t         uintptr
-	Unsigned_char  uint8
-	Unsigned_int   uint
-	Unsigned_long  uint32 //TODO(t): check  size
-	Unsigned_short uint16
+	Char          int8 // joined with XmlChar uint8; hope no arithmetic
+	Double        float64
+	Enum          int
+	Long          int32 // TODO(t): Size?
+	SizeT         uintptr
+	UnsignedChar  uint8
+	UnsignedInt   uint
+	UnsignedLong  uint32 //TODO(t): check  size
+	UnsignedShort uint16
 
 	Void struct{}
-)
 
-type (
-	DocbDocPtr                 XmlDocPtr
-	DocbParserCtxt             XmlParserCtxt
-	DocbParserCtxtPtr          XmlParserCtxtPtr
-	DocbParserInput            XmlParserInput
-	DocbParserInputPtr         XmlParserInputPtr
-	DocbSAXHandler             XmlSAXHandler
-	DocbSAXHandlerPtr          XmlSAXHandlerPtr
-	HtmlDocPtr                 XmlDocPtr
-	HtmlNodePtr                XmlNodePtr
-	HtmlParserCtxt             XmlParserCtxt
-	HtmlParserCtxtPtr          XmlParserCtxtPtr
-	HtmlSAXHandler             XmlSAXHandler
-	HtmlSAXHandlerPtr          XmlSAXHandlerPtr
-	XlinkHandlerPtr            *XlinkHandler
-	XlinkHRef                  *XmlChar
-	XlinkRole                  *XmlChar
-	XlinkTitle                 *XmlChar
-	XmlAttributePtr            *XmlAttribute
-	XmlAttributeTable          XmlHashTable
-	XmlAttributeTablePtr       *XmlAttributeTable
-	XmlAttrPtr                 *XmlAttr
-	XmlAutomataPtr             *XmlAutomata
-	XmlAutomataStatePtr        *XmlAutomataState
-	XmlBufferPtr               *XmlBuffer
-	XmlBufPtr                  *XmlBuf
-	XmlCatalogPtr              *XmlCatalog
-	XmlChar                    Unsigned_char
-	XmlCharEncodingHandlerPtr  *XmlCharEncodingHandler
-	XmlDictPtr                 *XmlDict
-	XmlDocPtr                  *XmlDoc
-	XmlDOMWrapCtxtPtr          *XmlDOMWrapCtxt
-	XmlDtdPtr                  *XmlDtd
-	XmlElementContentPtr       *XmlElementContent
-	XmlElementPtr              *XmlElement
-	XmlElementTable            XmlHashTable
-	XmlElementTablePtr         *XmlElementTable
-	XmlEntitiesTable           XmlHashTable
-	XmlEntitiesTablePtr        *XmlEntitiesTable
-	XmlEntityPtr               *XmlEntity
-	XmlEnumerationPtr          *XmlEnumeration
-	XmlErrorPtr                *XmlError
-	XmlExpCtxtPtr              *XmlExpCtxt
-	XmlExpNodePtr              *XmlExpNode
-	XmlGlobalStatePtr          *XmlGlobalState
-	XmlHashTablePtr            *XmlHashTable
-	XmlIDPtr                   *XmlID
-	XmlIDTable                 XmlHashTable
-	XmlIDTablePtr              *XmlIDTable
-	XmlLinkPtr                 *XmlLink
-	XmlListPtr                 *XmlList
-	XmlLocationSetPtr          *XmlLocationSet
-	XmlModulePtr               *XmlModule
-	XmlMutexPtr                *XmlMutex
-	XmlNodePtr                 *XmlNode
-	XmlNodeSetPtr              *XmlNodeSet
-	XmlNotationPtr             *XmlNotation
-	XmlNotationTable           XmlHashTable
-	XmlNotationTablePtr        *XmlNotationTable
-	XmlNsPtr                   *XmlNs
-	XmlNsType                  XmlElementType
-	XmlOutputBufferPtr         *XmlOutputBuffer
-	XmlParserCtxtPtr           *XmlParserCtxt
-	XmlParserInputBufferPtr    *XmlParserInputBuffer
-	XmlParserInputPtr          *XmlParserInput
-	XmlParserNodeInfoPtr       *XmlParserNodeInfo
-	XmlParserNodeInfoSeqPtr    *XmlParserNodeInfoSeq
-	XmlPatternPtr              *XmlPattern
-	XmlRefPtr                  *XmlRef
-	XmlRefTable                XmlHashTable
-	XmlRefTablePtr             *XmlRefTable
-	XmlRegExecCtxtPtr          *XmlRegExecCtxt
-	XmlRegexpPtr               *XmlRegexp
-	XmlRelaxNGParserCtxtPtr    *XmlRelaxNGParserCtxt
-	XmlRelaxNGPtr              *XmlRelaxNG
-	XmlRelaxNGValidCtxtPtr     *XmlRelaxNGValidCtxt
-	XmlRMutexPtr               *XmlRMutex
-	XmlSaveCtxtPtr             *XmlSaveCtxt
-	XmlSAXHandlerPtr           *XmlSAXHandler
-	XmlSAXLocatorPtr           *XmlSAXLocator
-	XmlSchemaAnnotPtr          *XmlSchemaAnnot
-	XmlSchemaFacetPtr          *XmlSchemaFacet
-	XmlSchemaParserCtxtPtr     *XmlSchemaParserCtxt
-	XmlSchemaPtr               *XmlSchema
-	XmlSchemaSAXPlugPtr        *XmlSchemaSAXPlugStruct
-	XmlSchematronParserCtxtPtr *XmlSchematronParserCtxt
-	XmlSchematronPtr           *XmlSchematron
-	XmlSchematronValidCtxtPtr  *XmlSchematronValidCtxt
-	XmlSchemaTypePtr           *XmlSchemaType
-	XmlSchemaValidCtxtPtr      *XmlSchemaValidCtxt
-	XmlSchemaValPtr            *XmlSchemaVal
-	XmlSchemaWildcardNsPtr     *XmlSchemaWildcardNs
-	XmlSchemaWildcardPtr       *XmlSchemaWildcard
-	XmlShellCtxtPtr            *XmlShellCtxt
-	XmlStreamCtxtPtr           *XmlStreamCtxt
-	XmlTextReaderLocatorPtr    *Void
-	XmlTextReaderPtr           *XmlTextReader
-	XmlTextWriterPtr           *XmlTextWriter
-	XmlURIPtr                  *XmlURI
-	XmlValidCtxtPtr            *XmlValidCtxt
-	XmlValidStatePtr           *XmlValidState
-	XmlXIncludeCtxtPtr         *XmlXIncludeCtxt
-	XmlXPathAxisPtr            *XmlXPathAxis
-	XmlXPathCompExprPtr        *XmlXPathCompExpr
-	XmlXPathContextPtr         *XmlXPathContext
-	XmlXPathObjectPtr          *XmlXPathObject
-	XmlXPathParserContextPtr   *XmlXPathParserContext
-	XmlXPathTypePtr            *XmlXPathType
+	DocbDoc           Doc
+	DocbParserCtxt    ParserCtxt
+	DocbParserInput   ParserInput
+	DocbSAXHandler    SAXHandler
+	HtmlDoc           Doc
+	HtmlNode          Node
+	HtmlParserCtxt    ParserCtxt
+	HtmlSAXHandler    SAXHandler
+	XlinkHRef         *Char
+	XlinkRole         *Char
+	XlinkTitle        *Char
+	AttributeTable    HashTable
+	ElementTable      HashTable
+	EntitiesTable     HashTable
+	IDTable           HashTable
+	NotationTable     HashTable
+	NsType            ElementType
+	RefTable          HashTable
+	TextReaderLocator Void
+	IsPubidCharTab    [256]uint8
 
-	XmlAutomata             struct{}
-	XmlAutomataState        struct{}
-	XmlBuf                  struct{}
-	XmlBuffer               struct{}
-	XmlCatalog              struct{}
-	XmlDict                 struct{}
-	XmlDOMWrapCtxt          struct{}
-	XmlExpCtxt              struct{}
-	XmlExpNode              struct{}
-	XmlHashTable            struct{}
-	XmlLink                 struct{}
-	XmlList                 struct{}
-	XmlModule               struct{}
-	XmlMutex                struct{}
-	XmlPattern              struct{}
-	XmlRegExecCtxt          struct{}
-	XmlRegexp               struct{}
-	XmlRelaxNG              struct{}
-	XmlRelaxNGParserCtxt    struct{}
-	XmlRelaxNGValidCtxt     struct{}
-	XmlRMutex               struct{}
-	XmlSaveCtxt             struct{}
-	XmlSchema               struct{}
-	XmlSchemaFacet          struct{}
-	XmlSchemaParserCtxt     struct{}
-	XmlSchemaSAXPlugStruct  struct{}
-	XmlSchematron           struct{}
-	XmlSchematronParserCtxt struct{}
-	XmlSchematronValidCtxt  struct{}
-	XmlSchemaType           struct{}
-	XmlSchemaVal            struct{}
-	XmlSchemaValidCtxt      struct{}
-	XmlStreamCtxt           struct{}
-	XmlTextReader           struct{}
-	XmlTextWriter           struct{}
-	XmlValidState           struct{}
-	XmlXIncludeCtxt         struct{}
-	XmlXPathCompExpr        struct{}
-	XmlXPathParserContext   struct{}
+	Automata             struct{}
+	AutomataState        struct{}
+	Buf                  struct{}
+	Buffer               struct{}
+	Catalog              struct{}
+	Dict                 struct{}
+	DOMWrapCtxt          struct{}
+	ExpCtxt              struct{}
+	ExpNode              struct{}
+	HashTable            struct{}
+	Link                 struct{}
+	List                 struct{}
+	Module               struct{}
+	Mutex                struct{}
+	Pattern              struct{}
+	RegExecCtxt          struct{}
+	Regexp               struct{}
+	RelaxNG              struct{}
+	RelaxNGParserCtxt    struct{}
+	RelaxNGValidCtxt     struct{}
+	RMutex               struct{}
+	SaveCtxt             struct{}
+	Schema               struct{}
+	SchemaFacet          struct{}
+	SchemaParserCtxt     struct{}
+	SchemaSAXPlugStruct  struct{}
+	Schematron           struct{}
+	SchematronParserCtxt struct{}
+	SchematronValidCtxt  struct{}
+	SchemaType           struct{}
+	SchemaVal            struct{}
+	SchemaValidCtxt      struct{}
+	StreamCtxt           struct{}
+	TextReader           struct{}
+	TextWriter           struct{}
+	ValidState           struct{}
+	XIncludeCtxt         struct{}
+	XPathCompExpr        struct{}
+	XPathParserContext   struct{}
 
 	InternalSubsetSAXFunc func(
-		ctx *Void, name, ExternalID, SystemID string)
+		ctx *Void, name, ExternalID, systemID string)
 
 	IsStandaloneSAXFunc func(ctx *Void) int
 
@@ -194,8 +107,8 @@ type (
 
 	StartElementNsSAX2Func func(ctx *Void,
 		localname, prefix, URI string,
-		nb_namespaces int, namespaces *string,
-		nb_attributes, nb_defaulted int, attributes *string)
+		nbNamespaces int, namespaces *string,
+		nbAttributes, nbDefaulted int, attributes *string)
 
 	EndElementNsSAX2Func func(
 		ctx *Void, localname, prefix, URI string)
@@ -203,19 +116,19 @@ type (
 	ResolveEntitySAXFunc func(
 		ctx *Void,
 		publicId string,
-		systemId string) XmlParserInputPtr
+		systemId string) *ParserInput
 
 	ExternalSubsetSAXFunc func(
 		ctx *Void,
 		name string,
-		ExternalID string,
-		SystemID string)
+		externalID string,
+		systemID string)
 
 	GetEntitySAXFunc func(
-		ctx *Void, name string) XmlEntityPtr
+		ctx *Void, name string) *Entity
 
 	GetParameterEntitySAXFunc func(
-		ctx *Void, name string) XmlEntityPtr
+		ctx *Void, name string) *Entity
 
 	EntityDeclSAXFunc func(ctx *Void, name string,
 		typ int, publicId, systemId, content string)
@@ -225,16 +138,16 @@ type (
 
 	AttributeDeclSAXFunc func(ctx *Void, elem,
 		fullname string, typ, def int,
-		defaultValue string, tree XmlEnumerationPtr)
+		defaultValue string, tree *Enumeration)
 
 	ElementDeclSAXFunc func(ctx *Void, name string,
-		typ int, content XmlElementContentPtr)
+		typ int, content *ElementContent)
 
 	UnparsedEntityDeclSAXFunc func(ctx *Void,
 		name, publicId, systemId, notationName string)
 
 	SetDocumentLocatorSAXFunc func(
-		ctx *Void, loc XmlSAXLocatorPtr)
+		ctx *Void, loc *SAXLocator)
 
 	StartDocumentSAXFunc func(ctx *Void)
 
@@ -261,12 +174,12 @@ type (
 
 	CdataBlockSAXFunc func(ctx *Void, value string, leng int)
 
-	XmlParserInputDeallocate func(str string)
+	ParserInputDeallocate func(str string)
 
-	XmlInputReadCallback func(
+	InputReadCallback func(
 		context *Void, buffer string, leng int) int
 
-	XmlInputCloseCallback func(context *Void) int
+	InputCloseCallback func(context *Void) int
 
 	WarningSAXFunc func(ctx *Void, msg string, v ...VArg)
 
@@ -274,214 +187,188 @@ type (
 
 	FatalErrorSAXFunc func(ctx *Void, msg string, v ...VArg)
 
-	XmlDeregisterNodeFunc func(node XmlNodePtr)
+	DeregisterNodeFunc func(node *Node)
 
-	XmlGenericErrorFunc func(ctx *Void, msg string, v ...VArg)
+	GenericErrorFunc func(ctx *Void, msg string, v ...VArg)
 
-	XmlCharEncodingInputFunc func(
-		out *Unsigned_char, outlen *int,
-		in *Unsigned_char, inlen *int) int
+	CharEncodingInputFunc func(
+		out *UnsignedChar, outlen *int,
+		in *UnsignedChar, inlen *int) int
 
-	XmlCharEncodingOutputFunc func(
-		out *Unsigned_char, outlen *int,
-		in *Unsigned_char, inlen *int) int
+	CharEncodingOutputFunc func(
+		out *UnsignedChar, outlen *int,
+		in *UnsignedChar, inlen *int) int
 
-	XmlParserInputBufferCreateFilenameFunc func(
-		URI string, enc XmlCharEncoding) XmlParserInputBufferPtr
+	ParserInputBufferCreateFilenameFunc func(
+		URI string, enc CharEncoding) *ParserInputBuffer
 
-	XmlRegisterNodeFunc func(node XmlNodePtr)
+	RegisterNodeFunc func(node *Node)
 
-	XmlStructuredErrorFunc func(
-		userData *Void, Error XmlErrorPtr)
+	StructuredErrorFunc func(
+		userData *Void, Error *Error)
 
-	XmlOutputWriteCallback func(
+	OutputWriteCallback func(
 		context *Void, buffer string, leng int) int
 
-	XmlOutputCloseCallback func(context *Void) int
+	OutputCloseCallback func(context *Void) int
 
-	XmlValidityErrorFunc func(ctx *Void, msg string, v ...VArg)
+	ValidityErrorFunc func(ctx *Void, msg string, v ...VArg)
 
-	XmlValidityWarningFunc func(ctx *Void, msg string, v ...VArg)
+	ValidityWarningFunc func(ctx *Void, msg string, v ...VArg)
 
-	XmlOutputBufferCreateFilenameFunc func(
+	OutputBufferCreateFilenameFunc func(
 		URI string,
-		encoder XmlCharEncodingHandlerPtr,
-		compression int) XmlOutputBufferPtr
+		encoder *CharEncodingHandler,
+		compression int) *OutputBuffer
 
-	XlinkNodeDetectFunc func(
-		ctx *Void,
-		node XmlNodePtr)
+	XlinkNodeDetectFunc func(ctx *Void, node *Node)
 
-	XlinkSimpleLinkFunk func(
-		ctx *Void,
-		node XmlNodePtr,
-		href XlinkHRef,
-		role XlinkRole,
-		title XlinkTitle)
+	XlinkSimpleLinkFunk func(ctx *Void, node *Node,
+		href XlinkHRef, role XlinkRole, title XlinkTitle)
 
-	XlinkExtendedLinkFunk func(
-		ctx *Void,
-		node XmlNodePtr,
-		nbLocators int,
-		hrefs *XlinkHRef,
-		roles *XlinkRole,
-		nbArcs int,
-		from *XlinkRole,
-		to *XlinkRole,
-		show *XlinkShow,
-		actuate *XlinkActuate,
-		nbTitles int,
-		titles *XlinkTitle,
-		langs *string)
+	XlinkExtendedLinkFunk func(ctx *Void, node *Node,
+		nbLocators int, hrefs *XlinkHRef, roles *XlinkRole,
+		nbArcs int, from *XlinkRole, to *XlinkRole,
+		show *XlinkShow, actuate *XlinkActuate,
+		nbTitles int, titles *XlinkTitle, langs *string)
 
-	XlinkExtendedLinkSetFunk func(
-		ctx *Void,
-		node XmlNodePtr,
-		nbLocators int,
-		hrefs *XlinkHRef,
-		roles *XlinkRole,
-		nbTitles int,
-		titles *XlinkTitle,
-		langs *string)
+	XlinkExtendedLinkSetFunk func(ctx *Void, node *Node,
+		nbLocators int, hrefs *XlinkHRef, roles *XlinkRole,
+		nbTitles int, titles *XlinkTitle, langs *string)
 
-	XmlFreeFunc func(mem *Void)
+	FreeFunc func(mem *Void)
 
-	XmlMallocFunc func(size Size_t) *Void
+	MallocFunc func(size SizeT) *Void
 
-	XmlReallocFunc func(mem *Void, size Size_t) *Void
+	ReallocFunc func(mem *Void, size SizeT) *Void
 
-	XmlStrdupFunc func(str string) string
+	StrdupFunc func(str string) string
 
-	XmlHashDeallocator func(payload *Void, name string)
+	HashDeallocator func(payload *Void, name string)
 
-	XmlHashCopier func(payload *Void, name string) *Void
+	HashCopier func(payload *Void, name string) *Void
 
-	XmlHashScanner func(payload, data *Void, name string)
+	HashScanner func(payload, data *Void, name string)
 
-	XmlHashScannerFull func(payload, data *Void,
+	HashScannerFull func(payload, data *Void,
 		name, name2, name3 string)
 
-	XmlExternalEntityLoader func(URL, ID string,
-		context XmlParserCtxtPtr) XmlParserInputPtr
+	ExternalEntityLoader func(URL, ID string,
+		context *ParserCtxt) *ParserInput
 
-	XmlRegExecCallbacks func(exec XmlRegExecCtxtPtr,
+	RegExecCallbacks func(exec *RegExecCtxt,
 		token string, transdata, inputdata *Void)
 
-	XmlListDeallocator func(lk XmlLinkPtr)
+	ListDeallocator func(lk *Link)
 
-	XmlListDataCompare func(data0, data1 *Void) int
+	ListDataCompare func(data0, data1 *Void) int
 
-	XmlListWalker func(data, user *Void) int
+	ListWalker func(data, user *Void) int
 
-	XmlInputMatchCallback func(filename string) int
+	InputMatchCallback func(filename string) int
 
-	XmlInputOpenCallback func(filename string) *Void
+	InputOpenCallback func(filename string) *Void
 
-	XmlOutputMatchCallback func(filename string) int
+	OutputMatchCallback func(filename string) int
 
-	XmlOutputOpenCallback func(filename string) *Void
+	OutputOpenCallback func(filename string) *Void
 
-	XmlXPathAxisFunc func(ctxt XmlXPathParserContextPtr,
-		cur XmlXPathObjectPtr) XmlXPathObjectPtr
+	XPathAxisFunc func(ctxt *XPathParserContext,
+		cur *XPathObject) *XPathObject
 
-	XmlXPathVariableLookupFunc func(
-		ctxt *Void, name, ns_uri string) XmlXPathObjectPtr
+	XPathVariableLookupFunc func(
+		ctxt *Void, name, nsUri string) *XPathObject
 
-	XmlXPathFuncLookupFunc func(
-		ctxt *Void, name, ns_uri string) XmlXPathFunction
+	XPathFuncLookupFunc func(
+		ctxt *Void, name, nsUri string) XPathFunction
 
-	XmlXPathFunction func(
-		ctxt XmlXPathParserContextPtr, nargs int)
+	XPathFunction func(
+		ctxt *XPathParserContext, nargs int)
 
-	XmlXPathConvertFunc func(obj XmlXPathObjectPtr, typ int) int
+	XPathConvertFunc func(obj *XPathObject, typ int) int
 
-	XmlSchemaValidityErrorFunc func(
+	SchemaValidityErrorFunc func(
 		ctx *Void, msg string, v ...VArg)
 
-	XmlSchemaValidityWarningFunc func(
+	SchemaValidityWarningFunc func(
 		ctx *Void, msg string, v ...VArg)
 
-	XmlSchemaValidityLocatorFunc func(
-		ctx *Void, file *string, line *Unsigned_long) int
+	SchemaValidityLocatorFunc func(
+		ctx *Void, file *string, line *UnsignedLong) int
 
-	XmlEntityReferenceFunc func(
-		ent XmlEntityPtr, firstNode, lastNode XmlNodePtr)
+	EntityReferenceFunc func(
+		ent *Entity, firstNode, lastNode *Node)
 
-	XmlRelaxNGValidityErrorFunc func(
+	RelaxNGValidityErrorFunc func(
 		ctx *Void, msg string, v ...VArg)
 
-	XmlRelaxNGValidityWarningFunc func(
+	RelaxNGValidityWarningFunc func(
 		ctx *Void, msg string, v ...VArg)
 
-	XmlTextReaderErrorFunc func(arg *Void, msg string,
-		severity XmlParserSeverities,
-		locator XmlTextReaderLocatorPtr)
+	TextReaderErrorFunc func(arg *Void, msg string,
+		severity ParserSeverities,
+		locator *TextReaderLocator)
 
-	XmlShellReadlineFunc func(prompt string) string
+	ShellReadlineFunc func(prompt string) string
 
-	FtpListCallback func(
-		userData *Void,
+	FtpListCallback func(userData *Void,
 		filename, attrib, owner, group string,
-		size Unsigned_long,
-		links, year int,
-		month string,
-		day, hour, minute int)
+		size UnsignedLong, links, year int,
+		month string, day, hour, minute int)
 
 	FtpDataCallback func(userData *Void, data string, leng int)
 
-	XmlC14NIsVisibleCallback func(
-		user_data *Void,
-		node XmlNodePtr,
-		parent XmlNodePtr) int
+	C14NIsVisibleCallback func(
+		userData *Void, node, parent *Node) int
 
-	XmlParserCtxt struct {
-		Sax               *XmlSAXHandler
+	ParserCtxt struct {
+		Sax               *SAXHandler
 		UserData          *Void
-		MyDoc             XmlDocPtr
+		MyDoc             *Doc
 		WellFormed        int
 		ReplaceEntities   int
-		Version           *XmlChar
-		Encoding          *XmlChar
+		Version           *Char
+		Encoding          *Char
 		Standalone        int
 		Html              int
-		Input             XmlParserInputPtr
+		Input             *ParserInput
 		InputNr           int
 		InputMax          int
-		InputTab          *XmlParserInputPtr
-		Node              XmlNodePtr
+		InputTab          **ParserInput
+		Node              *Node
 		NodeNr            int
 		NodeMax           int
-		NodeTab           *XmlNodePtr
-		Record_info       int
-		Node_seq          XmlParserNodeInfoSeq
+		NodeTab           **Node
+		RecordInfo        int
+		NodeSeq           ParserNodeInfoSeq
 		ErrNo             int
 		HasExternalSubset int
 		HasPErefs         int
 		External          int
 		Valid             int
 		Validate          int
-		Vctxt             XmlValidCtxt
-		Instate           XmlParserInputState
+		Vctxt             ValidCtxt
+		Instate           ParserInputState
 		Token             int
 		Directory         *Char
-		Name              *XmlChar
+		Name              *Char
 		NameNr            int
 		NameMax           int
-		NameTab           **XmlChar
+		NameTab           **Char
 		NbChars           Long
 		CheckIndex        Long
 		KeepBlanks        int
 		DisableSAX        int
 		InSubset          int
-		IntSubName        *XmlChar
-		ExtSubURI         *XmlChar
-		ExtSubSystem      *XmlChar
+		IntSubName        *Char
+		ExtSubURI         *Char
+		ExtSubSystem      *Char
 		Space             *int
 		SpaceNr           int
 		SpaceMax          int
 		SpaceTab          *int
 		Depth             int
-		Entity            XmlParserInputPtr
+		Entity            *ParserInput
 		Charset           int
 		Nodelen           int
 		Nodemem           int
@@ -492,40 +379,40 @@ type (
 		Catalogs          *Void
 		Recovery          int
 		Progressive       int
-		Dict              XmlDictPtr
-		Atts              **XmlChar
+		Dict              *Dict
+		Atts              **Char
 		Maxatts           int
 		Docdict           int
-		Str_xml           *XmlChar
-		Str_XmlNs         *XmlChar
-		Str_xml_ns        *XmlChar
+		StrXml            *Char
+		StrXmlns          *Char
+		StrXmlNs          *Char
 		Sax2              int
 		NsNr              int
 		NsMax             int
-		NsTab             **XmlChar
+		NsTab             **Char
 		Attallocs         *int
 		PushTab           **Void
-		AttsDefault       XmlHashTablePtr
-		AttsSpecial       XmlHashTablePtr
+		AttsDefault       *HashTable
+		AttsSpecial       *HashTable
 		NsWellFormed      int
 		Options           int
 		DictNames         int
 		FreeElemsNr       int
-		FreeElems         XmlNodePtr
+		FreeElems         *Node
 		FreeAttrsNr       int
-		FreeAttrs         XmlAttrPtr
-		LastError         XmlError
-		ParseMode         XmlParserMode
-		Nbentities        Unsigned_long
-		Sizeentities      Unsigned_long
-		NodeInfo          *XmlParserNodeInfo
+		FreeAttrs         *Attr
+		LastError         Error
+		ParseMode         ParserMode
+		Nbentities        UnsignedLong
+		Sizeentities      UnsignedLong
+		NodeInfo          *ParserNodeInfo
 		NodeInfoNr        int
 		NodeInfoMax       int
-		NodeInfoTab       *XmlParserNodeInfo
-		Input_id          int
+		NodeInfoTab       *ParserNodeInfo
+		InputId           int
 	}
 
-	XmlSAXHandlerV1 struct {
+	SAXHandlerV1 struct {
 		InternalSubset        InternalSubsetSAXFunc
 		IsStandalone          IsStandaloneSAXFunc
 		HasInternalSubset     HasInternalSubsetSAXFunc
@@ -553,38 +440,38 @@ type (
 		GetParameterEntity    GetParameterEntitySAXFunc
 		CdataBlock            CdataBlockSAXFunc
 		ExternalSubset        ExternalSubsetSAXFunc
-		Initialized           Unsigned_int
+		Initialized           UnsignedInt
 	}
 
-	XmlParserInput struct {
-		Buf        XmlParserInputBufferPtr
+	ParserInput struct {
+		Buf        *ParserInputBuffer
 		Filename   *Char
 		Directory  *Char
-		Base       *XmlChar
-		Cur        *XmlChar
-		End        *XmlChar
+		Base       *Char
+		Cur        *Char
+		End        *Char
 		Length     int
 		Line       int
 		Col        int
-		Consumed   Unsigned_long
-		Free       XmlParserInputDeallocate
-		Encoding   *XmlChar
-		Version    *XmlChar
+		Consumed   UnsignedLong
+		Free       ParserInputDeallocate
+		Encoding   *Char
+		Version    *Char
 		Standalone int
 		Id         int
 	}
 
-	XmlCharEncodingHandler struct {
+	CharEncodingHandler struct {
 		Name   *Char
-		Input  XmlCharEncodingInputFunc
-		Output XmlCharEncodingOutputFunc
+		Input  CharEncodingInputFunc
+		Output CharEncodingOutputFunc
 	}
 
-	XmlError struct {
+	Error struct {
 		Domain  int
 		Code    int
 		Message *Char
-		Level   XmlErrorLevel
+		Level   ErrorLevel
 		File    *Char
 		Line    int
 		Str1    *Char
@@ -596,37 +483,37 @@ type (
 		Node    *Void
 	}
 
-	XmlOutputBuffer struct {
+	OutputBuffer struct {
 		Context       *Void
-		Writecallback XmlOutputWriteCallback
-		Closecallback XmlOutputCloseCallback
-		Encoder       XmlCharEncodingHandlerPtr
-		Buffer        XmlBufPtr
-		Conv          XmlBufPtr
+		Writecallback OutputWriteCallback
+		Closecallback OutputCloseCallback
+		Encoder       *CharEncodingHandler
+		Buffer        *Buf
+		Conv          *Buf
 		Written       int
 		Error         int
 	}
 
-	XmlParserInputBuffer struct {
+	ParserInputBuffer struct {
 		Context       *Void
-		Readcallback  XmlInputReadCallback
-		Closecallback XmlInputCloseCallback
-		Encoder       XmlCharEncodingHandlerPtr
-		Buffer        XmlBufPtr
-		Raw           XmlBufPtr
+		Readcallback  InputReadCallback
+		Closecallback InputCloseCallback
+		Encoder       *CharEncodingHandler
+		Buffer        *Buf
+		Raw           *Buf
 		Compressed    int
 		Error         int
-		Rawconsumed   Unsigned_long
+		Rawconsumed   UnsignedLong
 	}
 
-	XmlSAXLocator struct {
-		GetPublicId     func(ctx *Void) *XmlChar
-		GetSystemId     func(ctx *Void) *XmlChar
+	SAXLocator struct {
+		GetPublicId     func(ctx *Void) *Char
+		GetSystemId     func(ctx *Void) *Char
 		GetLineNumber   func(ctx *Void) int
 		GetColumnNumber func(ctx *Void) int
 	}
 
-	XmlSAXHandler struct {
+	SAXHandler struct {
 		InternalSubset        InternalSubsetSAXFunc
 		IsStandalone          IsStandaloneSAXFunc
 		HasInternalSubset     HasInternalSubsetSAXFunc
@@ -654,62 +541,62 @@ type (
 		GetParameterEntity    GetParameterEntitySAXFunc
 		CdataBlock            CdataBlockSAXFunc
 		ExternalSubset        ExternalSubsetSAXFunc
-		Initialized           Unsigned_int
+		Initialized           UnsignedInt
 		_                     *Void
 		StartElementNs        StartElementNsSAX2Func
 		EndElementNs          EndElementNsSAX2Func
-		Serror                XmlStructuredErrorFunc
+		Serror                StructuredErrorFunc
 	}
 
-	XmlParserNodeInfoSeq struct {
-		Maximum Unsigned_long
-		Length  Unsigned_long
-		Buffer  *XmlParserNodeInfo
+	ParserNodeInfoSeq struct {
+		Maximum UnsignedLong
+		Length  UnsignedLong
+		Buffer  *ParserNodeInfo
 	}
 
-	XmlParserNodeInfo struct {
-		Node       *XmlNode
-		Begin_pos  Unsigned_long
-		Begin_line Unsigned_long
-		End_pos    Unsigned_long
-		End_line   Unsigned_long
+	ParserNodeInfo struct {
+		Node      *Node
+		BeginPos  UnsignedLong
+		BeginLine UnsignedLong
+		EndPos    UnsignedLong
+		EndLine   UnsignedLong
 	}
 
-	XmlValidCtxt struct {
+	ValidCtxt struct {
 		UserData  *Void
-		Error     XmlValidityErrorFunc
-		Warning   XmlValidityWarningFunc
-		Node      XmlNodePtr
+		Error     ValidityErrorFunc
+		Warning   ValidityWarningFunc
+		Node      *Node
 		NodeNr    int
 		NodeMax   int
-		NodeTab   *XmlNodePtr
-		FinishDtd Unsigned_int
-		Doc       XmlDocPtr
+		NodeTab   **Node
+		FinishDtd UnsignedInt
+		Doc       *Doc
 		Valid     int
-		Vstate    *XmlValidState
+		Vstate    *ValidState
 		VstateNr  int
 		VstateMax int
-		VstateTab *XmlValidState
-		Am        XmlAutomataPtr
-		State     XmlAutomataStatePtr
+		VstateTab *ValidState
+		Am        *Automata
+		State     *AutomataState
 	}
 
-	XmlDtd struct {
+	Dtd struct {
 		_          *Void
-		Type       XmlElementType
-		Name       *XmlChar
-		Children   *XmlNode
-		Last       *XmlNode
-		Parent     *XmlDoc
-		Next       *XmlNode
-		Prev       *XmlNode
-		Doc        *XmlDoc
+		Type       ElementType
+		Name       *Char
+		Children   *Node
+		Last       *Node
+		Parent     *Doc
+		Next       *Node
+		Prev       *Node
+		Doc        *Doc
 		Notations  *Void
 		Elements   *Void
 		Attributes *Void
 		Entities   *Void
-		ExternalID *XmlChar
-		SystemID   *XmlChar
+		ExternalID *Char
+		SystemID   *Char
 		Pentities  *Void
 	}
 
@@ -725,13 +612,13 @@ type (
 		Desc          *Char
 		Subelts       **Char
 		Defaultsubelt *Char
-		Attrs_opt     **Char
-		Attrs_depr    **Char
-		Attrs_req     **Char
+		AttrsOpt      **Char
+		AttrsDepr     **Char
+		AttrsReq      **Char
 	}
 
 	HtmlEntityDesc struct {
-		Value Unsigned_int
+		Value UnsignedInt
 		Name  *Char
 		Desc  *Char
 	}
@@ -742,67 +629,67 @@ type (
 		Set      XlinkExtendedLinkSetFunk
 	}
 
-	XmlAttribute struct {
+	AttributeStruct struct {
 		_    *Void
-		Type XmlElementType
-		Name *XmlChar
+		Type ElementType
+		Name *Char
 	}
 
-	XmlNotation struct {
-		Name     *XmlChar
-		PublicID *XmlChar
-		SystemID *XmlChar
+	Notation struct {
+		Name     *Char
+		PublicID *Char
+		systemID *Char
 	}
 
-	XmlElement struct {
+	Element struct {
 		_          *Void
-		Type       XmlElementType
-		Name       *XmlChar
-		Children   *XmlNode
-		Last       *XmlNode
-		Parent     *XmlDtd
-		Next       *XmlNode
-		Prev       *XmlNode
-		Doc        *XmlDoc
-		Etype      XmlElementTypeVal
-		Content    XmlElementContentPtr
-		Attributes XmlAttributePtr
-		Prefix     *XmlChar
-		ContModel  XmlRegexpPtr
+		Type       ElementType
+		Name       *Char
+		Children   *Node
+		Last       *Node
+		Parent     *Dtd
+		Next       *Node
+		Prev       *Node
+		Doc        *Doc
+		Etype      ElementTypeVal
+		Content    *ElementContent
+		Attributes *AttributeStruct
+		Prefix     *Char
+		ContModel  *Regexp
 	}
 
-	XmlID struct {
-		Next   *XmlID
-		Value  *XmlChar
-		Attr   XmlAttrPtr
-		Name   *XmlChar
+	ID struct {
+		Next   *ID
+		Value  *Char
+		Attr   *Attr
+		Name   *Char
 		Lineno int
-		Doc    *XmlDoc
+		Doc    *Doc
 	}
 
-	XmlRef struct {
-		Next   *XmlRef
-		Value  *XmlChar
-		Attr   XmlAttrPtr
-		Name   *XmlChar
+	Ref struct {
+		Next   *Ref
+		Value  *Char
+		Attr   *Attr
+		Name   *Char
 		Lineno int
 	}
 
-	XmlGlobalState struct {
+	GlobalState struct {
 		XmlParserVersion                        *Char
-		XmlDefaultSAXLocator                    XmlSAXLocator
-		XmlDefaultSAXHandler                    XmlSAXHandlerV1
-		DocbDefaultSAXHandler                   XmlSAXHandlerV1
-		HtmlDefaultSAXHandler                   XmlSAXHandlerV1
-		XmlFree                                 XmlFreeFunc
-		XmlMalloc                               XmlMallocFunc
-		XmlMemStrdup                            XmlStrdupFunc
-		XmlRealloc                              XmlReallocFunc
-		XmlGenericError                         XmlGenericErrorFunc
-		XmlStructuredError                      XmlStructuredErrorFunc
+		XmlDefaultSAXLocator                    SAXLocator
+		XmlDefaultSAXHandler                    SAXHandlerV1
+		DocbDefaultSAXHandler                   SAXHandlerV1
+		HtmlDefaultSAXHandler                   SAXHandlerV1
+		XmlFree                                 FreeFunc
+		XmlMalloc                               MallocFunc
+		XmlMemStrdup                            StrdupFunc
+		XmlRealloc                              ReallocFunc
+		XmlGenericError                         GenericErrorFunc
+		XmlStructuredError                      StructuredErrorFunc
 		XmlGenericErrorContext                  *Void
 		OldXMLWDcompatibility                   int
-		XmlBufferAllocScheme                    XmlBufferAllocationScheme
+		XmlBufferAllocScheme                    BufferAllocationScheme
 		XmlDefaultBufferSize                    int
 		XmlSubstituteEntitiesDefaultValue       int
 		XmlDoValidityCheckingDefaultValue       int
@@ -815,250 +702,250 @@ type (
 		XmlSaveNoEmptyTags                      int
 		XmlIndentTreeOutput                     int
 		XmlTreeIndentString                     *Char
-		XmlRegisterNodeDefaultValue             XmlRegisterNodeFunc
-		XmlDeregisterNodeDefaultValue           XmlDeregisterNodeFunc
-		XmlMallocAtomic                         XmlMallocFunc
-		XmlLastError                            XmlError
-		XmlParserInputBufferCreateFilenameValue XmlParserInputBufferCreateFilenameFunc
-		XmlOutputBufferCreateFilenameValue      XmlOutputBufferCreateFilenameFunc
+		XmlRegisterNodeDefaultValue             RegisterNodeFunc
+		XmlDeregisterNodeDefaultValue           DeregisterNodeFunc
+		XmlMallocAtomic                         MallocFunc
+		XmlLastError                            Error
+		XmlParserInputBufferCreateFilenameValue ParserInputBufferCreateFilenameFunc
+		XmlOutputBufferCreateFilenameValue      OutputBufferCreateFilenameFunc
 		XmlStructuredErrorContext               *Void
 	}
 
-	XmlEnumeration struct {
-		Next *XmlEnumeration
-		Name *XmlChar
+	Enumeration struct {
+		Next *Enumeration
+		Name *Char
 	}
 
-	XmlNode struct {
+	Node struct {
 		_          *Void
-		Type       XmlElementType
-		Name       *XmlChar
-		Children   *XmlNode
-		Last       *XmlNode
-		Parent     *XmlNode
-		Next       *XmlNode
-		Prev       *XmlNode
-		Doc        *XmlDoc
-		Ns         *XmlNs
-		Content    *XmlChar
-		Properties *XmlAttr
-		NsDef      *XmlNs
+		Type       ElementType
+		Name       *Char
+		Children   *Node
+		Last       *Node
+		Parent     *Node
+		Next       *Node
+		Prev       *Node
+		Doc        *Doc
+		Ns         *Ns
+		Content    *Char
+		Properties *Attr
+		NsDef      *Ns
 		Psvi       *Void
-		Line       Unsigned_short
-		Extra      Unsigned_short
+		Line       UnsignedShort
+		Extra      UnsignedShort
 	}
 
-	XmlDoc struct {
+	Doc struct {
 		_           *Void
-		Type        XmlElementType
+		Type        ElementType
 		Name        *Char
-		Children    *XmlNode
-		Last        *XmlNode
-		Parent      *XmlNode
-		Next        *XmlNode
-		Prev        *XmlNode
-		Doc         *XmlDoc
+		Children    *Node
+		Last        *Node
+		Parent      *Node
+		Next        *Node
+		Prev        *Node
+		Doc         *Doc
 		Compression int
 		Standalone  int
-		IntSubset   *XmlDtd
-		ExtSubset   *XmlDtd
-		OldNs       *XmlNs
-		Version     *XmlChar
-		Encoding    *XmlChar
+		IntSubset   *Dtd
+		ExtSubset   *Dtd
+		OldNs       *Ns
+		Version     *Char
+		Encoding    *Char
 		Ids         *Void
 		Refs        *Void
-		URL         *XmlChar
+		URL         *Char
 		Charset     int
-		Dict        *XmlDict
+		Dict        *Dict
 		Psvi        *Void
 		ParseFlags  int
 		Properties  int
 	}
 
-	XmlEntity struct {
+	Entity struct {
 		_          *Void
-		Type       XmlElementType
-		Name       *XmlChar
-		Children   *XmlNode
-		Last       *XmlNode
-		Parent     *XmlDtd
-		Next       *XmlNode
-		Prev       *XmlNode
-		Doc        *XmlDoc
-		Orig       *XmlChar
-		Content    *XmlChar
+		Type       ElementType
+		Name       *Char
+		Children   *Node
+		Last       *Node
+		Parent     *Dtd
+		Next       *Node
+		Prev       *Node
+		Doc        *Doc
+		Orig       *Char
+		Content    *Char
 		Length     int
-		Etype      XmlEntityType
-		ExternalID *XmlChar
-		SystemID   *XmlChar
-		Nexte      *XmlEntity
-		URI        *XmlChar
+		Etype      EntityType
+		ExternalID *Char
+		SystemID   *Char
+		Nexte      *Entity
+		URI        *Char
 		Owner      int
 		Checked    int
 	}
 
-	XmlElementContent struct {
-		Type   XmlElementContentType
-		Ocur   XmlElementContentOccur
-		Name   *XmlChar
-		C1     *XmlElementContent
-		C2     *XmlElementContent
-		Parent *XmlElementContent
-		Prefix *XmlChar
+	ElementContent struct {
+		Type   ElementContentType
+		Ocur   ElementContentOccur
+		Name   *Char
+		C1     *ElementContent
+		C2     *ElementContent
+		Parent *ElementContent
+		Prefix *Char
 	}
 
-	XmlAttr struct {
+	Attr struct {
 		_        *Void
-		Type     XmlElementType
-		Name     *XmlChar
-		Children *XmlNode
-		Last     *XmlNode
-		Parent   *XmlNode
-		Next     *XmlAttr
-		Prev     *XmlAttr
-		Doc      *XmlDoc
-		Ns       *XmlNs
-		Atype    XmlAttributeType
+		Type     ElementType
+		Name     *Char
+		Children *Node
+		Last     *Node
+		Parent   *Node
+		Next     *Attr
+		Prev     *Attr
+		Doc      *Doc
+		Ns       *Ns
+		Atype    AttributeType
 		Psvi     *Void
 	}
 
-	XmlNs struct {
-		Next    *XmlNs
-		Type    XmlNsType
-		Href    *XmlChar
-		Prefix  *XmlChar
+	Ns struct {
+		Next    *Ns
+		Type    NsType
+		Href    *Char
+		Prefix  *Char
 		_       *Void
-		Context *XmlDoc
+		Context *Doc
 	}
 
-	XmlNodeSet struct {
+	NodeSet struct {
 		NodeNr  int
 		NodeMax int
-		NodeTab *XmlNodePtr
+		NodeTab **Node
 	}
 
-	XmlXPathObject struct {
-		Type       XmlXPathObjectType
-		Nodesetval XmlNodeSetPtr
+	XPathObject struct {
+		Type       XPathObjectType
+		Nodesetval *NodeSet
 		Boolval    int
 		Floatval   Double
-		Stringval  *XmlChar
+		Stringval  *Char
 		User       *Void
 		Index      int
 		User2      *Void
 		Index2     int
 	}
 
-	XmlXPathContext struct {
-		Doc                  XmlDocPtr
-		Node                 XmlNodePtr
-		Nb_variables_unused  int
-		Max_variables_unused int
-		VarHash              XmlHashTablePtr
-		Nb_types             int
-		Max_types            int
-		Types                XmlXPathTypePtr
-		Nb_funcs_unused      int
-		Max_funcs_unused     int
-		FuncHash             XmlHashTablePtr
-		Nb_axis              int
-		Max_axis             int
-		Axis                 XmlXPathAxisPtr
-		Namespaces           *XmlNsPtr
-		NsNr                 int
-		User                 *Void
-		ContextSize          int
-		ProximityPosition    int
-		Xptr                 int
-		Here                 XmlNodePtr
-		Origin               XmlNodePtr
-		NsHash               XmlHashTablePtr
-		VarLookupFunc        XmlXPathVariableLookupFunc
-		VarLookupData        *Void
-		Extra                *Void
-		Function             *XmlChar
-		FunctionURI          *XmlChar
-		FuncLookupFunc       XmlXPathFuncLookupFunc
-		FuncLookupData       *Void
-		TmpNsList            *XmlNsPtr
-		TmpNsNr              int
-		UserData             *Void
-		Error                XmlStructuredErrorFunc
-		LastError            XmlError
-		DebugNode            XmlNodePtr
-		Dict                 XmlDictPtr
-		Flags                int
-		Cache                *Void
+	XPathContext struct {
+		Doc                *Doc
+		Node               *Node
+		NbVariablesUnused  int
+		MaxVariablesUnused int
+		VarHash            *HashTable
+		NbTypes            int
+		MaxTypes           int
+		Types              *XPathType
+		NbFuncsUnused      int
+		MaxFuncsUnused     int
+		FuncHash           *HashTable
+		NbAxis             int
+		MaxAxis            int
+		Axis               *XPathAxis
+		Namespaces         **Ns
+		NsNr               int
+		User               *Void
+		ContextSize        int
+		ProximityPosition  int
+		Xptr               int
+		Here               *Node
+		Origin             *Node
+		NsHash             *HashTable
+		VarLookupFunc      XPathVariableLookupFunc
+		VarLookupData      *Void
+		Extra              *Void
+		Function           *Char
+		FunctionURI        *Char
+		FuncLookupFunc     XPathFuncLookupFunc
+		FuncLookupData     *Void
+		TmpNsList          **Ns
+		TmpNsNr            int
+		UserData           *Void
+		Error              StructuredErrorFunc
+		LastError          Error
+		DebugNode          *Node
+		Dict               *Dict
+		Flags              int
+		Cache              *Void
 	}
 
-	XmlXPathType struct {
-		Name *XmlChar
-		Func XmlXPathConvertFunc
+	XPathType struct {
+		Name *Char
+		Func XPathConvertFunc
 	}
 
-	XmlXPathAxis struct {
-		Name *XmlChar
-		Func XmlXPathAxisFunc
+	XPathAxis struct {
+		Name *Char
+		Func XPathAxisFunc
 	}
 
-	XmlLocationSet struct {
+	LocationSet struct {
 		LocNr  int
 		LocMax int
-		LocTab *XmlXPathObjectPtr
+		LocTab **XPathObject
 	}
 
-	XmlSchemaWildcard struct {
-		Type            XmlSchemaTypeType
-		Id              *XmlChar
-		Annot           XmlSchemaAnnotPtr
-		Node            XmlNodePtr
+	SchemaWildcard struct {
+		Type            SchemaTypeType
+		Id              *Char
+		Annot           *SchemaAnnot
+		Node            *Node
 		MinOccurs       int
 		MaxOccurs       int
 		ProcessContents int
 		Any             int
-		NsSet           XmlSchemaWildcardNsPtr
-		NegNsSet        XmlSchemaWildcardNsPtr
+		NsSet           *SchemaWildcardNs
+		NegNsSet        *SchemaWildcardNs
 		Flags           int
 	}
 
-	XmlSchemaAnnot struct {
-		Next    *XmlSchemaAnnot
-		Content XmlNodePtr
+	SchemaAnnot struct {
+		Next    *SchemaAnnot
+		Content *Node
 	}
 
-	XmlSchemaWildcardNs struct {
-		Next  *XmlSchemaWildcardNs
-		Value *XmlChar
+	SchemaWildcardNs struct {
+		Next  *SchemaWildcardNs
+		Value *Char
 	}
 
-	XmlChRangeGroup struct {
+	ChRangeGroup struct {
 		NbShortRange int
 		NbLongRange  int
-		ShortRange   *XmlChSRange
-		LongRange    *XmlChLRange
+		ShortRange   *ChSRange
+		LongRange    *ChLRange
 	}
 
-	XmlChSRange struct {
-		Low  Unsigned_short
-		High Unsigned_short
+	ChSRange struct {
+		Low  UnsignedShort
+		High UnsignedShort
 	}
 
-	XmlChLRange struct {
-		Low  Unsigned_int
-		High Unsigned_int
+	ChLRange struct {
+		Low  UnsignedInt
+		High UnsignedInt
 	}
 
-	XmlShellCtxt struct {
+	ShellCtxt struct {
 		Filename *Char
-		Doc      XmlDocPtr
-		Node     XmlNodePtr
-		Pctxt    XmlXPathContextPtr
+		Doc      *Doc
+		Node     *Node
+		Pctxt    *XPathContext
 		Loaded   int
 		Output   *FILE
-		Input    XmlShellReadlineFunc
+		Input    ShellReadlineFunc
 	}
 
-	XmlURI struct {
+	URI struct {
 		Scheme    *Char
 		Opaque    *Char
 		Authority *Char
@@ -1069,160 +956,160 @@ type (
 		Query     *Char
 		Fragment  *Char
 		Cleanup   int
-		Query_raw *Char
+		QueryRaw  *Char
 	}
 )
 
-type XmlEntityType Enum
+type EntityType Enum
 
 const (
-	XML_INTERNAL_GENERAL_ENTITY XmlEntityType = iota + 1
-	XML_EXTERNAL_GENERAL_PARSED_ENTITY
-	XML_EXTERNAL_GENERAL_UNPARSED_ENTITY
-	XML_INTERNAL_PARAMETER_ENTITY
-	XML_EXTERNAL_PARAMETER_ENTITY
-	XML_INTERNAL_PREDEFINED_ENTITY
+	INTERNAL_GENERAL_ENTITY EntityType = iota + 1
+	EXTERNAL_GENERAL_PARSED_ENTITY
+	EXTERNAL_GENERAL_UNPARSED_ENTITY
+	INTERNAL_PARAMETER_ENTITY
+	EXTERNAL_PARAMETER_ENTITY
+	INTERNAL_PREDEFINED_ENTITY
 )
 
-type XmlElementType Enum
+type ElementType Enum
 
 const (
-	XML_ELEMENT_NODE XmlElementType = iota + 1
-	XML_ATTRIBUTE_NODE
-	XML_TEXT_NODE
-	XML_CDATA_SECTION_NODE
-	XML_ENTITY_REF_NODE
-	XML_ENTITY_NODE
-	XML_PI_NODE
-	XML_COMMENT_NODE
-	XML_DOCUMENT_NODE
-	XML_DOCUMENT_TYPE_NODE
-	XML_DOCUMENT_FRAG_NODE
-	XML_NOTATION_NODE
-	XML_HTML_DOCUMENT_NODE
-	XML_DTD_NODE
-	XML_ELEMENT_DECL
-	XML_ATTRIBUTE_DECL
-	XML_ENTITY_DECL
-	XML_NAMESPACE_DECL
-	XML_XINCLUDE_START
-	XML_XINCLUDE_END
-	XML_DOCB_DOCUMENT_NODE
+	ELEMENT_NODE ElementType = iota + 1
+	ATTRIBUTE_NODE
+	TEXT_NODE
+	CDATA_SECTION_NODE
+	ENTITY_REF_NODE
+	ENTITY_NODE
+	PI_NODE
+	COMMENT_NODE
+	DOCUMENT_NODE
+	DOCUMENT_TYPE_NODE
+	DOCUMENT_FRAG_NODE
+	NOTATION_NODE
+	HTML_DOCUMENT_NODE
+	DTD_NODE
+	ELEMENT_DECL
+	ATTRIBUTE_DECL
+	ENTITY_DECL
+	NAMESPACE_DECL
+	XINCLUDE_START
+	XINCLUDE_END
+	DOCB_DOCUMENT_NODE
 )
 
-type XmlBufferAllocationScheme Enum
+type BufferAllocationScheme Enum
 
 const (
-	XML_BUFFER_ALLOC_DOUBLEIT XmlBufferAllocationScheme = iota
-	XML_BUFFER_ALLOC_EXACT
-	XML_BUFFER_ALLOC_IMMUTABLE
-	XML_BUFFER_ALLOC_IO
-	XML_BUFFER_ALLOC_HYBRID
+	BUFFER_ALLOC_DOUBLEIT BufferAllocationScheme = iota
+	BUFFER_ALLOC_EXACT
+	BUFFER_ALLOC_IMMUTABLE
+	BUFFER_ALLOC_IO
+	BUFFER_ALLOC_HYBRID
 )
 
-type XmlElementContentType Enum
+type ElementContentType Enum
 
 const (
-	XML_ELEMENT_CONTENT_PCDATA XmlElementContentType = iota + 1
-	XML_ELEMENT_CONTENT_ELEMENT
-	XML_ELEMENT_CONTENT_SEQ
-	XML_ELEMENT_CONTENT_OR
+	ELEMENT_CONTENT_PCDATA ElementContentType = iota + 1
+	ELEMENT_CONTENT_ELEMENT
+	ELEMENT_CONTENT_SEQ
+	ELEMENT_CONTENT_OR
 )
 
-type XmlElementContentOccur Enum
+type ElementContentOccur Enum
 
 const (
-	XML_ELEMENT_CONTENT_ONCE XmlElementContentOccur = iota + 1
-	XML_ELEMENT_CONTENT_OPT
-	XML_ELEMENT_CONTENT_MULT
-	XML_ELEMENT_CONTENT_PLUS
+	ELEMENT_CONTENT_ONCE ElementContentOccur = iota + 1
+	ELEMENT_CONTENT_OPT
+	ELEMENT_CONTENT_MULT
+	ELEMENT_CONTENT_PLUS
 )
 
-type XmlCharEncoding Enum
+type CharEncoding Enum
 
 const (
-	XML_CHAR_ENCODING_ERROR XmlCharEncoding = iota - 1
-	XML_CHAR_ENCODING_NONE
-	XML_CHAR_ENCODING_UTF8
-	XML_CHAR_ENCODING_UTF16LE
-	XML_CHAR_ENCODING_UTF16BE
-	XML_CHAR_ENCODING_UCS4LE
-	XML_CHAR_ENCODING_UCS4BE
-	XML_CHAR_ENCODING_EBCDIC
-	XML_CHAR_ENCODING_UCS4_2143
-	XML_CHAR_ENCODING_UCS4_3412
-	XML_CHAR_ENCODING_UCS2
-	XML_CHAR_ENCODING_8859_1
-	XML_CHAR_ENCODING_8859_2
-	XML_CHAR_ENCODING_8859_3
-	XML_CHAR_ENCODING_8859_4
-	XML_CHAR_ENCODING_8859_5
-	XML_CHAR_ENCODING_8859_6
-	XML_CHAR_ENCODING_8859_7
-	XML_CHAR_ENCODING_8859_8
-	XML_CHAR_ENCODING_8859_9
-	XML_CHAR_ENCODING_2022_JP
-	XML_CHAR_ENCODING_SHIFT_JIS
-	XML_CHAR_ENCODING_EUC_JP
-	XML_CHAR_ENCODING_ASCII
+	CHAR_ENCODING_ERROR CharEncoding = iota - 1
+	CHAR_ENCODING_NONE
+	CHAR_ENCODING_UTF8
+	CHAR_ENCODING_UTF16LE
+	CHAR_ENCODING_UTF16BE
+	CHAR_ENCODING_UCS4LE
+	CHAR_ENCODING_UCS4BE
+	CHAR_ENCODING_EBCDIC
+	CHAR_ENCODING_UCS4_2143
+	CHAR_ENCODING_UCS4_3412
+	CHAR_ENCODING_UCS2
+	CHAR_ENCODING_8859_1
+	CHAR_ENCODING_8859_2
+	CHAR_ENCODING_8859_3
+	CHAR_ENCODING_8859_4
+	CHAR_ENCODING_8859_5
+	CHAR_ENCODING_8859_6
+	CHAR_ENCODING_8859_7
+	CHAR_ENCODING_8859_8
+	CHAR_ENCODING_8859_9
+	CHAR_ENCODING_2022_JP
+	CHAR_ENCODING_SHIFT_JIS
+	CHAR_ENCODING_EUC_JP
+	CHAR_ENCODING_ASCII
 )
 
-type XmlAttributeType Enum
+type AttributeType Enum
 
 const (
-	XML_ATTRIBUTE_CDATA XmlAttributeType = iota + 1
-	XML_ATTRIBUTE_ID
-	XML_ATTRIBUTE_IDREF
-	XML_ATTRIBUTE_IDREFS
-	XML_ATTRIBUTE_ENTITY
-	XML_ATTRIBUTE_ENTITIES
-	XML_ATTRIBUTE_NMTOKEN
-	XML_ATTRIBUTE_NMTOKENS
-	XML_ATTRIBUTE_ENUMERATION
-	XML_ATTRIBUTE_NOTATION
+	ATTRIBUTE_CDATA AttributeType = iota + 1
+	ATTRIBUTE_ID
+	ATTRIBUTE_IDREF
+	ATTRIBUTE_IDREFS
+	ATTRIBUTE_ENTITY
+	ATTRIBUTE_ENTITIES
+	ATTRIBUTE_NMTOKEN
+	ATTRIBUTE_NMTOKENS
+	ATTRIBUTE_ENUMERATION
+	ATTRIBUTE_NOTATION
 )
 
-type XmlErrorLevel Enum
+type ErrorLevel Enum
 
 const (
-	XML_ERR_NONE XmlErrorLevel = iota
-	XML_ERR_WARNING
-	XML_ERR_ERROR
-	XML_ERR_FATAL
+	ERR_NONE ErrorLevel = iota
+	ERR_WARNING
+	ERR_ERROR
+	ERR_FATAL
 )
 
-type XmlParserInputState Enum
+type ParserInputState Enum
 
 const (
-	XML_PARSER_EOF XmlParserInputState = iota - 1
-	XML_PARSER_START
-	XML_PARSER_MISC
-	XML_PARSER_PI
-	XML_PARSER_DTD
-	XML_PARSER_PROLOG
-	XML_PARSER_COMMENT
-	XML_PARSER_START_TAG
-	XML_PARSER_CONTENT
-	XML_PARSER_CDATA_SECTION
-	XML_PARSER_END_TAG
-	XML_PARSER_ENTITY_DECL
-	XML_PARSER_ENTITY_VALUE
-	XML_PARSER_ATTRIBUTE_VALUE
-	XML_PARSER_SYSTEM_LITERAL
-	XML_PARSER_EPILOG
-	XML_PARSER_IGNORE
-	XML_PARSER_PUBLIC_LITERAL
+	PARSER_EOF ParserInputState = iota - 1
+	PARSER_START
+	PARSER_MISC
+	PARSER_PI
+	PARSER_DTD
+	PARSER_PROLOG
+	PARSER_COMMENT
+	PARSER_START_TAG
+	PARSER_CONTENT
+	PARSER_CDATA_SECTION
+	PARSER_END_TAG
+	PARSER_ENTITY_DECL
+	PARSER_ENTITY_VALUE
+	PARSER_ATTRIBUTE_VALUE
+	PARSER_SYSTEM_LITERAL
+	PARSER_EPILOG
+	PARSER_IGNORE
+	PARSER_PUBLIC_LITERAL
 )
 
-type XmlParserMode Enum
+type ParserMode Enum
 
 const (
-	XML_PARSE_UNKNOWN XmlParserMode = iota
-	XML_PARSE_DOM
-	XML_PARSE_SAX
-	XML_PARSE_PUSH_DOM
-	XML_PARSE_PUSH_SAX
-	XML_PARSE_READER
+	PARSE_UNKNOWN ParserMode = iota
+	PARSE_DOM
+	PARSE_SAX
+	PARSE_PUSH_DOM
+	PARSE_PUSH_SAX
+	PARSE_READER
 )
 
 type HtmlStatus Enum
@@ -1262,848 +1149,848 @@ const (
 	XLINK_TYPE_EXTENDED_SET
 )
 
-type XmlElementTypeVal Enum
+type ElementTypeVal Enum
 
 const (
-	XML_ELEMENT_TYPE_UNDEFINED XmlElementTypeVal = iota
-	XML_ELEMENT_TYPE_EMPTY
-	XML_ELEMENT_TYPE_ANY
-	XML_ELEMENT_TYPE_MIXED
-	XML_ELEMENT_TYPE_ELEMENT
+	ELEMENT_TYPE_UNDEFINED ElementTypeVal = iota
+	ELEMENT_TYPE_EMPTY
+	ELEMENT_TYPE_ANY
+	ELEMENT_TYPE_MIXED
+	ELEMENT_TYPE_ELEMENT
 )
 
-type XmlAttributeDefault Enum
+type AttributeDefault Enum
 
 const (
-	XML_ATTRIBUTE_NONE XmlAttributeDefault = iota + 1
-	XML_ATTRIBUTE_REQUIRED
-	XML_ATTRIBUTE_IMPLIED
-	XML_ATTRIBUTE_FIXED
+	ATTRIBUTE_NONE AttributeDefault = iota + 1
+	ATTRIBUTE_REQUIRED
+	ATTRIBUTE_IMPLIED
+	ATTRIBUTE_FIXED
 )
 
-type XmlFeature Enum
+type Feature Enum
 
 const (
-	XML_WITH_THREAD XmlFeature = iota + 1
-	XML_WITH_TREE
-	XML_WITH_OUTPUT
-	XML_WITH_PUSH
-	XML_WITH_READER
-	XML_WITH_PATTERN
-	XML_WITH_WRITER
-	XML_WITH_SAX1
-	XML_WITH_FTP
-	XML_WITH_HTTP
-	XML_WITH_VALID
-	XML_WITH_HTML
-	XML_WITH_LEGACY
-	XML_WITH_C14N
-	XML_WITH_CATALOG
-	XML_WITH_XPATH
-	XML_WITH_XPTR
-	XML_WITH_XINCLUDE
-	XML_WITH_ICONV
-	XML_WITH_ISO8859X
-	XML_WITH_UNICODE
-	XML_WITH_REGEXP
-	XML_WITH_AUTOMATA
-	XML_WITH_EXPR
-	XML_WITH_SCHEMAS
-	XML_WITH_SCHEMATRON
-	XML_WITH_MODULES
-	XML_WITH_DEBUG
-	XML_WITH_DEBUG_MEM
-	XML_WITH_DEBUG_RUN
-	XML_WITH_ZLIB
-	XML_WITH_ICU
-	XML_WITH_LZMA
-	XML_WITH_NONE XmlFeature = 99999
+	WITH_THREAD Feature = iota + 1
+	WITH_TREE
+	WITH_OUTPUT
+	WITH_PUSH
+	WITH_READER
+	WITH_PATTERN
+	WITH_WRITER
+	WITH_SAX1
+	WITH_FTP
+	WITH_HTTP
+	WITH_VALID
+	WITH_HTML
+	WITH_LEGACY
+	WITH_C14N
+	WITH_CATALOG
+	WITH_XPATH
+	WITH_XPTR
+	WITH_XINCLUDE
+	WITH_ICONV
+	WITH_ISO8859X
+	WITH_UNICODE
+	WITH_REGEXP
+	WITH_AUTOMATA
+	WITH_EXPR
+	WITH_SCHEMAS
+	WITH_SCHEMATRON
+	WITH_MODULES
+	WITH_DEBUG
+	WITH_DEBUG_MEM
+	WITH_DEBUG_RUN
+	WITH_ZLIB
+	WITH_ICU
+	WITH_LZMA
+	WITH_NONE Feature = 99999
 )
 
-type XmlParserErrors Enum
+type ParserErrors Enum
 
 const (
-	XML_ERR_OK XmlParserErrors = iota
-	XML_ERR_INTERNAL_ERROR
-	XML_ERR_NO_MEMORY
-	XML_ERR_DOCUMENT_START
-	XML_ERR_DOCUMENT_EMPTY
-	XML_ERR_DOCUMENT_END
-	XML_ERR_INVALID_HEX_CHARREF
-	XML_ERR_INVALID_DEC_CHARREF
-	XML_ERR_INVALID_CHARREF
-	XML_ERR_INVALID_CHAR
-	XML_ERR_CHARREF_AT_EOF
-	XML_ERR_CHARREF_IN_PROLOG
-	XML_ERR_CHARREF_IN_EPILOG
-	XML_ERR_CHARREF_IN_DTD
-	XML_ERR_ENTITYREF_AT_EOF
-	XML_ERR_ENTITYREF_IN_PROLOG
-	XML_ERR_ENTITYREF_IN_EPILOG
-	XML_ERR_ENTITYREF_IN_DTD
-	XML_ERR_PEREF_AT_EOF
-	XML_ERR_PEREF_IN_PROLOG
-	XML_ERR_PEREF_IN_EPILOG
-	XML_ERR_PEREF_IN_INT_SUBSET
-	XML_ERR_ENTITYREF_NO_NAME
-	XML_ERR_ENTITYREF_SEMICOL_MISSING
-	XML_ERR_PEREF_NO_NAME
-	XML_ERR_PEREF_SEMICOL_MISSING
-	XML_ERR_UNDECLARED_ENTITY
-	XML_WAR_UNDECLARED_ENTITY
-	XML_ERR_UNPARSED_ENTITY
-	XML_ERR_ENTITY_IS_EXTERNAL
-	XML_ERR_ENTITY_IS_PARAMETER
-	XML_ERR_UNKNOWN_ENCODING
-	XML_ERR_UNSUPPORTED_ENCODING
-	XML_ERR_STRING_NOT_STARTED
-	XML_ERR_STRING_NOT_CLOSED
-	XML_ERR_NS_DECL_ERROR
-	XML_ERR_ENTITY_NOT_STARTED
-	XML_ERR_ENTITY_NOT_FINISHED
-	XML_ERR_LT_IN_ATTRIBUTE
-	XML_ERR_ATTRIBUTE_NOT_STARTED
-	XML_ERR_ATTRIBUTE_NOT_FINISHED
-	XML_ERR_ATTRIBUTE_WITHOUT_VALUE
-	XML_ERR_ATTRIBUTE_REDEFINED
-	XML_ERR_LITERAL_NOT_STARTED
-	XML_ERR_LITERAL_NOT_FINISHED
-	XML_ERR_COMMENT_NOT_FINISHED
-	XML_ERR_PI_NOT_STARTED
-	XML_ERR_PI_NOT_FINISHED
-	XML_ERR_NOTATION_NOT_STARTED
-	XML_ERR_NOTATION_NOT_FINISHED
-	XML_ERR_ATTLIST_NOT_STARTED
-	XML_ERR_ATTLIST_NOT_FINISHED
-	XML_ERR_MIXED_NOT_STARTED
-	XML_ERR_MIXED_NOT_FINISHED
-	XML_ERR_ELEMCONTENT_NOT_STARTED
-	XML_ERR_ELEMCONTENT_NOT_FINISHED
-	XML_ERR_XMLDECL_NOT_STARTED
-	XML_ERR_XMLDECL_NOT_FINISHED
-	XML_ERR_CONDSEC_NOT_STARTED
-	XML_ERR_CONDSEC_NOT_FINISHED
-	XML_ERR_EXT_SUBSET_NOT_FINISHED
-	XML_ERR_DOCTYPE_NOT_FINISHED
-	XML_ERR_MISPLACED_CDATA_END
-	XML_ERR_CDATA_NOT_FINISHED
-	XML_ERR_RESERVED_XML_NAME
-	XML_ERR_SPACE_REQUIRED
-	XML_ERR_SEPARATOR_REQUIRED
-	XML_ERR_NMTOKEN_REQUIRED
-	XML_ERR_NAME_REQUIRED
-	XML_ERR_PCDATA_REQUIRED
-	XML_ERR_URI_REQUIRED
-	XML_ERR_PUBID_REQUIRED
-	XML_ERR_LT_REQUIRED
-	XML_ERR_GT_REQUIRED
-	XML_ERR_LTSLASH_REQUIRED
-	XML_ERR_EQUAL_REQUIRED
-	XML_ERR_TAG_NAME_MISMATCH
-	XML_ERR_TAG_NOT_FINISHED
-	XML_ERR_STANDALONE_VALUE
-	XML_ERR_ENCODING_NAME
-	XML_ERR_HYPHEN_IN_COMMENT
-	XML_ERR_INVALID_ENCODING
-	XML_ERR_EXT_ENTITY_STANDALONE
-	XML_ERR_CONDSEC_INVALID
-	XML_ERR_VALUE_REQUIRED
-	XML_ERR_NOT_WELL_BALANCED
-	XML_ERR_EXTRA_CONTENT
-	XML_ERR_ENTITY_CHAR_ERROR
-	XML_ERR_ENTITY_PE_INTERNAL
-	XML_ERR_ENTITY_LOOP
-	XML_ERR_ENTITY_BOUNDARY
-	XML_ERR_INVALID_URI
-	XML_ERR_URI_FRAGMENT
-	XML_WAR_CATALOG_PI
-	XML_ERR_NO_DTD
-	XML_ERR_CONDSEC_INVALID_KEYWORD
-	XML_ERR_VERSION_MISSING
-	XML_WAR_UNKNOWN_VERSION
-	XML_WAR_LANG_VALUE
-	XML_WAR_NS_URI
-	XML_WAR_NS_URI_RELATIVE
-	XML_ERR_MISSING_ENCODING
-	XML_WAR_SPACE_VALUE
-	XML_ERR_NOT_STANDALONE
-	XML_ERR_ENTITY_PROCESSING
-	XML_ERR_NOTATION_PROCESSING
-	XML_WAR_NS_COLUMN
-	XML_WAR_ENTITY_REDEFINED
-	XML_ERR_UNKNOWN_VERSION
-	XML_ERR_VERSION_MISMATCH
-	XML_ERR_NAME_TOO_LONG
+	ERR_OK ParserErrors = iota
+	ERR_INTERNAL_ERROR
+	ERR_NO_MEMORY
+	ERR_DOCUMENT_START
+	ERR_DOCUMENT_EMPTY
+	ERR_DOCUMENT_END
+	ERR_INVALID_HEX_CHARREF
+	ERR_INVALID_DEC_CHARREF
+	ERR_INVALID_CHARREF
+	ERR_INVALID_CHAR
+	ERR_CHARREF_AT_EOF
+	ERR_CHARREF_IN_PROLOG
+	ERR_CHARREF_IN_EPILOG
+	ERR_CHARREF_IN_DTD
+	ERR_ENTITYREF_AT_EOF
+	ERR_ENTITYREF_IN_PROLOG
+	ERR_ENTITYREF_IN_EPILOG
+	ERR_ENTITYREF_IN_DTD
+	ERR_PEREF_AT_EOF
+	ERR_PEREF_IN_PROLOG
+	ERR_PEREF_IN_EPILOG
+	ERR_PEREF_IN_INT_SUBSET
+	ERR_ENTITYREF_NO_NAME
+	ERR_ENTITYREF_SEMICOL_MISSING
+	ERR_PEREF_NO_NAME
+	ERR_PEREF_SEMICOL_MISSING
+	ERR_UNDECLARED_ENTITY
+	WAR_UNDECLARED_ENTITY
+	ERR_UNPARSED_ENTITY
+	ERR_ENTITY_IS_EXTERNAL
+	ERR_ENTITY_IS_PARAMETER
+	ERR_UNKNOWN_ENCODING
+	ERR_UNSUPPORTED_ENCODING
+	ERR_STRING_NOT_STARTED
+	ERR_STRING_NOT_CLOSED
+	ERR_NS_DECL_ERROR
+	ERR_ENTITY_NOT_STARTED
+	ERR_ENTITY_NOT_FINISHED
+	ERR_LT_IN_ATTRIBUTE
+	ERR_ATTRIBUTE_NOT_STARTED
+	ERR_ATTRIBUTE_NOT_FINISHED
+	ERR_ATTRIBUTE_WITHOUT_VALUE
+	ERR_ATTRIBUTE_REDEFINED
+	ERR_LITERAL_NOT_STARTED
+	ERR_LITERAL_NOT_FINISHED
+	ERR_COMMENT_NOT_FINISHED
+	ERR_PI_NOT_STARTED
+	ERR_PI_NOT_FINISHED
+	ERR_NOTATION_NOT_STARTED
+	ERR_NOTATION_NOT_FINISHED
+	ERR_ATTLIST_NOT_STARTED
+	ERR_ATTLIST_NOT_FINISHED
+	ERR_MIXED_NOT_STARTED
+	ERR_MIXED_NOT_FINISHED
+	ERR_ELEMCONTENT_NOT_STARTED
+	ERR_ELEMCONTENT_NOT_FINISHED
+	ERR_XMLDECL_NOT_STARTED
+	ERR_XMLDECL_NOT_FINISHED
+	ERR_CONDSEC_NOT_STARTED
+	ERR_CONDSEC_NOT_FINISHED
+	ERR_EXT_SUBSET_NOT_FINISHED
+	ERR_DOCTYPE_NOT_FINISHED
+	ERR_MISPLACED_CDATA_END
+	ERR_CDATA_NOT_FINISHED
+	ERR_RESERVED_NAME
+	ERR_SPACE_REQUIRED
+	ERR_SEPARATOR_REQUIRED
+	ERR_NMTOKEN_REQUIRED
+	ERR_NAME_REQUIRED
+	ERR_PCDATA_REQUIRED
+	ERR_URI_REQUIRED
+	ERR_PUBID_REQUIRED
+	ERR_LT_REQUIRED
+	ERR_GT_REQUIRED
+	ERR_LTSLASH_REQUIRED
+	ERR_EQUAL_REQUIRED
+	ERR_TAG_NAME_MISMATCH
+	ERR_TAG_NOT_FINISHED
+	ERR_STANDALONE_VALUE
+	ERR_ENCODING_NAME
+	ERR_HYPHEN_IN_COMMENT
+	ERR_INVALID_ENCODING
+	ERR_EXT_ENTITY_STANDALONE
+	ERR_CONDSEC_INVALID
+	ERR_VALUE_REQUIRED
+	ERR_NOT_WELL_BALANCED
+	ERR_EXTRA_CONTENT
+	ERR_ENTITY_CHAR_ERROR
+	ERR_ENTITY_PE_INTERNAL
+	ERR_ENTITY_LOOP
+	ERR_ENTITY_BOUNDARY
+	ERR_INVALID_URI
+	ERR_URI_FRAGMENT
+	WAR_CATALOG_PI
+	ERR_NO_DTD
+	ERR_CONDSEC_INVALID_KEYWORD
+	ERR_VERSION_MISSING
+	WAR_UNKNOWN_VERSION
+	WAR_LANG_VALUE
+	WAR_NS_URI
+	WAR_NS_URI_RELATIVE
+	ERR_MISSING_ENCODING
+	WAR_SPACE_VALUE
+	ERR_NOT_STANDALONE
+	ERR_ENTITY_PROCESSING
+	ERR_NOTATION_PROCESSING
+	WAR_NS_COLUMN
+	WAR_ENTITY_REDEFINED
+	ERR_UNKNOWN_VERSION
+	ERR_VERSION_MISMATCH
+	ERR_NAME_TOO_LONG
 )
 const (
-	XML_NS_ERR_XML_NAMESPACE XmlParserErrors = iota + 200
-	XML_NS_ERR_UNDEFINED_NAMESPACE
-	XML_NS_ERR_QNAME
-	XML_NS_ERR_ATTRIBUTE_REDEFINED
-	XML_NS_ERR_EMPTY
-	XML_NS_ERR_COLON
+	NS_ERR_NAMESPACE ParserErrors = iota + 200
+	NS_ERR_UNDEFINED_NAMESPACE
+	NS_ERR_QNAME
+	NS_ERR_ATTRIBUTE_REDEFINED
+	NS_ERR_EMPTY
+	NS_ERR_COLON
 )
 const (
-	XML_DTD_ATTRIBUTE_DEFAULT XmlParserErrors = iota + 500
-	XML_DTD_ATTRIBUTE_REDEFINED
-	XML_DTD_ATTRIBUTE_VALUE
-	XML_DTD_CONTENT_ERROR
-	XML_DTD_CONTENT_MODEL
-	XML_DTD_CONTENT_NOT_DETERMINIST
-	XML_DTD_DIFFERENT_PREFIX
-	XML_DTD_ELEM_DEFAULT_NAMESPACE
-	XML_DTD_ELEM_NAMESPACE
-	XML_DTD_ELEM_REDEFINED
-	XML_DTD_EMPTY_NOTATION
-	XML_DTD_ENTITY_TYPE
-	XML_DTD_ID_FIXED
-	XML_DTD_ID_REDEFINED
-	XML_DTD_ID_SUBSET
-	XML_DTD_INVALID_CHILD
-	XML_DTD_INVALID_DEFAULT
-	XML_DTD_LOAD_ERROR
-	XML_DTD_MISSING_ATTRIBUTE
-	XML_DTD_MIXED_CORRUPT
-	XML_DTD_MULTIPLE_ID
-	XML_DTD_NO_DOC
-	XML_DTD_NO_DTD
-	XML_DTD_NO_ELEM_NAME
-	XML_DTD_NO_PREFIX
-	XML_DTD_NO_ROOT
-	XML_DTD_NOTATION_REDEFINED
-	XML_DTD_NOTATION_VALUE
-	XML_DTD_NOT_EMPTY
-	XML_DTD_NOT_PCDATA
-	XML_DTD_NOT_STANDALONE
-	XML_DTD_ROOT_NAME
-	XML_DTD_STANDALONE_WHITE_SPACE
-	XML_DTD_UNKNOWN_ATTRIBUTE
-	XML_DTD_UNKNOWN_ELEM
-	XML_DTD_UNKNOWN_ENTITY
-	XML_DTD_UNKNOWN_ID
-	XML_DTD_UNKNOWN_NOTATION
-	XML_DTD_STANDALONE_DEFAULTED
-	XML_DTD_XMLID_VALUE
-	XML_DTD_XMLID_TYPE
-	XML_DTD_DUP_TOKEN
+	DTD_ATTRIBUTE_DEFAULT ParserErrors = iota + 500
+	DTD_ATTRIBUTE_REDEFINED
+	DTD_ATTRIBUTE_VALUE
+	DTD_CONTENT_ERROR
+	DTD_CONTENT_MODEL
+	DTD_CONTENT_NOT_DETERMINIST
+	DTD_DIFFERENT_PREFIX
+	DTD_ELEM_DEFAULT_NAMESPACE
+	DTD_ELEM_NAMESPACE
+	DTD_ELEM_REDEFINED
+	DTD_EMPTY_NOTATION
+	DTD_ENTITY_TYPE
+	DTD_ID_FIXED
+	DTD_ID_REDEFINED
+	DTD_ID_SUBSET
+	DTD_INVALID_CHILD
+	DTD_INVALID_DEFAULT
+	DTD_LOAD_ERROR
+	DTD_MISSING_ATTRIBUTE
+	DTD_MIXED_CORRUPT
+	DTD_MULTIPLE_ID
+	DTD_NO_DOC
+	DTD_NO_DTD
+	DTD_NO_ELEM_NAME
+	DTD_NO_PREFIX
+	DTD_NO_ROOT
+	DTD_NOTATION_REDEFINED
+	DTD_NOTATION_VALUE
+	DTD_NOT_EMPTY
+	DTD_NOT_PCDATA
+	DTD_NOT_STANDALONE
+	DTD_ROOT_NAME
+	DTD_STANDALONE_WHITE_SPACE
+	DTD_UNKNOWN_ATTRIBUTE
+	DTD_UNKNOWN_ELEM
+	DTD_UNKNOWN_ENTITY
+	DTD_UNKNOWN_ID
+	DTD_UNKNOWN_NOTATION
+	DTD_STANDALONE_DEFAULTED
+	DTD_XMLID_VALUE
+	DTD_XMLID_TYPE
+	DTD_DUP_TOKEN
 )
 const (
-	XML_HTML_STRUCURE_ERROR XmlParserErrors = iota + 800
-	XML_HTML_UNKNOWN_TAG
+	HTML_STRUCURE_ERROR ParserErrors = iota + 800
+	HTML_UNKNOWN_TAG
 )
 const (
-	XML_RNGP_ANYNAME_ATTR_ANCESTOR XmlParserErrors = iota + 1000
-	XML_RNGP_ATTR_CONFLICT
-	XML_RNGP_ATTRIBUTE_CHILDREN
-	XML_RNGP_ATTRIBUTE_CONTENT
-	XML_RNGP_ATTRIBUTE_EMPTY
-	XML_RNGP_ATTRIBUTE_NOOP
-	XML_RNGP_CHOICE_CONTENT
-	XML_RNGP_CHOICE_EMPTY
-	XML_RNGP_CREATE_FAILURE
-	XML_RNGP_DATA_CONTENT
-	XML_RNGP_DEF_CHOICE_AND_INTERLEAVE
-	XML_RNGP_DEFINE_CREATE_FAILED
-	XML_RNGP_DEFINE_EMPTY
-	XML_RNGP_DEFINE_MISSING
-	XML_RNGP_DEFINE_NAME_MISSING
-	XML_RNGP_ELEM_CONTENT_EMPTY
-	XML_RNGP_ELEM_CONTENT_ERROR
-	XML_RNGP_ELEMENT_EMPTY
-	XML_RNGP_ELEMENT_CONTENT
-	XML_RNGP_ELEMENT_NAME
-	XML_RNGP_ELEMENT_NO_CONTENT
-	XML_RNGP_ELEM_TEXT_CONFLICT
-	XML_RNGP_EMPTY
-	XML_RNGP_EMPTY_CONSTRUCT
-	XML_RNGP_EMPTY_CONTENT
-	XML_RNGP_EMPTY_NOT_EMPTY
-	XML_RNGP_ERROR_TYPE_LIB
-	XML_RNGP_EXCEPT_EMPTY
-	XML_RNGP_EXCEPT_MISSING
-	XML_RNGP_EXCEPT_MULTIPLE
-	XML_RNGP_EXCEPT_NO_CONTENT
-	XML_RNGP_EXTERNALREF_EMTPY
-	XML_RNGP_EXTERNAL_REF_FAILURE
-	XML_RNGP_EXTERNALREF_RECURSE
-	XML_RNGP_FORBIDDEN_ATTRIBUTE
-	XML_RNGP_FOREIGN_ELEMENT
-	XML_RNGP_GRAMMAR_CONTENT
-	XML_RNGP_GRAMMAR_EMPTY
-	XML_RNGP_GRAMMAR_MISSING
-	XML_RNGP_GRAMMAR_NO_START
-	XML_RNGP_GROUP_ATTR_CONFLICT
-	XML_RNGP_HREF_ERROR
-	XML_RNGP_INCLUDE_EMPTY
-	XML_RNGP_INCLUDE_FAILURE
-	XML_RNGP_INCLUDE_RECURSE
-	XML_RNGP_INTERLEAVE_ADD
-	XML_RNGP_INTERLEAVE_CREATE_FAILED
-	XML_RNGP_INTERLEAVE_EMPTY
-	XML_RNGP_INTERLEAVE_NO_CONTENT
-	XML_RNGP_INVALID_DEFINE_NAME
-	XML_RNGP_INVALID_URI
-	XML_RNGP_INVALID_VALUE
-	XML_RNGP_MISSING_HREF
-	XML_RNGP_NAME_MISSING
-	XML_RNGP_NEED_COMBINE
-	XML_RNGP_NOTALLOWED_NOT_EMPTY
-	XML_RNGP_NSNAME_ATTR_ANCESTOR
-	XML_RNGP_NSNAME_NO_NS
-	XML_RNGP_PARAM_FORBIDDEN
-	XML_RNGP_PARAM_NAME_MISSING
-	XML_RNGP_PARENTREF_CREATE_FAILED
-	XML_RNGP_PARENTREF_NAME_INVALID
-	XML_RNGP_PARENTREF_NO_NAME
-	XML_RNGP_PARENTREF_NO_PARENT
-	XML_RNGP_PARENTREF_NOT_EMPTY
-	XML_RNGP_PARSE_ERROR
-	XML_RNGP_PAT_ANYNAME_EXCEPT_ANYNAME
-	XML_RNGP_PAT_ATTR_ATTR
-	XML_RNGP_PAT_ATTR_ELEM
-	XML_RNGP_PAT_DATA_EXCEPT_ATTR
-	XML_RNGP_PAT_DATA_EXCEPT_ELEM
-	XML_RNGP_PAT_DATA_EXCEPT_EMPTY
-	XML_RNGP_PAT_DATA_EXCEPT_GROUP
-	XML_RNGP_PAT_DATA_EXCEPT_INTERLEAVE
-	XML_RNGP_PAT_DATA_EXCEPT_LIST
-	XML_RNGP_PAT_DATA_EXCEPT_ONEMORE
-	XML_RNGP_PAT_DATA_EXCEPT_REF
-	XML_RNGP_PAT_DATA_EXCEPT_TEXT
-	XML_RNGP_PAT_LIST_ATTR
-	XML_RNGP_PAT_LIST_ELEM
-	XML_RNGP_PAT_LIST_INTERLEAVE
-	XML_RNGP_PAT_LIST_LIST
-	XML_RNGP_PAT_LIST_REF
-	XML_RNGP_PAT_LIST_TEXT
-	XML_RNGP_PAT_NSNAME_EXCEPT_ANYNAME
-	XML_RNGP_PAT_NSNAME_EXCEPT_NSNAME
-	XML_RNGP_PAT_ONEMORE_GROUP_ATTR
-	XML_RNGP_PAT_ONEMORE_INTERLEAVE_ATTR
-	XML_RNGP_PAT_START_ATTR
-	XML_RNGP_PAT_START_DATA
-	XML_RNGP_PAT_START_EMPTY
-	XML_RNGP_PAT_START_GROUP
-	XML_RNGP_PAT_START_INTERLEAVE
-	XML_RNGP_PAT_START_LIST
-	XML_RNGP_PAT_START_ONEMORE
-	XML_RNGP_PAT_START_TEXT
-	XML_RNGP_PAT_START_VALUE
-	XML_RNGP_PREFIX_UNDEFINED
-	XML_RNGP_REF_CREATE_FAILED
-	XML_RNGP_REF_CYCLE
-	XML_RNGP_REF_NAME_INVALID
-	XML_RNGP_REF_NO_DEF
-	XML_RNGP_REF_NO_NAME
-	XML_RNGP_REF_NOT_EMPTY
-	XML_RNGP_START_CHOICE_AND_INTERLEAVE
-	XML_RNGP_START_CONTENT
-	XML_RNGP_START_EMPTY
-	XML_RNGP_START_MISSING
-	XML_RNGP_TEXT_EXPECTED
-	XML_RNGP_TEXT_HAS_CHILD
-	XML_RNGP_TYPE_MISSING
-	XML_RNGP_TYPE_NOT_FOUND
-	XML_RNGP_TYPE_VALUE
-	XML_RNGP_UNKNOWN_ATTRIBUTE
-	XML_RNGP_UNKNOWN_COMBINE
-	XML_RNGP_UNKNOWN_CONSTRUCT
-	XML_RNGP_UNKNOWN_TYPE_LIB
-	XML_RNGP_URI_FRAGMENT
-	XML_RNGP_URI_NOT_ABSOLUTE
-	XML_RNGP_VALUE_EMPTY
-	XML_RNGP_VALUE_NO_CONTENT
-	XML_RNGP_XmlNs_NAME
-	XML_RNGP_XML_NS
+	RNGP_ANYNAME_ATTR_ANCESTOR ParserErrors = iota + 1000
+	RNGP_ATTR_CONFLICT
+	RNGP_ATTRIBUTE_CHILDREN
+	RNGP_ATTRIBUTE_CONTENT
+	RNGP_ATTRIBUTE_EMPTY
+	RNGP_ATTRIBUTE_NOOP
+	RNGP_CHOICE_CONTENT
+	RNGP_CHOICE_EMPTY
+	RNGP_CREATE_FAILURE
+	RNGP_DATA_CONTENT
+	RNGP_DEF_CHOICE_AND_INTERLEAVE
+	RNGP_DEFINE_CREATE_FAILED
+	RNGP_DEFINE_EMPTY
+	RNGP_DEFINE_MISSING
+	RNGP_DEFINE_NAME_MISSING
+	RNGP_ELEM_CONTENT_EMPTY
+	RNGP_ELEM_CONTENT_ERROR
+	RNGP_ELEMENT_EMPTY
+	RNGP_ELEMENT_CONTENT
+	RNGP_ELEMENT_NAME
+	RNGP_ELEMENT_NO_CONTENT
+	RNGP_ELEM_TEXT_CONFLICT
+	RNGP_EMPTY
+	RNGP_EMPTY_CONSTRUCT
+	RNGP_EMPTY_CONTENT
+	RNGP_EMPTY_NOT_EMPTY
+	RNGP_ERROR_TYPE_LIB
+	RNGP_EXCEPT_EMPTY
+	RNGP_EXCEPT_MISSING
+	RNGP_EXCEPT_MULTIPLE
+	RNGP_EXCEPT_NO_CONTENT
+	RNGP_EXTERNALREF_EMTPY
+	RNGP_EXTERNAL_REF_FAILURE
+	RNGP_EXTERNALREF_RECURSE
+	RNGP_FORBIDDEN_ATTRIBUTE
+	RNGP_FOREIGN_ELEMENT
+	RNGP_GRAMMAR_CONTENT
+	RNGP_GRAMMAR_EMPTY
+	RNGP_GRAMMAR_MISSING
+	RNGP_GRAMMAR_NO_START
+	RNGP_GROUP_ATTR_CONFLICT
+	RNGP_HREF_ERROR
+	RNGP_INCLUDE_EMPTY
+	RNGP_INCLUDE_FAILURE
+	RNGP_INCLUDE_RECURSE
+	RNGP_INTERLEAVE_ADD
+	RNGP_INTERLEAVE_CREATE_FAILED
+	RNGP_INTERLEAVE_EMPTY
+	RNGP_INTERLEAVE_NO_CONTENT
+	RNGP_INVALID_DEFINE_NAME
+	RNGP_INVALID_URI
+	RNGP_INVALID_VALUE
+	RNGP_MISSING_HREF
+	RNGP_NAME_MISSING
+	RNGP_NEED_COMBINE
+	RNGP_NOTALLOWED_NOT_EMPTY
+	RNGP_NSNAME_ATTR_ANCESTOR
+	RNGP_NSNAME_NO_NS
+	RNGP_PARAM_FORBIDDEN
+	RNGP_PARAM_NAME_MISSING
+	RNGP_PARENTREF_CREATE_FAILED
+	RNGP_PARENTREF_NAME_INVALID
+	RNGP_PARENTREF_NO_NAME
+	RNGP_PARENTREF_NO_PARENT
+	RNGP_PARENTREF_NOT_EMPTY
+	RNGP_PARSE_ERROR
+	RNGP_PAT_ANYNAME_EXCEPT_ANYNAME
+	RNGP_PAT_ATTR_ATTR
+	RNGP_PAT_ATTR_ELEM
+	RNGP_PAT_DATA_EXCEPT_ATTR
+	RNGP_PAT_DATA_EXCEPT_ELEM
+	RNGP_PAT_DATA_EXCEPT_EMPTY
+	RNGP_PAT_DATA_EXCEPT_GROUP
+	RNGP_PAT_DATA_EXCEPT_INTERLEAVE
+	RNGP_PAT_DATA_EXCEPT_LIST
+	RNGP_PAT_DATA_EXCEPT_ONEMORE
+	RNGP_PAT_DATA_EXCEPT_REF
+	RNGP_PAT_DATA_EXCEPT_TEXT
+	RNGP_PAT_LIST_ATTR
+	RNGP_PAT_LIST_ELEM
+	RNGP_PAT_LIST_INTERLEAVE
+	RNGP_PAT_LIST_LIST
+	RNGP_PAT_LIST_REF
+	RNGP_PAT_LIST_TEXT
+	RNGP_PAT_NSNAME_EXCEPT_ANYNAME
+	RNGP_PAT_NSNAME_EXCEPT_NSNAME
+	RNGP_PAT_ONEMORE_GROUP_ATTR
+	RNGP_PAT_ONEMORE_INTERLEAVE_ATTR
+	RNGP_PAT_START_ATTR
+	RNGP_PAT_START_DATA
+	RNGP_PAT_START_EMPTY
+	RNGP_PAT_START_GROUP
+	RNGP_PAT_START_INTERLEAVE
+	RNGP_PAT_START_LIST
+	RNGP_PAT_START_ONEMORE
+	RNGP_PAT_START_TEXT
+	RNGP_PAT_START_VALUE
+	RNGP_PREFIX_UNDEFINED
+	RNGP_REF_CREATE_FAILED
+	RNGP_REF_CYCLE
+	RNGP_REF_NAME_INVALID
+	RNGP_REF_NO_DEF
+	RNGP_REF_NO_NAME
+	RNGP_REF_NOT_EMPTY
+	RNGP_START_CHOICE_AND_INTERLEAVE
+	RNGP_START_CONTENT
+	RNGP_START_EMPTY
+	RNGP_START_MISSING
+	RNGP_TEXT_EXPECTED
+	RNGP_TEXT_HAS_CHILD
+	RNGP_TYPE_MISSING
+	RNGP_TYPE_NOT_FOUND
+	RNGP_TYPE_VALUE
+	RNGP_UNKNOWN_ATTRIBUTE
+	RNGP_UNKNOWN_COMBINE
+	RNGP_UNKNOWN_CONSTRUCT
+	RNGP_UNKNOWN_TYPE_LIB
+	RNGP_URI_FRAGMENT
+	RNGP_URI_NOT_ABSOLUTE
+	RNGP_VALUE_EMPTY
+	RNGP_VALUE_NO_CONTENT
+	RNGP_XmlNs_NAME
+	RNGP_NS
 )
 const (
-	XML_XPATH_EXPRESSION_OK XmlParserErrors = iota + 1200
-	XML_XPATH_NUMBER_ERROR
-	XML_XPATH_UNFINISHED_LITERAL_ERROR
-	XML_XPATH_START_LITERAL_ERROR
-	XML_XPATH_VARIABLE_REF_ERROR
-	XML_XPATH_UNDEF_VARIABLE_ERROR
-	XML_XPATH_INVALID_PREDICATE_ERROR
-	XML_XPATH_EXPR_ERROR
-	XML_XPATH_UNCLOSED_ERROR
-	XML_XPATH_UNKNOWN_FUNC_ERROR
-	XML_XPATH_INVALID_OPERAND
-	XML_XPATH_INVALID_TYPE
-	XML_XPATH_INVALID_ARITY
-	XML_XPATH_INVALID_CTXT_SIZE
-	XML_XPATH_INVALID_CTXT_POSITION
-	XML_XPATH_MEMORY_ERROR
-	XML_XPTR_SYNTAX_ERROR
-	XML_XPTR_RESOURCE_ERROR
-	XML_XPTR_SUB_RESOURCE_ERROR
-	XML_XPATH_UNDEF_PREFIX_ERROR
-	XML_XPATH_ENCODING_ERROR
-	XML_XPATH_INVALID_CHAR_ERROR
+	XPATH_EXPRESSION_OK ParserErrors = iota + 1200
+	XPATH_NUMBER_ERROR
+	XPATH_UNFINISHED_LITERAL_ERROR
+	XPATH_START_LITERAL_ERROR
+	XPATH_VARIABLE_REF_ERROR
+	XPATH_UNDEF_VARIABLE_ERROR
+	XPATH_INVALID_PREDICATE_ERROR
+	XPATH_EXPR_ERROR
+	XPATH_UNCLOSED_ERROR
+	XPATH_UNKNOWN_FUNC_ERROR
+	XPATH_INVALID_OPERAND
+	XPATH_INVALID_TYPE
+	XPATH_INVALID_ARITY
+	XPATH_INVALID_CTXT_SIZE
+	XPATH_INVALID_CTXT_POSITION
+	XPATH_MEMORY_ERROR
+	XPTR_SYNTAX_ERROR
+	XPTR_RESOURCE_ERROR
+	XPTR_SUB_RESOURCE_ERROR
+	XPATH_UNDEF_PREFIX_ERROR
+	XPATH_ENCODING_ERROR
+	XPATH_INVALID_CHAR_ERROR
 )
 const (
-	XML_TREE_INVALID_HEX XmlParserErrors = iota + 1300
-	XML_TREE_INVALID_DEC
-	XML_TREE_UNTERMINATED_ENTITY
-	XML_TREE_NOT_UTF8
+	TREE_INVALID_HEX ParserErrors = iota + 1300
+	TREE_INVALID_DEC
+	TREE_UNTERMINATED_ENTITY
+	TREE_NOT_UTF8
 )
 const (
-	XML_SAVE_NOT_UTF8 XmlParserErrors = iota + 1400
-	XML_SAVE_CHAR_INVALID
-	XML_SAVE_NO_DOCTYPE
-	XML_SAVE_UNKNOWN_ENCODING
-	XML_REGEXP_COMPILE_ERROR XmlParserErrors = 1450
+	SAVE_NOT_UTF8 ParserErrors = iota + 1400
+	SAVE_CHAR_INVALID
+	SAVE_NO_DOCTYPE
+	SAVE_UNKNOWN_ENCODING
+	REGEXP_COMPILE_ERROR ParserErrors = 1450
 )
 const (
-	XML_IO_UNKNOWN XmlParserErrors = iota + 1500
-	XML_IO_EACCES
-	XML_IO_EAGAIN
-	XML_IO_EBADF
-	XML_IO_EBADMSG
-	XML_IO_EBUSY
-	XML_IO_ECANCELED
-	XML_IO_ECHILD
-	XML_IO_EDEADLK
-	XML_IO_EDOM
-	XML_IO_EEXIST
-	XML_IO_EFAULT
-	XML_IO_EFBIG
-	XML_IO_EINPROGRESS
-	XML_IO_EINTR
-	XML_IO_EINVAL
-	XML_IO_EIO
-	XML_IO_EISDIR
-	XML_IO_EMFILE
-	XML_IO_EMLINK
-	XML_IO_EMSGSIZE
-	XML_IO_ENAMETOOLONG
-	XML_IO_ENFILE
-	XML_IO_ENODEV
-	XML_IO_ENOENT
-	XML_IO_ENOEXEC
-	XML_IO_ENOLCK
-	XML_IO_ENOMEM
-	XML_IO_ENOSPC
-	XML_IO_ENOSYS
-	XML_IO_ENOTDIR
-	XML_IO_ENOTEMPTY
-	XML_IO_ENOTSUP
-	XML_IO_ENOTTY
-	XML_IO_ENXIO
-	XML_IO_EPERM
-	XML_IO_EPIPE
-	XML_IO_ERANGE
-	XML_IO_EROFS
-	XML_IO_ESPIPE
-	XML_IO_ESRCH
-	XML_IO_ETIMEDOUT
-	XML_IO_EXDEV
-	XML_IO_NETWORK_ATTEMPT
-	XML_IO_ENCODER
-	XML_IO_FLUSH
-	XML_IO_WRITE
-	XML_IO_NO_INPUT
-	XML_IO_BUFFER_FULL
-	XML_IO_LOAD_ERROR
-	XML_IO_ENOTSOCK
-	XML_IO_EISCONN
-	XML_IO_ECONNREFUSED
-	XML_IO_ENETUNREACH
-	XML_IO_EADDRINUSE
-	XML_IO_EALREADY
-	XML_IO_EAFNOSUPPORT
+	IO_UNKNOWN ParserErrors = iota + 1500
+	IO_EACCES
+	IO_EAGAIN
+	IO_EBADF
+	IO_EBADMSG
+	IO_EBUSY
+	IO_ECANCELED
+	IO_ECHILD
+	IO_EDEADLK
+	IO_EDOM
+	IO_EEXIST
+	IO_EFAULT
+	IO_EFBIG
+	IO_EINPROGRESS
+	IO_EINTR
+	IO_EINVAL
+	IO_EIO
+	IO_EISDIR
+	IO_EMFILE
+	IO_EMLINK
+	IO_EMSGSIZE
+	IO_ENAMETOOLONG
+	IO_ENFILE
+	IO_ENODEV
+	IO_ENOENT
+	IO_ENOEXEC
+	IO_ENOLCK
+	IO_ENOMEM
+	IO_ENOSPC
+	IO_ENOSYS
+	IO_ENOTDIR
+	IO_ENOTEMPTY
+	IO_ENOTSUP
+	IO_ENOTTY
+	IO_ENXIO
+	IO_EPERM
+	IO_EPIPE
+	IO_ERANGE
+	IO_EROFS
+	IO_ESPIPE
+	IO_ESRCH
+	IO_ETIMEDOUT
+	IO_EXDEV
+	IO_NETWORK_ATTEMPT
+	IO_ENCODER
+	IO_FLUSH
+	IO_WRITE
+	IO_NO_INPUT
+	IO_BUFFER_FULL
+	IO_LOAD_ERROR
+	IO_ENOTSOCK
+	IO_EISCONN
+	IO_ECONNREFUSED
+	IO_ENETUNREACH
+	IO_EADDRINUSE
+	IO_EALREADY
+	IO_EAFNOSUPPORT
 )
 const (
-	XML_XINCLUDE_RECURSION XmlParserErrors = iota + 1600
-	XML_XINCLUDE_PARSE_VALUE
-	XML_XINCLUDE_ENTITY_DEF_MISMATCH
-	XML_XINCLUDE_NO_HREF
-	XML_XINCLUDE_NO_FALLBACK
-	XML_XINCLUDE_HREF_URI
-	XML_XINCLUDE_TEXT_FRAGMENT
-	XML_XINCLUDE_TEXT_DOCUMENT
-	XML_XINCLUDE_INVALID_CHAR
-	XML_XINCLUDE_BUILD_FAILED
-	XML_XINCLUDE_UNKNOWN_ENCODING
-	XML_XINCLUDE_MULTIPLE_ROOT
-	XML_XINCLUDE_XPTR_FAILED
-	XML_XINCLUDE_XPTR_RESULT
-	XML_XINCLUDE_INCLUDE_IN_INCLUDE
-	XML_XINCLUDE_FALLBACKS_IN_INCLUDE
-	XML_XINCLUDE_FALLBACK_NOT_IN_INCLUDE
-	XML_XINCLUDE_DEPRECATED_NS
-	XML_XINCLUDE_FRAGMENT_ID
+	XINCLUDE_RECURSION ParserErrors = iota + 1600
+	XINCLUDE_PARSE_VALUE
+	XINCLUDE_ENTITY_DEF_MISMATCH
+	XINCLUDE_NO_HREF
+	XINCLUDE_NO_FALLBACK
+	XINCLUDE_HREF_URI
+	XINCLUDE_TEXT_FRAGMENT
+	XINCLUDE_TEXT_DOCUMENT
+	XINCLUDE_INVALID_CHAR
+	XINCLUDE_BUILD_FAILED
+	XINCLUDE_UNKNOWN_ENCODING
+	XINCLUDE_MULTIPLE_ROOT
+	XINCLUDE_XPTR_FAILED
+	XINCLUDE_XPTR_RESULT
+	XINCLUDE_INCLUDE_IN_INCLUDE
+	XINCLUDE_FALLBACKS_IN_INCLUDE
+	XINCLUDE_FALLBACK_NOT_IN_INCLUDE
+	XINCLUDE_DEPRECATED_NS
+	XINCLUDE_FRAGMENT_ID
 )
 const (
-	XML_CATALOG_MISSING_ATTR XmlParserErrors = iota + 1650
-	XML_CATALOG_ENTRY_BROKEN
-	XML_CATALOG_PREFER_VALUE
-	XML_CATALOG_NOT_CATALOG
-	XML_CATALOG_RECURSION
+	CATALOG_MISSING_ATTR ParserErrors = iota + 1650
+	CATALOG_ENTRY_BROKEN
+	CATALOG_PREFER_VALUE
+	CATALOG_NOT_CATALOG
+	CATALOG_RECURSION
 )
 const (
-	XML_SCHEMAP_PREFIX_UNDEFINED XmlParserErrors = iota + 1700
-	XML_SCHEMAP_ATTRFORMDEFAULT_VALUE
-	XML_SCHEMAP_ATTRGRP_NONAME_NOREF
-	XML_SCHEMAP_ATTR_NONAME_NOREF
-	XML_SCHEMAP_COMPLEXTYPE_NONAME_NOREF
-	XML_SCHEMAP_ELEMFORMDEFAULT_VALUE
-	XML_SCHEMAP_ELEM_NONAME_NOREF
-	XML_SCHEMAP_EXTENSION_NO_BASE
-	XML_SCHEMAP_FACET_NO_VALUE
-	XML_SCHEMAP_FAILED_BUILD_IMPORT
-	XML_SCHEMAP_GROUP_NONAME_NOREF
-	XML_SCHEMAP_IMPORT_NAMESPACE_NOT_URI
-	XML_SCHEMAP_IMPORT_REDEFINE_NSNAME
-	XML_SCHEMAP_IMPORT_SCHEMA_NOT_URI
-	XML_SCHEMAP_INVALID_BOOLEAN
-	XML_SCHEMAP_INVALID_ENUM
-	XML_SCHEMAP_INVALID_FACET
-	XML_SCHEMAP_INVALID_FACET_VALUE
-	XML_SCHEMAP_INVALID_MAXOCCURS
-	XML_SCHEMAP_INVALID_MINOCCURS
-	XML_SCHEMAP_INVALID_REF_AND_SUBTYPE
-	XML_SCHEMAP_INVALID_WHITE_SPACE
-	XML_SCHEMAP_NOATTR_NOREF
-	XML_SCHEMAP_NOTATION_NO_NAME
-	XML_SCHEMAP_NOTYPE_NOREF
-	XML_SCHEMAP_REF_AND_SUBTYPE
-	XML_SCHEMAP_RESTRICTION_NONAME_NOREF
-	XML_SCHEMAP_SIMPLETYPE_NONAME
-	XML_SCHEMAP_TYPE_AND_SUBTYPE
-	XML_SCHEMAP_UNKNOWN_ALL_CHILD
-	XML_SCHEMAP_UNKNOWN_ANYATTRIBUTE_CHILD
-	XML_SCHEMAP_UNKNOWN_ATTR_CHILD
-	XML_SCHEMAP_UNKNOWN_ATTRGRP_CHILD
-	XML_SCHEMAP_UNKNOWN_ATTRIBUTE_GROUP
-	XML_SCHEMAP_UNKNOWN_BASE_TYPE
-	XML_SCHEMAP_UNKNOWN_CHOICE_CHILD
-	XML_SCHEMAP_UNKNOWN_COMPLEXCONTENT_CHILD
-	XML_SCHEMAP_UNKNOWN_COMPLEXTYPE_CHILD
-	XML_SCHEMAP_UNKNOWN_ELEM_CHILD
-	XML_SCHEMAP_UNKNOWN_EXTENSION_CHILD
-	XML_SCHEMAP_UNKNOWN_FACET_CHILD
-	XML_SCHEMAP_UNKNOWN_FACET_TYPE
-	XML_SCHEMAP_UNKNOWN_GROUP_CHILD
-	XML_SCHEMAP_UNKNOWN_IMPORT_CHILD
-	XML_SCHEMAP_UNKNOWN_LIST_CHILD
-	XML_SCHEMAP_UNKNOWN_NOTATION_CHILD
-	XML_SCHEMAP_UNKNOWN_PROCESSCONTENT_CHILD
-	XML_SCHEMAP_UNKNOWN_REF
-	XML_SCHEMAP_UNKNOWN_RESTRICTION_CHILD
-	XML_SCHEMAP_UNKNOWN_SCHEMAS_CHILD
-	XML_SCHEMAP_UNKNOWN_SEQUENCE_CHILD
-	XML_SCHEMAP_UNKNOWN_SIMPLECONTENT_CHILD
-	XML_SCHEMAP_UNKNOWN_SIMPLETYPE_CHILD
-	XML_SCHEMAP_UNKNOWN_TYPE
-	XML_SCHEMAP_UNKNOWN_UNION_CHILD
-	XML_SCHEMAP_ELEM_DEFAULT_FIXED
-	XML_SCHEMAP_REGEXP_INVALID
-	XML_SCHEMAP_FAILED_LOAD
-	XML_SCHEMAP_NOTHING_TO_PARSE
-	XML_SCHEMAP_NOROOT
-	XML_SCHEMAP_REDEFINED_GROUP
-	XML_SCHEMAP_REDEFINED_TYPE
-	XML_SCHEMAP_REDEFINED_ELEMENT
-	XML_SCHEMAP_REDEFINED_ATTRGROUP
-	XML_SCHEMAP_REDEFINED_ATTR
-	XML_SCHEMAP_REDEFINED_NOTATION
-	XML_SCHEMAP_FAILED_PARSE
-	XML_SCHEMAP_UNKNOWN_PREFIX
-	XML_SCHEMAP_DEF_AND_PREFIX
-	XML_SCHEMAP_UNKNOWN_INCLUDE_CHILD
-	XML_SCHEMAP_INCLUDE_SCHEMA_NOT_URI
-	XML_SCHEMAP_INCLUDE_SCHEMA_NO_URI
-	XML_SCHEMAP_NOT_SCHEMA
-	XML_SCHEMAP_UNKNOWN_MEMBER_TYPE
-	XML_SCHEMAP_INVALID_ATTR_USE
-	XML_SCHEMAP_RECURSIVE
-	XML_SCHEMAP_SUPERNUMEROUS_LIST_ITEM_TYPE
-	XML_SCHEMAP_INVALID_ATTR_COMBINATION
-	XML_SCHEMAP_INVALID_ATTR_INLINE_COMBINATION
-	XML_SCHEMAP_MISSING_SIMPLETYPE_CHILD
-	XML_SCHEMAP_INVALID_ATTR_NAME
-	XML_SCHEMAP_REF_AND_CONTENT
-	XML_SCHEMAP_CT_PROPS_CORRECT_1
-	XML_SCHEMAP_CT_PROPS_CORRECT_2
-	XML_SCHEMAP_CT_PROPS_CORRECT_3
-	XML_SCHEMAP_CT_PROPS_CORRECT_4
-	XML_SCHEMAP_CT_PROPS_CORRECT_5
-	XML_SCHEMAP_DERIVATION_OK_RESTRICTION_1
-	XML_SCHEMAP_DERIVATION_OK_RESTRICTION_2_1_1
-	XML_SCHEMAP_DERIVATION_OK_RESTRICTION_2_1_2
-	XML_SCHEMAP_DERIVATION_OK_RESTRICTION_2_2
-	XML_SCHEMAP_DERIVATION_OK_RESTRICTION_3
-	XML_SCHEMAP_WILDCARD_INVALID_NS_MEMBER
-	XML_SCHEMAP_INTERSECTION_NOT_EXPRESSIBLE
-	XML_SCHEMAP_UNION_NOT_EXPRESSIBLE
-	XML_SCHEMAP_SRC_IMPORT_3_1
-	XML_SCHEMAP_SRC_IMPORT_3_2
-	XML_SCHEMAP_DERIVATION_OK_RESTRICTION_4_1
-	XML_SCHEMAP_DERIVATION_OK_RESTRICTION_4_2
-	XML_SCHEMAP_DERIVATION_OK_RESTRICTION_4_3
-	XML_SCHEMAP_COS_CT_EXTENDS_1_3
+	SCHEMAP_PREFIX_UNDEFINED ParserErrors = iota + 1700
+	SCHEMAP_ATTRFORMDEFAULT_VALUE
+	SCHEMAP_ATTRGRP_NONAME_NOREF
+	SCHEMAP_ATTR_NONAME_NOREF
+	SCHEMAP_COMPLEXTYPE_NONAME_NOREF
+	SCHEMAP_ELEMFORMDEFAULT_VALUE
+	SCHEMAP_ELEM_NONAME_NOREF
+	SCHEMAP_EXTENSION_NO_BASE
+	SCHEMAP_FACET_NO_VALUE
+	SCHEMAP_FAILED_BUILD_IMPORT
+	SCHEMAP_GROUP_NONAME_NOREF
+	SCHEMAP_IMPORT_NAMESPACE_NOT_URI
+	SCHEMAP_IMPORT_REDEFINE_NSNAME
+	SCHEMAP_IMPORT_SCHEMA_NOT_URI
+	SCHEMAP_INVALID_BOOLEAN
+	SCHEMAP_INVALID_ENUM
+	SCHEMAP_INVALID_FACET
+	SCHEMAP_INVALID_FACET_VALUE
+	SCHEMAP_INVALID_MAXOCCURS
+	SCHEMAP_INVALID_MINOCCURS
+	SCHEMAP_INVALID_REF_AND_SUBTYPE
+	SCHEMAP_INVALID_WHITE_SPACE
+	SCHEMAP_NOATTR_NOREF
+	SCHEMAP_NOTATION_NO_NAME
+	SCHEMAP_NOTYPE_NOREF
+	SCHEMAP_REF_AND_SUBTYPE
+	SCHEMAP_RESTRICTION_NONAME_NOREF
+	SCHEMAP_SIMPLETYPE_NONAME
+	SCHEMAP_TYPE_AND_SUBTYPE
+	SCHEMAP_UNKNOWN_ALL_CHILD
+	SCHEMAP_UNKNOWN_ANYATTRIBUTE_CHILD
+	SCHEMAP_UNKNOWN_ATTR_CHILD
+	SCHEMAP_UNKNOWN_ATTRGRP_CHILD
+	SCHEMAP_UNKNOWN_ATTRIBUTE_GROUP
+	SCHEMAP_UNKNOWN_BASE_TYPE
+	SCHEMAP_UNKNOWN_CHOICE_CHILD
+	SCHEMAP_UNKNOWN_COMPLEXCONTENT_CHILD
+	SCHEMAP_UNKNOWN_COMPLEXTYPE_CHILD
+	SCHEMAP_UNKNOWN_ELEM_CHILD
+	SCHEMAP_UNKNOWN_EXTENSION_CHILD
+	SCHEMAP_UNKNOWN_FACET_CHILD
+	SCHEMAP_UNKNOWN_FACET_TYPE
+	SCHEMAP_UNKNOWN_GROUP_CHILD
+	SCHEMAP_UNKNOWN_IMPORT_CHILD
+	SCHEMAP_UNKNOWN_LIST_CHILD
+	SCHEMAP_UNKNOWN_NOTATION_CHILD
+	SCHEMAP_UNKNOWN_PROCESSCONTENT_CHILD
+	SCHEMAP_UNKNOWN_REF
+	SCHEMAP_UNKNOWN_RESTRICTION_CHILD
+	SCHEMAP_UNKNOWN_SCHEMAS_CHILD
+	SCHEMAP_UNKNOWN_SEQUENCE_CHILD
+	SCHEMAP_UNKNOWN_SIMPLECONTENT_CHILD
+	SCHEMAP_UNKNOWN_SIMPLETYPE_CHILD
+	SCHEMAP_UNKNOWN_TYPE
+	SCHEMAP_UNKNOWN_UNION_CHILD
+	SCHEMAP_ELEM_DEFAULT_FIXED
+	SCHEMAP_REGEXP_INVALID
+	SCHEMAP_FAILED_LOAD
+	SCHEMAP_NOTHING_TO_PARSE
+	SCHEMAP_NOROOT
+	SCHEMAP_REDEFINED_GROUP
+	SCHEMAP_REDEFINED_TYPE
+	SCHEMAP_REDEFINED_ELEMENT
+	SCHEMAP_REDEFINED_ATTRGROUP
+	SCHEMAP_REDEFINED_ATTR
+	SCHEMAP_REDEFINED_NOTATION
+	SCHEMAP_FAILED_PARSE
+	SCHEMAP_UNKNOWN_PREFIX
+	SCHEMAP_DEF_AND_PREFIX
+	SCHEMAP_UNKNOWN_INCLUDE_CHILD
+	SCHEMAP_INCLUDE_SCHEMA_NOT_URI
+	SCHEMAP_INCLUDE_SCHEMA_NO_URI
+	SCHEMAP_NOT_SCHEMA
+	SCHEMAP_UNKNOWN_MEMBER_TYPE
+	SCHEMAP_INVALID_ATTR_USE
+	SCHEMAP_RECURSIVE
+	SCHEMAP_SUPERNUMEROUS_LIST_ITEM_TYPE
+	SCHEMAP_INVALID_ATTR_COMBINATION
+	SCHEMAP_INVALID_ATTR_INLINE_COMBINATION
+	SCHEMAP_MISSING_SIMPLETYPE_CHILD
+	SCHEMAP_INVALID_ATTR_NAME
+	SCHEMAP_REF_AND_CONTENT
+	SCHEMAP_CT_PROPS_CORRECT_1
+	SCHEMAP_CT_PROPS_CORRECT_2
+	SCHEMAP_CT_PROPS_CORRECT_3
+	SCHEMAP_CT_PROPS_CORRECT_4
+	SCHEMAP_CT_PROPS_CORRECT_5
+	SCHEMAP_DERIVATION_OK_RESTRICTION_1
+	SCHEMAP_DERIVATION_OK_RESTRICTION_2_1_1
+	SCHEMAP_DERIVATION_OK_RESTRICTION_2_1_2
+	SCHEMAP_DERIVATION_OK_RESTRICTION_2_2
+	SCHEMAP_DERIVATION_OK_RESTRICTION_3
+	SCHEMAP_WILDCARD_INVALID_NS_MEMBER
+	SCHEMAP_INTERSECTION_NOT_EXPRESSIBLE
+	SCHEMAP_UNION_NOT_EXPRESSIBLE
+	SCHEMAP_SRC_IMPORT_3_1
+	SCHEMAP_SRC_IMPORT_3_2
+	SCHEMAP_DERIVATION_OK_RESTRICTION_4_1
+	SCHEMAP_DERIVATION_OK_RESTRICTION_4_2
+	SCHEMAP_DERIVATION_OK_RESTRICTION_4_3
+	SCHEMAP_COS_CT_EXTENDS_1_3
 )
 const (
-	XML_SCHEMAV_NOROOT XmlParserErrors = iota + 1801
-	XML_SCHEMAV_UNDECLAREDELEM
-	XML_SCHEMAV_NOTTOPLEVEL
-	XML_SCHEMAV_MISSING
-	XML_SCHEMAV_WRONGELEM
-	XML_SCHEMAV_NOTYPE
-	XML_SCHEMAV_NOROLLBACK
-	XML_SCHEMAV_ISABSTRACT
-	XML_SCHEMAV_NOTEMPTY
-	XML_SCHEMAV_ELEMCONT
-	XML_SCHEMAV_HAVEDEFAULT
-	XML_SCHEMAV_NOTNILLABLE
-	XML_SCHEMAV_EXTRACONTENT
-	XML_SCHEMAV_INVALIDATTR
-	XML_SCHEMAV_INVALIDELEM
-	XML_SCHEMAV_NOTDETERMINIST
-	XML_SCHEMAV_CONSTRUCT
-	XML_SCHEMAV_INTERNAL
-	XML_SCHEMAV_NOTSIMPLE
-	XML_SCHEMAV_ATTRUNKNOWN
-	XML_SCHEMAV_ATTRINVALID
-	XML_SCHEMAV_VALUE
-	XML_SCHEMAV_FACET
-	XML_SCHEMAV_CVC_DATATYPE_VALID_1_2_1
-	XML_SCHEMAV_CVC_DATATYPE_VALID_1_2_2
-	XML_SCHEMAV_CVC_DATATYPE_VALID_1_2_3
-	XML_SCHEMAV_CVC_TYPE_3_1_1
-	XML_SCHEMAV_CVC_TYPE_3_1_2
-	XML_SCHEMAV_CVC_FACET_VALID
-	XML_SCHEMAV_CVC_LENGTH_VALID
-	XML_SCHEMAV_CVC_MINLENGTH_VALID
-	XML_SCHEMAV_CVC_MAXLENGTH_VALID
-	XML_SCHEMAV_CVC_MININCLUSIVE_VALID
-	XML_SCHEMAV_CVC_MAXINCLUSIVE_VALID
-	XML_SCHEMAV_CVC_MINEXCLUSIVE_VALID
-	XML_SCHEMAV_CVC_MAXEXCLUSIVE_VALID
-	XML_SCHEMAV_CVC_TOTALDIGITS_VALID
-	XML_SCHEMAV_CVC_FRACTIONDIGITS_VALID
-	XML_SCHEMAV_CVC_PATTERN_VALID
-	XML_SCHEMAV_CVC_ENUMERATION_VALID
-	XML_SCHEMAV_CVC_COMPLEX_TYPE_2_1
-	XML_SCHEMAV_CVC_COMPLEX_TYPE_2_2
-	XML_SCHEMAV_CVC_COMPLEX_TYPE_2_3
-	XML_SCHEMAV_CVC_COMPLEX_TYPE_2_4
-	XML_SCHEMAV_CVC_ELT_1
-	XML_SCHEMAV_CVC_ELT_2
-	XML_SCHEMAV_CVC_ELT_3_1
-	XML_SCHEMAV_CVC_ELT_3_2_1
-	XML_SCHEMAV_CVC_ELT_3_2_2
-	XML_SCHEMAV_CVC_ELT_4_1
-	XML_SCHEMAV_CVC_ELT_4_2
-	XML_SCHEMAV_CVC_ELT_4_3
-	XML_SCHEMAV_CVC_ELT_5_1_1
-	XML_SCHEMAV_CVC_ELT_5_1_2
-	XML_SCHEMAV_CVC_ELT_5_2_1
-	XML_SCHEMAV_CVC_ELT_5_2_2_1
-	XML_SCHEMAV_CVC_ELT_5_2_2_2_1
-	XML_SCHEMAV_CVC_ELT_5_2_2_2_2
-	XML_SCHEMAV_CVC_ELT_6
-	XML_SCHEMAV_CVC_ELT_7
-	XML_SCHEMAV_CVC_ATTRIBUTE_1
-	XML_SCHEMAV_CVC_ATTRIBUTE_2
-	XML_SCHEMAV_CVC_ATTRIBUTE_3
-	XML_SCHEMAV_CVC_ATTRIBUTE_4
-	XML_SCHEMAV_CVC_COMPLEX_TYPE_3_1
-	XML_SCHEMAV_CVC_COMPLEX_TYPE_3_2_1
-	XML_SCHEMAV_CVC_COMPLEX_TYPE_3_2_2
-	XML_SCHEMAV_CVC_COMPLEX_TYPE_4
-	XML_SCHEMAV_CVC_COMPLEX_TYPE_5_1
-	XML_SCHEMAV_CVC_COMPLEX_TYPE_5_2
-	XML_SCHEMAV_ELEMENT_CONTENT
-	XML_SCHEMAV_DOCUMENT_ELEMENT_MISSING
-	XML_SCHEMAV_CVC_COMPLEX_TYPE_1
-	XML_SCHEMAV_CVC_AU
-	XML_SCHEMAV_CVC_TYPE_1
-	XML_SCHEMAV_CVC_TYPE_2
-	XML_SCHEMAV_CVC_IDC
-	XML_SCHEMAV_CVC_WILDCARD
-	XML_SCHEMAV_MISC
+	SCHEMAV_NOROOT ParserErrors = iota + 1801
+	SCHEMAV_UNDECLAREDELEM
+	SCHEMAV_NOTTOPLEVEL
+	SCHEMAV_MISSING
+	SCHEMAV_WRONGELEM
+	SCHEMAV_NOTYPE
+	SCHEMAV_NOROLLBACK
+	SCHEMAV_ISABSTRACT
+	SCHEMAV_NOTEMPTY
+	SCHEMAV_ELEMCONT
+	SCHEMAV_HAVEDEFAULT
+	SCHEMAV_NOTNILLABLE
+	SCHEMAV_EXTRACONTENT
+	SCHEMAV_INVALIDATTR
+	SCHEMAV_INVALIDELEM
+	SCHEMAV_NOTDETERMINIST
+	SCHEMAV_CONSTRUCT
+	SCHEMAV_INTERNAL
+	SCHEMAV_NOTSIMPLE
+	SCHEMAV_ATTRUNKNOWN
+	SCHEMAV_ATTRINVALID
+	SCHEMAV_VALUE
+	SCHEMAV_FACET
+	SCHEMAV_CVC_DATATYPE_VALID_1_2_1
+	SCHEMAV_CVC_DATATYPE_VALID_1_2_2
+	SCHEMAV_CVC_DATATYPE_VALID_1_2_3
+	SCHEMAV_CVC_TYPE_3_1_1
+	SCHEMAV_CVC_TYPE_3_1_2
+	SCHEMAV_CVC_FACET_VALID
+	SCHEMAV_CVC_LENGTH_VALID
+	SCHEMAV_CVC_MINLENGTH_VALID
+	SCHEMAV_CVC_MAXLENGTH_VALID
+	SCHEMAV_CVC_MININCLUSIVE_VALID
+	SCHEMAV_CVC_MAXINCLUSIVE_VALID
+	SCHEMAV_CVC_MINEXCLUSIVE_VALID
+	SCHEMAV_CVC_MAXEXCLUSIVE_VALID
+	SCHEMAV_CVC_TOTALDIGITS_VALID
+	SCHEMAV_CVC_FRACTIONDIGITS_VALID
+	SCHEMAV_CVC_PATTERN_VALID
+	SCHEMAV_CVC_ENUMERATION_VALID
+	SCHEMAV_CVC_COMPLEX_TYPE_2_1
+	SCHEMAV_CVC_COMPLEX_TYPE_2_2
+	SCHEMAV_CVC_COMPLEX_TYPE_2_3
+	SCHEMAV_CVC_COMPLEX_TYPE_2_4
+	SCHEMAV_CVC_ELT_1
+	SCHEMAV_CVC_ELT_2
+	SCHEMAV_CVC_ELT_3_1
+	SCHEMAV_CVC_ELT_3_2_1
+	SCHEMAV_CVC_ELT_3_2_2
+	SCHEMAV_CVC_ELT_4_1
+	SCHEMAV_CVC_ELT_4_2
+	SCHEMAV_CVC_ELT_4_3
+	SCHEMAV_CVC_ELT_5_1_1
+	SCHEMAV_CVC_ELT_5_1_2
+	SCHEMAV_CVC_ELT_5_2_1
+	SCHEMAV_CVC_ELT_5_2_2_1
+	SCHEMAV_CVC_ELT_5_2_2_2_1
+	SCHEMAV_CVC_ELT_5_2_2_2_2
+	SCHEMAV_CVC_ELT_6
+	SCHEMAV_CVC_ELT_7
+	SCHEMAV_CVC_ATTRIBUTE_1
+	SCHEMAV_CVC_ATTRIBUTE_2
+	SCHEMAV_CVC_ATTRIBUTE_3
+	SCHEMAV_CVC_ATTRIBUTE_4
+	SCHEMAV_CVC_COMPLEX_TYPE_3_1
+	SCHEMAV_CVC_COMPLEX_TYPE_3_2_1
+	SCHEMAV_CVC_COMPLEX_TYPE_3_2_2
+	SCHEMAV_CVC_COMPLEX_TYPE_4
+	SCHEMAV_CVC_COMPLEX_TYPE_5_1
+	SCHEMAV_CVC_COMPLEX_TYPE_5_2
+	SCHEMAV_ELEMENT_CONTENT
+	SCHEMAV_DOCUMENT_ELEMENT_MISSING
+	SCHEMAV_CVC_COMPLEX_TYPE_1
+	SCHEMAV_CVC_AU
+	SCHEMAV_CVC_TYPE_1
+	SCHEMAV_CVC_TYPE_2
+	SCHEMAV_CVC_IDC
+	SCHEMAV_CVC_WILDCARD
+	SCHEMAV_MISC
 )
 const (
-	XML_XPTR_UNKNOWN_SCHEME XmlParserErrors = iota + 1900
-	XML_XPTR_CHILDSEQ_START
-	XML_XPTR_EVAL_FAILED
-	XML_XPTR_EXTRA_OBJECTS
+	XPTR_UNKNOWN_SCHEME ParserErrors = iota + 1900
+	XPTR_CHILDSEQ_START
+	XPTR_EVAL_FAILED
+	XPTR_EXTRA_OBJECTS
 )
 const (
-	XML_C14N_CREATE_CTXT XmlParserErrors = iota + 1950
-	XML_C14N_REQUIRES_UTF8
-	XML_C14N_CREATE_STACK
-	XML_C14N_INVALID_NODE
-	XML_C14N_UNKNOW_NODE
-	XML_C14N_RELATIVE_NAMESPACE
+	C14N_CREATE_CTXT ParserErrors = iota + 1950
+	C14N_REQUIRES_UTF8
+	C14N_CREATE_STACK
+	C14N_INVALID_NODE
+	C14N_UNKNOW_NODE
+	C14N_RELATIVE_NAMESPACE
 )
 const (
-	XML_FTP_PASV_ANSWER XmlParserErrors = iota + 2000
-	XML_FTP_EPSV_ANSWER
-	XML_FTP_ACCNT
-	XML_FTP_URL_SYNTAX
+	FTP_PASV_ANSWER ParserErrors = iota + 2000
+	FTP_EPSV_ANSWER
+	FTP_ACCNT
+	FTP_URL_SYNTAX
 )
 const (
-	XML_HTTP_URL_SYNTAX XmlParserErrors = iota + 2020
-	XML_HTTP_USE_IP
-	XML_HTTP_UNKNOWN_HOST
+	HTTP_URL_SYNTAX ParserErrors = iota + 2020
+	HTTP_USE_IP
+	HTTP_UNKNOWN_HOST
 )
 const (
-	XML_SCHEMAP_SRC_SIMPLE_TYPE_1 XmlParserErrors = iota + 3000
-	XML_SCHEMAP_SRC_SIMPLE_TYPE_2
-	XML_SCHEMAP_SRC_SIMPLE_TYPE_3
-	XML_SCHEMAP_SRC_SIMPLE_TYPE_4
-	XML_SCHEMAP_SRC_RESOLVE
-	XML_SCHEMAP_SRC_RESTRICTION_BASE_OR_SIMPLETYPE
-	XML_SCHEMAP_SRC_LIST_ITEMTYPE_OR_SIMPLETYPE
-	XML_SCHEMAP_SRC_UNION_MEMBERTYPES_OR_SIMPLETYPES
-	XML_SCHEMAP_ST_PROPS_CORRECT_1
-	XML_SCHEMAP_ST_PROPS_CORRECT_2
-	XML_SCHEMAP_ST_PROPS_CORRECT_3
-	XML_SCHEMAP_COS_ST_RESTRICTS_1_1
-	XML_SCHEMAP_COS_ST_RESTRICTS_1_2
-	XML_SCHEMAP_COS_ST_RESTRICTS_1_3_1
-	XML_SCHEMAP_COS_ST_RESTRICTS_1_3_2
-	XML_SCHEMAP_COS_ST_RESTRICTS_2_1
-	XML_SCHEMAP_COS_ST_RESTRICTS_2_3_1_1
-	XML_SCHEMAP_COS_ST_RESTRICTS_2_3_1_2
-	XML_SCHEMAP_COS_ST_RESTRICTS_2_3_2_1
-	XML_SCHEMAP_COS_ST_RESTRICTS_2_3_2_2
-	XML_SCHEMAP_COS_ST_RESTRICTS_2_3_2_3
-	XML_SCHEMAP_COS_ST_RESTRICTS_2_3_2_4
-	XML_SCHEMAP_COS_ST_RESTRICTS_2_3_2_5
-	XML_SCHEMAP_COS_ST_RESTRICTS_3_1
-	XML_SCHEMAP_COS_ST_RESTRICTS_3_3_1
-	XML_SCHEMAP_COS_ST_RESTRICTS_3_3_1_2
-	XML_SCHEMAP_COS_ST_RESTRICTS_3_3_2_2
-	XML_SCHEMAP_COS_ST_RESTRICTS_3_3_2_1
-	XML_SCHEMAP_COS_ST_RESTRICTS_3_3_2_3
-	XML_SCHEMAP_COS_ST_RESTRICTS_3_3_2_4
-	XML_SCHEMAP_COS_ST_RESTRICTS_3_3_2_5
-	XML_SCHEMAP_COS_ST_DERIVED_OK_2_1
-	XML_SCHEMAP_COS_ST_DERIVED_OK_2_2
-	XML_SCHEMAP_S4S_ELEM_NOT_ALLOWED
-	XML_SCHEMAP_S4S_ELEM_MISSING
-	XML_SCHEMAP_S4S_ATTR_NOT_ALLOWED
-	XML_SCHEMAP_S4S_ATTR_MISSING
-	XML_SCHEMAP_S4S_ATTR_INVALID_VALUE
-	XML_SCHEMAP_SRC_ELEMENT_1
-	XML_SCHEMAP_SRC_ELEMENT_2_1
-	XML_SCHEMAP_SRC_ELEMENT_2_2
-	XML_SCHEMAP_SRC_ELEMENT_3
-	XML_SCHEMAP_P_PROPS_CORRECT_1
-	XML_SCHEMAP_P_PROPS_CORRECT_2_1
-	XML_SCHEMAP_P_PROPS_CORRECT_2_2
-	XML_SCHEMAP_E_PROPS_CORRECT_2
-	XML_SCHEMAP_E_PROPS_CORRECT_3
-	XML_SCHEMAP_E_PROPS_CORRECT_4
-	XML_SCHEMAP_E_PROPS_CORRECT_5
-	XML_SCHEMAP_E_PROPS_CORRECT_6
-	XML_SCHEMAP_SRC_INCLUDE
-	XML_SCHEMAP_SRC_ATTRIBUTE_1
-	XML_SCHEMAP_SRC_ATTRIBUTE_2
-	XML_SCHEMAP_SRC_ATTRIBUTE_3_1
-	XML_SCHEMAP_SRC_ATTRIBUTE_3_2
-	XML_SCHEMAP_SRC_ATTRIBUTE_4
-	XML_SCHEMAP_NO_XmlNs
-	XML_SCHEMAP_NO_XSI
-	XML_SCHEMAP_COS_VALID_DEFAULT_1
-	XML_SCHEMAP_COS_VALID_DEFAULT_2_1
-	XML_SCHEMAP_COS_VALID_DEFAULT_2_2_1
-	XML_SCHEMAP_COS_VALID_DEFAULT_2_2_2
-	XML_SCHEMAP_CVC_SIMPLE_TYPE
-	XML_SCHEMAP_COS_CT_EXTENDS_1_1
-	XML_SCHEMAP_SRC_IMPORT_1_1
-	XML_SCHEMAP_SRC_IMPORT_1_2
-	XML_SCHEMAP_SRC_IMPORT_2
-	XML_SCHEMAP_SRC_IMPORT_2_1
-	XML_SCHEMAP_SRC_IMPORT_2_2
-	XML_SCHEMAP_INTERNAL
-	XML_SCHEMAP_NOT_DETERMINISTIC
-	XML_SCHEMAP_SRC_ATTRIBUTE_GROUP_1
-	XML_SCHEMAP_SRC_ATTRIBUTE_GROUP_2
-	XML_SCHEMAP_SRC_ATTRIBUTE_GROUP_3
-	XML_SCHEMAP_MG_PROPS_CORRECT_1
-	XML_SCHEMAP_MG_PROPS_CORRECT_2
-	XML_SCHEMAP_SRC_CT_1
-	XML_SCHEMAP_DERIVATION_OK_RESTRICTION_2_1_3
-	XML_SCHEMAP_AU_PROPS_CORRECT_2
-	XML_SCHEMAP_A_PROPS_CORRECT_2
-	XML_SCHEMAP_C_PROPS_CORRECT
-	XML_SCHEMAP_SRC_REDEFINE
-	XML_SCHEMAP_SRC_IMPORT
-	XML_SCHEMAP_WARN_SKIP_SCHEMA
-	XML_SCHEMAP_WARN_UNLOCATED_SCHEMA
-	XML_SCHEMAP_WARN_ATTR_REDECL_PROH
-	XML_SCHEMAP_WARN_ATTR_POINTLESS_PROH
-	XML_SCHEMAP_AG_PROPS_CORRECT
-	XML_SCHEMAP_COS_CT_EXTENDS_1_2
-	XML_SCHEMAP_AU_PROPS_CORRECT
-	XML_SCHEMAP_A_PROPS_CORRECT_3
-	XML_SCHEMAP_COS_ALL_LIMITED
+	SCHEMAP_SRC_SIMPLE_TYPE_1 ParserErrors = iota + 3000
+	SCHEMAP_SRC_SIMPLE_TYPE_2
+	SCHEMAP_SRC_SIMPLE_TYPE_3
+	SCHEMAP_SRC_SIMPLE_TYPE_4
+	SCHEMAP_SRC_RESOLVE
+	SCHEMAP_SRC_RESTRICTION_BASE_OR_SIMPLETYPE
+	SCHEMAP_SRC_LIST_ITEMTYPE_OR_SIMPLETYPE
+	SCHEMAP_SRC_UNION_MEMBERTYPES_OR_SIMPLETYPES
+	SCHEMAP_ST_PROPS_CORRECT_1
+	SCHEMAP_ST_PROPS_CORRECT_2
+	SCHEMAP_ST_PROPS_CORRECT_3
+	SCHEMAP_COS_ST_RESTRICTS_1_1
+	SCHEMAP_COS_ST_RESTRICTS_1_2
+	SCHEMAP_COS_ST_RESTRICTS_1_3_1
+	SCHEMAP_COS_ST_RESTRICTS_1_3_2
+	SCHEMAP_COS_ST_RESTRICTS_2_1
+	SCHEMAP_COS_ST_RESTRICTS_2_3_1_1
+	SCHEMAP_COS_ST_RESTRICTS_2_3_1_2
+	SCHEMAP_COS_ST_RESTRICTS_2_3_2_1
+	SCHEMAP_COS_ST_RESTRICTS_2_3_2_2
+	SCHEMAP_COS_ST_RESTRICTS_2_3_2_3
+	SCHEMAP_COS_ST_RESTRICTS_2_3_2_4
+	SCHEMAP_COS_ST_RESTRICTS_2_3_2_5
+	SCHEMAP_COS_ST_RESTRICTS_3_1
+	SCHEMAP_COS_ST_RESTRICTS_3_3_1
+	SCHEMAP_COS_ST_RESTRICTS_3_3_1_2
+	SCHEMAP_COS_ST_RESTRICTS_3_3_2_2
+	SCHEMAP_COS_ST_RESTRICTS_3_3_2_1
+	SCHEMAP_COS_ST_RESTRICTS_3_3_2_3
+	SCHEMAP_COS_ST_RESTRICTS_3_3_2_4
+	SCHEMAP_COS_ST_RESTRICTS_3_3_2_5
+	SCHEMAP_COS_ST_DERIVED_OK_2_1
+	SCHEMAP_COS_ST_DERIVED_OK_2_2
+	SCHEMAP_S4S_ELEM_NOT_ALLOWED
+	SCHEMAP_S4S_ELEM_MISSING
+	SCHEMAP_S4S_ATTR_NOT_ALLOWED
+	SCHEMAP_S4S_ATTR_MISSING
+	SCHEMAP_S4S_ATTR_INVALID_VALUE
+	SCHEMAP_SRC_ELEMENT_1
+	SCHEMAP_SRC_ELEMENT_2_1
+	SCHEMAP_SRC_ELEMENT_2_2
+	SCHEMAP_SRC_ELEMENT_3
+	SCHEMAP_P_PROPS_CORRECT_1
+	SCHEMAP_P_PROPS_CORRECT_2_1
+	SCHEMAP_P_PROPS_CORRECT_2_2
+	SCHEMAP_E_PROPS_CORRECT_2
+	SCHEMAP_E_PROPS_CORRECT_3
+	SCHEMAP_E_PROPS_CORRECT_4
+	SCHEMAP_E_PROPS_CORRECT_5
+	SCHEMAP_E_PROPS_CORRECT_6
+	SCHEMAP_SRC_INCLUDE
+	SCHEMAP_SRC_ATTRIBUTE_1
+	SCHEMAP_SRC_ATTRIBUTE_2
+	SCHEMAP_SRC_ATTRIBUTE_3_1
+	SCHEMAP_SRC_ATTRIBUTE_3_2
+	SCHEMAP_SRC_ATTRIBUTE_4
+	SCHEMAP_NO_XmlNs
+	SCHEMAP_NO_XSI
+	SCHEMAP_COS_VALID_DEFAULT_1
+	SCHEMAP_COS_VALID_DEFAULT_2_1
+	SCHEMAP_COS_VALID_DEFAULT_2_2_1
+	SCHEMAP_COS_VALID_DEFAULT_2_2_2
+	SCHEMAP_CVC_SIMPLE_TYPE
+	SCHEMAP_COS_CT_EXTENDS_1_1
+	SCHEMAP_SRC_IMPORT_1_1
+	SCHEMAP_SRC_IMPORT_1_2
+	SCHEMAP_SRC_IMPORT_2
+	SCHEMAP_SRC_IMPORT_2_1
+	SCHEMAP_SRC_IMPORT_2_2
+	SCHEMAP_INTERNAL
+	SCHEMAP_NOT_DETERMINISTIC
+	SCHEMAP_SRC_ATTRIBUTE_GROUP_1
+	SCHEMAP_SRC_ATTRIBUTE_GROUP_2
+	SCHEMAP_SRC_ATTRIBUTE_GROUP_3
+	SCHEMAP_MG_PROPS_CORRECT_1
+	SCHEMAP_MG_PROPS_CORRECT_2
+	SCHEMAP_SRC_CT_1
+	SCHEMAP_DERIVATION_OK_RESTRICTION_2_1_3
+	SCHEMAP_AU_PROPS_CORRECT_2
+	SCHEMAP_A_PROPS_CORRECT_2
+	SCHEMAP_C_PROPS_CORRECT
+	SCHEMAP_SRC_REDEFINE
+	SCHEMAP_SRC_IMPORT
+	SCHEMAP_WARN_SKIP_SCHEMA
+	SCHEMAP_WARN_UNLOCATED_SCHEMA
+	SCHEMAP_WARN_ATTR_REDECL_PROH
+	SCHEMAP_WARN_ATTR_POINTLESS_PROH
+	SCHEMAP_AG_PROPS_CORRECT
+	SCHEMAP_COS_CT_EXTENDS_1_2
+	SCHEMAP_AU_PROPS_CORRECT
+	SCHEMAP_A_PROPS_CORRECT_3
+	SCHEMAP_COS_ALL_LIMITED
 )
 const (
-	XML_SCHEMATRONV_ASSERT XmlParserErrors = iota + 4000
-	XML_SCHEMATRONV_REPORT
+	SCHEMATRONV_ASSERT ParserErrors = iota + 4000
+	SCHEMATRONV_REPORT
 )
 const (
-	XML_MODULE_OPEN XmlParserErrors = iota + 4900
-	XML_MODULE_CLOSE
+	MODULE_OPEN ParserErrors = iota + 4900
+	MODULE_CLOSE
 )
 const (
-	XML_CHECK_FOUND_ELEMENT XmlParserErrors = iota + 5000
-	XML_CHECK_FOUND_ATTRIBUTE
-	XML_CHECK_FOUND_TEXT
-	XML_CHECK_FOUND_CDATA
-	XML_CHECK_FOUND_ENTITYREF
-	XML_CHECK_FOUND_ENTITY
-	XML_CHECK_FOUND_PI
-	XML_CHECK_FOUND_COMMENT
-	XML_CHECK_FOUND_DOCTYPE
-	XML_CHECK_FOUND_FRAGMENT
-	XML_CHECK_FOUND_NOTATION
-	XML_CHECK_UNKNOWN_NODE
-	XML_CHECK_ENTITY_TYPE
-	XML_CHECK_NO_PARENT
-	XML_CHECK_NO_DOC
-	XML_CHECK_NO_NAME
-	XML_CHECK_NO_ELEM
-	XML_CHECK_WRONG_DOC
-	XML_CHECK_NO_PREV
-	XML_CHECK_WRONG_PREV
-	XML_CHECK_NO_NEXT
-	XML_CHECK_WRONG_NEXT
-	XML_CHECK_NOT_DTD
-	XML_CHECK_NOT_ATTR
-	XML_CHECK_NOT_ATTR_DECL
-	XML_CHECK_NOT_ELEM_DECL
-	XML_CHECK_NOT_ENTITY_DECL
-	XML_CHECK_NOT_NS_DECL
-	XML_CHECK_NO_HREF
-	XML_CHECK_WRONG_PARENT
-	XML_CHECK_NS_SCOPE
-	XML_CHECK_NS_ANCESTOR
-	XML_CHECK_NOT_UTF8
-	XML_CHECK_NO_DICT
-	XML_CHECK_NOT_NCNAME
-	XML_CHECK_OUTSIDE_DICT
-	XML_CHECK_WRONG_NAME
-	XML_CHECK_NAME_NOT_NULL
+	CHECK_FOUND_ELEMENT ParserErrors = iota + 5000
+	CHECK_FOUND_ATTRIBUTE
+	CHECK_FOUND_TEXT
+	CHECK_FOUND_CDATA
+	CHECK_FOUND_ENTITYREF
+	CHECK_FOUND_ENTITY
+	CHECK_FOUND_PI
+	CHECK_FOUND_COMMENT
+	CHECK_FOUND_DOCTYPE
+	CHECK_FOUND_FRAGMENT
+	CHECK_FOUND_NOTATION
+	CHECK_UNKNOWN_NODE
+	CHECK_ENTITY_TYPE
+	CHECK_NO_PARENT
+	CHECK_NO_DOC
+	CHECK_NO_NAME
+	CHECK_NO_ELEM
+	CHECK_WRONG_DOC
+	CHECK_NO_PREV
+	CHECK_WRONG_PREV
+	CHECK_NO_NEXT
+	CHECK_WRONG_NEXT
+	CHECK_NOT_DTD
+	CHECK_NOT_ATTR
+	CHECK_NOT_ATTR_DECL
+	CHECK_NOT_ELEM_DECL
+	CHECK_NOT_ENTITY_DECL
+	CHECK_NOT_NS_DECL
+	CHECK_NO_HREF
+	CHECK_WRONG_PARENT
+	CHECK_NS_SCOPE
+	CHECK_NS_ANCESTOR
+	CHECK_NOT_UTF8
+	CHECK_NO_DICT
+	CHECK_NOT_NCNAME
+	CHECK_OUTSIDE_DICT
+	CHECK_WRONG_NAME
+	CHECK_NAME_NOT_NULL
 )
 const (
-	XML_I18N_NO_NAME XmlParserErrors = iota + 6000
-	XML_I18N_NO_HANDLER
-	XML_I18N_EXCESS_HANDLER
-	XML_I18N_CONV_FAILED
-	XML_I18N_NO_OUTPUT
-	XML_BUF_OVERFLOW XmlParserErrors = 7000
+	I18N_NO_NAME ParserErrors = iota + 6000
+	I18N_NO_HANDLER
+	I18N_EXCESS_HANDLER
+	I18N_CONV_FAILED
+	I18N_NO_OUTPUT
+	BUF_OVERFLOW ParserErrors = 7000
 )
 
-type XmlXPathObjectType Enum
+type XPathObjectType Enum
 
 const (
-	XPATH_UNDEFINED XmlXPathObjectType = iota
+	XPATH_UNDEFINED XPathObjectType = iota
 	XPATH_NODESET
 	XPATH_BOOLEAN
 	XPATH_NUMBER
@@ -2115,2415 +2002,1560 @@ const (
 	XPATH_XSLT_TREE
 )
 
-type XmlSchemaTypeType Enum
+type SchemaTypeType Enum
 
 const (
-	XML_SCHEMA_TYPE_BASIC XmlSchemaTypeType = iota + 1
-	XML_SCHEMA_TYPE_ANY
-	XML_SCHEMA_TYPE_FACET
-	XML_SCHEMA_TYPE_SIMPLE
-	XML_SCHEMA_TYPE_COMPLEX
-	XML_SCHEMA_TYPE_SEQUENCE
-	XML_SCHEMA_TYPE_CHOICE
-	XML_SCHEMA_TYPE_ALL
-	XML_SCHEMA_TYPE_SIMPLE_CONTENT
-	XML_SCHEMA_TYPE_COMPLEX_CONTENT
-	XML_SCHEMA_TYPE_UR
-	XML_SCHEMA_TYPE_RESTRICTION
-	XML_SCHEMA_TYPE_EXTENSION
-	XML_SCHEMA_TYPE_ELEMENT
-	XML_SCHEMA_TYPE_ATTRIBUTE
-	XML_SCHEMA_TYPE_ATTRIBUTEGROUP
-	XML_SCHEMA_TYPE_GROUP
-	XML_SCHEMA_TYPE_NOTATION
-	XML_SCHEMA_TYPE_LIST
-	XML_SCHEMA_TYPE_UNION
-	XML_SCHEMA_TYPE_ANY_ATTRIBUTE
-	XML_SCHEMA_TYPE_IDC_UNIQUE
-	XML_SCHEMA_TYPE_IDC_KEY
-	XML_SCHEMA_TYPE_IDC_KEYREF
-	XML_SCHEMA_TYPE_PARTICLE
-	XML_SCHEMA_TYPE_ATTRIBUTE_USE
+	SCHEMA_TYPE_BASIC SchemaTypeType = iota + 1
+	SCHEMA_TYPE_ANY
+	SCHEMA_TYPE_FACET
+	SCHEMA_TYPE_SIMPLE
+	SCHEMA_TYPE_COMPLEX
+	SCHEMA_TYPE_SEQUENCE
+	SCHEMA_TYPE_CHOICE
+	SCHEMA_TYPE_ALL
+	SCHEMA_TYPE_SIMPLE_CONTENT
+	SCHEMA_TYPE_COMPLEX_CONTENT
+	SCHEMA_TYPE_UR
+	SCHEMA_TYPE_RESTRICTION
+	SCHEMA_TYPE_EXTENSION
+	SCHEMA_TYPE_ELEMENT
+	SCHEMA_TYPE_ATTRIBUTE
+	SCHEMA_TYPE_ATTRIBUTEGROUP
+	SCHEMA_TYPE_GROUP
+	SCHEMA_TYPE_NOTATION
+	SCHEMA_TYPE_LIST
+	SCHEMA_TYPE_UNION
+	SCHEMA_TYPE_ANY_ATTRIBUTE
+	SCHEMA_TYPE_IDC_UNIQUE
+	SCHEMA_TYPE_IDC_KEY
+	SCHEMA_TYPE_IDC_KEYREF
+	SCHEMA_TYPE_PARTICLE
+	SCHEMA_TYPE_ATTRIBUTE_USE
 )
 const (
-	XML_SCHEMA_FACET_MININCLUSIVE XmlSchemaTypeType = 1000
-	XML_SCHEMA_FACET_MINEXCLUSIVE
-	XML_SCHEMA_FACET_MAXINCLUSIVE
-	XML_SCHEMA_FACET_MAXEXCLUSIVE
-	XML_SCHEMA_FACET_TOTALDIGITS
-	XML_SCHEMA_FACET_FRACTIONDIGITS
-	XML_SCHEMA_FACET_PATTERN
-	XML_SCHEMA_FACET_ENUMERATION
-	XML_SCHEMA_FACET_WHITESPACE
-	XML_SCHEMA_FACET_LENGTH
-	XML_SCHEMA_FACET_MAXLENGTH
-	XML_SCHEMA_FACET_MINLENGTH
+	SCHEMA_FACET_MININCLUSIVE SchemaTypeType = 1000
+	SCHEMA_FACET_MINEXCLUSIVE
+	SCHEMA_FACET_MAXINCLUSIVE
+	SCHEMA_FACET_MAXEXCLUSIVE
+	SCHEMA_FACET_TOTALDIGITS
+	SCHEMA_FACET_FRACTIONDIGITS
+	SCHEMA_FACET_PATTERN
+	SCHEMA_FACET_ENUMERATION
+	SCHEMA_FACET_WHITESPACE
+	SCHEMA_FACET_LENGTH
+	SCHEMA_FACET_MAXLENGTH
+	SCHEMA_FACET_MINLENGTH
 )
 const (
-	XML_SCHEMA_EXTRA_QNAMEREF XmlSchemaTypeType = 2000
-	XML_SCHEMA_EXTRA_ATTR_USE_PROHIB
+	SCHEMA_EXTRA_QNAMEREF SchemaTypeType = 2000
+	SCHEMA_EXTRA_ATTR_USE_PROHIB
 )
 
-type XmlSchemaWhitespaceValueType Enum
+type SchemaWhitespaceValueType Enum
 
 const (
-	XML_SCHEMA_WHITESPACE_UNKNOWN XmlSchemaWhitespaceValueType = iota
-	XML_SCHEMA_WHITESPACE_PRESERVE
-	XML_SCHEMA_WHITESPACE_REPLACE
-	XML_SCHEMA_WHITESPACE_COLLAPSE
+	SCHEMA_WHITESPACE_UNKNOWN SchemaWhitespaceValueType = iota
+	SCHEMA_WHITESPACE_PRESERVE
+	SCHEMA_WHITESPACE_REPLACE
+	SCHEMA_WHITESPACE_COLLAPSE
 )
 
-type XmlSchemaValType Enum
+type SchemaValType Enum
 
 const (
-	XML_SCHEMAS_UNKNOWN XmlSchemaValType = iota
-	XML_SCHEMAS_STRING
-	XML_SCHEMAS_NORMSTRING
-	XML_SCHEMAS_DECIMAL
-	XML_SCHEMAS_TIME
-	XML_SCHEMAS_GDAY
-	XML_SCHEMAS_GMONTH
-	XML_SCHEMAS_GMONTHDAY
-	XML_SCHEMAS_GYEAR
-	XML_SCHEMAS_GYEARMONTH
-	XML_SCHEMAS_DATE
-	XML_SCHEMAS_DATETIME
-	XML_SCHEMAS_DURATION
-	XML_SCHEMAS_FLOAT
-	XML_SCHEMAS_DOUBLE
-	XML_SCHEMAS_BOOLEAN
-	XML_SCHEMAS_TOKEN
-	XML_SCHEMAS_LANGUAGE
-	XML_SCHEMAS_NMTOKEN
-	XML_SCHEMAS_NMTOKENS
-	XML_SCHEMAS_NAME
-	XML_SCHEMAS_QNAME
-	XML_SCHEMAS_NCNAME
-	XML_SCHEMAS_ID
-	XML_SCHEMAS_IDREF
-	XML_SCHEMAS_IDREFS
-	XML_SCHEMAS_ENTITY
-	XML_SCHEMAS_ENTITIES
-	XML_SCHEMAS_NOTATION
-	XML_SCHEMAS_ANYURI
-	XML_SCHEMAS_INTEGER
-	XML_SCHEMAS_NPINTEGER
-	XML_SCHEMAS_NINTEGER
-	XML_SCHEMAS_NNINTEGER
-	XML_SCHEMAS_PINTEGER
-	XML_SCHEMAS_INT
-	XML_SCHEMAS_UINT
-	XML_SCHEMAS_LONG
-	XML_SCHEMAS_ULONG
-	XML_SCHEMAS_SHORT
-	XML_SCHEMAS_USHORT
-	XML_SCHEMAS_BYTE
-	XML_SCHEMAS_UBYTE
-	XML_SCHEMAS_HEXBINARY
-	XML_SCHEMAS_BASE64BINARY
-	XML_SCHEMAS_ANYTYPE
-	XML_SCHEMAS_ANYSIMPLETYPE
+	SCHEMAS_UNKNOWN SchemaValType = iota
+	SCHEMAS_STRING
+	SCHEMAS_NORMSTRING
+	SCHEMAS_DECIMAL
+	SCHEMAS_TIME
+	SCHEMAS_GDAY
+	SCHEMAS_GMONTH
+	SCHEMAS_GMONTHDAY
+	SCHEMAS_GYEAR
+	SCHEMAS_GYEARMONTH
+	SCHEMAS_DATE
+	SCHEMAS_DATETIME
+	SCHEMAS_DURATION
+	SCHEMAS_FLOAT
+	SCHEMAS_DOUBLE
+	SCHEMAS_BOOLEAN
+	SCHEMAS_TOKEN
+	SCHEMAS_LANGUAGE
+	SCHEMAS_NMTOKEN
+	SCHEMAS_NMTOKENS
+	SCHEMAS_NAME
+	SCHEMAS_QNAME
+	SCHEMAS_NCNAME
+	SCHEMAS_ID
+	SCHEMAS_IDREF
+	SCHEMAS_IDREFS
+	SCHEMAS_ENTITY
+	SCHEMAS_ENTITIES
+	SCHEMAS_NOTATION
+	SCHEMAS_ANYURI
+	SCHEMAS_INTEGER
+	SCHEMAS_NPINTEGER
+	SCHEMAS_NINTEGER
+	SCHEMAS_NNINTEGER
+	SCHEMAS_PINTEGER
+	SCHEMAS_INT
+	SCHEMAS_UINT
+	SCHEMAS_LONG
+	SCHEMAS_ULONG
+	SCHEMAS_SHORT
+	SCHEMAS_USHORT
+	SCHEMAS_BYTE
+	SCHEMAS_UBYTE
+	SCHEMAS_HEXBINARY
+	SCHEMAS_BASE64BINARY
+	SCHEMAS_ANYTYPE
+	SCHEMAS_ANYSIMPLETYPE
 )
 
-type XmlParserSeverities Enum
+type ParserSeverities Enum
 
 const (
-	XML_PARSER_SEVERITY_VALIDITY_WARNING XmlParserSeverities = iota + 1
-	XML_PARSER_SEVERITY_VALIDITY_ERROR
-	XML_PARSER_SEVERITY_WARNING
-	XML_PARSER_SEVERITY_ERROR
+	PARSER_SEVERITY_VALIDITY_WARNING ParserSeverities = iota + 1
+	PARSER_SEVERITY_VALIDITY_ERROR
+	PARSER_SEVERITY_WARNING
+	PARSER_SEVERITY_ERROR
 )
 
-type XmlCatalogPrefer Enum
+type CatalogPrefer Enum
 
 const (
-	XML_CATA_PREFER_NONE XmlCatalogPrefer = iota
-	XML_CATA_PREFER_PUBLIC
-	XML_CATA_PREFER_SYSTEM
+	CATA_PREFER_NONE CatalogPrefer = iota
+	CATA_PREFER_PUBLIC
+	CATA_PREFER_SYSTEM
 )
 
-type XmlCatalogAllow Enum
+type CatalogAllow Enum
 
 const (
-	XML_CATA_ALLOW_NONE XmlCatalogAllow = iota
-	XML_CATA_ALLOW_GLOBAL
-	XML_CATA_ALLOW_DOCUMENT
-	XML_CATA_ALLOW_ALL
+	CATA_ALLOW_NONE CatalogAllow = iota
+	CATA_ALLOW_GLOBAL
+	CATA_ALLOW_DOCUMENT
+	CATA_ALLOW_ALL
 )
 
-type XmlModuleOption Enum
+type ModuleOption Enum
 
 const (
-	XML_MODULE_LAZY XmlModuleOption = iota + 1
-	XML_MODULE_LOCAL
+	MODULE_LAZY ModuleOption = iota + 1
+	MODULE_LOCAL
 )
 
-type XmlParserOption Enum
+type ParserOption Enum
 
 const (
-	XML_PARSE_RECOVER XmlParserOption = 1 << iota
-	XML_PARSE_NOENT
-	XML_PARSE_DTDLOAD
-	XML_PARSE_DTDATTR
-	XML_PARSE_DTDVALID
-	XML_PARSE_NOERROR
-	XML_PARSE_NOWARNING
-	XML_PARSE_PEDANTIC
-	XML_PARSE_NOBLANKS
-	XML_PARSE_SAX1
-	XML_PARSE_XINCLUDE
-	XML_PARSE_NONET
-	XML_PARSE_NODICT
-	XML_PARSE_NSCLEAN
-	XML_PARSE_NOCDATA
-	XML_PARSE_NOXINCNODE
-	XML_PARSE_COMPACT
-	XML_PARSE_OLD10
-	XML_PARSE_NOBASEFIX
-	XML_PARSE_HUGE
-	XML_PARSE_OLDSAX
-	XML_PARSE_IGNORE_ENC
-	XML_PARSE_BIG_LINES
+	PARSE_RECOVER ParserOption = 1 << iota
+	PARSE_NOENT
+	PARSE_DTDLOAD
+	PARSE_DTDATTR
+	PARSE_DTDVALID
+	PARSE_NOERROR
+	PARSE_NOWARNING
+	PARSE_PEDANTIC
+	PARSE_NOBLANKS
+	PARSE_SAX1
+	PARSE_XINCLUDE
+	PARSE_NONET
+	PARSE_NODICT
+	PARSE_NSCLEAN
+	PARSE_NOCDATA
+	PARSE_NOXINCNODE
+	PARSE_COMPACT
+	PARSE_OLD10
+	PARSE_NOBASEFIX
+	PARSE_HUGE
+	PARSE_OLDSAX
+	PARSE_IGNORE_ENC
+	PARSE_BIG_LINES
 )
 
 var (
-	XmlCheckVersion func(version int)
+	CheckVersion func(version int)
 
-	XmlStrdup func(cur string) string
+	Strdup func(cur string) string
 
-	XmlStrndup func(cur string, leng int) string
+	Strndup func(cur string, leng int) string
 
-	XmlCharStrndup func(cur string, leng int) string
+	CharStrndup func(cur string, leng int) string
 
-	XmlCharStrdup func(cur string) string
+	CharStrdup func(cur string) string
 
-	XmlStrsub func(str string, start int, leng int) string
+	Strsub func(str string, start int, leng int) string
 
-	XmlStrchr func(str string, val XmlChar) string
+	Strchr func(str string, val Char) string
 
-	XmlStrstr func(str, val string) string
+	Strstr func(str, val string) string
 
-	XmlStrcasestr func(str, val string) string
+	Strcasestr func(str, val string) string
 
-	XmlStrcmp func(str1, str2 string) int
+	Strcmp func(str1, str2 string) int
 
-	XmlStrncmp func(str1, str2 string, leng int) int
+	Strncmp func(str1, str2 string, leng int) int
 
-	XmlStrcasecmp func(str1, str2 string) int
+	Strcasecmp func(str1, str2 string) int
 
-	XmlStrncasecmp func(str1, str2 string, leng int) int
+	Strncasecmp func(str1, str2 string, leng int) int
 
-	XmlStrEqual func(str1, str2 string) int
+	StrEqual func(str1, str2 string) int
 
-	XmlStrQEqual func(pref, name, str string) int
+	StrQEqual func(pref, name, str string) int
 
-	XmlStrlen func(str string) int
+	Strlen func(str string) int
 
-	XmlStrcat func(cur, add string) string
+	Strcat func(cur, add string) string
 
-	XmlStrncat func(cur, add string, leng int) string
+	Strncat func(cur, add string, leng int) string
 
-	XmlStrncatNew func(str1, str2 string, leng int) string
+	StrncatNew func(str1, str2 string, leng int) string
 
-	XmlStrPrintf func(
+	StrPrintf func(
 		buf string, leng int, msg string, v ...VArg) int
 
-	XmlStrVPrintf func(
-		buf string, leng int, msg string, ap Va_list) int
+	StrVPrintf func(
+		buf string, leng int, msg string, ap VaList) int
 
-	XmlGetUTF8Char func(utf *Unsigned_char, leng *int) int
+	GetUTF8Char func(utf *UnsignedChar, leng *int) int
 
-	XmlCheckUTF8 func(utf *Unsigned_char) int
+	CheckUTF8 func(utf *UnsignedChar) int
 
-	XmlUTF8Strsize func(utf string, leng int) int
+	UTF8Strsize func(utf string, leng int) int
 
-	XmlUTF8Strndup func(utf string, leng int) string
+	UTF8Strndup func(utf string, leng int) string
 
-	XmlUTF8Strpos func(utf string, pos int) string
+	UTF8Strpos func(utf string, pos int) string
 
-	XmlUTF8Strloc func(utf string, utfchar string) int
+	UTF8Strloc func(utf string, utfchar string) int
 
-	XmlUTF8Strsub func(utf string, start, leng int) string
+	UTF8Strsub func(utf string, start, leng int) string
 
-	XmlUTF8Strlen func(utf string) int
+	UTF8Strlen func(utf string) int
 
-	XmlUTF8Size func(utf string) int
+	UTF8Size func(utf string) int
 
-	XmlUTF8Charcmp func(utf1, utf2 string) int
+	UTF8Charcmp func(utf1, utf2 string) int
 
-	XmlBufContent func(buf XmlBufPtr) string
+	BufContent func(buf *Buf) string
 
-	XmlBufEnd func(buf XmlBufPtr) string
+	BufEnd func(buf *Buf) string
 
-	XmlBufUse func(buf XmlBufPtr) Size_t
+	BufUse func(buf *Buf) SizeT
 
-	XmlBufShrink func(buf XmlBufPtr, leng Size_t) Size_t
+	BufShrink func(buf *Buf, leng SizeT) SizeT
 
-	XmlInitializeDict func() int
+	InitializeDict func() int
 
-	XmlDictCreate func() XmlDictPtr
+	DictCreate func() *Dict
 
-	XmlDictSetLimit func(dict XmlDictPtr, limit Size_t) Size_t
+	DictSetLimit func(dict *Dict, limit SizeT) SizeT
 
-	XmlDictGetUsage func(dict XmlDictPtr) Size_t
+	DictGetUsage func(dict *Dict) SizeT
 
-	XmlDictCreateSub func(sub XmlDictPtr) XmlDictPtr
+	DictCreateSub func(sub *Dict) *Dict
 
-	XmlDictReference func(dict XmlDictPtr) int
+	DictReference func(dict *Dict) int
 
-	XmlDictFree func(dict XmlDictPtr)
+	DictFree func(dict *Dict)
 
-	XmlDictLookup func(
-		dict XmlDictPtr, name string, leng int) string
+	DictLookup func(
+		dict *Dict, name string, leng int) string
 
-	XmlDictExists func(
-		dict XmlDictPtr, name string, leng int) string
+	DictExists func(
+		dict *Dict, name string, leng int) string
 
-	XmlDictQLookup func(
-		dict XmlDictPtr, prefix, name string) string
+	DictQLookup func(
+		dict *Dict, prefix, name string) string
 
-	XmlDictOwns func(dict XmlDictPtr, str string) int
+	DictOwns func(dict *Dict, str string) int
 
-	XmlDictSize func(dict XmlDictPtr) int
+	DictSize func(dict *Dict) int
 
-	XmlDictCleanup func()
+	DictCleanup func()
 
-	XmlRegexpCompile func(regexp string) XmlRegexpPtr
+	RegexpCompile func(regexp string) *Regexp
 
-	XmlRegFreeRegexp func(regexp XmlRegexpPtr)
+	RegFreeRegexp func(regexp *Regexp)
 
-	XmlRegexpExec func(comp XmlRegexpPtr, value string) int
+	RegexpExec func(comp *Regexp, value string) int
 
-	XmlRegexpPrint func(output *FILE, regexp XmlRegexpPtr)
+	RegexpPrint func(output *FILE, regexp *Regexp)
 
-	XmlRegexpIsDeterminist func(comp XmlRegexpPtr) int
+	RegexpIsDeterminist func(comp *Regexp) int
 
-	XmlRegNewExecCtxt func(
-		comp XmlRegexpPtr,
-		callback XmlRegExecCallbacks,
-		data *Void) XmlRegExecCtxtPtr
+	RegNewExecCtxt func(
+		comp *Regexp, callback RegExecCallbacks,
+		data *Void) *RegExecCtxt
 
-	XmlRegFreeExecCtxt func(
-		exec XmlRegExecCtxtPtr)
+	RegFreeExecCtxt func(exec *RegExecCtxt)
 
-	XmlRegExecPushString func(
-		exec XmlRegExecCtxtPtr,
-		value string,
-		data *Void) int
+	RegExecPushString func(
+		exec *RegExecCtxt, value string, data *Void) int
 
-	XmlRegExecPushString2 func(
-		exec XmlRegExecCtxtPtr,
-		value string,
-		value2 string,
-		data *Void) int
+	RegExecPushString2 func(exec *RegExecCtxt,
+		value, value2 string, data *Void) int
 
-	XmlRegExecNextValues func(
-		exec XmlRegExecCtxtPtr,
-		nbval *int,
-		nbneg *int,
-		values *string,
-		terminal *int) int
+	RegExecNextValues func(exec *RegExecCtxt,
+		nbval, nbneg *int, values *string, terminal *int) int
 
-	XmlRegExecErrInfo func(
-		exec XmlRegExecCtxtPtr,
-		string *string,
-		nbval *int,
-		nbneg *int,
-		values *string,
-		terminal *int) int
+	RegExecErrInfo func(exec *RegExecCtxt, string *string,
+		nbval, nbneg *int, values *string, terminal *int) int
 
-	XmlExpFreeCtxt func(ctxt XmlExpCtxtPtr)
-
-	XmlExpNewCtxt func(
-		maxNodes int, dict XmlDictPtr) XmlExpCtxtPtr
+	ExpFreeCtxt func(ctxt *ExpCtxt)
 
-	XmlExpCtxtNbNodes func(ctxt XmlExpCtxtPtr) int
+	ExpNewCtxt func(maxNodes int, dict *Dict) *ExpCtxt
 
-	XmlExpCtxtNbCons func(ctxt XmlExpCtxtPtr) int
+	ExpCtxtNbNodes func(ctxt *ExpCtxt) int
 
-	XmlExpFree func(ctxt XmlExpCtxtPtr, expr XmlExpNodePtr)
+	ExpCtxtNbCons func(ctxt *ExpCtxt) int
 
-	XmlExpRef func(expr XmlExpNodePtr)
+	ExpFree func(ctxt *ExpCtxt, expr *ExpNode)
 
-	XmlExpParse func(
-		ctxt XmlExpCtxtPtr, expr string) XmlExpNodePtr
+	ExpRef func(expr *ExpNode)
 
-	XmlExpNewAtom func(ctxt XmlExpCtxtPtr,
-		name string, leng int) XmlExpNodePtr
+	ExpParse func(ctxt *ExpCtxt, expr string) *ExpNode
 
-	XmlExpNewOr func(
-		ctxt XmlExpCtxtPtr,
-		left XmlExpNodePtr,
-		right XmlExpNodePtr) XmlExpNodePtr
+	ExpNewAtom func(ctxt *ExpCtxt,
+		name string, leng int) *ExpNode
 
-	XmlExpNewSeq func(
-		ctxt XmlExpCtxtPtr,
-		left XmlExpNodePtr,
-		right XmlExpNodePtr) XmlExpNodePtr
+	ExpNewOr func(
+		ctxt *ExpCtxt, left, right *ExpNode) *ExpNode
 
-	XmlExpNewRange func(
-		ctxt XmlExpCtxtPtr,
-		subset XmlExpNodePtr,
-		min int,
-		max int) XmlExpNodePtr
+	ExpNewSeq func(
+		ctxt *ExpCtxt, left, right *ExpNode) *ExpNode
 
-	XmlExpIsNillable func(
-		expr XmlExpNodePtr) int
+	ExpNewRange func(ctxt *ExpCtxt, subset *ExpNode,
+		min, max int) *ExpNode
 
-	XmlExpMaxToken func(
-		expr XmlExpNodePtr) int
+	ExpIsNillable func(expr *ExpNode) int
 
-	XmlExpGetLanguage func(
-		ctxt XmlExpCtxtPtr,
-		expr XmlExpNodePtr,
-		langList *string,
-		leng int) int
+	ExpMaxToken func(expr *ExpNode) int
 
-	XmlExpGetStart func(
-		ctxt XmlExpCtxtPtr,
-		expr XmlExpNodePtr,
-		tokList *string,
-		leng int) int
+	ExpGetLanguage func(ctxt *ExpCtxt, expr *ExpNode,
+		langList *string, leng int) int
 
-	XmlExpStringDerive func(
-		ctxt XmlExpCtxtPtr,
-		expr XmlExpNodePtr,
-		str string,
-		leng int) XmlExpNodePtr
+	ExpGetStart func(ctxt *ExpCtxt, expr *ExpNode,
+		tokList *string, leng int) int
 
-	XmlExpExpDerive func(
-		ctxt XmlExpCtxtPtr,
-		expr XmlExpNodePtr,
-		sub XmlExpNodePtr) XmlExpNodePtr
+	ExpStringDerive func(ctxt *ExpCtxt, expr *ExpNode,
+		str string, leng int) *ExpNode
 
-	XmlExpSubsume func(
-		ctxt XmlExpCtxtPtr,
-		expr XmlExpNodePtr,
-		sub XmlExpNodePtr) int
+	ExpExpDerive func(
+		ctxt *ExpCtxt, expr, sub *ExpNode) *ExpNode
 
-	XmlExpDump func(
-		buf XmlBufferPtr,
-		expr XmlExpNodePtr)
+	ExpSubsume func(
+		ctxt *ExpCtxt, expr, sub *ExpNode) int
 
-	XmlValidateNCName func(
-		value string,
-		space int) int
+	ExpDump func(buf *Buffer, expr *ExpNode)
 
-	XmlValidateQName func(
-		value string,
-		space int) int
+	ValidateNCName func(value string, space int) int
 
-	XmlValidateName func(
-		value string,
-		space int) int
+	ValidateQName func(value string, space int) int
 
-	XmlValidateNMToken func(
-		value string,
-		space int) int
+	ValidateName func(value string, space int) int
 
-	XmlBuildQName func(
-		ncname string,
-		prefix string,
-		memory string,
-		leng int) string
+	ValidateNMToken func(value string, space int) int
 
-	XmlSplitQName2 func(
-		name string,
-		prefix *string) string
+	BuildQName func(
+		ncname, prefix, memory string, leng int) string
 
-	XmlSplitQName3 func(
-		name string,
-		leng *int) string
+	SplitQName2 func(name string, prefix *string) string
 
-	XmlSetBufferAllocationScheme func(
-		scheme XmlBufferAllocationScheme)
+	SplitQName3 func(name string, leng *int) string
 
-	XmlGetBufferAllocationScheme func() XmlBufferAllocationScheme
+	SetBufferAllocationScheme func(
+		scheme BufferAllocationScheme)
 
-	XmlBufferCreate func() XmlBufferPtr
+	GetBufferAllocationScheme func() BufferAllocationScheme
 
-	XmlBufferCreateSize func(size Size_t) XmlBufferPtr
+	BufferCreate func() *Buffer
 
-	XmlBufferCreateStatic func(
-		mem *Void, size Size_t) XmlBufferPtr
+	BufferCreateSize func(size SizeT) *Buffer
 
-	XmlBufferResize func(buf XmlBufferPtr, size Unsigned_int) int
+	BufferCreateStatic func(
+		mem *Void, size SizeT) *Buffer
 
-	XmlBufferFree func(buf XmlBufferPtr)
+	BufferResize func(buf *Buffer, size UnsignedInt) int
 
-	XmlBufferDump func(
-		file *FILE,
-		buf XmlBufferPtr) int
+	BufferFree func(buf *Buffer)
 
-	XmlBufferAdd func(
-		buf XmlBufferPtr,
-		str string,
-		leng int) int
+	BufferDump func(file *FILE, buf *Buffer) int
 
-	XmlBufferAddHead func(
-		buf XmlBufferPtr,
-		str string,
-		leng int) int
+	BufferAdd func(buf *Buffer, str string, leng int) int
 
-	XmlBufferCat func(
-		buf XmlBufferPtr,
-		str string) int
+	BufferAddHead func(buf *Buffer, str string, leng int) int
 
-	XmlBufferCCat func(
-		buf XmlBufferPtr,
-		str string) int
+	BufferCat func(buf *Buffer, str string) int
 
-	XmlBufferShrink func(
-		buf XmlBufferPtr,
-		leng Unsigned_int) int
+	BufferCCat func(buf *Buffer, str string) int
 
-	XmlBufferGrow func(
-		buf XmlBufferPtr,
-		leng Unsigned_int) int
+	BufferShrink func(buf *Buffer, leng UnsignedInt) int
 
-	XmlBufferEmpty func(
-		buf XmlBufferPtr)
+	BufferGrow func(buf *Buffer, leng UnsignedInt) int
 
-	XmlBufferContent func(
-		buf XmlBufferPtr) string
+	BufferEmpty func(buf *Buffer)
 
-	XmlBufferDetach func(
-		buf XmlBufferPtr) string
+	BufferContent func(buf *Buffer) string
 
-	XmlBufferSetAllocationScheme func(
-		buf XmlBufferPtr,
-		scheme XmlBufferAllocationScheme)
+	BufferDetach func(buf *Buffer) string
 
-	XmlBufferLength func(
-		buf XmlBufferPtr) int
+	BufferSetAllocationScheme func(
+		buf *Buffer, scheme BufferAllocationScheme)
 
-	XmlCreateIntSubset func(
-		doc XmlDocPtr,
-		name string,
-		ExternalID string,
-		SystemID string) XmlDtdPtr
+	BufferLength func(buf *Buffer) int
 
-	XmlNewDtd func(
-		doc XmlDocPtr,
-		name string,
-		ExternalID string,
-		SystemID string) XmlDtdPtr
+	CreateIntSubset func(
+		doc *Doc, name, externalID, systemID string) *Dtd
 
-	XmlGetIntSubset func(
-		doc XmlDocPtr) XmlDtdPtr
+	NewDtd func(
+		doc *Doc, name, externalID, systemID string) *Dtd
 
-	XmlFreeDtd func(
-		cur XmlDtdPtr)
+	GetIntSubset func(doc *Doc) *Dtd
 
-	XmlNewGlobalNs func(
-		doc XmlDocPtr,
-		href string,
-		prefix string) XmlNsPtr
+	FreeDtd func(cur *Dtd)
 
-	XmlNewNs func(
-		node XmlNodePtr,
-		href string,
-		prefix string) XmlNsPtr
+	NewGlobalNs func(doc *Doc, href, prefix string) *Ns
 
-	XmlFreeNs func(
-		cur XmlNsPtr)
+	NewNs func(node *Node, href, prefix string) *Ns
 
-	XmlFreeNsList func(
-		cur XmlNsPtr)
+	FreeNs func(cur *Ns)
 
-	XmlNewDoc func(
-		version string) XmlDocPtr
+	FreeNsList func(
+		cur *Ns)
 
-	XmlFreeDoc func(
-		cur XmlDocPtr)
+	NewDoc func(version string) *Doc
 
-	XmlNewDocProp func(
-		doc XmlDocPtr,
-		name string,
-		value string) XmlAttrPtr
+	FreeDoc func(cur *Doc)
 
-	XmlNewProp func(
-		node XmlNodePtr,
-		name string,
-		value string) XmlAttrPtr
+	NewDocProp func(doc *Doc, name, value string) *Attr
 
-	XmlNewNsProp func(
-		node XmlNodePtr,
-		ns XmlNsPtr,
-		name string,
-		value string) XmlAttrPtr
+	NewProp func(node *Node, name, value string) *Attr
 
-	XmlNewNsPropEatName func(
-		node XmlNodePtr,
-		ns XmlNsPtr,
-		name string,
-		value string) XmlAttrPtr
+	NewNsProp func(
+		node *Node, ns *Ns, name, value string) *Attr
 
-	XmlFreePropList func(
-		cur XmlAttrPtr)
+	NewNsPropEatName func(
+		node *Node, ns *Ns, name, value string) *Attr
 
-	XmlFreeProp func(
-		cur XmlAttrPtr)
+	FreePropList func(cur *Attr)
 
-	XmlCopyProp func(
-		target XmlNodePtr,
-		cur XmlAttrPtr) XmlAttrPtr
+	FreeProp func(cur *Attr)
 
-	XmlCopyPropList func(
-		target XmlNodePtr,
-		cur XmlAttrPtr) XmlAttrPtr
+	CopyProp func(target *Node, cur *Attr) *Attr
 
-	XmlCopyDtd func(
-		dtd XmlDtdPtr) XmlDtdPtr
+	CopyPropList func(target *Node, cur *Attr) *Attr
 
-	XmlCopyDoc func(
-		doc XmlDocPtr,
-		recursive int) XmlDocPtr
+	CopyDtd func(dtd *Dtd) *Dtd
 
-	XmlNewDocNode func(
-		doc XmlDocPtr,
-		ns XmlNsPtr,
-		name string,
-		content string) XmlNodePtr
+	CopyDoc func(doc *Doc, recursive int) *Doc
 
-	XmlNewDocNodeEatName func(
-		doc XmlDocPtr,
-		ns XmlNsPtr,
-		name string,
-		content string) XmlNodePtr
+	NewDocNode func(
+		doc *Doc, ns *Ns, name, content string) *Node
 
-	XmlNewNode func(
-		ns XmlNsPtr,
-		name string) XmlNodePtr
+	NewDocNodeEatName func(
+		doc *Doc, ns *Ns, name, content string) *Node
 
-	XmlNewNodeEatName func(
-		ns XmlNsPtr,
-		name string) XmlNodePtr
+	NewNode func(ns *Ns, name string) *Node
 
-	XmlNewChild func(
-		parent XmlNodePtr,
-		ns XmlNsPtr,
-		name string,
-		content string) XmlNodePtr
+	NewNodeEatName func(ns *Ns, name string) *Node
 
-	XmlNewDocText func(
-		doc XmlDocPtr,
-		content string) XmlNodePtr
+	NewChild func(parent *Node,
+		ns *Ns, name, content string) *Node
 
-	XmlNewText func(
-		content string) XmlNodePtr
+	NewDocText func(doc *Doc, content string) *Node
 
-	XmlNewDocPI func(
-		doc XmlDocPtr,
-		name string,
-		content string) XmlNodePtr
+	NewText func(content string) *Node
 
-	XmlNewPI func(
-		name string,
-		content string) XmlNodePtr
+	NewDocPI func(doc *Doc, name, content string) *Node
 
-	XmlNewDocTextLen func(
-		doc XmlDocPtr,
-		content string,
-		leng int) XmlNodePtr
+	NewPI func(name, content string) *Node
 
-	XmlNewTextLen func(
-		content string,
-		leng int) XmlNodePtr
+	NewDocTextLen func(
+		doc *Doc, content string, leng int) *Node
 
-	XmlNewDocComment func(
-		doc XmlDocPtr,
-		content string) XmlNodePtr
+	NewTextLen func(content string, leng int) *Node
 
-	XmlNewComment func(
-		content string) XmlNodePtr
+	NewDocComment func(doc *Doc, content string) *Node
 
-	XmlNewCDataBlock func(
-		doc XmlDocPtr,
-		content string,
-		leng int) XmlNodePtr
+	NewComment func(content string) *Node
 
-	XmlNewCharRef func(
-		doc XmlDocPtr,
-		name string) XmlNodePtr
+	NewCDataBlock func(
+		doc *Doc, content string, leng int) *Node
 
-	XmlNewReference func(
-		doc XmlDocPtr,
-		name string) XmlNodePtr
+	NewCharRef func(doc *Doc, name string) *Node
 
-	XmlCopyNode func(
-		node XmlNodePtr,
-		recursive int) XmlNodePtr
+	NewReference func(doc *Doc, name string) *Node
 
-	XmlDocCopyNode func(
-		node XmlNodePtr,
-		doc XmlDocPtr,
-		recursive int) XmlNodePtr
+	CopyNode func(node *Node, recursive int) *Node
 
-	XmlDocCopyNodeList func(
-		doc XmlDocPtr,
-		node XmlNodePtr) XmlNodePtr
+	DocCopyNode func(
+		node *Node, doc *Doc, recursive int) *Node
 
-	XmlCopyNodeList func(
-		node XmlNodePtr) XmlNodePtr
+	DocCopyNodeList func(doc *Doc, node *Node) *Node
 
-	XmlNewTextChild func(
-		parent XmlNodePtr,
-		ns XmlNsPtr,
-		name string,
-		content string) XmlNodePtr
+	CopyNodeList func(node *Node) *Node
 
-	XmlNewDocRawNode func(
-		doc XmlDocPtr,
-		ns XmlNsPtr,
-		name string,
-		content string) XmlNodePtr
+	NewTextChild func(parent *Node,
+		ns *Ns, name, content string) *Node
 
-	XmlNewDocFragment func(
-		doc XmlDocPtr) XmlNodePtr
+	NewDocRawNode func(
+		doc *Doc, ns *Ns, name, content string) *Node
 
-	XmlGetLineNo func(
-		node XmlNodePtr) Long
+	NewDocFragment func(doc *Doc) *Node
 
-	XmlGetNodePath func(
-		node XmlNodePtr) string
+	GetLineNo func(node *Node) Long
 
-	XmlDocGetRootElement func(
-		doc XmlDocPtr) XmlNodePtr
+	GetNodePath func(node *Node) string
 
-	XmlGetLastChild func(
-		parent XmlNodePtr) XmlNodePtr
+	DocGetRootElement func(doc *Doc) *Node
 
-	XmlNodeIsText func(
-		node XmlNodePtr) int
+	GetLastChild func(parent *Node) *Node
 
-	XmlIsBlankNode func(
-		node XmlNodePtr) int
+	NodeIsText func(node *Node) int
 
-	XmlDocSetRootElement func(
-		doc XmlDocPtr,
-		root XmlNodePtr) XmlNodePtr
+	IsBlankNode func(node *Node) int
 
-	XmlNodeSetName func(
-		cur XmlNodePtr,
-		name string)
+	DocSetRootElement func(
+		doc *Doc, root *Node) *Node
 
-	XmlAddChild func(
-		parent XmlNodePtr,
-		cur XmlNodePtr) XmlNodePtr
+	NodeSetName func(cur *Node, name string)
 
-	XmlAddChildList func(
-		parent XmlNodePtr,
-		cur XmlNodePtr) XmlNodePtr
+	AddChild func(parent, cur *Node) *Node
 
-	XmlReplaceNode func(
-		old XmlNodePtr,
-		cur XmlNodePtr) XmlNodePtr
+	AddChildList func(parent, cur *Node) *Node
 
-	XmlAddPrevSibling func(
-		cur XmlNodePtr,
-		elem XmlNodePtr) XmlNodePtr
+	ReplaceNode func(old, cur *Node) *Node
 
-	XmlAddSibling func(
-		cur XmlNodePtr,
-		elem XmlNodePtr) XmlNodePtr
+	AddPrevSibling func(cur, elem *Node) *Node
 
-	XmlAddNextSibling func(
-		cur XmlNodePtr,
-		elem XmlNodePtr) XmlNodePtr
+	AddSibling func(cur, elem *Node) *Node
 
-	XmlUnlinkNode func(
-		cur XmlNodePtr)
+	AddNextSibling func(cur, elem *Node) *Node
 
-	XmlTextMerge func(
-		first XmlNodePtr,
-		second XmlNodePtr) XmlNodePtr
+	UnlinkNode func(cur *Node)
 
-	XmlTextConcat func(
-		node XmlNodePtr,
-		content string,
-		leng int) int
+	TextMerge func(first, second *Node) *Node
 
-	XmlFreeNodeList func(
-		cur XmlNodePtr)
-
-	XmlFreeNode func(
-		cur XmlNodePtr)
-
-	XmlSetTreeDoc func(
-		tree XmlNodePtr,
-		doc XmlDocPtr)
-
-	XmlSetListDoc func(
-		list XmlNodePtr,
-		doc XmlDocPtr)
-
-	XmlSearchNs func(
-		doc XmlDocPtr,
-		node XmlNodePtr,
-		nameSpace string) XmlNsPtr
-
-	XmlSearchNsByHref func(
-		doc XmlDocPtr,
-		node XmlNodePtr,
-		href string) XmlNsPtr
+	TextConcat func(
+		node *Node, content string, leng int) int
 
-	XmlGetNsList func(
-		doc XmlDocPtr,
-		node XmlNodePtr) *XmlNsPtr
+	FreeNodeList func(cur *Node)
 
-	XmlSetNs func(
-		node XmlNodePtr,
-		ns XmlNsPtr)
+	FreeNode func(cur *Node)
 
-	XmlCopyNamespace func(
-		cur XmlNsPtr) XmlNsPtr
+	SetTreeDoc func(tree *Node, doc *Doc)
 
-	XmlCopyNamespaceList func(
-		cur XmlNsPtr) XmlNsPtr
+	SetListDoc func(list *Node, doc *Doc)
 
-	XmlSetProp func(
-		node XmlNodePtr,
-		name string,
-		value string) XmlAttrPtr
+	SearchNs func(
+		doc *Doc, node *Node, nameSpace string) *Ns
 
-	XmlSetNsProp func(
-		node XmlNodePtr,
-		ns XmlNsPtr,
-		name string,
-		value string) XmlAttrPtr
+	SearchNsByHref func(
+		doc *Doc, node *Node, href string) *Ns
 
-	XmlGetNoNsProp func(
-		node XmlNodePtr,
-		name string) string
+	GetNsList func(doc *Doc, node *Node) **Ns
 
-	XmlGetProp func(
-		node XmlNodePtr,
-		name string) string
+	SetNs func(node *Node, ns *Ns)
 
-	XmlHasProp func(
-		node XmlNodePtr,
-		name string) XmlAttrPtr
+	CopyNamespace func(cur *Ns) *Ns
 
-	XmlHasNsProp func(
-		node XmlNodePtr,
-		name string,
-		nameSpace string) XmlAttrPtr
+	CopyNamespaceList func(cur *Ns) *Ns
 
-	XmlGetNsProp func(
-		node XmlNodePtr,
-		name string,
-		nameSpace string) string
-
-	XmlStringGetNodeList func(
-		doc XmlDocPtr,
-		value string) XmlNodePtr
-
-	XmlStringLenGetNodeList func(
-		doc XmlDocPtr,
-		value string,
-		leng int) XmlNodePtr
-
-	XmlNodeListGetString func(
-		doc XmlDocPtr,
-		list XmlNodePtr,
-		inLine int) string
-
-	XmlNodeListGetRawString func(
-		doc XmlDocPtr,
-		list XmlNodePtr,
-		inLine int) string
-
-	XmlNodeSetContent func(
-		cur XmlNodePtr,
-		content string)
-
-	XmlNodeSetContentLen func(
-		cur XmlNodePtr,
-		content string,
-		leng int)
-
-	XmlNodeAddContent func(
-		cur XmlNodePtr,
-		content string)
-
-	XmlNodeAddContentLen func(
-		cur XmlNodePtr,
-		content string,
-		leng int)
-
-	XmlNodeGetContent func(
-		cur XmlNodePtr) string
-
-	XmlNodeBufGetContent func(
-		buffer XmlBufferPtr,
-		cur XmlNodePtr) int
-
-	XmlBufGetNodeContent func(
-		buf XmlBufPtr,
-		cur XmlNodePtr) int
-
-	XmlNodeGetLang func(
-		cur XmlNodePtr) string
-
-	XmlNodeGetSpacePreserve func(
-		cur XmlNodePtr) int
+	SetProp func(node *Node, name, value string) *Attr
 
-	XmlNodeSetLang func(
-		cur XmlNodePtr,
-		lang string)
-
-	XmlNodeSetSpacePreserve func(
-		cur XmlNodePtr,
-		val int)
-
-	XmlNodeGetBase func(
-		doc XmlDocPtr,
-		cur XmlNodePtr) string
-
-	XmlNodeSetBase func(
-		cur XmlNodePtr,
-		uri string)
-
-	XmlRemoveProp func(
-		cur XmlAttrPtr) int
-
-	XmlUnsetNsProp func(
-		node XmlNodePtr,
-		ns XmlNsPtr,
-		name string) int
-
-	XmlUnsetProp func(
-		node XmlNodePtr,
-		name string) int
-
-	XmlBufferWriteCHAR func(
-		buf XmlBufferPtr,
-		string string)
-
-	XmlBufferWriteChar func(
-		buf XmlBufferPtr,
-		string string)
-
-	XmlBufferWriteQuotedString func(
-		buf XmlBufferPtr,
-		string string)
-
-	XmlAttrSerializeTxtContent func(
-		buf XmlBufferPtr,
-		doc XmlDocPtr,
-		attr XmlAttrPtr,
-		string string)
-
-	XmlReconciliateNs func(
-		doc XmlDocPtr,
-		tree XmlNodePtr) int
-
-	XmlDocDumpFormatMemory func(
-		cur XmlDocPtr,
-		mem *string,
-		size *int,
-		format int)
-
-	XmlDocDumpMemory func(
-		cur XmlDocPtr,
-		mem *string,
-		size *int)
-
-	XmlDocDumpMemoryEnc func(
-		out_doc XmlDocPtr,
-		doc_txt_ptr *string,
-		doc_txt_len *int,
-		txt_encoding string)
-
-	XmlDocDumpFormatMemoryEnc func(
-		out_doc XmlDocPtr,
-		doc_txt_ptr *string,
-		doc_txt_len *int,
-		txt_encoding string,
-		format int)
-
-	XmlDocFormatDump func(
-		f *FILE,
-		cur XmlDocPtr,
-		format int) int
-
-	XmlDocDump func(f *FILE, cur XmlDocPtr) int
-
-	XmlElemDump func(f *FILE, doc XmlDocPtr, cur XmlNodePtr)
-
-	XmlSaveFile func(filename string, cur XmlDocPtr) int
-
-	XmlSaveFormatFile func(
-		filename string, cur XmlDocPtr, format int) int
-
-	XmlBufNodeDump func(buf XmlBufPtr, doc XmlDocPtr,
-		cur XmlNodePtr, level, format int) Size_t
-
-	XmlNodeDump func(buf XmlBufferPtr, doc XmlDocPtr,
-		cur XmlNodePtr, level, format int) int
-
-	XmlSaveFileTo func(
-		buf XmlOutputBufferPtr,
-		cur XmlDocPtr,
-		encoding string) int
-
-	XmlSaveFormatFileTo func(
-		buf XmlOutputBufferPtr,
-		cur XmlDocPtr,
-		encoding string,
-		format int) int
-
-	XmlNodeDumpOutput func(
-		buf XmlOutputBufferPtr,
-		doc XmlDocPtr,
-		cur XmlNodePtr,
-		level int,
-		format int,
-		encoding string)
-
-	XmlSaveFormatFileEnc func(
-		filename string,
-		cur XmlDocPtr,
-		encoding string,
-		format int) int
-
-	XmlSaveFileEnc func(
-		filename string,
-		cur XmlDocPtr,
-		encoding string) int
-
-	XmlIsXHTML func(
-		systemID string,
-		publicID string) int
-
-	XmlGetDocCompressMode func(
-		doc XmlDocPtr) int
-
-	XmlSetDocCompressMode func(
-		doc XmlDocPtr,
-		mode int)
-
-	XmlGetCompressMode func() int
-
-	XmlSetCompressMode func(
-		mode int)
+	SetNsProp func(
+		node *Node, ns *Ns, name, value string) *Attr
 
-	XmlDOMWrapNewCtxt func() XmlDOMWrapCtxtPtr
+	GetNoNsProp func(node *Node, name string) string
 
-	XmlDOMWrapFreeCtxt func(
-		ctxt XmlDOMWrapCtxtPtr)
+	GetProp func(node *Node, name string) string
 
-	XmlDOMWrapReconcileNamespaces func(
-		ctxt XmlDOMWrapCtxtPtr,
-		elem XmlNodePtr,
-		options int) int
+	HasProp func(node *Node, name string) *Attr
 
-	XmlDOMWrapAdoptNode func(
-		ctxt XmlDOMWrapCtxtPtr,
-		sourceDoc XmlDocPtr,
-		node XmlNodePtr,
-		destDoc XmlDocPtr,
-		destParent XmlNodePtr,
-		options int) int
+	HasNsProp func(
+		node *Node, name, nameSpace string) *Attr
 
-	XmlDOMWrapRemoveNode func(
-		ctxt XmlDOMWrapCtxtPtr,
-		doc XmlDocPtr,
-		node XmlNodePtr,
-		options int) int
+	GetNsProp func(
+		node *Node, name, nameSpace string) string
 
-	XmlDOMWrapCloneNode func(
-		ctxt XmlDOMWrapCtxtPtr,
-		sourceDoc XmlDocPtr,
-		node XmlNodePtr,
-		clonedNode *XmlNodePtr,
-		destDoc XmlDocPtr,
-		destParent XmlNodePtr,
-		deep int,
-		options int) int
+	StringGetNodeList func(doc *Doc, value string) *Node
 
-	XmlChildElementCount func(
-		parent XmlNodePtr) Unsigned_long
-
-	XmlNextElementSibling func(
-		node XmlNodePtr) XmlNodePtr
+	StringLenGetNodeList func(
+		doc *Doc, value string, leng int) *Node
 
-	XmlFirstElementChild func(
-		parent XmlNodePtr) XmlNodePtr
-
-	XmlLastElementChild func(
-		parent XmlNodePtr) XmlNodePtr
-
-	XmlPreviousElementSibling func(
-		node XmlNodePtr) XmlNodePtr
-
-	XmlMemSetup func(
-		freeFunc XmlFreeFunc,
-		mallocFunc XmlMallocFunc,
-		reallocFunc XmlReallocFunc,
-		strdupFunc XmlStrdupFunc) int
-
-	XmlMemGet func(
-		freeFunc *XmlFreeFunc,
-		mallocFunc *XmlMallocFunc,
-		reallocFunc *XmlReallocFunc,
-		strdupFunc *XmlStrdupFunc) int
-
-	XmlGcMemSetup func(
-		freeFunc XmlFreeFunc,
-		mallocFunc XmlMallocFunc,
-		mallocAtomicFunc XmlMallocFunc,
-		reallocFunc XmlReallocFunc,
-		strdupFunc XmlStrdupFunc) int
-
-	XmlGcMemGet func(
-		freeFunc *XmlFreeFunc,
-		mallocFunc *XmlMallocFunc,
-		mallocAtomicFunc *XmlMallocFunc,
-		reallocFunc *XmlReallocFunc,
-		strdupFunc *XmlStrdupFunc) int
-
-	XmlInitMemory func() int
-
-	XmlCleanupMemory func()
-
-	XmlMemUsed func() int
-
-	XmlMemBlocks func() int
-
-	XmlMemDisplay func(
-		fp *FILE)
-
-	XmlMemDisplayLast func(fp *FILE, nbBytes Long)
-
-	XmlMemShow func(fp *FILE, nr int)
-
-	XmlMemoryDump func()
-
-	XmlMemMalloc func(size Size_t) *Void
-
-	XmlMemRealloc func(ptr *Void, size Size_t) *Void
-
-	XmlMemFree func(ptr *Void)
-
-	XmlMemoryStrdup func(str string) string
-
-	XmlMallocLoc func(size Size_t, file string, line int) *Void
-
-	XmlReallocLoc func(
-		ptr *Void, size Size_t, file string, line int) *Void
-
-	XmlMallocAtomicLoc func(
-		size Size_t,
-		file string,
-		line int) *Void
-
-	XmlMemStrdupLoc func(
-		str string,
-		file string,
-		line int) string
-
-	XmlHashCreate func(
-		size int) XmlHashTablePtr
-
-	XmlHashCreateDict func(
-		size int,
-		dict XmlDictPtr) XmlHashTablePtr
-
-	XmlHashFree func(
-		table XmlHashTablePtr,
-		f XmlHashDeallocator)
-
-	XmlHashAddEntry func(
-		table XmlHashTablePtr,
-		name string,
-		userdata *Void) int
-
-	XmlHashUpdateEntry func(
-		table XmlHashTablePtr,
-		name string,
-		userdata *Void,
-		f XmlHashDeallocator) int
-
-	XmlHashAddEntry2 func(
-		table XmlHashTablePtr,
-		name string,
-		name2 string,
-		userdata *Void) int
-
-	XmlHashUpdateEntry2 func(
-		table XmlHashTablePtr,
-		name string,
-		name2 string,
-		userdata *Void,
-		f XmlHashDeallocator) int
-
-	XmlHashAddEntry3 func(
-		table XmlHashTablePtr,
-		name string,
-		name2 string,
-		name3 string,
-		userdata *Void) int
-
-	XmlHashUpdateEntry3 func(
-		table XmlHashTablePtr,
-		name string,
-		name2 string,
-		name3 string,
-		userdata *Void,
-		f XmlHashDeallocator) int
-
-	XmlHashRemoveEntry func(
-		table XmlHashTablePtr,
-		name string,
-		f XmlHashDeallocator) int
-
-	XmlHashRemoveEntry2 func(
-		table XmlHashTablePtr,
-		name string,
-		name2 string,
-		f XmlHashDeallocator) int
-
-	XmlHashRemoveEntry3 func(
-		table XmlHashTablePtr,
-		name string,
-		name2 string,
-		name3 string,
-		f XmlHashDeallocator) int
-
-	XmlHashLookup func(
-		table XmlHashTablePtr,
-		name string) *Void
-
-	XmlHashLookup2 func(
-		table XmlHashTablePtr,
-		name string,
-		name2 string) *Void
-
-	XmlHashLookup3 func(
-		table XmlHashTablePtr,
-		name string,
-		name2 string,
-		name3 string) *Void
-
-	XmlHashQLookup func(
-		table XmlHashTablePtr,
-		name string,
-		prefix string) *Void
-
-	XmlHashQLookup2 func(
-		table XmlHashTablePtr,
-		name string,
-		prefix string,
-		name2 string,
-		prefix2 string) *Void
-
-	XmlHashQLookup3 func(
-		table XmlHashTablePtr,
-		name string,
-		prefix string,
-		name2 string,
-		prefix2 string,
-		name3 string,
+	NodeListGetString func(
+		doc *Doc, list *Node, inLine int) string
+
+	NodeListGetRawString func(
+		doc *Doc, list *Node, inLine int) string
+
+	NodeSetContent func(cur *Node, content string)
+
+	NodeSetContentLen func(
+		cur *Node, content string, leng int)
+
+	NodeAddContent func(cur *Node, content string)
+
+	NodeAddContentLen func(
+		cur *Node, content string, leng int)
+
+	NodeGetContent func(cur *Node) string
+
+	NodeBufGetContent func(
+		buffer *Buffer, cur *Node) int
+
+	BufGetNodeContent func(buf *Buf, cur *Node) int
+
+	NodeGetLang func(cur *Node) string
+
+	NodeGetSpacePreserve func(cur *Node) int
+
+	NodeSetLang func(cur *Node, lang string)
+
+	NodeSetSpacePreserve func(cur *Node, val int)
+
+	NodeGetBase func(doc *Doc, cur *Node) string
+
+	NodeSetBase func(cur *Node, uri string)
+
+	RemoveProp func(cur *Attr) int
+
+	UnsetNsProp func(
+		node *Node, ns *Ns, name string) int
+
+	UnsetProp func(node *Node, name string) int
+
+	BufferWriteCHAR func(buf *Buffer, str string)
+
+	BufferWriteChar func(buf *Buffer, str string)
+
+	BufferWriteQuotedString func(
+		buf *Buffer, str string)
+
+	AttrSerializeTxtContent func(buf *Buffer,
+		doc *Doc, attr *Attr, str string)
+
+	ReconciliateNs func(doc *Doc, tree *Node) int
+
+	DocDumpFormatMemory func(
+		cur *Doc, mem *string, size *int, format int)
+
+	DocDumpMemory func(cur *Doc, mem *string, size *int)
+
+	DocDumpMemoryEnc func(outDoc *Doc, docTxtPtr *string,
+		docTxtLen *int, txt_encoding string)
+
+	DocDumpFormatMemoryEnc func(outDoc *Doc, docTxtPtr *string,
+		docTxtLen *int, txt_encoding string, format int)
+
+	DocFormatDump func(f *FILE, cur *Doc, format int) int
+
+	DocDump func(f *FILE, cur *Doc) int
+
+	ElemDump func(f *FILE, doc *Doc, cur *Node)
+
+	SaveFile func(filename string, cur *Doc) int
+
+	SaveFormatFile func(
+		filename string, cur *Doc, format int) int
+
+	BufNodeDump func(buf *Buf, doc *Doc,
+		cur *Node, level, format int) SizeT
+
+	NodeDump func(buf *Buffer, doc *Doc,
+		cur *Node, level, format int) int
+
+	SaveFileTo func(
+		buf *OutputBuffer, cur *Doc, encoding string) int
+
+	SaveFormatFileTo func(buf *OutputBuffer,
+		cur *Doc, encoding string, format int) int
+
+	NodeDumpOutput func(buf *OutputBuffer, doc *Doc,
+		cur *Node, level, format int, encoding string)
+
+	SaveFormatFileEnc func(filename string,
+		cur *Doc, encoding string, format int) int
+
+	SaveFileEnc func(filename string, cur *Doc, encoding string) int
+
+	IsXHTML func(systemID, publicID string) int
+
+	GetDocCompressMode func(doc *Doc) int
+
+	SetDocCompressMode func(doc *Doc, mode int)
+
+	GetCompressMode func() int
+
+	SetCompressMode func(mode int)
+
+	DOMWrapNewCtxt func() *DOMWrapCtxt
+
+	DOMWrapFreeCtxt func(ctxt *DOMWrapCtxt)
+
+	DOMWrapReconcileNamespaces func(
+		ctxt *DOMWrapCtxt, elem *Node, options int) int
+
+	DOMWrapAdoptNode func(ctxt *DOMWrapCtxt, sourceDoc *Doc,
+		node *Node, destDoc *Doc,
+		destParent *Node, options int) int
+
+	DOMWrapRemoveNode func(ctxt *DOMWrapCtxt, doc *Doc,
+		node *Node, options int) int
+
+	DOMWrapCloneNode func(ctxt *DOMWrapCtxt, sourceDoc *Doc,
+		node *Node, clonedNode **Node, destDoc *Doc,
+		destParent *Node, deep, options int) int
+
+	ChildElementCount func(parent *Node) UnsignedLong
+
+	NextElementSibling func(node *Node) *Node
+
+	FirstElementChild func(parent *Node) *Node
+
+	LastElementChild func(parent *Node) *Node
+
+	PreviousElementSibling func(node *Node) *Node
+
+	MemSetup func(freeFunc FreeFunc, mallocFunc MallocFunc,
+		reallocFunc ReallocFunc, strdupFunc StrdupFunc) int
+
+	MemGet func(freeFunc *FreeFunc, mallocFunc *MallocFunc,
+		reallocFunc *ReallocFunc, strdupFunc *StrdupFunc) int
+
+	GcMemSetup func(freeFunc FreeFunc, mallocFunc MallocFunc,
+		mallocAtomicFunc MallocFunc, reallocFunc ReallocFunc,
+		strdupFunc StrdupFunc) int
+
+	GcMemGet func(freeFunc *FreeFunc, mallocFunc *MallocFunc,
+		mallocAtomicFunc *MallocFunc, reallocFunc *ReallocFunc,
+		strdupFunc *StrdupFunc) int
+
+	InitMemory func() int
+
+	CleanupMemory func()
+
+	MemUsed func() int
+
+	MemBlocks func() int
+
+	MemDisplay func(fp *FILE)
+
+	MemDisplayLast func(fp *FILE, nbBytes Long)
+
+	MemShow func(fp *FILE, nr int)
+
+	MemoryDump func()
+
+	MemMalloc func(size SizeT) *Void
+
+	MemRealloc func(ptr *Void, size SizeT) *Void
+
+	MemFree func(ptr *Void)
+
+	MemoryStrdup func(str string) string
+
+	MallocLoc func(size SizeT, file string, line int) *Void
+
+	ReallocLoc func(
+		ptr *Void, size SizeT, file string, line int) *Void
+
+	MallocAtomicLoc func(
+		size SizeT, file string, line int) *Void
+
+	MemStrdupLoc func(str, file string, line int) string
+
+	HashCreate func(size int) *HashTable
+
+	HashCreateDict func(size int, dict *Dict) *HashTable
+
+	HashFree func(table *HashTable, f HashDeallocator)
+
+	HashAddEntry func(
+		table *HashTable, name string, userdata *Void) int
+
+	HashUpdateEntry func(table *HashTable,
+		name string, userdata *Void, f HashDeallocator) int
+
+	HashAddEntry2 func(
+		table *HashTable, name, name2 string, userdata *Void) int
+
+	HashUpdateEntry2 func(table *HashTable, name, name2 string,
+		userdata *Void, f HashDeallocator) int
+
+	HashAddEntry3 func(table *HashTable,
+		name, name2, name3 string, userdata *Void) int
+
+	HashUpdateEntry3 func(table *HashTable,
+		name, name2, name3 string, userdata *Void,
+		f HashDeallocator) int
+
+	HashRemoveEntry func(
+		table *HashTable, name string, f HashDeallocator) int
+
+	HashRemoveEntry2 func(table *HashTable,
+		name, name2 string, f HashDeallocator) int
+
+	HashRemoveEntry3 func(table *HashTable,
+		name, name2, name3 string, f HashDeallocator) int
+
+	HashLookup func(table *HashTable, name string) *Void
+
+	HashLookup2 func(table *HashTable, name, name2 string) *Void
+
+	HashLookup3 func(table *HashTable,
+		name, name2, name3 string) *Void
+
+	HashQLookup func(table *HashTable, name, prefix string) *Void
+
+	HashQLookup2 func(table *HashTable,
+		name, prefix, name2, prefix2 string) *Void
+
+	HashQLookup3 func(table *HashTable,
+		name, prefix, name2, prefix2, name3,
 		prefix3 string) *Void
 
-	XmlHashCopy func(
-		table XmlHashTablePtr,
-		f XmlHashCopier) XmlHashTablePtr
+	HashCopy func(table *HashTable, f HashCopier) *HashTable
 
-	XmlHashSize func(
-		table XmlHashTablePtr) int
+	HashSize func(table *HashTable) int
 
-	XmlHashScan func(
-		table XmlHashTablePtr,
-		f XmlHashScanner,
-		data *Void)
+	HashScan func(table *HashTable, f HashScanner, data *Void)
 
-	XmlHashScan3 func(
-		table XmlHashTablePtr,
-		name string,
-		name2 string,
-		name3 string,
-		f XmlHashScanner,
-		data *Void)
+	HashScan3 func(table *HashTable,
+		name, name2, name3 string, f HashScanner, data *Void)
 
-	XmlHashScanFull func(
-		table XmlHashTablePtr,
-		f XmlHashScannerFull,
-		data *Void)
+	HashScanFull func(
+		table *HashTable, f HashScannerFull, data *Void)
 
-	XmlHashScanFull3 func(
-		table XmlHashTablePtr,
-		name string,
-		name2 string,
-		name3 string,
-		f XmlHashScannerFull,
-		data *Void)
+	HashScanFull3 func(table *HashTable,
+		name, name2, name3 string, f HashScannerFull, data *Void)
 
-	XmlSetGenericErrorFunc func(
-		ctx *Void,
-		handler XmlGenericErrorFunc)
+	SetGenericErrorFunc func(ctx *Void, handler GenericErrorFunc)
 
-	InitGenericErrorDefaultFunc func(
-		handler *XmlGenericErrorFunc)
+	InitGenericErrorDefaultFunc func(handler *GenericErrorFunc)
 
-	XmlSetStructuredErrorFunc func(
-		ctx *Void,
-		handler XmlStructuredErrorFunc)
+	SetStructuredErrorFunc func(
+		ctx *Void, handler StructuredErrorFunc)
 
-	XmlParserError func(
-		ctx *Void,
-		msg string,
-		v ...VArg)
+	ParserError func(ctx *Void, msg string, v ...VArg)
 
-	XmlParserWarning func(
-		ctx *Void,
-		msg string,
-		v ...VArg)
+	ParserWarning func(ctx *Void, msg string, v ...VArg)
 
-	XmlParserValidityError func(
-		ctx *Void, msg string, v ...VArg)
+	ParserValidityError func(ctx *Void, msg string, v ...VArg)
 
-	XmlParserValidityWarning func(
-		ctx *Void, msg string, v ...VArg)
+	ParserValidityWarning func(ctx *Void, msg string, v ...VArg)
 
-	XmlParserPrintFileInfo func(input XmlParserInputPtr)
+	ParserPrintFileInfo func(input *ParserInput)
 
-	XmlParserPrintFileContext func(input XmlParserInputPtr)
+	ParserPrintFileContext func(input *ParserInput)
 
-	XmlGetLastError func() XmlErrorPtr
+	GetLastError func() *Error
 
-	XmlResetLastError func()
+	ResetLastError func()
 
-	XmlCtxtGetLastError func(ctx *Void) XmlErrorPtr
+	CtxtGetLastError func(ctx *Void) *Error
 
-	XmlCtxtResetLastError func(ctx *Void)
+	CtxtResetLastError func(ctx *Void)
 
-	XmlResetError func(err XmlErrorPtr)
+	ResetError func(err *Error)
 
-	XmlCopyError func(from XmlErrorPtr, to XmlErrorPtr) int
+	CopyError func(from, to *Error) int
 
-	XmlListCreate func(
-		deallocator XmlListDeallocator,
-		compare XmlListDataCompare) XmlListPtr
+	ListCreate func(deallocator ListDeallocator,
+		compare ListDataCompare) *List
 
-	XmlListDelete func(
-		l XmlListPtr)
+	ListDelete func(l *List)
 
-	XmlListSearch func(
-		l XmlListPtr,
-		data *Void) *Void
+	ListSearch func(l *List, data *Void) *Void
 
-	XmlListReverseSearch func(
-		l XmlListPtr,
-		data *Void) *Void
+	ListReverseSearch func(l *List, data *Void) *Void
 
-	XmlListInsert func(
-		l XmlListPtr,
-		data *Void) int
+	ListInsert func(l *List, data *Void) int
 
-	XmlListAppend func(
-		l XmlListPtr,
-		data *Void) int
+	ListAppend func(l *List, data *Void) int
 
-	XmlListRemoveFirst func(
-		l XmlListPtr,
-		data *Void) int
+	ListRemoveFirst func(l *List, data *Void) int
 
-	XmlListRemoveLast func(
-		l XmlListPtr,
-		data *Void) int
+	ListRemoveLast func(l *List, data *Void) int
 
-	XmlListRemoveAll func(
-		l XmlListPtr,
-		data *Void) int
+	ListRemoveAll func(l *List, data *Void) int
 
-	XmlListClear func(
-		l XmlListPtr)
-
-	XmlListEmpty func(
-		l XmlListPtr) int
-
-	XmlListFront func(
-		l XmlListPtr) XmlLinkPtr
-
-	XmlListEnd func(
-		l XmlListPtr) XmlLinkPtr
-
-	XmlListSize func(
-		l XmlListPtr) int
-
-	XmlListPopFront func(
-		l XmlListPtr)
-
-	XmlListPopBack func(
-		l XmlListPtr)
-
-	XmlListPushFront func(
-		l XmlListPtr,
-		data *Void) int
-
-	XmlListPushBack func(
-		l XmlListPtr,
-		data *Void) int
-
-	XmlListReverse func(
-		l XmlListPtr)
-
-	XmlListSort func(
-		l XmlListPtr)
-
-	XmlListWalk func(
-		l XmlListPtr,
-		walker XmlListWalker,
-		user *Void)
-
-	XmlListReverseWalk func(
-		l XmlListPtr,
-		walker XmlListWalker,
-		user *Void)
-
-	XmlListMerge func(
-		l1 XmlListPtr,
-		l2 XmlListPtr)
-
-	XmlListDup func(
-		old XmlListPtr) XmlListPtr
-
-	XmlListCopy func(
-		cur XmlListPtr,
-		old XmlListPtr) int
-
-	XmlLinkGetData func(
-		lk XmlLinkPtr) *Void
-
-	XmlNewAutomata func() XmlAutomataPtr
-
-	XmlFreeAutomata func(
-		am XmlAutomataPtr)
-
-	XmlAutomataGetInitState func(
-		am XmlAutomataPtr) XmlAutomataStatePtr
-
-	XmlAutomataSetFinalState func(
-		am XmlAutomataPtr,
-		state XmlAutomataStatePtr) int
-
-	XmlAutomataNewState func(
-		am XmlAutomataPtr) XmlAutomataStatePtr
-
-	XmlAutomataNewTransition func(
-		am XmlAutomataPtr,
-		from XmlAutomataStatePtr,
-		to XmlAutomataStatePtr,
-		token string,
-		data *Void) XmlAutomataStatePtr
-
-	XmlAutomataNewTransition2 func(
-		am XmlAutomataPtr,
-		from XmlAutomataStatePtr,
-		to XmlAutomataStatePtr,
-		token string,
-		token2 string,
-		data *Void) XmlAutomataStatePtr
-
-	XmlAutomataNewNegTrans func(
-		am XmlAutomataPtr,
-		from XmlAutomataStatePtr,
-		to XmlAutomataStatePtr,
-		token string,
-		token2 string,
-		data *Void) XmlAutomataStatePtr
-
-	XmlAutomataNewCountTrans func(
-		am XmlAutomataPtr,
-		from XmlAutomataStatePtr,
-		to XmlAutomataStatePtr,
-		token string,
-		min int,
-		max int,
-		data *Void) XmlAutomataStatePtr
-
-	XmlAutomataNewCountTrans2 func(
-		am XmlAutomataPtr,
-		from XmlAutomataStatePtr,
-		to XmlAutomataStatePtr,
-		token string,
-		token2 string,
-		min int,
-		max int,
-		data *Void) XmlAutomataStatePtr
-
-	XmlAutomataNewOnceTrans func(
-		am XmlAutomataPtr,
-		from XmlAutomataStatePtr,
-		to XmlAutomataStatePtr,
-		token string,
-		min int,
-		max int,
-		data *Void) XmlAutomataStatePtr
-
-	XmlAutomataNewOnceTrans2 func(
-		am XmlAutomataPtr,
-		from XmlAutomataStatePtr,
-		to XmlAutomataStatePtr,
-		token string,
-		token2 string,
-		min int,
-		max int,
-		data *Void) XmlAutomataStatePtr
-
-	XmlAutomataNewAllTrans func(
-		am XmlAutomataPtr,
-		from XmlAutomataStatePtr,
-		to XmlAutomataStatePtr,
-		lax int) XmlAutomataStatePtr
-
-	XmlAutomataNewEpsilon func(
-		am XmlAutomataPtr,
-		from XmlAutomataStatePtr,
-		to XmlAutomataStatePtr) XmlAutomataStatePtr
-
-	XmlAutomataNewCountedTrans func(
-		am XmlAutomataPtr,
-		from XmlAutomataStatePtr,
-		to XmlAutomataStatePtr,
-		counter int) XmlAutomataStatePtr
-
-	XmlAutomataNewCounterTrans func(
-		am XmlAutomataPtr,
-		from XmlAutomataStatePtr,
-		to XmlAutomataStatePtr,
-		counter int) XmlAutomataStatePtr
-
-	XmlAutomataNewCounter func(
-		am XmlAutomataPtr,
-		min int,
-		max int) int
-
-	XmlAutomataCompile func(
-		am XmlAutomataPtr) XmlRegexpPtr
+	ListClear func(l *List)
 
-	XmlAutomataIsDeterminist func(
-		am XmlAutomataPtr) int
+	ListEmpty func(l *List) int
 
-	XmlAddNotationDecl func(
-		ctxt XmlValidCtxtPtr,
-		dtd XmlDtdPtr,
-		name string,
-		PublicID string,
-		SystemID string) XmlNotationPtr
+	ListFront func(l *List) *Link
 
-	XmlCopyNotationTable func(
-		table XmlNotationTablePtr) XmlNotationTablePtr
+	ListEnd func(l *List) *Link
 
-	XmlFreeNotationTable func(table XmlNotationTablePtr)
+	ListSize func(l *List) int
 
-	XmlDumpNotationDecl func(
-		buf XmlBufferPtr, nota XmlNotationPtr)
+	ListPopFront func(l *List)
 
-	XmlDumpNotationTable func(
-		buf XmlBufferPtr, table XmlNotationTablePtr)
+	ListPopBack func(l *List)
 
-	XmlNewElementContent func(name string,
-		t XmlElementContentType) XmlElementContentPtr
+	ListPushFront func(l *List, data *Void) int
 
-	XmlCopyElementContent func(
-		content XmlElementContentPtr) XmlElementContentPtr
+	ListPushBack func(l *List, data *Void) int
 
-	XmlFreeElementContent func(cur XmlElementContentPtr)
+	ListReverse func(l *List)
 
-	XmlNewDocElementContent func(doc XmlDocPtr,
-		name string, t XmlElementContentType) XmlElementContentPtr
+	ListSort func(l *List)
 
-	XmlCopyDocElementContent func(doc XmlDocPtr,
-		content XmlElementContentPtr) XmlElementContentPtr
+	ListWalk func(l *List, walker ListWalker, user *Void)
 
-	XmlFreeDocElementContent func(
-		doc XmlDocPtr, cur XmlElementContentPtr)
+	ListReverseWalk func(l *List, walker ListWalker, user *Void)
 
-	XmlSnprintfElementContent func(buf string, size int,
-		content XmlElementContentPtr, englob int)
+	ListMerge func(l1, l2 *List)
 
-	XmlSprintfElementContent func(
-		buf string, content XmlElementContentPtr, englob int)
+	ListDup func(old *List) *List
 
-	XmlAddElementDecl func(
-		ctxt XmlValidCtxtPtr,
-		dtd XmlDtdPtr,
-		name string,
-		t XmlElementTypeVal,
-		content XmlElementContentPtr) XmlElementPtr
+	ListCopy func(cur, old *List) int
 
-	XmlCopyElementTable func(
-		table XmlElementTablePtr) XmlElementTablePtr
+	LinkGetData func(lk *Link) *Void
 
-	XmlFreeElementTable func(table XmlElementTablePtr)
+	NewAutomata func() *Automata
 
-	XmlDumpElementTable func(
-		buf XmlBufferPtr, table XmlElementTablePtr)
+	FreeAutomata func(am *Automata)
 
-	XmlDumpElementDecl func(
-		buf XmlBufferPtr, elem XmlElementPtr)
+	AutomataGetInitState func(am *Automata) *AutomataState
 
-	XmlCreateEnumeration func(name string) XmlEnumerationPtr
+	AutomataSetFinalState func(
+		am *Automata, state *AutomataState) int
 
-	XmlFreeEnumeration func(cur XmlEnumerationPtr)
+	AutomataNewState func(am *Automata) *AutomataState
 
-	XmlCopyEnumeration func(
-		cur XmlEnumerationPtr) XmlEnumerationPtr
+	AutomataNewTransition func(am *Automata,
+		from, to *AutomataState, token string,
+		data *Void) *AutomataState
 
-	XmlAddAttributeDecl func(
-		ctxt XmlValidCtxtPtr,
-		dtd XmlDtdPtr,
-		elem, name, ns string,
-		t XmlAttributeType,
-		def XmlAttributeDefault,
-		defaultValue string,
-		tree XmlEnumerationPtr) XmlAttributePtr
+	AutomataNewTransition2 func(am *Automata,
+		from, to *AutomataState, token, token2 string,
+		data *Void) *AutomataState
 
-	XmlCopyAttributeTable func(
-		table XmlAttributeTablePtr) XmlAttributeTablePtr
+	AutomataNewNegTrans func(am *Automata,
+		from, to *AutomataState, token, token2 string,
+		data *Void) *AutomataState
 
-	XmlFreeAttributeTable func(table XmlAttributeTablePtr)
+	AutomataNewCountTrans func(am *Automata,
+		from, to *AutomataState, token string,
+		min, max int, data *Void) *AutomataState
 
-	XmlDumpAttributeTable func(
-		buf XmlBufferPtr, table XmlAttributeTablePtr)
+	AutomataNewCountTrans2 func(am *Automata,
+		from, to *AutomataState, token, token2 string,
+		min, max int, data *Void) *AutomataState
 
-	XmlDumpAttributeDecl func(
-		buf XmlBufferPtr, attr XmlAttributePtr)
+	AutomataNewOnceTrans func(am *Automata,
+		from, to *AutomataState, token string,
+		min, max int, data *Void) *AutomataState
 
-	XmlAddID func(ctxt XmlValidCtxtPtr, doc XmlDocPtr,
-		value string, attr XmlAttrPtr) XmlIDPtr
+	AutomataNewOnceTrans2 func(am *Automata,
+		from, to *AutomataState, token, token2 string,
+		min, max int, data *Void) *AutomataState
 
-	XmlFreeIDTable func(table XmlIDTablePtr)
+	AutomataNewAllTrans func(am *Automata,
+		from, to *AutomataState, lax int) *AutomataState
 
-	XmlGetID func(doc XmlDocPtr, ID string) XmlAttrPtr
+	AutomataNewEpsilon func(am *Automata,
+		from, to *AutomataState) *AutomataState
 
-	XmlIsID func(
-		doc XmlDocPtr, elem XmlNodePtr, attr XmlAttrPtr) int
+	AutomataNewCountedTrans func(am *Automata,
+		from, to *AutomataState, counter int) *AutomataState
 
-	XmlRemoveID func(doc XmlDocPtr, attr XmlAttrPtr) int
+	AutomataNewCounterTrans func(am *Automata,
+		from, to *AutomataState, counter int) *AutomataState
 
-	XmlAddRef func(ctxt XmlValidCtxtPtr, doc XmlDocPtr,
-		value string, attr XmlAttrPtr) XmlRefPtr
+	AutomataNewCounter func(am *Automata, min, max int) int
 
-	XmlFreeRefTable func(table XmlRefTablePtr)
+	AutomataCompile func(am *Automata) *Regexp
 
-	XmlIsRef func(doc XmlDocPtr, elem XmlNodePtr, attr XmlAttrPtr) int
+	AutomataIsDeterminist func(am *Automata) int
 
-	XmlRemoveRef func(doc XmlDocPtr, attr XmlAttrPtr) int
+	AddNotationDecl func(ctxt *ValidCtxt, dtd *Dtd,
+		name, oublicID, systemID string) *Notation
 
-	XmlGetRefs func(doc XmlDocPtr, ID string) XmlListPtr
+	CopyNotationTable func(
+		table *NotationTable) *NotationTable
 
-	XmlNewValidCtxt func() XmlValidCtxtPtr
+	FreeNotationTable func(table *NotationTable)
 
-	XmlFreeValidCtxt func(XmlValidCtxtPtr)
+	DumpNotationDecl func(buf *Buffer, nota *Notation)
 
-	XmlValidateRoot func(ctxt XmlValidCtxtPtr, doc XmlDocPtr) int
+	DumpNotationTable func(buf *Buffer, table *NotationTable)
 
-	XmlValidateElementDecl func(ctxt XmlValidCtxtPtr,
-		doc XmlDocPtr, elem XmlElementPtr) int
+	NewElementContent func(name string,
+		t ElementContentType) *ElementContent
 
-	XmlValidNormalizeAttributeValue func(doc XmlDocPtr,
-		elem XmlNodePtr, name string, value string) string
+	CopyElementContent func(
+		content *ElementContent) *ElementContent
 
-	XmlValidCtxtNormalizeAttributeValue func(
-		ctxt XmlValidCtxtPtr,
-		doc XmlDocPtr,
-		elem XmlNodePtr,
-		name string,
-		value string) string
+	FreeElementContent func(cur *ElementContent)
 
-	XmlValidateAttributeDecl func(ctxt XmlValidCtxtPtr,
-		doc XmlDocPtr, attr XmlAttributePtr) int
+	NewDocElementContent func(doc *Doc,
+		name string, t ElementContentType) *ElementContent
 
-	XmlValidateAttributeValue func(
-		t XmlAttributeType, value string) int
+	CopyDocElementContent func(doc *Doc,
+		content *ElementContent) *ElementContent
 
-	XmlValidateNotationDecl func(ctxt XmlValidCtxtPtr,
-		doc XmlDocPtr, nota XmlNotationPtr) int
+	FreeDocElementContent func(doc *Doc, cur *ElementContent)
 
-	XmlValidateDtd func(ctxt XmlValidCtxtPtr,
-		doc XmlDocPtr, dtd XmlDtdPtr) int
+	SnprintfElementContent func(buf string, size int,
+		content *ElementContent, englob int)
 
-	XmlValidateDtdFinal func(
-		ctxt XmlValidCtxtPtr,
-		doc XmlDocPtr) int
+	SprintfElementContent func(
+		buf string, content *ElementContent, englob int)
 
-	XmlValidateDocument func(
-		ctxt XmlValidCtxtPtr,
-		doc XmlDocPtr) int
+	AddElementDecl func(ctxt *ValidCtxt, dtd *Dtd, name string,
+		t ElementTypeVal, content *ElementContent) *Element
 
-	XmlValidateElement func(
-		ctxt XmlValidCtxtPtr,
-		doc XmlDocPtr,
-		elem XmlNodePtr) int
+	CopyElementTable func(table *ElementTable) *ElementTable
 
-	XmlValidateOneElement func(
-		ctxt XmlValidCtxtPtr,
-		doc XmlDocPtr,
-		elem XmlNodePtr) int
+	FreeElementTable func(table *ElementTable)
 
-	XmlValidateOneAttribute func(
-		ctxt XmlValidCtxtPtr,
-		doc XmlDocPtr,
-		elem XmlNodePtr,
-		attr XmlAttrPtr,
-		value string) int
+	DumpElementTable func(buf *Buffer, table *ElementTable)
 
-	XmlValidateOneNamespace func(
-		ctxt XmlValidCtxtPtr,
-		doc XmlDocPtr,
-		elem XmlNodePtr,
-		prefix string,
-		ns XmlNsPtr,
-		value string) int
-
-	XmlValidateDocumentFinal func(
-		ctxt XmlValidCtxtPtr,
-		doc XmlDocPtr) int
-
-	XmlValidateNotationUse func(
-		ctxt XmlValidCtxtPtr,
-		doc XmlDocPtr,
-		notationName string) int
-
-	XmlIsMixedElement func(
-		doc XmlDocPtr,
-		name string) int
-
-	XmlGetDtdAttrDesc func(
-		dtd XmlDtdPtr,
-		elem string,
-		name string) XmlAttributePtr
-
-	XmlGetDtdQAttrDesc func(
-		dtd XmlDtdPtr,
-		elem string,
-		name string,
-		prefix string) XmlAttributePtr
-
-	XmlGetDtdNotationDesc func(
-		dtd XmlDtdPtr,
-		name string) XmlNotationPtr
-
-	XmlGetDtdQElementDesc func(
-		dtd XmlDtdPtr,
-		name string,
-		prefix string) XmlElementPtr
-
-	XmlGetDtdElementDesc func(
-		dtd XmlDtdPtr,
-		name string) XmlElementPtr
-
-	XmlValidGetPotentialChildren func(
-		ctree *XmlElementContent,
-		names *string,
-		leng *int,
-		max int) int
-
-	XmlValidGetValidElements func(
-		prev, next *XmlNode,
-		names *string,
-		max int) int
-
-	XmlValidateNameValue func(
-		value string) int
-
-	XmlValidateNamesValue func(
-		value string) int
-
-	XmlValidateNmtokenValue func(
-		value string) int
+	DumpElementDecl func(buf *Buffer, elem *Element)
 
-	XmlValidateNmtokensValue func(
-		value string) int
+	CreateEnumeration func(name string) *Enumeration
 
-	XmlValidBuildContentModel func(
-		ctxt XmlValidCtxtPtr,
-		elem XmlElementPtr) int
+	FreeEnumeration func(cur *Enumeration)
 
-	XmlValidatePushElement func(
-		ctxt XmlValidCtxtPtr,
-		doc XmlDocPtr,
-		elem XmlNodePtr,
-		qname string) int
+	CopyEnumeration func(cur *Enumeration) *Enumeration
 
-	XmlValidatePushCData func(
-		ctxt XmlValidCtxtPtr,
-		data string,
-		leng int) int
+	AddAttributeDecl func(ctxt *ValidCtxt, dtd *Dtd,
+		elem, name, ns string, t AttributeType,
+		def AttributeDefault, defaultValue string,
+		tree *Enumeration) *AttributeStruct
 
-	XmlValidatePopElement func(
-		ctxt XmlValidCtxtPtr,
-		doc XmlDocPtr,
-		elem XmlNodePtr,
-		qname string) int
+	CopyAttributeTable func(
+		table *AttributeTable) *AttributeTable
 
-	XmlInitializePredefinedEntities func()
+	FreeAttributeTable func(table *AttributeTable)
 
-	XmlNewEntity func(
-		doc XmlDocPtr,
-		name string,
-		typ int,
-		ExternalID string,
-		SystemID string,
-		content string) XmlEntityPtr
+	DumpAttributeTable func(buf *Buffer, table *AttributeTable)
 
-	XmlAddDocEntity func(
-		doc XmlDocPtr,
-		name string,
-		typ int,
-		ExternalID string,
-		SystemID string,
-		content string) XmlEntityPtr
+	DumpAttributeDecl func(buf *Buffer, attr *AttributeStruct)
 
-	XmlAddDtdEntity func(
-		doc XmlDocPtr,
-		name string,
-		typ int,
-		ExternalID string,
-		SystemID string,
-		content string) XmlEntityPtr
+	AddID func(ctxt *ValidCtxt, doc *Doc,
+		value string, attr *Attr) *ID
 
-	XmlGetPredefinedEntity func(
-		name string) XmlEntityPtr
+	FreeIDTable func(table *IDTable)
 
-	XmlGetDocEntity func(
-		doc XmlDocPtr,
-		name string) XmlEntityPtr
+	GetID func(doc *Doc, ID string) *Attr
 
-	XmlGetDtdEntity func(
-		doc XmlDocPtr,
-		name string) XmlEntityPtr
+	IsID func(doc *Doc, elem *Node, attr *Attr) int
 
-	XmlGetParameterEntity func(
-		doc XmlDocPtr,
-		name string) XmlEntityPtr
+	RemoveID func(doc *Doc, attr *Attr) int
 
-	XmlEncodeEntities func(
-		doc XmlDocPtr,
-		input string) string
+	AddRef func(ctxt *ValidCtxt, doc *Doc,
+		value string, attr *Attr) *Ref
 
-	XmlEncodeEntitiesReentrant func(
-		doc XmlDocPtr,
-		input string) string
+	FreeRefTable func(table *RefTable)
 
-	XmlEncodeSpecialChars func(
-		doc XmlDocPtr,
-		input string) string
+	IsRef func(doc *Doc, elem *Node, attr *Attr) int
 
-	XmlCreateEntitiesTable func() XmlEntitiesTablePtr
+	RemoveRef func(doc *Doc, attr *Attr) int
 
-	XmlCopyEntitiesTable func(
-		table XmlEntitiesTablePtr) XmlEntitiesTablePtr
+	GetRefs func(doc *Doc, ID string) *List
 
-	XmlFreeEntitiesTable func(
-		table XmlEntitiesTablePtr)
+	NewValidCtxt func() *ValidCtxt
 
-	XmlDumpEntitiesTable func(
-		buf XmlBufferPtr,
-		table XmlEntitiesTablePtr)
+	FreeValidCtxt func(*ValidCtxt)
 
-	XmlDumpEntityDecl func(
-		buf XmlBufferPtr,
-		ent XmlEntityPtr)
+	ValidateRoot func(ctxt *ValidCtxt, doc *Doc) int
 
-	XmlCleanupPredefinedEntities func()
+	ValidateElementDecl func(ctxt *ValidCtxt,
+		doc *Doc, elem *Element) int
 
-	XmlInitCharEncodingHandlers func()
+	ValidNormalizeAttributeValue func(doc *Doc,
+		elem *Node, name string, value string) string
 
-	XmlCleanupCharEncodingHandlers func()
+	ValidCtxtNormalizeAttributeValue func(ctxt *ValidCtxt,
+		doc *Doc, elem *Node, name, value string) string
 
-	XmlRegisterCharEncodingHandler func(
-		handler XmlCharEncodingHandlerPtr)
+	ValidateAttributeDecl func(ctxt *ValidCtxt,
+		doc *Doc, attr *AttributeStruct) int
 
-	XmlGetCharEncodingHandler func(
-		enc XmlCharEncoding) XmlCharEncodingHandlerPtr
+	ValidateAttributeValue func(
+		t AttributeType, value string) int
 
-	XmlFindCharEncodingHandler func(
-		name string) XmlCharEncodingHandlerPtr
+	ValidateNotationDecl func(ctxt *ValidCtxt,
+		doc *Doc, nota *Notation) int
 
-	XmlNewCharEncodingHandler func(
-		name string,
-		input XmlCharEncodingInputFunc,
-		output XmlCharEncodingOutputFunc) XmlCharEncodingHandlerPtr
+	ValidateDtd func(ctxt *ValidCtxt, doc *Doc, dtd *Dtd) int
 
-	XmlAddEncodingAlias func(
-		name string,
-		alias string) int
+	ValidateDtdFinal func(ctxt *ValidCtxt, doc *Doc) int
 
-	XmlDelEncodingAlias func(
-		alias string) int
+	ValidateDocument func(ctxt *ValidCtxt, doc *Doc) int
 
-	XmlGetEncodingAlias func(
-		alias string) string
+	ValidateElement func(
+		ctxt *ValidCtxt, doc *Doc, elem *Node) int
 
-	XmlCleanupEncodingAliases func()
+	ValidateOneElement func(
+		ctxt *ValidCtxt, doc *Doc, elem *Node) int
 
-	XmlParseCharEncoding func(
-		name string) XmlCharEncoding
+	ValidateOneAttribute func(ctxt *ValidCtxt, doc *Doc,
+		elem *Node, attr *Attr, value string) int
 
-	XmlGetCharEncodingName func(
-		enc XmlCharEncoding) string
+	ValidateOneNamespace func(ctxt *ValidCtxt, doc *Doc,
+		elem *Node, prefix string, ns *Ns, value string) int
 
-	XmlDetectCharEncoding func(
-		in *Unsigned_char,
-		leng int) XmlCharEncoding
+	ValidateDocumentFinal func(ctxt *ValidCtxt, doc *Doc) int
 
-	XmlCharEncOutFunc func(
-		handler *XmlCharEncodingHandler,
-		out XmlBufferPtr,
-		in XmlBufferPtr) int
+	ValidateNotationUse func(
+		ctxt *ValidCtxt, doc *Doc, notationName string) int
 
-	XmlCharEncInFunc func(
-		handler *XmlCharEncodingHandler,
-		out XmlBufferPtr,
-		in XmlBufferPtr) int
+	IsMixedElement func(doc *Doc, name string) int
 
-	XmlCharEncFirstLine func(
-		handler *XmlCharEncodingHandler,
-		out XmlBufferPtr,
-		in XmlBufferPtr) int
+	GetDtdAttrDesc func(
+		dtd *Dtd, elem, name string) *AttributeStruct
 
-	XmlCharEncCloseFunc func(
-		handler XmlCharEncodingHandler) int
+	GetDtdQAttrDesc func(
+		dtd *Dtd, elem, name, prefix string) *AttributeStruct
 
-	UTF8Toisolat1 func(
-		out *Unsigned_char,
-		outlen *int,
-		in *Unsigned_char,
-		inlen *int) int
+	GetDtdNotationDesc func(dtd *Dtd, name string) *Notation
 
-	Isolat1ToUTF8 func(
-		out *Unsigned_char,
-		outlen *int,
-		in *Unsigned_char,
-		inlen *int) int
+	GetDtdQElementDesc func(
+		dtd *Dtd, name, prefix string) *Element
 
-	XmlCleanupInputCallbacks func()
+	GetDtdElementDesc func(dtd *Dtd, name string) *Element
 
-	XmlPopInputCallbacks func() int
+	ValidGetPotentialChildren func(ctree *ElementContent,
+		names *string, leng *int, max int) int
 
-	XmlRegisterDefaultInputCallbacks func()
+	ValidGetValidElements func(
+		prev, next *Node, names *string, max int) int
 
-	XmlAllocParserInputBuffer func(
-		enc XmlCharEncoding) XmlParserInputBufferPtr
+	ValidateNameValue func(value string) int
 
-	XmlParserInputBufferCreateFile func(
-		file *FILE,
-		enc XmlCharEncoding) XmlParserInputBufferPtr
+	ValidateNamesValue func(value string) int
 
-	XmlParserInputBufferCreateFd func(
-		fd int,
-		enc XmlCharEncoding) XmlParserInputBufferPtr
+	ValidateNmtokenValue func(value string) int
 
-	XmlParserInputBufferCreateMem func(
-		mem string,
-		size int,
-		enc XmlCharEncoding) XmlParserInputBufferPtr
+	ValidateNmtokensValue func(value string) int
 
-	XmlParserInputBufferCreateStatic func(
-		mem string,
-		size int,
-		enc XmlCharEncoding) XmlParserInputBufferPtr
+	ValidBuildContentModel func(
+		ctxt *ValidCtxt, elem *Element) int
 
-	XmlParserInputBufferCreateIO func(
-		ioread XmlInputReadCallback,
-		ioclose XmlInputCloseCallback,
-		ioctx *Void,
-		enc XmlCharEncoding) XmlParserInputBufferPtr
+	ValidatePushElement func(
+		ctxt *ValidCtxt, doc *Doc, elem *Node, qname string) int
 
-	XmlParserInputBufferRead func(
-		in XmlParserInputBufferPtr,
-		leng int) int
+	ValidatePushCData func(
+		ctxt *ValidCtxt, data string, leng int) int
 
-	XmlParserInputBufferGrow func(
-		in XmlParserInputBufferPtr,
-		leng int) int
+	ValidatePopElement func(
+		ctxt *ValidCtxt, doc *Doc, elem *Node, qname string) int
 
-	XmlParserInputBufferPush func(
-		in XmlParserInputBufferPtr,
-		leng int,
-		buf string) int
+	InitializePredefinedEntities func()
 
-	XmlFreeParserInputBuffer func(
-		in XmlParserInputBufferPtr)
+	NewEntity func(doc *Doc, name string, typ int,
+		externalID, systemID, content string) *Entity
 
-	XmlParserGetDirectory func(
-		filename string) string
+	AddDocEntity func(doc *Doc, name string, typ int,
+		externalID, systemID, content string) *Entity
 
-	XmlRegisterInputCallbacks func(
-		matchFunc XmlInputMatchCallback,
-		openFunc XmlInputOpenCallback,
-		readFunc XmlInputReadCallback,
-		closeFunc XmlInputCloseCallback) int
+	AddDtdEntity func(doc *Doc, name string, typ int,
+		externalID, systemID, content string) *Entity
 
-	XmlParserInputBufferCreateFilename func(
-		URI string,
-		enc XmlCharEncoding) XmlParserInputBufferPtr
+	GetPredefinedEntity func(name string) *Entity
 
-	XmlCleanupOutputCallbacks func()
+	GetDocEntity func(doc *Doc, name string) *Entity
 
-	XmlRegisterDefaultOutputCallbacks func()
+	GetDtdEntity func(doc *Doc, name string) *Entity
 
-	XmlAllocOutputBuffer func(
-		encoder XmlCharEncodingHandlerPtr) XmlOutputBufferPtr
+	XmlGetParameterEntity func(doc *Doc, name string) *Entity
 
-	XmlOutputBufferCreateFilename func(
-		URI string,
-		encoder XmlCharEncodingHandlerPtr,
-		compression int) XmlOutputBufferPtr
+	EncodeEntities func(doc *Doc, input string) string
 
-	XmlOutputBufferCreateFile func(
-		file *FILE,
-		encoder XmlCharEncodingHandlerPtr) XmlOutputBufferPtr
+	EncodeEntitiesReentrant func(doc *Doc, input string) string
 
-	XmlOutputBufferCreateBuffer func(
-		buffer XmlBufferPtr,
-		encoder XmlCharEncodingHandlerPtr) XmlOutputBufferPtr
+	EncodeSpecialChars func(doc *Doc, input string) string
 
-	XmlOutputBufferCreateFd func(
-		fd int,
-		encoder XmlCharEncodingHandlerPtr) XmlOutputBufferPtr
+	CreateEntitiesTable func() *EntitiesTable
 
-	XmlOutputBufferCreateIO func(
-		iowrite XmlOutputWriteCallback,
-		ioclose XmlOutputCloseCallback,
-		ioctx *Void,
-		encoder XmlCharEncodingHandlerPtr) XmlOutputBufferPtr
+	CopyEntitiesTable func(table *EntitiesTable) *EntitiesTable
 
-	XmlOutputBufferGetContent func(
-		out XmlOutputBufferPtr) string
+	FreeEntitiesTable func(table *EntitiesTable)
 
-	XmlOutputBufferGetSize func(
-		out XmlOutputBufferPtr) Size_t
+	DumpEntitiesTable func(buf *Buffer, table *EntitiesTable)
 
-	XmlOutputBufferWrite func(
-		out XmlOutputBufferPtr,
-		leng int,
-		buf string) int
+	DumpEntityDecl func(buf *Buffer, ent *Entity)
 
-	XmlOutputBufferWriteString func(
-		out XmlOutputBufferPtr,
-		str string) int
+	CleanupPredefinedEntities func()
 
-	XmlOutputBufferWriteEscape func(
-		out XmlOutputBufferPtr,
-		str string,
-		escaping XmlCharEncodingOutputFunc) int
+	InitCharEncodingHandlers func()
 
-	XmlOutputBufferFlush func(
-		out XmlOutputBufferPtr) int
+	CleanupCharEncodingHandlers func()
 
-	XmlOutputBufferClose func(
-		out XmlOutputBufferPtr) int
+	RegisterCharEncodingHandler func(
+		handler *CharEncodingHandler)
 
-	XmlRegisterOutputCallbacks func(
-		matchFunc XmlOutputMatchCallback,
-		openFunc XmlOutputOpenCallback,
-		writeFunc XmlOutputWriteCallback,
-		closeFunc XmlOutputCloseCallback) int
+	GetCharEncodingHandler func(
+		enc CharEncoding) *CharEncodingHandler
 
-	XmlRegisterHTTPPostCallbacks func()
+	FindCharEncodingHandler func(
+		name string) *CharEncodingHandler
 
-	XmlCheckHTTPInput func(
-		ctxt XmlParserCtxtPtr,
-		ret XmlParserInputPtr) XmlParserInputPtr
+	NewCharEncodingHandler func(name string,
+		input CharEncodingInputFunc,
+		output CharEncodingOutputFunc) *CharEncodingHandler
 
-	XmlNoNetExternalEntityLoader func(
-		URL string,
-		ID string,
-		ctxt XmlParserCtxtPtr) XmlParserInputPtr
+	AddEncodingAlias func(name, alias string) int
 
-	XmlNormalizeWindowsPath func(
-		path string) string
+	DelEncodingAlias func(alias string) int
 
-	XmlCheckFilename func(
-		path string) int
+	GetEncodingAlias func(alias string) string
 
-	XmlFileMatch func(
-		filename string) int
+	CleanupEncodingAliases func()
 
-	XmlFileOpen func(
-		filename string) *Void
+	ParseCharEncoding func(name string) CharEncoding
 
-	XmlFileRead func(
-		context *Void,
-		buffer string,
-		leng int) int
+	GetCharEncodingName func(enc CharEncoding) string
 
-	XmlFileClose func(context *Void) int
+	DetectCharEncoding func(
+		in *UnsignedChar, leng int) CharEncoding
 
-	XmlIOHTTPMatch func(filename string) int
+	CharEncOutFunc func(
+		handler *CharEncodingHandler, out, in *Buffer) int
 
-	XmlIOHTTPOpen func(filename string) *Void
+	CharEncInFunc func(
+		handler *CharEncodingHandler, out, in *Buffer) int
 
-	XmlIOHTTPOpenW func(post_uri string, compression int) *Void
+	CharEncFirstLine func(
+		handler *CharEncodingHandler, out, in *Buffer) int
 
-	XmlIOHTTPRead func(context *Void, buffer string, leng int) int
+	CharEncCloseFunc func(handler CharEncodingHandler) int
 
-	XmlIOHTTPClose func(
-		context *Void) int
+	UTF8Toisolat1 func(out *UnsignedChar, outlen *int,
+		in *UnsignedChar, inlen *int) int
 
-	XmlIOFTPMatch func(
-		filename string) int
+	Isolat1ToUTF8 func(out *UnsignedChar, outlen *int,
+		in *UnsignedChar, inlen *int) int
 
-	XmlIOFTPOpen func(
-		filename string) *Void
+	CleanupInputCallbacks func()
 
-	XmlIOFTPRead func(
-		context *Void,
-		buffer string,
-		leng int) int
+	PopInputCallbacks func() int
 
-	XmlIOFTPClose func(
-		context *Void) int
+	RegisterDefaultInputCallbacks func()
 
-	XmlInitParser func()
+	AllocParserInputBuffer func(
+		enc CharEncoding) *ParserInputBuffer
 
-	XmlCleanupParser func()
+	ParserInputBufferCreateFile func(
+		file *FILE, enc CharEncoding) *ParserInputBuffer
 
-	XmlParserInputRead func(
-		in XmlParserInputPtr,
-		leng int) int
+	ParserInputBufferCreateFd func(
+		fd int, enc CharEncoding) *ParserInputBuffer
 
-	XmlParserInputGrow func(
-		in XmlParserInputPtr,
-		leng int) int
+	ParserInputBufferCreateMem func(mem string,
+		size int, enc CharEncoding) *ParserInputBuffer
 
-	XmlParseDoc func(
-		cur string) XmlDocPtr
+	ParserInputBufferCreateStatic func(mem string,
+		size int, enc CharEncoding) *ParserInputBuffer
 
-	XmlParseFile func(
-		filename string) XmlDocPtr
+	ParserInputBufferCreateIO func(
+		ioread InputReadCallback, ioclose InputCloseCallback,
+		ioctx *Void, enc CharEncoding) *ParserInputBuffer
 
-	XmlParseMemory func(
-		buffer string,
-		size int) XmlDocPtr
+	ParserInputBufferRead func(
+		in *ParserInputBuffer, leng int) int
 
-	XmlSubstituteEntitiesDefault func(
-		val int) int
+	ParserInputBufferGrow func(
+		in *ParserInputBuffer, leng int) int
 
-	XmlKeepBlanksDefault func(
-		val int) int
+	ParserInputBufferPush func(
+		in *ParserInputBuffer, leng int, buf string) int
 
-	XmlStopParser func(
-		ctxt XmlParserCtxtPtr)
+	FreeParserInputBuffer func(in *ParserInputBuffer)
 
-	XmlPedanticParserDefault func(
-		val int) int
+	ParserGetDirectory func(filename string) string
 
-	XmlLineNumbersDefault func(
-		val int) int
+	RegisterInputCallbacks func(matchFunc InputMatchCallback,
+		openFunc InputOpenCallback, readFunc InputReadCallback,
+		closeFunc InputCloseCallback) int
 
-	XmlRecoverDoc func(
-		cur string) XmlDocPtr
+	ParserInputBufferCreateFilename func(URI string,
+		enc CharEncoding) *ParserInputBuffer
 
-	XmlRecoverMemory func(
-		buffer string,
-		size int) XmlDocPtr
+	CleanupOutputCallbacks func()
 
-	XmlRecoverFile func(
-		filename string) XmlDocPtr
+	RegisterDefaultOutputCallbacks func()
 
-	XmlParseDocument func(
-		ctxt XmlParserCtxtPtr) int
+	AllocOutputBuffer func(
+		encoder *CharEncodingHandler) *OutputBuffer
 
-	XmlParseExtParsedEnt func(
-		ctxt XmlParserCtxtPtr) int
+	OutputBufferCreateFilename func(
+		URI string, encoder *CharEncodingHandler,
+		compression int) *OutputBuffer
 
-	XmlSAXUserParseFile func(
-		sax XmlSAXHandlerPtr,
-		user_data *Void,
-		filename string) int
+	OutputBufferCreateFile func(
+		file *FILE, encoder *CharEncodingHandler) *OutputBuffer
 
-	XmlSAXUserParseMemory func(
-		sax XmlSAXHandlerPtr,
-		user_data *Void,
-		buffer string,
-		size int) int
+	OutputBufferCreateBuffer func(buffer *Buffer,
+		encoder *CharEncodingHandler) *OutputBuffer
 
-	XmlSAXParseDoc func(
-		sax XmlSAXHandlerPtr,
-		cur string,
-		recovery int) XmlDocPtr
+	OutputBufferCreateFd func(
+		fd int, encoder *CharEncodingHandler) *OutputBuffer
 
-	XmlSAXParseMemory func(
-		sax XmlSAXHandlerPtr,
-		buffer string,
-		size int,
-		recovery int) XmlDocPtr
+	OutputBufferCreateIO func(iowrite OutputWriteCallback,
+		ioclose OutputCloseCallback, ioctx *Void,
+		encoder *CharEncodingHandler) *OutputBuffer
 
-	XmlSAXParseMemoryWithData func(
-		sax XmlSAXHandlerPtr,
-		buffer string,
-		size int,
-		recovery int,
-		data *Void) XmlDocPtr
+	OutputBufferGetContent func(out *OutputBuffer) string
 
-	XmlSAXParseFile func(
-		sax XmlSAXHandlerPtr,
-		filename string,
-		recovery int) XmlDocPtr
+	OutputBufferGetSize func(out *OutputBuffer) SizeT
 
-	XmlSAXParseFileWithData func(
-		sax XmlSAXHandlerPtr,
-		filename string,
-		recovery int,
-		data *Void) XmlDocPtr
+	OutputBufferWrite func(
+		out *OutputBuffer, leng int, buf string) int
 
-	XmlSAXParseEntity func(
-		sax XmlSAXHandlerPtr,
-		filename string) XmlDocPtr
+	OutputBufferWriteString func(
+		out *OutputBuffer, str string) int
 
-	XmlParseEntity func(
-		filename string) XmlDocPtr
+	OutputBufferWriteEscape func(out *OutputBuffer,
+		str string, escaping CharEncodingOutputFunc) int
 
-	XmlSAXParseDTD func(
-		sax XmlSAXHandlerPtr,
-		ExternalID string,
-		SystemID string) XmlDtdPtr
+	OutputBufferFlush func(out *OutputBuffer) int
 
-	XmlParseDTD func(
-		ExternalID string,
-		SystemID string) XmlDtdPtr
+	OutputBufferClose func(out *OutputBuffer) int
 
-	XmlIOParseDTD func(
-		sax XmlSAXHandlerPtr,
-		input XmlParserInputBufferPtr,
-		enc XmlCharEncoding) XmlDtdPtr
+	RegisterOutputCallbacks func(matchFunc OutputMatchCallback,
+		openFunc OutputOpenCallback,
+		writeFunc OutputWriteCallback,
+		closeFunc OutputCloseCallback) int
 
-	XmlParseBalancedChunkMemory func(
-		doc XmlDocPtr,
-		sax XmlSAXHandlerPtr,
-		user_data *Void,
-		depth int,
-		string string,
-		lst *XmlNodePtr) int
+	RegisterHTTPPostCallbacks func()
 
-	XmlParseInNodeContext func(
-		node XmlNodePtr,
-		data string,
-		datalen int,
-		options int,
-		lst *XmlNodePtr) XmlParserErrors
+	CheckHTTPInput func(
+		ctxt *ParserCtxt, ret *ParserInput) *ParserInput
 
-	XmlParseBalancedChunkMemoryRecover func(
-		doc XmlDocPtr,
-		sax XmlSAXHandlerPtr,
-		user_data *Void,
-		depth int,
-		string string,
-		lst *XmlNodePtr,
-		recover int) int
+	NoNetExternalEntityLoader func(
+		URL, ID string, ctxt *ParserCtxt) *ParserInput
 
-	XmlParseExternalEntity func(
-		doc XmlDocPtr,
-		sax XmlSAXHandlerPtr,
-		user_data *Void,
-		depth int,
-		URL string,
-		ID string,
-		lst *XmlNodePtr) int
+	NormalizeWindowsPath func(path string) string
 
-	XmlParseCtxtExternalEntity func(
-		ctx XmlParserCtxtPtr,
-		URL string,
-		ID string,
-		lst *XmlNodePtr) int
+	CheckFilename func(path string) int
 
-	XmlNewParserCtxt func() XmlParserCtxtPtr
+	FileMatch func(filename string) int
 
-	XmlInitParserCtxt func(
-		ctxt XmlParserCtxtPtr) int
+	FileOpen func(filename string) *Void
 
-	XmlClearParserCtxt func(
-		ctxt XmlParserCtxtPtr)
+	FileRead func(context *Void, buffer string, leng int) int
 
-	XmlFreeParserCtxt func(
-		ctxt XmlParserCtxtPtr)
+	FileClose func(context *Void) int
 
-	XmlSetupParserForBuffer func(
-		ctxt XmlParserCtxtPtr,
-		buffer string,
-		filename string)
+	IOHTTPMatch func(filename string) int
 
-	XmlCreateDocParserCtxt func(
-		cur string) XmlParserCtxtPtr
-
-	XmlGetFeaturesList func(
-		leng *int,
-		result *string) int
-
-	XmlGetFeature func(
-		ctxt XmlParserCtxtPtr,
-		name string,
-		result *Void) int
-
-	XmlSetFeature func(
-		ctxt XmlParserCtxtPtr,
-		name string,
-		value *Void) int
-
-	XmlCreatePushParserCtxt func(
-		sax XmlSAXHandlerPtr,
-		user_data *Void,
-		chunk string,
-		size int,
-		filename string) XmlParserCtxtPtr
-
-	XmlParseChunk func(
-		ctxt XmlParserCtxtPtr,
-		chunk string,
-		size int,
-		terminate int) int
-
-	XmlCreateIOParserCtxt func(
-		sax XmlSAXHandlerPtr,
-		user_data *Void,
-		ioread XmlInputReadCallback,
-		ioclose XmlInputCloseCallback,
-		ioctx *Void,
-		enc XmlCharEncoding) XmlParserCtxtPtr
-
-	XmlNewIOInputStream func(
-		ctxt XmlParserCtxtPtr,
-		input XmlParserInputBufferPtr,
-		enc XmlCharEncoding) XmlParserInputPtr
-
-	XmlParserFindNodeInfo func(
-		ctxt XmlParserCtxtPtr,
-		node XmlNodePtr) *XmlParserNodeInfo
-
-	XmlInitNodeInfoSeq func(
-		seq XmlParserNodeInfoSeqPtr)
-
-	XmlClearNodeInfoSeq func(
-		seq XmlParserNodeInfoSeqPtr)
-
-	XmlParserFindNodeInfoIndex func(
-		seq XmlParserNodeInfoSeqPtr,
-		node XmlNodePtr) Unsigned_long
-
-	XmlParserAddNodeInfo func(
-		ctxt XmlParserCtxtPtr,
-		info XmlParserNodeInfoPtr)
-
-	XmlSetExternalEntityLoader func(
-		f XmlExternalEntityLoader)
-
-	XmlGetExternalEntityLoader func() XmlExternalEntityLoader
-
-	XmlLoadExternalEntity func(
-		URL string,
-		ID string,
-		ctxt XmlParserCtxtPtr) XmlParserInputPtr
-
-	XmlByteConsumed func(
-		ctxt XmlParserCtxtPtr) Long
-
-	XmlCtxtReset func(
-		ctxt XmlParserCtxtPtr)
-
-	XmlCtxtResetPush func(
-		ctxt XmlParserCtxtPtr,
-		chunk string,
-		size int,
-		filename string,
-		encoding string) int
-
-	XmlCtxtUseOptions func(
-		ctxt XmlParserCtxtPtr,
-		options int) int
-
-	XmlReadDoc func(
-		cur string,
-		URL string,
-		encoding string,
-		options int) XmlDocPtr
-
-	XmlReadFile func(
-		URL string,
-		encoding string,
-		options int) XmlDocPtr
-
-	XmlReadMemory func(
-		buffer string,
-		size int,
-		URL string,
-		encoding string,
-		options int) XmlDocPtr
-
-	XmlReadFd func(
-		fd int,
-		URL string,
-		encoding string,
-		options int) XmlDocPtr
-
-	XmlReadIO func(
-		ioread XmlInputReadCallback,
-		ioclose XmlInputCloseCallback,
-		ioctx *Void,
-		URL string,
-		encoding string,
-		options int) XmlDocPtr
-
-	XmlCtxtReadDoc func(
-		ctxt XmlParserCtxtPtr,
-		cur string,
-		URL string,
-		encoding string,
-		options int) XmlDocPtr
-
-	XmlCtxtReadFile func(
-		ctxt XmlParserCtxtPtr,
-		filename string,
-		encoding string,
-		options XmlParserOption /*was int*/) XmlDocPtr
-
-	XmlCtxtReadMemory func(
-		ctxt XmlParserCtxtPtr,
-		buffer string,
-		size int,
-		URL string,
-		encoding string,
-		options int) XmlDocPtr
-
-	XmlCtxtReadFd func(
-		ctxt XmlParserCtxtPtr,
-		fd int,
-		URL string,
-		encoding string,
-		options int) XmlDocPtr
-
-	XmlCtxtReadIO func(
-		ctxt XmlParserCtxtPtr,
-		ioread XmlInputReadCallback,
-		ioclose XmlInputCloseCallback,
-		ioctx *Void,
-		URL, encoding string,
-		options int) XmlDocPtr
-
-	XmlHasFeature func(feature XmlFeature) int
+	IOHTTPOpen func(filename string) *Void
+
+	IOHTTPOpenW func(postUri string, compression int) *Void
+
+	IOHTTPRead func(context *Void, buffer string, leng int) int
+
+	IOHTTPClose func(context *Void) int
+
+	IOFTPMatch func(filename string) int
+
+	IOFTPOpen func(filename string) *Void
+
+	IOFTPRead func(context *Void, buffer string, leng int) int
+
+	IOFTPClose func(context *Void) int
+
+	InitParser func()
+
+	CleanupParser func()
+
+	ParserInputRead func(in *ParserInput, leng int) int
+
+	ParserInputGrow func(in *ParserInput, leng int) int
+
+	ParseDoc func(cur string) *Doc
+
+	ParseFile func(filename string) *Doc
+
+	ParseMemory func(buffer string, size int) *Doc
+
+	SubstituteEntitiesDefault func(val int) int
+
+	KeepBlanksDefault func(val int) int
+
+	StopParser func(ctxt *ParserCtxt)
+
+	PedanticParserDefault func(val int) int
+
+	LineNumbersDefault func(val int) int
+
+	RecoverDoc func(cur string) *Doc
+
+	RecoverMemory func(buffer string, size int) *Doc
+
+	RecoverFile func(filename string) *Doc
+
+	ParseDocument func(ctxt *ParserCtxt) int
+
+	ParseExtParsedEnt func(ctxt *ParserCtxt) int
+
+	SAXUserParseFile func(
+		sax *SAXHandler, userData *Void, filename string) int
+
+	SAXUserParseMemory func(sax *SAXHandler,
+		userData *Void, buffer string, size int) int
+
+	SAXParseDoc func(
+		sax *SAXHandler, cur string, recovery int) *Doc
+
+	SAXParseMemory func(sax *SAXHandler,
+		buffer string, size int, recovery int) *Doc
+
+	SAXParseMemoryWithData func(sax *SAXHandler,
+		buffer string, size, recovery int, data *Void) *Doc
+
+	SAXParseFile func(
+		sax *SAXHandler, filename string, recovery int) *Doc
+
+	SAXParseFileWithData func(sax *SAXHandler,
+		filename string, recovery int, data *Void) *Doc
+
+	SAXParseEntity func(sax *SAXHandler, filename string) *Doc
+
+	ParseEntity func(filename string) *Doc
+
+	SAXParseDTD func(
+		sax *SAXHandler, externalID, systemID string) *Dtd
+
+	ParseDTD func(externalID, systemID string) *Dtd
+
+	IOParseDTD func(sax *SAXHandler,
+		input *ParserInputBuffer, enc CharEncoding) *Dtd
+
+	ParseBalancedChunkMemory func(doc *Doc, sax *SAXHandler,
+		userData *Void, depth int, str string, lst **Node) int
+
+	ParseInNodeContext func(node *Node, data string,
+		datalen, options int, lst **Node) ParserErrors
+
+	ParseBalancedChunkMemoryRecover func(doc *Doc,
+		sax *SAXHandler, userData *Void, depth int,
+		str string, lst **Node, recover int) int
+
+	ParseExternalEntity func(doc *Doc,
+		sax *SAXHandler, userData *Void, depth int,
+		URL, ID string, lst **Node) int
+
+	ParseCtxtExternalEntity func(
+		ctx *ParserCtxt, URL, ID string, lst **Node) int
+
+	NewParserCtxt func() *ParserCtxt
+
+	InitParserCtxt func(ctxt *ParserCtxt) int
+
+	ClearParserCtxt func(ctxt *ParserCtxt)
+
+	FreeParserCtxt func(ctxt *ParserCtxt)
+
+	SetupParserForBuffer func(
+		ctxt *ParserCtxt, buffer, filename string)
+
+	CreateDocParserCtxt func(cur string) *ParserCtxt
+
+	GetFeaturesList func(leng *int, result *string) int
+
+	GetFeature func(
+		ctxt *ParserCtxt, name string, result *Void) int
+
+	SetFeature func(
+		ctxt *ParserCtxt, name string, value *Void) int
+
+	CreatePushParserCtxt func(sax *SAXHandler, userData *Void,
+		chunk string, size int, filename string) *ParserCtxt
+
+	ParseChunk func(ctxt *ParserCtxt,
+		chunk string, size int, terminate int) int
+
+	CreateIOParserCtxt func(sax *SAXHandler, userData *Void,
+		ioread InputReadCallback, ioclose InputCloseCallback,
+		ioctx *Void, enc CharEncoding) *ParserCtxt
+
+	NewIOInputStream func(ctxt *ParserCtxt,
+		input *ParserInputBuffer, enc CharEncoding) *ParserInput
+
+	ParserFindNodeInfo func(ctxt *ParserCtxt,
+		node *Node) *ParserNodeInfo
+
+	InitNodeInfoSeq func(seq *ParserNodeInfoSeq)
+
+	ClearNodeInfoSeq func(seq *ParserNodeInfoSeq)
+
+	ParserFindNodeInfoIndex func(
+		seq *ParserNodeInfoSeq, node *Node) UnsignedLong
+
+	ParserAddNodeInfo func(
+		ctxt *ParserCtxt, info *ParserNodeInfo)
+
+	SetExternalEntityLoader func(f ExternalEntityLoader)
+
+	GetExternalEntityLoader func() ExternalEntityLoader
+
+	LoadExternalEntity func(
+		URL, ID string, ctxt *ParserCtxt) *ParserInput
+
+	ByteConsumed func(ctxt *ParserCtxt) Long
+
+	CtxtReset func(ctxt *ParserCtxt)
+
+	CtxtResetPush func(ctxt *ParserCtxt, chunk string,
+		size int, filename, encoding string) int
+
+	CtxtUseOptions func(ctxt *ParserCtxt, options int) int
+
+	ReadDoc func(cur, URL, encoding string, options int) *Doc
+
+	ReadFile func(URL, encoding string, options int) *Doc
+
+	ReadMemory func(buffer string,
+		size int, URL, encoding string, options int) *Doc
+
+	ReadFd func(fd int, URL, encoding string, options int) *Doc
+
+	ReadIO func(ioread InputReadCallback,
+		ioclose InputCloseCallback, ioctx *Void,
+		URL, encoding string, options int) *Doc
+
+	CtxtReadDoc func(ctxt *ParserCtxt,
+		cur, URL, encoding string, options int) *Doc
+
+	CtxtReadFile func(ctxt *ParserCtxt,
+		filename, encoding string, options ParserOption) *Doc
+
+	CtxtReadMemory func(ctxt *ParserCtxt, buffer string,
+		size int, URL, encoding string, options int) *Doc
+
+	CtxtReadFd func(ctxt *ParserCtxt, fd int,
+		URL, encoding string, options int) *Doc
+
+	CtxtReadIO func(ctxt *ParserCtxt, ioread InputReadCallback,
+		ioclose InputCloseCallback, ioctx *Void,
+		URL, encoding string, options int) *Doc
+
+	HasFeature func(feature Feature) int
 
 	XlinkGetDefaultDetect func() XlinkNodeDetectFunc
 
 	XlinkSetDefaultDetect func(f XlinkNodeDetectFunc)
 
-	XlinkGetDefaultHandler func() XlinkHandlerPtr
+	XlinkGetDefaultHandler func() *XlinkHandler
 
-	XlinkSetDefaultHandler func(handler XlinkHandlerPtr)
+	XlinkSetDefaultHandler func(handler *XlinkHandler)
 
-	XlinkIsLink func(doc, node XmlNodePtr) XlinkType
+	XlinkIsLink func(doc, node *Node) XlinkType
 
 	GetPublicId func(ctx *Void) string
 
 	GetSystemId func(ctx *Void) string
 
-	SetDocumentLocator func(ctx *Void, loc XmlSAXLocatorPtr)
+	SetDocumentLocator func(ctx *Void, loc *SAXLocator)
 
 	GetLineNumber func(ctx *Void) int
 
@@ -4536,28 +3568,28 @@ var (
 	HasExternalSubset func(ctx *Void) int
 
 	InternalSubset func(
-		ctx *Void, name, ExternalID, SystemID string)
+		ctx *Void, name, externalID, systemID string)
 
 	ExternalSubset func(
-		ctx *Void, name, ExternalID, SystemID string)
+		ctx *Void, name, externalID, systemID string)
 
-	GetEntity func(ctx *Void, name string) XmlEntityPtr
+	GetEntity func(ctx *Void, name string) *Entity
 
 	GetParameterEntity func(
-		ctx *Void, name string) XmlEntityPtr
+		ctx *Void, name string) *Entity
 
 	ResolveEntity func(ctx *Void,
-		publicId, systemId string) XmlParserInputPtr
+		publicId, systemId string) *ParserInput
 
 	EntityDecl func(ctx *Void, name string, typ int,
 		publicId, systemId, content string)
 
 	AttributeDecl func(ctx *Void, elem, fullname string,
 		typ, def int, defaultValue string,
-		tree XmlEnumerationPtr)
+		tree *Enumeration)
 
 	ElementDecl func(ctx *Void, name string,
-		typ int, content XmlElementContentPtr)
+		typ int, content *ElementContent)
 
 	NotationDecl func(
 		ctx *Void, name, publicId, systemId string)
@@ -4587,7 +3619,7 @@ var (
 
 	SetNamespace func(ctx *Void, name string)
 
-	GetNamespace func(ctx *Void) XmlNsPtr
+	GetNamespace func(ctx *Void) *Ns
 
 	CheckNamespace func(ctx *Void, nameSpace string) int
 
@@ -4598,3607 +3630,2474 @@ var (
 	CdataBlock func(ctx *Void, value string, leng int)
 
 	InitXmlDefaultSAXHandler func(
-		hdlr *XmlSAXHandlerV1, warning int)
+		hdlr *SAXHandlerV1, warning int)
 
-	InithtmlDefaultSAXHandler func(hdlr *XmlSAXHandlerV1)
+	InithtmlDefaultSAXHandler func(hdlr *SAXHandlerV1)
 
-	InitdocbDefaultSAXHandler func(hdlr *XmlSAXHandlerV1)
+	InitdocbDefaultSAXHandler func(hdlr *SAXHandlerV1)
 
-	XmlSAX2GetPublicId func(ctx *Void) string
+	SAX2GetPublicId func(ctx *Void) string
 
-	XmlSAX2GetSystemId func(ctx *Void) string
+	SAX2GetSystemId func(ctx *Void) string
 
-	XmlSAX2SetDocumentLocator func(
-		ctx *Void, loc XmlSAXLocatorPtr)
+	SAX2SetDocumentLocator func(ctx *Void, loc *SAXLocator)
 
-	XmlSAX2GetLineNumber func(ctx *Void) int
+	SAX2GetLineNumber func(ctx *Void) int
 
-	XmlSAX2GetColumnNumber func(ctx *Void) int
+	SAX2GetColumnNumber func(ctx *Void) int
 
-	XmlSAX2IsStandalone func(ctx *Void) int
+	SAX2IsStandalone func(ctx *Void) int
 
-	XmlSAX2HasInternalSubset func(ctx *Void) int
+	SAX2HasInternalSubset func(ctx *Void) int
 
-	XmlSAX2HasExternalSubset func(ctx *Void) int
+	SAX2HasExternalSubset func(ctx *Void) int
 
-	XmlSAX2InternalSubset func(
-		ctx *Void,
-		name string,
-		ExternalID string,
-		SystemID string)
+	SAX2InternalSubset func(
+		ctx *Void, name, externalID, systemID string)
 
-	XmlSAX2ExternalSubset func(
-		ctx *Void,
-		name string,
-		ExternalID string,
-		SystemID string)
+	SAX2ExternalSubset func(
+		ctx *Void, name, externalID, systemID string)
 
-	XmlSAX2GetEntity func(
-		ctx *Void,
-		name string) XmlEntityPtr
+	SAX2GetEntity func(ctx *Void, name string) *Entity
 
-	XmlSAX2GetParameterEntity func(
-		ctx *Void,
-		name string) XmlEntityPtr
+	SAX2GetParameterEntity func(ctx *Void, name string) *Entity
 
-	XmlSAX2ResolveEntity func(
-		ctx *Void,
-		publicId string,
-		systemId string) XmlParserInputPtr
+	SAX2ResolveEntity func(
+		ctx *Void, publicId, systemId string) *ParserInput
 
-	XmlSAX2EntityDecl func(
-		ctx *Void,
-		name string,
-		typ int,
-		publicId string,
-		systemId string,
-		content string)
+	SAX2EntityDecl func(ctx *Void, name string,
+		typ int, publicId, systemId, content string)
 
-	XmlSAX2AttributeDecl func(
-		ctx *Void,
-		elem string,
-		fullname string,
-		typ int,
-		def int,
-		defaultValue string,
-		tree XmlEnumerationPtr)
+	SAX2AttributeDecl func(ctx *Void,
+		elem, fullname string, typ, def int,
+		defaultValue string, tree *Enumeration)
 
-	XmlSAX2ElementDecl func(
-		ctx *Void,
-		name string,
-		typ int,
-		content XmlElementContentPtr)
+	SAX2ElementDecl func(
+		ctx *Void, name string, typ int, content *ElementContent)
 
-	XmlSAX2NotationDecl func(
-		ctx *Void,
-		name string,
-		publicId string,
-		systemId string)
+	SAX2NotationDecl func(
+		ctx *Void, name, publicId, systemId string)
 
-	XmlSAX2UnparsedEntityDecl func(
-		ctx *Void,
-		name string,
-		publicId string,
-		systemId string,
-		notationName string)
+	SAX2UnparsedEntityDecl func(ctx *Void,
+		name, publicId, systemId, notationName string)
 
-	XmlSAX2StartDocument func(
-		ctx *Void)
+	SAX2StartDocument func(ctx *Void)
 
-	XmlSAX2EndDocument func(
-		ctx *Void)
+	SAX2EndDocument func(ctx *Void)
 
-	XmlSAX2StartElement func(
-		ctx *Void,
-		fullname string,
-		atts *string)
+	SAX2StartElement func(
+		ctx *Void, fullname string, atts *string)
 
-	XmlSAX2EndElement func(
-		ctx *Void,
-		name string)
+	SAX2EndElement func(ctx *Void, name string)
 
-	XmlSAX2StartElementNs func(
-		ctx *Void,
-		localname string,
-		prefix string,
-		URI string,
-		nb_namespaces int,
-		namespaces *string,
-		nb_attributes int,
-		nb_defaulted int,
-		attributes *string)
+	SAX2StartElementNs func(ctx *Void,
+		localname, prefix, URI string,
+		nbNamespaces int, namespaces *string,
+		nbAttributes, nbDefaulted int, attributes *string)
 
-	XmlSAX2EndElementNs func(
-		ctx *Void,
-		localname string,
-		prefix string,
-		URI string)
+	SAX2EndElementNs func(
+		ctx *Void, localname, prefix, URI string)
 
-	XmlSAX2Reference func(
-		ctx *Void,
-		name string)
+	SAX2Reference func(ctx *Void, name string)
 
-	XmlSAX2Characters func(
-		ctx *Void,
-		ch string,
-		leng int)
+	SAX2Characters func(ctx *Void, ch string, leng int)
 
-	XmlSAX2IgnorableWhitespace func(
-		ctx *Void,
-		ch string,
-		leng int)
+	SAX2IgnorableWhitespace func(ctx *Void, ch string, leng int)
 
-	XmlSAX2ProcessingInstruction func(
-		ctx *Void,
-		target string,
-		data string)
+	SAX2ProcessingInstruction func(
+		ctx *Void, target, data string)
 
-	XmlSAX2Comment func(
-		ctx *Void,
-		value string)
+	SAX2Comment func(ctx *Void, value string)
 
-	XmlSAX2CDataBlock func(
-		ctx *Void,
-		value string,
-		leng int)
+	SAX2CDataBlock func(ctx *Void, value string, leng int)
 
-	XmlSAXDefaultVersion func(
-		version int) int
+	SAXDefaultVersion func(version int) int
 
-	XmlSAXVersion func(
-		hdlr *XmlSAXHandler,
-		version int) int
+	SAXVersion func(hdlr *SAXHandler, version int) int
 
-	XmlSAX2InitDefaultSAXHandler func(
-		hdlr *XmlSAXHandler,
-		warning int)
+	SAX2InitDefaultSAXHandler func(hdlr *SAXHandler, warning int)
 
-	XmlSAX2InitHtmlDefaultSAXHandler func(
-		hdlr *XmlSAXHandler)
+	SAX2InitHtmlDefaultSAXHandler func(hdlr *SAXHandler)
 
 	HtmlDefaultSAXHandlerInit func()
 
-	XmlSAX2InitDocbDefaultSAXHandler func(
-		hdlr *XmlSAXHandler)
+	SAX2InitDocbDefaultSAXHandler func(hdlr *SAXHandler)
 
 	DocbDefaultSAXHandlerInit func()
 
-	XmlDefaultSAXHandlerInit func()
+	DefaultSAXHandlerInit func()
 
-	XmlInitGlobals func()
+	InitGlobals func()
 
-	XmlCleanupGlobals func()
+	CleanupGlobals func()
 
-	XmlInitializeGlobalState func(
-		gs XmlGlobalStatePtr)
+	InitializeGlobalState func(gs *GlobalState)
 
-	XmlThrDefSetGenericErrorFunc func(
-		ctx *Void,
-		handler XmlGenericErrorFunc)
+	ThrDefSetGenericErrorFunc func(
+		ctx *Void, handler GenericErrorFunc)
 
-	XmlThrDefSetStructuredErrorFunc func(
-		ctx *Void,
-		handler XmlStructuredErrorFunc)
+	ThrDefSetStructuredErrorFunc func(
+		ctx *Void, handler StructuredErrorFunc)
 
-	XmlRegisterNodeDefault func(
-		f XmlRegisterNodeFunc) XmlRegisterNodeFunc
+	RegisterNodeDefault func(
+		f RegisterNodeFunc) RegisterNodeFunc
 
-	XmlThrDefRegisterNodeDefault func(
-		f XmlRegisterNodeFunc) XmlRegisterNodeFunc
+	ThrDefRegisterNodeDefault func(
+		f RegisterNodeFunc) RegisterNodeFunc
 
-	XmlDeregisterNodeDefault func(
-		f XmlDeregisterNodeFunc) XmlDeregisterNodeFunc
+	DeregisterNodeDefault func(
+		f DeregisterNodeFunc) DeregisterNodeFunc
 
-	XmlThrDefDeregisterNodeDefault func(
-		f XmlDeregisterNodeFunc) XmlDeregisterNodeFunc
+	ThrDefDeregisterNodeDefault func(
+		f DeregisterNodeFunc) DeregisterNodeFunc
 
-	XmlThrDefOutputBufferCreateFilenameDefault func(
-		f XmlOutputBufferCreateFilenameFunc) XmlOutputBufferCreateFilenameFunc
+	ThrDefOutputBufferCreateFilenameDefault func(
+		f OutputBufferCreateFilenameFunc) OutputBufferCreateFilenameFunc
 
-	XmlThrDefParserInputBufferCreateFilenameDefault func(
-		f XmlParserInputBufferCreateFilenameFunc) XmlParserInputBufferCreateFilenameFunc
+	ThrDefParserInputBufferCreateFilenameDefault func(
+		f ParserInputBufferCreateFilenameFunc) ParserInputBufferCreateFilenameFunc
 
-	DocbDefaultSAXHandler func() *XmlSAXHandlerV1
+	DocbDefaultSAXHandler func() *SAXHandlerV1
 
-	HtmlDefaultSAXHandler func() *XmlSAXHandlerV1
+	HtmlDefaultSAXHandler func() *SAXHandlerV1
 
-	XmlLastError func() *XmlError
+	LastError func() *Error
 
 	OldXMLWDcompatibility func() *int
 
-	XmlBufferAllocScheme func() *XmlBufferAllocationScheme
+	BufferAllocScheme func() *BufferAllocationScheme
 
-	XmlThrDefBufferAllocScheme func(
-		v XmlBufferAllocationScheme) XmlBufferAllocationScheme
+	ThrDefBufferAllocScheme func(
+		v BufferAllocationScheme) BufferAllocationScheme
 
-	XmlDefaultBufferSize func() *int
+	DefaultBufferSize func() *int
 
-	XmlThrDefDefaultBufferSize func(v int) int
+	ThrDefDefaultBufferSize func(v int) int
 
-	XmlDefaultSAXHandler func() *XmlSAXHandlerV1
+	DefaultSAXHandler func() *SAXHandlerV1
 
-	XmlDefaultSAXLocator func() *XmlSAXLocator
+	DefaultSAXLocator func() *SAXLocator
 
-	XmlDoValidityCheckingDefaultValue func() *int
+	DoValidityCheckingDefaultValue func() *int
 
-	XmlThrDefDoValidityCheckingDefaultValue func(v int) int
+	ThrDefDoValidityCheckingDefaultValue func(v int) int
 
-	XmlGenericError func() *XmlGenericErrorFunc
+	GenericError func() *GenericErrorFunc
 
-	XmlStructuredError func() *XmlStructuredErrorFunc
+	StructuredError func() *StructuredErrorFunc
 
-	XmlGenericErrorContext func() **Void
+	GenericErrorContext func() **Void
 
-	XmlStructuredErrorContext func() **Void
+	StructuredErrorContext func() **Void
 
-	XmlGetWarningsDefaultValue func() *int
+	GetWarningsDefaultValue func() *int
 
-	XmlThrDefGetWarningsDefaultValue func(v int) int
+	ThrDefGetWarningsDefaultValue func(v int) int
 
-	XmlIndentTreeOutput func() *int
+	IndentTreeOutput func() *int
 
-	XmlThrDefIndentTreeOutput func(v int) int
+	ThrDefIndentTreeOutput func(v int) int
 
-	XmlTreeIndentString func() *string
+	TreeIndentString func() *string
 
-	XmlThrDefTreeIndentString func(v string) string
+	ThrDefTreeIndentString func(v string) string
 
-	XmlKeepBlanksDefaultValue func() *int
+	KeepBlanksDefaultValue func() *int
 
-	XmlThrDefKeepBlanksDefaultValue func(v int) int
+	ThrDefKeepBlanksDefaultValue func(v int) int
 
-	XmlLineNumbersDefaultValue func() *int
+	LineNumbersDefaultValue func() *int
 
-	XmlThrDefLineNumbersDefaultValue func(v int) int
+	ThrDefLineNumbersDefaultValue func(v int) int
 
-	XmlLoadExtDtdDefaultValue func() *int
+	LoadExtDtdDefaultValue func() *int
 
-	XmlThrDefLoadExtDtdDefaultValue func(v int) int
+	ThrDefLoadExtDtdDefaultValue func(v int) int
 
-	XmlParserDebugEntities func() *int
+	ParserDebugEntities func() *int
 
-	XmlThrDefParserDebugEntities func(v int) int
+	ThrDefParserDebugEntities func(v int) int
 
-	XmlParserVersion func() *string
+	ParserVersion func() *string
 
-	XmlPedanticParserDefaultValue func() *int
+	PedanticParserDefaultValue func() *int
 
-	XmlThrDefPedanticParserDefaultValue func(v int) int
+	ThrDefPedanticParserDefaultValue func(v int) int
 
-	XmlSaveNoEmptyTags func() *int
+	SaveNoEmptyTags func() *int
 
-	XmlThrDefSaveNoEmptyTags func(v int) int
+	ThrDefSaveNoEmptyTags func(v int) int
 
-	XmlSubstituteEntitiesDefaultValue func() *int
+	SubstituteEntitiesDefaultValue func() *int
 
-	XmlThrDefSubstituteEntitiesDefaultValue func(v int) int
+	ThrDefSubstituteEntitiesDefaultValue func(v int) int
 
-	XmlRegisterNodeDefaultValue func() *XmlRegisterNodeFunc
+	RegisterNodeDefaultValue func() *RegisterNodeFunc
 
-	XmlDeregisterNodeDefaultValue func() *XmlDeregisterNodeFunc
+	DeregisterNodeDefaultValue func() *DeregisterNodeFunc
 
-	XmlParserInputBufferCreateFilenameValue func() *XmlParserInputBufferCreateFilenameFunc
+	ParserInputBufferCreateFilenameValue func() *ParserInputBufferCreateFilenameFunc
 
-	XmlOutputBufferCreateFilenameValue func() *XmlOutputBufferCreateFilenameFunc
+	OutputBufferCreateFilenameValue func() *OutputBufferCreateFilenameFunc
 
-	XmlNewMutex func() XmlMutexPtr
+	NewMutex func() *Mutex
 
-	XmlMutexLock func(
-		tok XmlMutexPtr)
+	MutexLock func(tok *Mutex)
 
-	XmlMutexUnlock func(tok XmlMutexPtr)
+	MutexUnlock func(tok *Mutex)
 
-	XmlFreeMutex func(tok XmlMutexPtr)
+	FreeMutex func(tok *Mutex)
 
-	XmlNewRMutex func() XmlRMutexPtr
+	NewRMutex func() *RMutex
 
-	XmlRMutexLock func(
-		tok XmlRMutexPtr)
+	RMutexLock func(tok *RMutex)
 
-	XmlRMutexUnlock func(
-		tok XmlRMutexPtr)
+	RMutexUnlock func(tok *RMutex)
 
-	XmlFreeRMutex func(
-		tok XmlRMutexPtr)
+	FreeRMutex func(tok *RMutex)
 
-	XmlInitThreads func()
+	InitThreads func()
 
-	XmlLockLibrary func()
+	LockLibrary func()
 
-	XmlUnlockLibrary func()
+	UnlockLibrary func()
 
-	XmlGetThreadId func() int
+	GetThreadId func() int
 
-	XmlIsMainThread func() int
+	IsMainThread func() int
 
-	XmlCleanupThreads func()
+	CleanupThreads func()
 
-	XmlGetGlobalState func() XmlGlobalStatePtr
+	GetGlobalState func() *GlobalState
 
-	HtmlTagLookup func(
-		tag string) *HtmlElemDesc
+	HtmlTagLookup func(tag string) *HtmlElemDesc
 
 	HtmlEntityLookup func(name string) *HtmlEntityDesc
 
 	HtmlEntityValueLookup func(
-		value Unsigned_int) *HtmlEntityDesc
+		value UnsignedInt) *HtmlEntityDesc
 
-	HtmlIsAutoClosed func(doc HtmlDocPtr, elem HtmlNodePtr) int
+	HtmlIsAutoClosed func(doc *HtmlDoc, elem *HtmlNode) int
 
 	HtmlAutoCloseTag func(
-		doc HtmlDocPtr, name string, elem HtmlNodePtr) int
+		doc *HtmlDoc, name string, elem *HtmlNode) int
 
 	HtmlParseEntityRef func(
-		ctxt HtmlParserCtxtPtr, str *string) *HtmlEntityDesc
+		ctxt *HtmlParserCtxt, str *string) *HtmlEntityDesc
 
-	HtmlParseCharRef func(ctxt HtmlParserCtxtPtr) int
+	HtmlParseCharRef func(ctxt *HtmlParserCtxt) int
 
-	HtmlParseElement func(ctxt HtmlParserCtxtPtr)
+	HtmlParseElement func(ctxt *HtmlParserCtxt)
 
-	HtmlNewParserCtxt func() HtmlParserCtxtPtr
+	HtmlNewParserCtxt func() *HtmlParserCtxt
 
 	HtmlCreateMemoryParserCtxt func(
-		buffer string, size int) HtmlParserCtxtPtr
+		buffer string, size int) *HtmlParserCtxt
 
-	HtmlParseDocument func(ctxt HtmlParserCtxtPtr) int
+	HtmlParseDocument func(ctxt *HtmlParserCtxt) int
 
-	HtmlSAXParseDoc func(
-		cur string,
-		encoding string,
-		sax HtmlSAXHandlerPtr,
-		userData *Void) HtmlDocPtr
+	HtmlSAXParseDoc func(cur, encoding string,
+		sax *HtmlSAXHandler, userData *Void) *HtmlDoc
 
-	HtmlParseDoc func(
-		cur string,
-		encoding string) HtmlDocPtr
+	HtmlParseDoc func(cur string, encoding string) *HtmlDoc
 
-	HtmlSAXParseFile func(
-		filename string,
-		encoding string,
-		sax HtmlSAXHandlerPtr,
-		userData *Void) HtmlDocPtr
+	HtmlSAXParseFile func(filename, encoding string,
+		sax *HtmlSAXHandler, userData *Void) *HtmlDoc
 
-	HtmlParseFile func(
-		filename string,
-		encoding string) HtmlDocPtr
-	UTF8ToHtml func(
-		out *Unsigned_char,
-		outlen *int,
-		in *Unsigned_char,
-		inlen *int) int
+	HtmlParseFile func(filename, encoding string) *HtmlDoc
+	UTF8ToHtml    func(out *UnsignedChar, outlen *int,
+		in *UnsignedChar, inlen *int) int
 
-	HtmlEncodeEntities func(
-		out *Unsigned_char,
-		outlen *int,
-		in *Unsigned_char,
-		inlen *int,
-		quoteChar int) int
+	HtmlEncodeEntities func(out *UnsignedChar, outlen *int,
+		in *UnsignedChar, inlen *int, quoteChar int) int
 
-	HtmlIsScriptAttribute func(
-		name string) int
+	HtmlIsScriptAttribute func(name string) int
 
-	HtmlHandleOmittedElem func(
-		val int) int
+	HtmlHandleOmittedElem func(val int) int
 
-	HtmlCreatePushParserCtxt func(
-		sax HtmlSAXHandlerPtr,
-		user_data *Void,
-		chunk string,
-		size int,
-		filename string,
-		enc XmlCharEncoding) HtmlParserCtxtPtr
+	HtmlCreatePushParserCtxt func(sax *HtmlSAXHandler,
+		userData *Void, chunk string, size int,
+		filename string, enc CharEncoding) *HtmlParserCtxt
 
-	HtmlParseChunk func(
-		ctxt HtmlParserCtxtPtr,
-		chunk string,
-		size int,
-		terminate int) int
+	HtmlParseChunk func(ctxt *HtmlParserCtxt,
+		chunk string, size, terminate int) int
 
-	HtmlFreeParserCtxt func(
-		ctxt HtmlParserCtxtPtr)
+	HtmlFreeParserCtxt func(ctxt *HtmlParserCtxt)
 
-	HtmlCtxtReset func(
-		ctxt HtmlParserCtxtPtr)
+	HtmlCtxtReset func(ctxt *HtmlParserCtxt)
 
 	HtmlCtxtUseOptions func(
-		ctxt HtmlParserCtxtPtr,
-		options int) int
+		ctxt *HtmlParserCtxt, options int) int
 
 	HtmlReadDoc func(
-		cur string,
-		URL string,
-		encoding string,
-		options int) HtmlDocPtr
+		cur, URL, encoding string, options int) *HtmlDoc
 
 	HtmlReadFile func(
-		URL string,
-		encoding string,
-		options int) HtmlDocPtr
+		URL, encoding string, options int) *HtmlDoc
 
-	HtmlReadMemory func(
-		buffer string,
-		size int,
-		URL string,
-		encoding string,
-		options int) HtmlDocPtr
+	HtmlReadMemory func(buffer string, size int,
+		URL, encoding string, options int) *HtmlDoc
 
 	HtmlReadFd func(
-		fd int,
-		URL string,
-		encoding string,
-		options int) HtmlDocPtr
+		fd int, URL, encoding string, options int) *HtmlDoc
 
-	HtmlReadIO func(
-		ioread XmlInputReadCallback,
-		ioclose XmlInputCloseCallback,
-		ioctx *Void,
-		URL string,
-		encoding string,
-		options int) HtmlDocPtr
+	HtmlReadIO func(ioread InputReadCallback,
+		ioclose InputCloseCallback,
+		ioctx *Void, URL, encoding string, options int) *HtmlDoc
 
-	HtmlCtxtReadDoc func(
-		ctxt XmlParserCtxtPtr,
-		cur string,
-		URL string,
-		encoding string,
-		options int) HtmlDocPtr
+	HtmlCtxtReadDoc func(ctxt *ParserCtxt,
+		cur, URL, encoding string, options int) *HtmlDoc
 
-	HtmlCtxtReadFile func(
-		ctxt XmlParserCtxtPtr,
-		filename string,
-		encoding string,
-		options int) HtmlDocPtr
+	HtmlCtxtReadFile func(ctxt *ParserCtxt,
+		filename, encoding string, options int) *HtmlDoc
 
-	HtmlCtxtReadMemory func(
-		ctxt XmlParserCtxtPtr,
-		buffer string,
-		size int,
-		URL string,
-		encoding string,
-		options int) HtmlDocPtr
+	HtmlCtxtReadMemory func(ctxt *ParserCtxt, buffer string,
+		size int, URL, encoding string, options int) *HtmlDoc
 
-	HtmlCtxtReadFd func(
-		ctxt XmlParserCtxtPtr,
-		fd int,
-		URL string,
-		encoding string,
-		options int) HtmlDocPtr
+	HtmlCtxtReadFd func(ctxt *ParserCtxt, fd int,
+		URL, encoding string, options int) *HtmlDoc
 
-	HtmlCtxtReadIO func(
-		ctxt XmlParserCtxtPtr,
-		ioread XmlInputReadCallback,
-		ioclose XmlInputCloseCallback,
-		ioctx *Void,
-		URL string,
-		encoding string,
-		options int) HtmlDocPtr
+	HtmlCtxtReadIO func(ctxt *ParserCtxt,
+		ioread InputReadCallback, ioclose InputCloseCallback,
+		ioctx *Void, URL, encoding string, options int) *HtmlDoc
 
-	HtmlAttrAllowed func(
-		*HtmlElemDesc,
-		string,
-		int) HtmlStatus
+	HtmlAttrAllowed func(*HtmlElemDesc, string, int) HtmlStatus
 
-	HtmlElementAllowedHere func(
-		*HtmlElemDesc,
-		string) int
+	HtmlElementAllowedHere func(*HtmlElemDesc, string) int
 
 	HtmlElementStatusHere func(
-		*HtmlElemDesc,
-		*HtmlElemDesc) HtmlStatus
+		*HtmlElemDesc, *HtmlElemDesc) HtmlStatus
 
-	HtmlNodeStatus func(
-		HtmlNodePtr,
-		int) HtmlStatus
+	HtmlNodeStatus func(*HtmlNode, int) HtmlStatus
 
-	HtmlNewDoc func(
-		URI string,
-		ExternalID string) HtmlDocPtr
+	HtmlNewDoc func(URI string, externalID string) *HtmlDoc
 
-	HtmlNewDocNoDtD func(
-		URI string,
-		ExternalID string) HtmlDocPtr
+	HtmlNewDocNoDtD func(URI string, externalID string) *HtmlDoc
 
-	HtmlGetMetaEncoding func(
-		doc HtmlDocPtr) string
+	HtmlGetMetaEncoding func(doc *HtmlDoc) string
 
-	HtmlSetMetaEncoding func(
-		doc HtmlDocPtr,
-		encoding string) int
+	HtmlSetMetaEncoding func(doc *HtmlDoc, encoding string) int
 
-	HtmlDocDumpMemory func(
-		cur XmlDocPtr,
-		mem *string,
-		size *int)
+	HtmlDocDumpMemory func(cur *Doc, mem *string, size *int)
 
-	HtmlDocDumpMemoryFormat func(
-		cur XmlDocPtr,
-		mem *string,
-		size *int,
-		format int)
+	HtmlDocDumpMemoryFormat func(cur *Doc, mem *string, size *int, format int)
 
-	HtmlDocDump func(
-		f *FILE,
-		cur XmlDocPtr) int
+	HtmlDocDump func(f *FILE, cur *Doc) int
 
-	HtmlSaveFile func(
-		filename string,
-		cur XmlDocPtr) int
+	HtmlSaveFile func(filename string, cur *Doc) int
 
-	HtmlNodeDump func(
-		buf XmlBufferPtr,
-		doc XmlDocPtr,
-		cur XmlNodePtr) int
+	HtmlNodeDump func(buf *Buffer, doc *Doc, cur *Node) int
 
-	HtmlNodeDumpFile func(
-		out *FILE,
-		doc XmlDocPtr,
-		cur XmlNodePtr)
+	HtmlNodeDumpFile func(out *FILE, doc *Doc, cur *Node)
 
-	HtmlNodeDumpFileFormat func(
-		out *FILE,
-		doc XmlDocPtr,
-		cur XmlNodePtr,
-		encoding string,
-		format int) int
+	HtmlNodeDumpFileFormat func(out *FILE, doc *Doc,
+		cur *Node, encoding string, format int) int
 
 	HtmlSaveFileEnc func(
-		filename string,
-		cur XmlDocPtr,
-		encoding string) int
+		filename string, cur *Doc, encoding string) int
 
-	HtmlSaveFileFormat func(
-		filename string,
-		cur XmlDocPtr,
-		encoding string,
-		format int) int
+	HtmlSaveFileFormat func(filename string,
+		cur *Doc, encoding string, format int) int
 
-	HtmlNodeDumpFormatOutput func(
-		buf XmlOutputBufferPtr,
-		doc XmlDocPtr,
-		cur XmlNodePtr,
-		encoding string,
-		format int)
+	HtmlNodeDumpFormatOutput func(buf *OutputBuffer,
+		doc *Doc, cur *Node, encoding string, format int)
 
-	HtmlDocContentDumpOutput func(
-		buf XmlOutputBufferPtr,
-		cur XmlDocPtr,
-		encoding string)
+	HtmlDocContentDumpOutput func(buf *OutputBuffer,
+		cur *Doc, encoding string)
 
-	HtmlDocContentDumpFormatOutput func(
-		buf XmlOutputBufferPtr,
-		cur XmlDocPtr,
-		encoding string,
-		format int)
+	HtmlDocContentDumpFormatOutput func(buf *OutputBuffer,
+		cur *Doc, encoding string, format int)
 
-	HtmlNodeDumpOutput func(
-		buf XmlOutputBufferPtr,
-		doc XmlDocPtr,
-		cur XmlNodePtr,
-		encoding string)
+	HtmlNodeDumpOutput func(buf *OutputBuffer,
+		doc *Doc, cur *Node, encoding string)
 
-	HtmlIsBooleanAttr func(
+	HtmlIsBooleanAttr func(name string) int
+
+	XPathFreeObject func(obj *XPathObject)
+
+	XPathNodeSetCreate func(val *Node) *NodeSet
+
+	XPathFreeNodeSetList func(obj *XPathObject)
+
+	XPathFreeNodeSet func(obj *NodeSet)
+
+	XPathObjectCopy func(val *XPathObject) *XPathObject
+
+	XPathCmpNodes func(node1, node2 *Node) int
+
+	XPathCastNumberToBoolean func(val Double) int
+
+	XPathCastStringToBoolean func(val string) int
+
+	XPathCastNodeSetToBoolean func(ns *NodeSet) int
+
+	XPathCastToBoolean func(val *XPathObject) int
+
+	XPathCastBooleanToNumber func(val int) Double
+
+	XPathCastStringToNumber func(val string) Double
+
+	XPathCastNodeToNumber func(node *Node) Double
+
+	XPathCastNodeSetToNumber func(ns *NodeSet) Double
+
+	XPathCastToNumber func(val *XPathObject) Double
+
+	XPathCastBooleanToString func(val int) string
+
+	XPathCastNumberToString func(val Double) string
+
+	XPathCastNodeToString func(node *Node) string
+
+	XPathCastNodeSetToString func(ns *NodeSet) string
+
+	XPathCastToString func(val *XPathObject) string
+
+	XPathConvertBoolean func(val *XPathObject) *XPathObject
+
+	XPathConvertNumber func(val *XPathObject) *XPathObject
+
+	XPathConvertString func(val *XPathObject) *XPathObject
+
+	XPathNewContext func(doc *Doc) *XPathContext
+
+	XPathFreeContext func(ctxt *XPathContext)
+
+	XPathContextSetCache func(
+		ctxt *XPathContext, active, value, options int) int
+
+	XPathOrderDocElems func(doc *Doc) Long
+
+	XPathEval func(str string, ctx *XPathContext) *XPathObject
+
+	XPathEvalExpression func(
+		str string, ctxt *XPathContext) *XPathObject
+
+	XPathEvalPredicate func(
+		ctxt *XPathContext, res *XPathObject) int
+
+	XPathCompile func(str string) *XPathCompExpr
+
+	XPathCtxtCompile func(
+		ctxt *XPathContext, str string) *XPathCompExpr
+
+	XPathCompiledEval func(
+		comp *XPathCompExpr, ctx *XPathContext) *XPathObject
+
+	XPathCompiledEvalToBoolean func(
+		comp *XPathCompExpr, ctxt *XPathContext) int
+
+	XPathFreeCompExpr func(comp *XPathCompExpr)
+
+	XPathInit func()
+
+	XPathIsNaN func(val Double) int
+
+	XPathIsInf func(val Double) int
+
+	XPathPopBoolean func(ctxt *XPathParserContext) int
+
+	XPathPopNumber func(ctxt *XPathParserContext) Double
+
+	XPathPopString func(ctxt *XPathParserContext) string
+
+	XPathPopNodeSet func(ctxt *XPathParserContext) *NodeSet
+
+	XPathPopExternal func(ctxt *XPathParserContext) *Void
+
+	XPathRegisterVariableLookup func(ctxt *XPathContext,
+		f XPathVariableLookupFunc, data *Void)
+
+	XPathRegisterFuncLookup func(ctxt *XPathContext,
+		f XPathFuncLookupFunc, funcCtxt *Void)
+
+	XPatherror func(
+		ctxt *XPathParserContext, file string, line, no int)
+
+	XPathErr func(ctxt *XPathParserContext, error int)
+
+	XPathDebugDumpObject func(
+		output *FILE, cur *XPathObject, depth int)
+
+	XPathDebugDumpCompExpr func(
+		output *FILE, comp *XPathCompExpr, depth int)
+
+	XPathNodeSetContains func(cur *NodeSet, val *Node) int
+
+	XPathDifference func(nodes1, nodes2 *NodeSet) *NodeSet
+
+	XPathIntersection func(nodes1, nodes2 *NodeSet) *NodeSet
+
+	XPathDistinctSorted func(nodes *NodeSet) *NodeSet
+
+	XPathDistinct func(nodes *NodeSet) *NodeSet
+
+	XPathHasSameNodes func(nodes1, nodes2 *NodeSet) int
+
+	XPathNodeLeadingSorted func(
+		nodes *NodeSet, node *Node) *NodeSet
+
+	XPathLeadingSorted func(nodes1, nodes2 *NodeSet) *NodeSet
+
+	XPathNodeLeading func(nodes *NodeSet, node *Node) *NodeSet
+
+	XPathLeading func(nodes1, nodes2 *NodeSet) *NodeSet
+
+	XPathNodeTrailingSorted func(
+		nodes *NodeSet, node *Node) *NodeSet
+
+	XPathTrailingSorted func(nodes1, nodes2 *NodeSet) *NodeSet
+
+	XPathNodeTrailing func(nodes *NodeSet, node *Node) *NodeSet
+
+	XPathTrailing func(nodes1, nodes2 *NodeSet) *NodeSet
+
+	XPathRegisterNs func(
+		ctxt *XPathContext, prefix, nsUri string) int
+
+	XPathNsLookup func(
+		ctxt *XPathContext, prefix string) string
+
+	XPathRegisteredNsCleanup func(ctxt *XPathContext)
+
+	XPathRegisterFunc func(
+		ctxt *XPathContext, name string, f XPathFunction) int
+
+	XPathRegisterFuncNS func(ctxt *XPathContext,
+		name, nsUri string, f XPathFunction) int
+
+	XPathRegisterVariable func(ctxt *XPathContext,
+		name string, value *XPathObject) int
+
+	XPathRegisterVariableNS func(ctxt *XPathContext,
+		name, nsUri string, value *XPathObject) int
+
+	XPathFunctionLookup func(
+		ctxt *XPathContext, name string) XPathFunction
+
+	XPathFunctionLookupNS func(
+		ctxt *XPathContext, name, nsUri string) XPathFunction
+
+	XPathRegisteredFuncsCleanup func(ctxt *XPathContext)
+
+	XPathVariableLookup func(
+		ctxt *XPathContext, name string) *XPathObject
+
+	XPathVariableLookupNS func(
+		ctxt *XPathContext, name, nsUri string) *XPathObject
+
+	XPathRegisteredVariablesCleanup func(ctxt *XPathContext)
+
+	XPathNewParserContext func(
+		str string, ctxt *XPathContext) *XPathParserContext
+
+	XPathFreeParserContext func(ctxt *XPathParserContext)
+
+	ValuePop func(ctxt *XPathParserContext) *XPathObject
+
+	ValuePush func(
+		ctxt *XPathParserContext, value *XPathObject) int
+
+	XPathNewString func(val string) *XPathObject
+
+	XPathNewCString func(val string) *XPathObject
+
+	XPathWrapString func(val string) *XPathObject
+
+	XPathWrapCString func(val string) *XPathObject
+
+	XPathNewFloat func(val Double) *XPathObject
+
+	XPathNewBoolean func(val int) *XPathObject
+
+	XPathNewNodeSet func(val *Node) *XPathObject
+
+	XPathNewValueTree func(val *Node) *XPathObject
+
+	XPathNodeSetAdd func(cur *NodeSet, val *Node) int
+
+	XPathNodeSetAddUnique func(cur *NodeSet, val *Node) int
+
+	XPathNodeSetAddNs func(cur *NodeSet, node *Node, ns *Ns) int
+
+	XPathNodeSetSort func(set *NodeSet)
+
+	XPathRoot func(ctxt *XPathParserContext)
+
+	XPathEvalExpr func(ctxt *XPathParserContext)
+
+	XPathParseName func(ctxt *XPathParserContext) string
+
+	XPathParseNCName func(ctxt *XPathParserContext) string
+
+	XPathStringEvalNumber func(str string) Double
+
+	XPathEvaluatePredicateResult func(
+		ctxt *XPathParserContext, res *XPathObject) int
+
+	XPathRegisterAllFunctions func(ctxt *XPathContext)
+
+	XPathNodeSetMerge func(val1, val2 *NodeSet) *NodeSet
+
+	XPathNodeSetDel func(cur *NodeSet, val *Node)
+
+	XPathNodeSetRemove func(cur *NodeSet, val int)
+
+	XPathNewNodeSetList func(val *NodeSet) *XPathObject
+
+	XPathWrapNodeSet func(val *NodeSet) *XPathObject
+
+	XPathWrapExternal func(val *Void) *XPathObject
+
+	XPathEqualValues func(ctxt *XPathParserContext) int
+
+	XPathNotEqualValues func(ctxt *XPathParserContext) int
+
+	XPathCompareValues func(
+		ctxt *XPathParserContext, inf, strict int) int
+
+	XPathValueFlipSign func(ctxt *XPathParserContext)
+
+	XPathAddValues func(ctxt *XPathParserContext)
+
+	XPathSubValues func(ctxt *XPathParserContext)
+
+	XPathMultValues func(ctxt *XPathParserContext)
+
+	XPathDivValues func(ctxt *XPathParserContext)
+
+	XPathModValues func(ctxt *XPathParserContext)
+
+	XPathIsNodeType func(name string) int
+
+	XPathNextSelf func(
+		ctxt *XPathParserContext, cur *Node) *Node
+
+	XPathNextChild func(
+		ctxt *XPathParserContext, cur *Node) *Node
+
+	XPathNextDescendant func(
+		ctxt *XPathParserContext, cur *Node) *Node
+
+	XPathNextDescendantOrSelf func(
+		ctxt *XPathParserContext, cur *Node) *Node
+
+	XPathNextParent func(
+		ctxt *XPathParserContext, cur *Node) *Node
+
+	XPathNextAncestorOrSelf func(
+		ctxt *XPathParserContext, cur *Node) *Node
+
+	XPathNextFollowingSibling func(
+		ctxt *XPathParserContext, cur *Node) *Node
+
+	XPathNextFollowing func(
+		ctxt *XPathParserContext, cur *Node) *Node
+
+	XPathNextNamespace func(
+		ctxt *XPathParserContext, cur *Node) *Node
+
+	XPathNextAttribute func(
+		ctxt *XPathParserContext, cur *Node) *Node
+
+	XPathNextPreceding func(
+		ctxt *XPathParserContext, cur *Node) *Node
+
+	XPathNextAncestor func(
+		ctxt *XPathParserContext, cur *Node) *Node
+
+	XPathNextPrecedingSibling func(
+		ctxt *XPathParserContext, cur *Node) *Node
+
+	XPathLastFunction func(ctxt *XPathParserContext, nargs int)
+
+	XPathPositionFunction func(
+		ctxt *XPathParserContext, nargs int)
+
+	XPathCountFunction func(ctxt *XPathParserContext, nargs int)
+
+	XPathIdFunction func(ctxt *XPathParserContext, nargs int)
+
+	XPathLocalNameFunction func(
+		ctxt *XPathParserContext, nargs int)
+
+	XPathNamespaceURIFunction func(
+		ctxt *XPathParserContext, nargs int)
+
+	XPathStringFunction func(ctxt *XPathParserContext, nargs int)
+
+	XPathStringLengthFunction func(
+		ctxt *XPathParserContext, nargs int)
+
+	XPathConcatFunction func(ctxt *XPathParserContext, nargs int)
+
+	XPathContainsFunction func(
+		ctxt *XPathParserContext, nargs int)
+
+	XPathStartsWithFunction func(
+		ctxt *XPathParserContext, nargs int)
+
+	XPathSubstringFunction func(
+		ctxt *XPathParserContext, nargs int)
+
+	XPathSubstringBeforeFunction func(
+		ctxt *XPathParserContext, nargs int)
+
+	XPathSubstringAfterFunction func(
+		ctxt *XPathParserContext, nargs int)
+
+	XPathNormalizeFunction func(
+		ctxt *XPathParserContext, nargs int)
+
+	XPathTranslateFunction func(
+		ctxt *XPathParserContext, nargs int)
+
+	XPathNotFunction func(ctxt *XPathParserContext, nargs int)
+
+	XPathTrueFunction func(ctxt *XPathParserContext, nargs int)
+
+	XPathFalseFunction func(ctxt *XPathParserContext, nargs int)
+
+	XPathLangFunction func(ctxt *XPathParserContext, nargs int)
+
+	XPathNumberFunction func(ctxt *XPathParserContext, nargs int)
+
+	XPathSumFunction func(ctxt *XPathParserContext, nargs int)
+
+	XPathFloorFunction func(ctxt *XPathParserContext, nargs int)
+
+	XPathCeilingFunction func(
+		ctxt *XPathParserContext, nargs int)
+
+	XPathRoundFunction func(ctxt *XPathParserContext, nargs int)
+
+	XPathBooleanFunction func(
+		ctxt *XPathParserContext, nargs int)
+
+	XPathNodeSetFreeNs func(ns *Ns)
+
+	XIncludeProcess func(doc *Doc) int
+
+	XIncludeProcessFlags func(doc *Doc, flags int) int
+
+	XIncludeProcessFlagsData func(
+		doc *Doc, flags int, data *Void) int
+
+	XIncludeProcessTreeFlagsData func(
+		tree *Node, flags int, data *Void) int
+
+	XIncludeProcessTree func(tree *Node) int
+
+	XIncludeProcessTreeFlags func(tree *Node, flags int) int
+
+	XIncludeNewContext func(doc *Doc) *XIncludeCtxt
+
+	XIncludeSetFlags func(ctxt *XIncludeCtxt, flags int) int
+
+	XIncludeFreeContext func(ctxt *XIncludeCtxt)
+
+	XIncludeProcessNode func(ctxt *XIncludeCtxt, tree *Node) int
+
+	XPtrLocationSetCreate func(val *XPathObject) *LocationSet
+
+	XPtrFreeLocationSet func(obj *LocationSet)
+
+	XPtrLocationSetMerge func(
+		val1, val2 *LocationSet) *LocationSet
+
+	XPtrNewRange func(start *Node, startindex int,
+		end *Node, endindex int) *XPathObject
+
+	XPtrNewRangePoints func(start, end *XPathObject) *XPathObject
+
+	XPtrNewRangeNodePoint func(
+		start *Node, end *XPathObject) *XPathObject
+
+	XPtrNewRangePointNode func(
+		start *XPathObject, end *Node) *XPathObject
+
+	XPtrNewRangeNodes func(start, end *Node) *XPathObject
+
+	XPtrNewLocationSetNodes func(start, end *Node) *XPathObject
+
+	XPtrNewLocationSetNodeSet func(set *NodeSet) *XPathObject
+
+	XPtrNewRangeNodeObject func(
+		start *Node, end *XPathObject) *XPathObject
+
+	XPtrNewCollapsedRange func(start *Node) *XPathObject
+
+	XPtrLocationSetAdd func(cur *LocationSet, val *XPathObject)
+
+	XPtrWrapLocationSet func(val *LocationSet) *XPathObject
+
+	XPtrLocationSetDel func(cur *LocationSet, val *XPathObject)
+
+	XPtrLocationSetRemove func(cur *LocationSet, val int)
+
+	XPtrNewContext func(
+		doc *Doc, here, origin *Node) *XPathContext
+
+	XPtrEval func(str string, ctx *XPathContext) *XPathObject
+
+	XPtrRangeToFunction func(
+		ctxt *XPathParserContext, nargs int)
+
+	XPtrBuildNodeList func(obj *XPathObject) *Node
+
+	XPtrEvalRangePredicate func(ctxt *XPathParserContext)
+
+	UCSIsAegeanNumbers func(code int) int
+
+	UCSIsAlphabeticPresentationForms func(code int) int
+
+	UCSIsArabic func(code int) int
+
+	UCSIsArabicPresentationFormsA func(code int) int
+
+	UCSIsArabicPresentationFormsB func(code int) int
+
+	UCSIsArmenian func(code int) int
+
+	UCSIsArrows func(code int) int
+
+	UCSIsBasicLatin func(code int) int
+
+	UCSIsBengali func(code int) int
+
+	UCSIsBlockElements func(code int) int
+
+	UCSIsBopomofo func(code int) int
+
+	UCSIsBopomofoExtended func(code int) int
+
+	UCSIsBoxDrawing func(code int) int
+
+	UCSIsBraillePatterns func(code int) int
+
+	UCSIsBuhid func(code int) int
+
+	UCSIsByzantineMusicalSymbols func(code int) int
+
+	UCSIsCJKCompatibility func(code int) int
+
+	UCSIsCJKCompatibilityForms func(code int) int
+
+	UCSIsCJKCompatibilityIdeographs func(code int) int
+
+	UCSIsCJKCompatibilityIdeographsSupplement func(code int) int
+
+	UCSIsCJKRadicalsSupplement func(code int) int
+
+	UCSIsCJKSymbolsandPunctuation func(code int) int
+
+	UCSIsCJKUnifiedIdeographs func(code int) int
+
+	UCSIsCJKUnifiedIdeographsExtensionA func(code int) int
+
+	UCSIsCJKUnifiedIdeographsExtensionB func(code int) int
+
+	UCSIsCherokee func(code int) int
+
+	UCSIsCombiningDiacriticalMarks func(code int) int
+
+	UCSIsCombiningDiacriticalMarksforSymbols func(code int) int
+
+	UCSIsCombiningHalfMarks func(code int) int
+
+	UCSIsCombiningMarksforSymbols func(code int) int
+
+	UCSIsControlPictures func(code int) int
+
+	UCSIsCurrencySymbols func(code int) int
+
+	UCSIsCypriotSyllabary func(code int) int
+
+	UCSIsCyrillic func(code int) int
+
+	UCSIsCyrillicSupplement func(code int) int
+
+	UCSIsDeseret func(code int) int
+
+	UCSIsDevanagari func(code int) int
+
+	UCSIsDingbats func(code int) int
+
+	UCSIsEnclosedAlphanumerics func(code int) int
+
+	UCSIsEnclosedCJKLettersandMonths func(code int) int
+
+	UCSIsEthiopic func(code int) int
+
+	UCSIsGeneralPunctuation func(code int) int
+
+	UCSIsGeometricShapes func(code int) int
+
+	UCSIsGeorgian func(code int) int
+
+	UCSIsGothic func(code int) int
+
+	UCSIsGreek func(code int) int
+
+	UCSIsGreekExtended func(code int) int
+
+	UCSIsGreekandCoptic func(code int) int
+
+	UCSIsGujarati func(code int) int
+
+	UCSIsGurmukhi func(code int) int
+
+	UCSIsHalfwidthandFullwidthForms func(code int) int
+
+	UCSIsHangulCompatibilityJamo func(code int) int
+
+	UCSIsHangulJamo func(code int) int
+
+	UCSIsHangulSyllables func(code int) int
+
+	UCSIsHanunoo func(code int) int
+
+	UCSIsHebrew func(code int) int
+
+	UCSIsHighPrivateUseSurrogates func(code int) int
+
+	UCSIsHighSurrogates func(code int) int
+
+	UCSIsHiragana func(code int) int
+
+	UCSIsIPAExtensions func(code int) int
+
+	UCSIsIdeographicDescriptionCharacters func(code int) int
+
+	UCSIsKanbun func(code int) int
+
+	UCSIsKangxiRadicals func(code int) int
+
+	UCSIsKannada func(code int) int
+
+	UCSIsKatakana func(code int) int
+
+	UCSIsKatakanaPhoneticExtensions func(code int) int
+
+	UCSIsKhmer func(code int) int
+
+	UCSIsKhmerSymbols func(code int) int
+
+	UCSIsLao func(code int) int
+
+	UCSIsLatin1Supplement func(code int) int
+
+	UCSIsLatinExtendedA func(code int) int
+
+	UCSIsLatinExtendedB func(code int) int
+
+	UCSIsLatinExtendedAdditional func(code int) int
+
+	UCSIsLetterlikeSymbols func(code int) int
+
+	UCSIsLimbu func(code int) int
+
+	UCSIsLinearBIdeograms func(code int) int
+
+	UCSIsLinearBSyllabary func(code int) int
+
+	UCSIsLowSurrogates func(code int) int
+
+	UCSIsMalayalam func(code int) int
+
+	UCSIsMathematicalAlphanumericSymbols func(code int) int
+
+	UCSIsMathematicalOperators func(code int) int
+
+	UCSIsMiscellaneousMathematicalSymbolsA func(code int) int
+
+	UCSIsMiscellaneousMathematicalSymbolsB func(code int) int
+
+	UCSIsMiscellaneousSymbols func(code int) int
+
+	UCSIsMiscellaneousSymbolsandArrows func(code int) int
+
+	UCSIsMiscellaneousTechnical func(code int) int
+
+	UCSIsMongolian func(code int) int
+
+	UCSIsMusicalSymbols func(code int) int
+
+	UCSIsMyanmar func(code int) int
+
+	UCSIsNumberForms func(code int) int
+
+	UCSIsOgham func(code int) int
+
+	UCSIsOldItalic func(code int) int
+
+	UCSIsOpticalCharacterRecognition func(code int) int
+
+	UCSIsOriya func(code int) int
+
+	UCSIsOsmanya func(code int) int
+
+	UCSIsPhoneticExtensions func(code int) int
+
+	UCSIsPrivateUse func(code int) int
+
+	UCSIsPrivateUseArea func(code int) int
+
+	UCSIsRunic func(code int) int
+
+	UCSIsShavian func(code int) int
+
+	UCSIsSinhala func(code int) int
+
+	UCSIsSmallFormVariants func(code int) int
+
+	UCSIsSpacingModifierLetters func(code int) int
+
+	UCSIsSpecials func(code int) int
+
+	UCSIsSuperscriptsandSubscripts func(code int) int
+
+	UCSIsSupplementalArrowsA func(code int) int
+
+	UCSIsSupplementalArrowsB func(code int) int
+
+	UCSIsSupplementalMathematicalOperators func(code int) int
+
+	UCSIsSupplementaryPrivateUseAreaA func(code int) int
+
+	UCSIsSupplementaryPrivateUseAreaB func(code int) int
+
+	UCSIsSyriac func(code int) int
+
+	UCSIsTagalog func(code int) int
+
+	UCSIsTagbanwa func(code int) int
+
+	UCSIsTags func(code int) int
+
+	UCSIsTaiLe func(code int) int
+
+	UCSIsTaiXuanJingSymbols func(code int) int
+
+	UCSIsTamil func(code int) int
+
+	UCSIsTelugu func(code int) int
+
+	UCSIsThaana func(code int) int
+
+	UCSIsThai func(code int) int
+
+	UCSIsTibetan func(code int) int
+
+	UCSIsUgaritic func(code int) int
+
+	UCSIsUnifiedCanadianAboriginalSyllabics func(code int) int
+
+	UCSIsVariationSelectors func(code int) int
+
+	UCSIsVariationSelectorsSupplement func(code int) int
+
+	UCSIsYiRadicals func(code int) int
+
+	UCSIsYiSyllables func(code int) int
+
+	UCSIsYijingHexagramSymbols func(code int) int
+
+	UCSIsBlock func(code int, block string) int
+
+	UCSIsCatC func(code int) int
+
+	UCSIsCatCc func(code int) int
+
+	UCSIsCatCf func(code int) int
+
+	UCSIsCatCo func(code int) int
+
+	UCSIsCatCs func(code int) int
+
+	UCSIsCatL func(code int) int
+
+	UCSIsCatLl func(code int) int
+
+	UCSIsCatLm func(code int) int
+
+	UCSIsCatLo func(code int) int
+
+	UCSIsCatLt func(code int) int
+
+	UCSIsCatLu func(code int) int
+
+	UCSIsCatM func(code int) int
+
+	UCSIsCatMc func(code int) int
+
+	UCSIsCatMe func(code int) int
+
+	UCSIsCatMn func(code int) int
+
+	UCSIsCatN func(code int) int
+
+	UCSIsCatNd func(code int) int
+
+	UCSIsCatNl func(code int) int
+
+	UCSIsCatNo func(code int) int
+
+	UCSIsCatP func(code int) int
+
+	UCSIsCatPc func(code int) int
+
+	UCSIsCatPd func(code int) int
+
+	UCSIsCatPe func(code int) int
+
+	UCSIsCatPf func(code int) int
+
+	UCSIsCatPi func(code int) int
+
+	UCSIsCatPo func(code int) int
+
+	UCSIsCatPs func(code int) int
+
+	UCSIsCatS func(code int) int
+
+	UCSIsCatSc func(code int) int
+
+	UCSIsCatSk func(code int) int
+
+	UCSIsCatSm func(code int) int
+
+	UCSIsCatSo func(code int) int
+
+	UCSIsCatZ func(code int) int
+
+	UCSIsCatZl func(code int) int
+
+	UCSIsCatZp func(code int) int
+
+	UCSIsCatZs func(code int) int
+
+	UCSIsCat func(code int, cat string) int
+
+	SchemaNewParserCtxt func(URL string) *SchemaParserCtxt
+
+	SchemaNewMemParserCtxt func(
+		buffer string, size int) *SchemaParserCtxt
+
+	SchemaNewDocParserCtxt func(doc *Doc) *SchemaParserCtxt
+
+	SchemaFreeParserCtxt func(ctxt *SchemaParserCtxt)
+
+	SchemaSetParserErrors func(
+		ctxt *SchemaParserCtxt, err SchemaValidityErrorFunc,
+		warn SchemaValidityWarningFunc, ctx *Void)
+
+	SchemaSetParserStructuredErrors func(
+		ctxt *SchemaParserCtxt, serror StructuredErrorFunc,
+		ctx *Void)
+
+	SchemaGetParserErrors func(
+		ctxt *SchemaParserCtxt, err *SchemaValidityErrorFunc,
+		warn *SchemaValidityWarningFunc, ctx **Void) int
+
+	SchemaIsValid func(ctxt *SchemaValidCtxt) int
+
+	SchemaParse func(ctxt *SchemaParserCtxt) *Schema
+
+	SchemaFree func(schema *Schema)
+
+	SchemaDump func(output *FILE, schema *Schema)
+
+	SchemaSetValidErrors func(
+		ctxt *SchemaValidCtxt, err SchemaValidityErrorFunc,
+		warn SchemaValidityWarningFunc, ctx *Void)
+
+	SchemaSetValidStructuredErrors func(ctxt *SchemaValidCtxt,
+		serror StructuredErrorFunc, ctx *Void)
+
+	SchemaGetValidErrors func(
+		ctxt *SchemaValidCtxt, err *SchemaValidityErrorFunc,
+		warn *SchemaValidityWarningFunc, ctx **Void) int
+
+	SchemaSetValidOptions func(
+		ctxt *SchemaValidCtxt, options int) int
+
+	SchemaValidateSetFilename func(
+		vctxt *SchemaValidCtxt, filename string)
+
+	SchemaValidCtxtGetOptions func(ctxt *SchemaValidCtxt) int
+
+	SchemaNewValidCtxt func(schema *Schema) *SchemaValidCtxt
+
+	SchemaFreeValidCtxt func(ctxt *SchemaValidCtxt)
+
+	SchemaValidateDoc func(
+		ctxt *SchemaValidCtxt, instance *Doc) int
+
+	SchemaValidateOneElement func(
+		ctxt *SchemaValidCtxt, elem *Node) int
+
+	SchemaValidateStream func(
+		ctxt *SchemaValidCtxt, input *ParserInputBuffer,
+		enc CharEncoding, sax *SAXHandler, userData *Void) int
+
+	SchemaValidateFile func(
+		ctxt *SchemaValidCtxt, filename string, options int) int
+
+	SchemaValidCtxtGetParserCtxt func(
+		ctxt *SchemaValidCtxt) *ParserCtxt
+
+	SchemaSAXUnplug func(plug *SchemaSAXPlugStruct) int
+
+	SchemaValidateSetLocator func(vctxt *SchemaValidCtxt,
+		f SchemaValidityLocatorFunc, ctxt *Void)
+
+	SchemaSAXPlug func(ctxt *SchemaValidCtxt,
+		sax **SAXHandler, userData **Void) *SchemaSAXPlugStruct
+
+	SchemaFreeType func(typ *SchemaType)
+
+	SchemaFreeWildcard func(wildcard *SchemaWildcard)
+
+	SchemaInitTypes func()
+
+	SchemaCleanupTypes func()
+
+	SchemaGetPredefinedType func(name, ns string) *SchemaType
+
+	SchemaValidatePredefinedType func(typ *SchemaType,
+		value string, val **SchemaVal) int
+
+	SchemaValPredefTypeNode func(typ *SchemaType,
+		value string, val **SchemaVal, node *Node) int
+
+	SchemaValidateFacet func(base *SchemaType,
+		facet *SchemaFacet, value string, val *SchemaVal) int
+
+	SchemaValidateFacetWhtsp func(facet *SchemaFacet,
+		fws SchemaWhitespaceValueType, valType SchemaValType,
+		value string, val *SchemaVal,
+		ws SchemaWhitespaceValueType) int
+
+	SchemaFreeValue func(val *SchemaVal)
+
+	SchemaNewFacet func() *SchemaFacet
+
+	SchemaCheckFacet func(facet *SchemaFacet,
+		typeDecl *SchemaType, ctxt *SchemaParserCtxt,
 		name string) int
 
-	XmlXPathFreeObject func(obj XmlXPathObjectPtr)
+	SchemaFreeFacet func(facet *SchemaFacet)
 
-	XmlXPathNodeSetCreate func(val XmlNodePtr) XmlNodeSetPtr
+	SchemaCompareValues func(x, y *SchemaVal) int
 
-	XmlXPathFreeNodeSetList func(obj XmlXPathObjectPtr)
+	SchemaGetBuiltInListSimpleTypeItemType func(
+		typ *SchemaType) *SchemaType
 
-	XmlXPathFreeNodeSet func(obj XmlNodeSetPtr)
+	SchemaValidateListSimpleTypeFacet func(
+		facet *SchemaFacet, value string,
+		actualLen UnsignedLong, expectedLen *UnsignedLong) int
 
-	XmlXPathObjectCopy func(
-		val XmlXPathObjectPtr) XmlXPathObjectPtr
+	SchemaGetBuiltInType func(typ SchemaValType) *SchemaType
 
-	XmlXPathCmpNodes func(node1, node2 XmlNodePtr) int
+	SchemaIsBuiltInTypeFacet func(
+		typ *SchemaType, facetType int) int
 
-	XmlXPathCastNumberToBoolean func(val Double) int
+	SchemaCollapseString func(value string) string
 
-	XmlXPathCastStringToBoolean func(val string) int
+	SchemaWhiteSpaceReplace func(value string) string
 
-	XmlXPathCastNodeSetToBoolean func(ns XmlNodeSetPtr) int
+	SchemaGetFacetValueAsULong func(
+		facet *SchemaFacet) UnsignedLong
 
-	XmlXPathCastToBoolean func(val XmlXPathObjectPtr) int
+	SchemaValidateLengthFacet func(typ *SchemaType,
+		facet *SchemaFacet, value string,
+		val *SchemaVal, length *UnsignedLong) int
 
-	XmlXPathCastBooleanToNumber func(val int) Double
+	SchemaValidateLengthFacetWhtsp func(
+		facet *SchemaFacet, valType SchemaValType,
+		value string, val *SchemaVal, length *UnsignedLong,
+		ws SchemaWhitespaceValueType) int
 
-	XmlXPathCastStringToNumber func(val string) Double
+	SchemaValPredefTypeNodeNoNorm func(
+		typ *SchemaType, value string,
+		val **SchemaVal, node *Node) int
 
-	XmlXPathCastNodeToNumber func(node XmlNodePtr) Double
+	SchemaGetCanonValue func(
+		val *SchemaVal, retValue *string) int
 
-	XmlXPathCastNodeSetToNumber func(ns XmlNodeSetPtr) Double
+	SchemaGetCanonValueWhtsp func(val *SchemaVal,
+		retValue *string, ws SchemaWhitespaceValueType) int
 
-	XmlXPathCastToNumber func(val XmlXPathObjectPtr) Double
+	SchemaValueAppend func(prev, cur *SchemaVal) int
 
-	XmlXPathCastBooleanToString func(val int) string
+	SchemaValueGetNext func(cur *SchemaVal) *SchemaVal
 
-	XmlXPathCastNumberToString func(val Double) string
+	SchemaValueGetAsString func(val *SchemaVal) string
 
-	XmlXPathCastNodeToString func(node XmlNodePtr) string
+	SchemaValueGetAsBoolean func(val *SchemaVal) int
 
-	XmlXPathCastNodeSetToString func(ns XmlNodeSetPtr) string
+	SchemaNewStringValue func(
+		typ SchemaValType, value string) *SchemaVal
 
-	XmlXPathCastToString func(val XmlXPathObjectPtr) string
+	SchemaNewNOTATIONValue func(name, ns string) *SchemaVal
 
-	XmlXPathConvertBoolean func(
-		val XmlXPathObjectPtr) XmlXPathObjectPtr
+	SchemaNewQNameValue func(
+		namespaceName, localName string) *SchemaVal
 
-	XmlXPathConvertNumber func(
-		val XmlXPathObjectPtr) XmlXPathObjectPtr
+	SchemaCompareValuesWhtsp func(
+		x *SchemaVal, xws SchemaWhitespaceValueType,
+		y *SchemaVal, yws SchemaWhitespaceValueType) int
 
-	XmlXPathConvertString func(
-		val XmlXPathObjectPtr) XmlXPathObjectPtr
+	SchemaCopyValue func(val *SchemaVal) *SchemaVal
 
-	XmlXPathNewContext func(doc XmlDocPtr) XmlXPathContextPtr
+	SchemaGetValType func(val *SchemaVal) SchemaValType
 
-	XmlXPathFreeContext func(ctxt XmlXPathContextPtr)
+	SchematronNewParserCtxt func(
+		URL string) *SchematronParserCtxt
 
-	XmlXPathContextSetCache func(
-		ctxt XmlXPathContextPtr, active, value, options int) int
+	SchematronNewMemParserCtxt func(
+		buffer string, size int) *SchematronParserCtxt
 
-	XmlXPathOrderDocElems func(doc XmlDocPtr) Long
+	SchematronNewDocParserCtxt func(
+		doc *Doc) *SchematronParserCtxt
 
-	XmlXPathEval func(
-		str string, ctx XmlXPathContextPtr) XmlXPathObjectPtr
+	SchematronFreeParserCtxt func(ctxt *SchematronParserCtxt)
 
-	XmlXPathEvalExpression func(
-		str string, ctxt XmlXPathContextPtr) XmlXPathObjectPtr
+	SchematronParse func(ctxt *SchematronParserCtxt) *Schematron
 
-	XmlXPathEvalPredicate func(
-		ctxt XmlXPathContextPtr, res XmlXPathObjectPtr) int
+	SchematronFree func(schema *Schematron)
 
-	XmlXPathCompile func(str string) XmlXPathCompExprPtr
+	SchematronSetValidStructuredErrors func(
+		ctxt *SchematronValidCtxt,
+		serror StructuredErrorFunc, ctx *Void)
 
-	XmlXPathCtxtCompile func(ctxt XmlXPathContextPtr,
-		str string) XmlXPathCompExprPtr
+	SchematronNewValidCtxt func(
+		schema *Schematron, options int) *SchematronValidCtxt
 
-	XmlXPathCompiledEval func(comp XmlXPathCompExprPtr,
-		ctx XmlXPathContextPtr) XmlXPathObjectPtr
+	SchematronFreeValidCtxt func(ctxt *SchematronValidCtxt)
 
-	XmlXPathCompiledEvalToBoolean func(comp XmlXPathCompExprPtr,
-		ctxt XmlXPathContextPtr) int
+	SchematronValidateDoc func(
+		ctxt *SchematronValidCtxt, instance *Doc) int
 
-	XmlXPathFreeCompExpr func(comp XmlXPathCompExprPtr)
+	CharInRange func(
+		val UnsignedInt, group *ChRangeGroup) int
 
-	XmlXPathInit func()
+	IsLetter func(c int) int
 
-	XmlXPathIsNaN func(val Double) int
+	CreateFileParserCtxt func(filename string) *ParserCtxt
 
-	XmlXPathIsInf func(val Double) int
+	CreateURLParserCtxt func(
+		filename string, options int) *ParserCtxt
 
-	XmlXPathPopBoolean func(
-		ctxt XmlXPathParserContextPtr) int
+	CreateMemoryParserCtxt func(
+		buffer string, size int) *ParserCtxt
 
-	XmlXPathPopNumber func(
-		ctxt XmlXPathParserContextPtr) Double
+	CreateEntityParserCtxt func(URL, ID, base string) *ParserCtxt
 
-	XmlXPathPopString func(
-		ctxt XmlXPathParserContextPtr) string
+	SwitchEncoding func(ctxt *ParserCtxt, enc CharEncoding) int
 
-	XmlXPathPopNodeSet func(
-		ctxt XmlXPathParserContextPtr) XmlNodeSetPtr
+	SwitchToEncoding func(
+		ctxt *ParserCtxt, handler *CharEncodingHandler) int
 
-	XmlXPathPopExternal func(
-		ctxt XmlXPathParserContextPtr) *Void
-
-	XmlXPathRegisterVariableLookup func(
-		ctxt XmlXPathContextPtr,
-		f XmlXPathVariableLookupFunc,
-		data *Void)
-
-	XmlXPathRegisterFuncLookup func(
-		ctxt XmlXPathContextPtr,
-		f XmlXPathFuncLookupFunc,
-		funcCtxt *Void)
-
-	XmlXPatherror func(
-		ctxt XmlXPathParserContextPtr,
-		file string,
-		line int,
-		no int)
-
-	XmlXPathErr func(
-		ctxt XmlXPathParserContextPtr,
-		error int)
-
-	XmlXPathDebugDumpObject func(
-		output *FILE,
-		cur XmlXPathObjectPtr,
-		depth int)
-
-	XmlXPathDebugDumpCompExpr func(
-		output *FILE,
-		comp XmlXPathCompExprPtr,
-		depth int)
+	SwitchInputEncoding func(ctxt *ParserCtxt,
+		input *ParserInput, handler *CharEncodingHandler) int
 
-	XmlXPathNodeSetContains func(
-		cur XmlNodeSetPtr,
-		val XmlNodePtr) int
+	NewStringInputStream func(
+		ctxt *ParserCtxt, buffer string) *ParserInput
 
-	XmlXPathDifference func(
-		nodes1 XmlNodeSetPtr,
-		nodes2 XmlNodeSetPtr) XmlNodeSetPtr
+	NewEntityInputStream func(
+		ctxt *ParserCtxt, entity *Entity) *ParserInput
 
-	XmlXPathIntersection func(
-		nodes1 XmlNodeSetPtr,
-		nodes2 XmlNodeSetPtr) XmlNodeSetPtr
+	PushInput func(ctxt *ParserCtxt, input *ParserInput) int
 
-	XmlXPathDistinctSorted func(
-		nodes XmlNodeSetPtr) XmlNodeSetPtr
+	PopInput func(ctxt *ParserCtxt) Char
 
-	XmlXPathDistinct func(
-		nodes XmlNodeSetPtr) XmlNodeSetPtr
+	FreeInputStream func(input *ParserInput)
 
-	XmlXPathHasSameNodes func(
-		nodes1 XmlNodeSetPtr,
-		nodes2 XmlNodeSetPtr) int
+	NewInputFromFile func(
+		ctxt *ParserCtxt, filename string) *ParserInput
 
-	XmlXPathNodeLeadingSorted func(
-		nodes XmlNodeSetPtr,
-		node XmlNodePtr) XmlNodeSetPtr
+	NewInputStream func(ctxt *ParserCtxt) *ParserInput
 
-	XmlXPathLeadingSorted func(
-		nodes1 XmlNodeSetPtr,
-		nodes2 XmlNodeSetPtr) XmlNodeSetPtr
+	SplitQName func(
+		ctxt *ParserCtxt, name, prefix *string) string
 
-	XmlXPathNodeLeading func(
-		nodes XmlNodeSetPtr,
-		node XmlNodePtr) XmlNodeSetPtr
+	ParseName func(ctxt *ParserCtxt) string
 
-	XmlXPathLeading func(
-		nodes1 XmlNodeSetPtr,
-		nodes2 XmlNodeSetPtr) XmlNodeSetPtr
+	ParseNmtoken func(ctxt *ParserCtxt) string
 
-	XmlXPathNodeTrailingSorted func(
-		nodes XmlNodeSetPtr,
-		node XmlNodePtr) XmlNodeSetPtr
+	ParseEntityValue func(ctxt *ParserCtxt, orig *string) string
 
-	XmlXPathTrailingSorted func(
-		nodes1 XmlNodeSetPtr,
-		nodes2 XmlNodeSetPtr) XmlNodeSetPtr
+	ParseAttValue func(ctxt *ParserCtxt) string
 
-	XmlXPathNodeTrailing func(
-		nodes XmlNodeSetPtr,
-		node XmlNodePtr) XmlNodeSetPtr
+	ParseSystemLiteral func(ctxt *ParserCtxt) string
 
-	XmlXPathTrailing func(
-		nodes1 XmlNodeSetPtr,
-		nodes2 XmlNodeSetPtr) XmlNodeSetPtr
+	ParsePubidLiteral func(ctxt *ParserCtxt) string
 
-	XmlXPathRegisterNs func(
-		ctxt XmlXPathContextPtr,
-		prefix string,
-		ns_uri string) int
+	ParseCharData func(ctxt *ParserCtxt, cdata int)
 
-	XmlXPathNsLookup func(
-		ctxt XmlXPathContextPtr,
-		prefix string) string
+	ParseExternalID func(
+		ctxt *ParserCtxt, publicID *string, strict int) string
 
-	XmlXPathRegisteredNsCleanup func(
-		ctxt XmlXPathContextPtr)
+	ParseComment func(ctxt *ParserCtxt)
 
-	XmlXPathRegisterFunc func(
-		ctxt XmlXPathContextPtr,
-		name string,
-		f XmlXPathFunction) int
+	ParsePITarget func(ctxt *ParserCtxt) string
 
-	XmlXPathRegisterFuncNS func(
-		ctxt XmlXPathContextPtr,
-		name string,
-		ns_uri string,
-		f XmlXPathFunction) int
+	ParsePI func(ctxt *ParserCtxt)
 
-	XmlXPathRegisterVariable func(
-		ctxt XmlXPathContextPtr,
-		name string,
-		value XmlXPathObjectPtr) int
+	ParseNotationDecl func(ctxt *ParserCtxt)
 
-	XmlXPathRegisterVariableNS func(ctxt XmlXPathContextPtr,
-		name, ns_uri string, value XmlXPathObjectPtr) int
+	ParseEntityDecl func(ctxt *ParserCtxt)
 
-	XmlXPathFunctionLookup func(
-		ctxt XmlXPathContextPtr, name string) XmlXPathFunction
+	ParseDefaultDecl func(ctxt *ParserCtxt, value *string) int
 
-	XmlXPathFunctionLookupNS func(ctxt XmlXPathContextPtr,
-		name, ns_uri string) XmlXPathFunction
+	ParseNotationType func(ctxt *ParserCtxt) *Enumeration
 
-	XmlXPathRegisteredFuncsCleanup func(ctxt XmlXPathContextPtr)
+	ParseEnumerationType func(ctxt *ParserCtxt) *Enumeration
 
-	XmlXPathVariableLookup func(
-		ctxt XmlXPathContextPtr, name string) XmlXPathObjectPtr
+	ParseEnumeratedType func(
+		ctxt *ParserCtxt, tree **Enumeration) int
 
-	XmlXPathVariableLookupNS func(ctxt XmlXPathContextPtr,
-		name string, ns_uri string) XmlXPathObjectPtr
+	ParseAttributeType func(
+		ctxt *ParserCtxt, tree **Enumeration) int
 
-	XmlXPathRegisteredVariablesCleanup func(
-		ctxt XmlXPathContextPtr)
+	ParseAttributeListDecl func(ctxt *ParserCtxt)
 
-	XmlXPathNewParserContext func(str string,
-		ctxt XmlXPathContextPtr) XmlXPathParserContextPtr
+	ParseElementMixedContentDecl func(
+		ctxt *ParserCtxt, inputchk int) *ElementContent
 
-	XmlXPathFreeParserContext func(
-		ctxt XmlXPathParserContextPtr)
+	ParseElementChildrenContentDecl func(
+		ctxt *ParserCtxt, inputchk int) *ElementContent
 
-	ValuePop func(
-		ctxt XmlXPathParserContextPtr) XmlXPathObjectPtr
+	ParseElementContentDecl func(ctxt *ParserCtxt,
+		name string, result **ElementContent) int
 
-	ValuePush func(ctxt XmlXPathParserContextPtr,
-		value XmlXPathObjectPtr) int
+	ParseElementDecl func(ctxt *ParserCtxt) int
 
-	XmlXPathNewString func(val string) XmlXPathObjectPtr
+	ParseMarkupDecl func(ctxt *ParserCtxt)
 
-	XmlXPathNewCString func(val string) XmlXPathObjectPtr
+	ParseCharRef func(ctxt *ParserCtxt) int
 
-	XmlXPathWrapString func(val string) XmlXPathObjectPtr
+	ParseEntityRef func(ctxt *ParserCtxt) *Entity
 
-	XmlXPathWrapCString func(val string) XmlXPathObjectPtr
+	ParseReference func(ctxt *ParserCtxt)
 
-	XmlXPathNewFloat func(val Double) XmlXPathObjectPtr
+	ParsePEReference func(ctxt *ParserCtxt)
 
-	XmlXPathNewBoolean func(val int) XmlXPathObjectPtr
+	ParseDocTypeDecl func(ctxt *ParserCtxt)
 
-	XmlXPathNewNodeSet func(val XmlNodePtr) XmlXPathObjectPtr
+	ParseAttribute func(ctxt *ParserCtxt, value *string) string
 
-	XmlXPathNewValueTree func(val XmlNodePtr) XmlXPathObjectPtr
+	ParseStartTag func(ctxt *ParserCtxt) string
 
-	XmlXPathNodeSetAdd func(
-		cur XmlNodeSetPtr, val XmlNodePtr) int
+	ParseEndTag func(ctxt *ParserCtxt)
 
-	XmlXPathNodeSetAddUnique func(
-		cur XmlNodeSetPtr, val XmlNodePtr) int
+	ParseCDSect func(ctxt *ParserCtxt)
 
-	XmlXPathNodeSetAddNs func(
-		cur XmlNodeSetPtr, node XmlNodePtr, ns XmlNsPtr) int
+	ParseContent func(ctxt *ParserCtxt)
 
-	XmlXPathNodeSetSort func(set XmlNodeSetPtr)
+	ParseElement func(ctxt *ParserCtxt)
 
-	XmlXPathRoot func(ctxt XmlXPathParserContextPtr)
+	ParseVersionNum func(ctxt *ParserCtxt) string
 
-	XmlXPathEvalExpr func(ctxt XmlXPathParserContextPtr)
+	ParseVersionInfo func(ctxt *ParserCtxt) string
 
-	XmlXPathParseName func(
-		ctxt XmlXPathParserContextPtr) string
+	ParseEncName func(ctxt *ParserCtxt) string
 
-	XmlXPathParseNCName func(
-		ctxt XmlXPathParserContextPtr) string
+	ParseEncodingDecl func(ctxt *ParserCtxt) string
 
-	XmlXPathStringEvalNumber func(str string) Double
+	ParseSDDecl func(ctxt *ParserCtxt) int
 
-	XmlXPathEvaluatePredicateResult func(
-		ctxt XmlXPathParserContextPtr, res XmlXPathObjectPtr) int
+	ParseXMLDecl func(ctxt *ParserCtxt)
 
-	XmlXPathRegisterAllFunctions func(ctxt XmlXPathContextPtr)
+	ParseTextDecl func(ctxt *ParserCtxt)
 
-	XmlXPathNodeSetMerge func(
-		val1, val2 XmlNodeSetPtr) XmlNodeSetPtr
+	ParseMisc func(ctxt *ParserCtxt)
 
-	XmlXPathNodeSetDel func(cur XmlNodeSetPtr, val XmlNodePtr)
+	ParseExternalSubset func(
+		ctxt *ParserCtxt, externalID string, systemID string)
 
-	XmlXPathNodeSetRemove func(cur XmlNodeSetPtr, val int)
+	StringDecodeEntities func(ctxt *ParserCtxt, str string,
+		what int, end, end2, end3 Char) string
 
-	XmlXPathNewNodeSetList func(
-		val XmlNodeSetPtr) XmlXPathObjectPtr
+	StringLenDecodeEntities func(ctxt *ParserCtxt, str string,
+		leng int, what int, end, end2, end3 Char) string
 
-	XmlXPathWrapNodeSet func(
-		val XmlNodeSetPtr) XmlXPathObjectPtr
+	NodePush func(ctxt *ParserCtxt, value *Node) int
 
-	XmlXPathWrapExternal func(val *Void) XmlXPathObjectPtr
+	NodePop func(ctxt *ParserCtxt) *Node
 
-	XmlXPathEqualValues func(ctxt XmlXPathParserContextPtr) int
+	InputPush func(ctxt *ParserCtxt, value *ParserInput) int
 
-	XmlXPathNotEqualValues func(ctxt XmlXPathParserContextPtr) int
+	InputPop func(ctxt *ParserCtxt) *ParserInput
 
-	XmlXPathCompareValues func(
-		ctxt XmlXPathParserContextPtr, inf, strict int) int
+	NamePop func(ctxt *ParserCtxt) string
 
-	XmlXPathValueFlipSign func(ctxt XmlXPathParserContextPtr)
+	NamePush func(ctxt *ParserCtxt, value string) int
 
-	XmlXPathAddValues func(ctxt XmlXPathParserContextPtr)
+	SkipBlankChars func(ctxt *ParserCtxt) int
 
-	XmlXPathSubValues func(ctxt XmlXPathParserContextPtr)
+	StringCurrentChar func(
+		ctxt *ParserCtxt, cur string, leng *int) int
 
-	XmlXPathMultValues func(ctxt XmlXPathParserContextPtr)
+	ParserHandlePEReference func(ctxt *ParserCtxt)
 
-	XmlXPathDivValues func(ctxt XmlXPathParserContextPtr)
+	CheckLanguageID func(lang string) int
 
-	XmlXPathModValues func(ctxt XmlXPathParserContextPtr)
+	CurrentChar func(ctxt *ParserCtxt, len *int) int
 
-	XmlXPathIsNodeType func(name string) int
+	CopyCharMultiByte func(out string, val int) int
 
-	XmlXPathNextSelf func(
-		ctxt XmlXPathParserContextPtr,
-		cur XmlNodePtr) XmlNodePtr
+	CopyChar func(len int, out string, val int) int
 
-	XmlXPathNextChild func(
-		ctxt XmlXPathParserContextPtr, cur XmlNodePtr) XmlNodePtr
+	NextChar func(ctxt *ParserCtxt)
 
-	XmlXPathNextDescendant func(
-		ctxt XmlXPathParserContextPtr, cur XmlNodePtr) XmlNodePtr
-
-	XmlXPathNextDescendantOrSelf func(
-		ctxt XmlXPathParserContextPtr, cur XmlNodePtr) XmlNodePtr
-
-	XmlXPathNextParent func(
-		ctxt XmlXPathParserContextPtr, cur XmlNodePtr) XmlNodePtr
-
-	XmlXPathNextAncestorOrSelf func(
-		ctxt XmlXPathParserContextPtr, cur XmlNodePtr) XmlNodePtr
-
-	XmlXPathNextFollowingSibling func(
-		ctxt XmlXPathParserContextPtr, cur XmlNodePtr) XmlNodePtr
-
-	XmlXPathNextFollowing func(
-		ctxt XmlXPathParserContextPtr, cur XmlNodePtr) XmlNodePtr
-
-	XmlXPathNextNamespace func(
-		ctxt XmlXPathParserContextPtr, cur XmlNodePtr) XmlNodePtr
-
-	XmlXPathNextAttribute func(
-		ctxt XmlXPathParserContextPtr, cur XmlNodePtr) XmlNodePtr
-
-	XmlXPathNextPreceding func(
-		ctxt XmlXPathParserContextPtr, cur XmlNodePtr) XmlNodePtr
-
-	XmlXPathNextAncestor func(
-		ctxt XmlXPathParserContextPtr, cur XmlNodePtr) XmlNodePtr
-
-	XmlXPathNextPrecedingSibling func(
-		ctxt XmlXPathParserContextPtr, cur XmlNodePtr) XmlNodePtr
-
-	XmlXPathLastFunction func(
-		ctxt XmlXPathParserContextPtr, nargs int)
-
-	XmlXPathPositionFunction func(
-		ctxt XmlXPathParserContextPtr, nargs int)
-
-	XmlXPathCountFunction func(
-		ctxt XmlXPathParserContextPtr, nargs int)
-
-	XmlXPathIdFunction func(
-		ctxt XmlXPathParserContextPtr, nargs int)
-
-	XmlXPathLocalNameFunction func(
-		ctxt XmlXPathParserContextPtr, nargs int)
-
-	XmlXPathNamespaceURIFunction func(
-		ctxt XmlXPathParserContextPtr, nargs int)
-
-	XmlXPathStringFunction func(
-		ctxt XmlXPathParserContextPtr, nargs int)
-
-	XmlXPathStringLengthFunction func(
-		ctxt XmlXPathParserContextPtr, nargs int)
-
-	XmlXPathConcatFunction func(
-		ctxt XmlXPathParserContextPtr, nargs int)
-
-	XmlXPathContainsFunction func(
-		ctxt XmlXPathParserContextPtr, nargs int)
-
-	XmlXPathStartsWithFunction func(
-		ctxt XmlXPathParserContextPtr, nargs int)
-
-	XmlXPathSubstringFunction func(
-		ctxt XmlXPathParserContextPtr, nargs int)
-
-	XmlXPathSubstringBeforeFunction func(
-		ctxt XmlXPathParserContextPtr, nargs int)
-
-	XmlXPathSubstringAfterFunction func(
-		ctxt XmlXPathParserContextPtr, nargs int)
-
-	XmlXPathNormalizeFunction func(
-		ctxt XmlXPathParserContextPtr, nargs int)
-
-	XmlXPathTranslateFunction func(
-		ctxt XmlXPathParserContextPtr, nargs int)
-
-	XmlXPathNotFunction func(
-		ctxt XmlXPathParserContextPtr, nargs int)
-
-	XmlXPathTrueFunction func(
-		ctxt XmlXPathParserContextPtr, nargs int)
-
-	XmlXPathFalseFunction func(
-		ctxt XmlXPathParserContextPtr, nargs int)
-
-	XmlXPathLangFunction func(
-		ctxt XmlXPathParserContextPtr, nargs int)
-
-	XmlXPathNumberFunction func(
-		ctxt XmlXPathParserContextPtr, nargs int)
-
-	XmlXPathSumFunction func(
-		ctxt XmlXPathParserContextPtr, nargs int)
-
-	XmlXPathFloorFunction func(
-		ctxt XmlXPathParserContextPtr, nargs int)
-
-	XmlXPathCeilingFunction func(
-		ctxt XmlXPathParserContextPtr, nargs int)
-
-	XmlXPathRoundFunction func(
-		ctxt XmlXPathParserContextPtr, nargs int)
-
-	XmlXPathBooleanFunction func(
-		ctxt XmlXPathParserContextPtr, nargs int)
-
-	XmlXPathNodeSetFreeNs func(ns XmlNsPtr)
-
-	XmlXIncludeProcess func(doc XmlDocPtr) int
-
-	XmlXIncludeProcessFlags func(doc XmlDocPtr, flags int) int
-
-	XmlXIncludeProcessFlagsData func(
-		doc XmlDocPtr, flags int, data *Void) int
-
-	XmlXIncludeProcessTreeFlagsData func(
-		tree XmlNodePtr, flags int, data *Void) int
-
-	XmlXIncludeProcessTree func(tree XmlNodePtr) int
-
-	XmlXIncludeProcessTreeFlags func(
-		tree XmlNodePtr, flags int) int
-
-	XmlXIncludeNewContext func(doc XmlDocPtr) XmlXIncludeCtxtPtr
-
-	XmlXIncludeSetFlags func(
-		ctxt XmlXIncludeCtxtPtr, flags int) int
-
-	XmlXIncludeFreeContext func(ctxt XmlXIncludeCtxtPtr)
-
-	XmlXIncludeProcessNode func(
-		ctxt XmlXIncludeCtxtPtr, tree XmlNodePtr) int
-
-	XmlXPtrLocationSetCreate func(
-		val XmlXPathObjectPtr) XmlLocationSetPtr
-
-	XmlXPtrFreeLocationSet func(
-		obj XmlLocationSetPtr)
-
-	XmlXPtrLocationSetMerge func(
-		val1 XmlLocationSetPtr,
-		val2 XmlLocationSetPtr) XmlLocationSetPtr
-
-	XmlXPtrNewRange func(
-		start XmlNodePtr,
-		startindex int,
-		end XmlNodePtr,
-		endindex int) XmlXPathObjectPtr
-
-	XmlXPtrNewRangePoints func(
-		start XmlXPathObjectPtr,
-		end XmlXPathObjectPtr) XmlXPathObjectPtr
-
-	XmlXPtrNewRangeNodePoint func(
-		start XmlNodePtr,
-		end XmlXPathObjectPtr) XmlXPathObjectPtr
-
-	XmlXPtrNewRangePointNode func(
-		start XmlXPathObjectPtr,
-		end XmlNodePtr) XmlXPathObjectPtr
-
-	XmlXPtrNewRangeNodes func(
-		start XmlNodePtr,
-		end XmlNodePtr) XmlXPathObjectPtr
-
-	XmlXPtrNewLocationSetNodes func(
-		start XmlNodePtr,
-		end XmlNodePtr) XmlXPathObjectPtr
-
-	XmlXPtrNewLocationSetNodeSet func(
-		set XmlNodeSetPtr) XmlXPathObjectPtr
-
-	XmlXPtrNewRangeNodeObject func(
-		start XmlNodePtr,
-		end XmlXPathObjectPtr) XmlXPathObjectPtr
-
-	XmlXPtrNewCollapsedRange func(
-		start XmlNodePtr) XmlXPathObjectPtr
-
-	XmlXPtrLocationSetAdd func(
-		cur XmlLocationSetPtr,
-		val XmlXPathObjectPtr)
-
-	XmlXPtrWrapLocationSet func(
-		val XmlLocationSetPtr) XmlXPathObjectPtr
-
-	XmlXPtrLocationSetDel func(
-		cur XmlLocationSetPtr,
-		val XmlXPathObjectPtr)
-
-	XmlXPtrLocationSetRemove func(
-		cur XmlLocationSetPtr,
-		val int)
-
-	XmlXPtrNewContext func(doc XmlDocPtr,
-		here, origin XmlNodePtr) XmlXPathContextPtr
-
-	XmlXPtrEval func(
-		str string, ctx XmlXPathContextPtr) XmlXPathObjectPtr
-
-	XmlXPtrRangeToFunction func(
-		ctxt XmlXPathParserContextPtr, nargs int)
-
-	XmlXPtrBuildNodeList func(obj XmlXPathObjectPtr) XmlNodePtr
-
-	XmlXPtrEvalRangePredicate func(ctxt XmlXPathParserContextPtr)
-
-	XmlUCSIsAegeanNumbers func(code int) int
-
-	XmlUCSIsAlphabeticPresentationForms func(code int) int
-
-	XmlUCSIsArabic func(code int) int
-
-	XmlUCSIsArabicPresentationFormsA func(code int) int
-
-	XmlUCSIsArabicPresentationFormsB func(code int) int
-
-	XmlUCSIsArmenian func(code int) int
-
-	XmlUCSIsArrows func(code int) int
-
-	XmlUCSIsBasicLatin func(code int) int
-
-	XmlUCSIsBengali func(code int) int
-
-	XmlUCSIsBlockElements func(code int) int
-
-	XmlUCSIsBopomofo func(code int) int
-
-	XmlUCSIsBopomofoExtended func(code int) int
-
-	XmlUCSIsBoxDrawing func(code int) int
-
-	XmlUCSIsBraillePatterns func(code int) int
-
-	XmlUCSIsBuhid func(code int) int
-
-	XmlUCSIsByzantineMusicalSymbols func(code int) int
-
-	XmlUCSIsCJKCompatibility func(code int) int
-
-	XmlUCSIsCJKCompatibilityForms func(code int) int
-
-	XmlUCSIsCJKCompatibilityIdeographs func(code int) int
-
-	XmlUCSIsCJKCompatibilityIdeographsSupplement func(code int) int
-
-	XmlUCSIsCJKRadicalsSupplement func(code int) int
-
-	XmlUCSIsCJKSymbolsandPunctuation func(code int) int
-
-	XmlUCSIsCJKUnifiedIdeographs func(code int) int
-
-	XmlUCSIsCJKUnifiedIdeographsExtensionA func(code int) int
-
-	XmlUCSIsCJKUnifiedIdeographsExtensionB func(code int) int
-
-	XmlUCSIsCherokee func(code int) int
-
-	XmlUCSIsCombiningDiacriticalMarks func(code int) int
-
-	XmlUCSIsCombiningDiacriticalMarksforSymbols func(code int) int
-
-	XmlUCSIsCombiningHalfMarks func(code int) int
-
-	XmlUCSIsCombiningMarksforSymbols func(code int) int
-
-	XmlUCSIsControlPictures func(code int) int
-
-	XmlUCSIsCurrencySymbols func(code int) int
-
-	XmlUCSIsCypriotSyllabary func(code int) int
-
-	XmlUCSIsCyrillic func(code int) int
-
-	XmlUCSIsCyrillicSupplement func(code int) int
-
-	XmlUCSIsDeseret func(code int) int
-
-	XmlUCSIsDevanagari func(code int) int
-
-	XmlUCSIsDingbats func(code int) int
-
-	XmlUCSIsEnclosedAlphanumerics func(code int) int
-
-	XmlUCSIsEnclosedCJKLettersandMonths func(code int) int
-
-	XmlUCSIsEthiopic func(code int) int
-
-	XmlUCSIsGeneralPunctuation func(code int) int
-
-	XmlUCSIsGeometricShapes func(code int) int
-
-	XmlUCSIsGeorgian func(code int) int
-
-	XmlUCSIsGothic func(code int) int
-
-	XmlUCSIsGreek func(code int) int
-
-	XmlUCSIsGreekExtended func(code int) int
-
-	XmlUCSIsGreekandCoptic func(code int) int
-
-	XmlUCSIsGujarati func(code int) int
-
-	XmlUCSIsGurmukhi func(code int) int
-
-	XmlUCSIsHalfwidthandFullwidthForms func(code int) int
-
-	XmlUCSIsHangulCompatibilityJamo func(code int) int
-
-	XmlUCSIsHangulJamo func(code int) int
-
-	XmlUCSIsHangulSyllables func(code int) int
-
-	XmlUCSIsHanunoo func(code int) int
-
-	XmlUCSIsHebrew func(code int) int
-
-	XmlUCSIsHighPrivateUseSurrogates func(code int) int
-
-	XmlUCSIsHighSurrogates func(code int) int
-
-	XmlUCSIsHiragana func(code int) int
-
-	XmlUCSIsIPAExtensions func(code int) int
-
-	XmlUCSIsIdeographicDescriptionCharacters func(code int) int
-
-	XmlUCSIsKanbun func(code int) int
-
-	XmlUCSIsKangxiRadicals func(code int) int
-
-	XmlUCSIsKannada func(code int) int
-
-	XmlUCSIsKatakana func(code int) int
-
-	XmlUCSIsKatakanaPhoneticExtensions func(code int) int
-
-	XmlUCSIsKhmer func(code int) int
-
-	XmlUCSIsKhmerSymbols func(code int) int
-
-	XmlUCSIsLao func(code int) int
-
-	XmlUCSIsLatin1Supplement func(code int) int
-
-	XmlUCSIsLatinExtendedA func(code int) int
-
-	XmlUCSIsLatinExtendedB func(code int) int
-
-	XmlUCSIsLatinExtendedAdditional func(code int) int
-
-	XmlUCSIsLetterlikeSymbols func(code int) int
-
-	XmlUCSIsLimbu func(code int) int
-
-	XmlUCSIsLinearBIdeograms func(code int) int
-
-	XmlUCSIsLinearBSyllabary func(code int) int
-
-	XmlUCSIsLowSurrogates func(code int) int
-
-	XmlUCSIsMalayalam func(code int) int
-
-	XmlUCSIsMathematicalAlphanumericSymbols func(code int) int
-
-	XmlUCSIsMathematicalOperators func(code int) int
-
-	XmlUCSIsMiscellaneousMathematicalSymbolsA func(code int) int
-
-	XmlUCSIsMiscellaneousMathematicalSymbolsB func(code int) int
-
-	XmlUCSIsMiscellaneousSymbols func(code int) int
-
-	XmlUCSIsMiscellaneousSymbolsandArrows func(code int) int
-
-	XmlUCSIsMiscellaneousTechnical func(code int) int
-
-	XmlUCSIsMongolian func(code int) int
-
-	XmlUCSIsMusicalSymbols func(code int) int
-
-	XmlUCSIsMyanmar func(code int) int
-
-	XmlUCSIsNumberForms func(code int) int
-
-	XmlUCSIsOgham func(code int) int
-
-	XmlUCSIsOldItalic func(code int) int
-
-	XmlUCSIsOpticalCharacterRecognition func(code int) int
-
-	XmlUCSIsOriya func(code int) int
-
-	XmlUCSIsOsmanya func(code int) int
-
-	XmlUCSIsPhoneticExtensions func(code int) int
-
-	XmlUCSIsPrivateUse func(code int) int
-
-	XmlUCSIsPrivateUseArea func(code int) int
-
-	XmlUCSIsRunic func(code int) int
-
-	XmlUCSIsShavian func(code int) int
-
-	XmlUCSIsSinhala func(code int) int
-
-	XmlUCSIsSmallFormVariants func(code int) int
-
-	XmlUCSIsSpacingModifierLetters func(code int) int
-
-	XmlUCSIsSpecials func(code int) int
-
-	XmlUCSIsSuperscriptsandSubscripts func(code int) int
-
-	XmlUCSIsSupplementalArrowsA func(code int) int
-
-	XmlUCSIsSupplementalArrowsB func(code int) int
-
-	XmlUCSIsSupplementalMathematicalOperators func(code int) int
-
-	XmlUCSIsSupplementaryPrivateUseAreaA func(code int) int
-
-	XmlUCSIsSupplementaryPrivateUseAreaB func(code int) int
-
-	XmlUCSIsSyriac func(code int) int
-
-	XmlUCSIsTagalog func(code int) int
-
-	XmlUCSIsTagbanwa func(code int) int
-
-	XmlUCSIsTags func(code int) int
-
-	XmlUCSIsTaiLe func(code int) int
-
-	XmlUCSIsTaiXuanJingSymbols func(code int) int
-
-	XmlUCSIsTamil func(code int) int
-
-	XmlUCSIsTelugu func(code int) int
-
-	XmlUCSIsThaana func(code int) int
-
-	XmlUCSIsThai func(code int) int
-
-	XmlUCSIsTibetan func(code int) int
-
-	XmlUCSIsUgaritic func(code int) int
-
-	XmlUCSIsUnifiedCanadianAboriginalSyllabics func(code int) int
-
-	XmlUCSIsVariationSelectors func(code int) int
-
-	XmlUCSIsVariationSelectorsSupplement func(code int) int
-
-	XmlUCSIsYiRadicals func(code int) int
-
-	XmlUCSIsYiSyllables func(code int) int
-
-	XmlUCSIsYijingHexagramSymbols func(code int) int
-
-	XmlUCSIsBlock func(code int, block string) int
-
-	XmlUCSIsCatC func(code int) int
-
-	XmlUCSIsCatCc func(code int) int
-
-	XmlUCSIsCatCf func(code int) int
-
-	XmlUCSIsCatCo func(code int) int
-
-	XmlUCSIsCatCs func(code int) int
-
-	XmlUCSIsCatL func(code int) int
-
-	XmlUCSIsCatLl func(code int) int
-
-	XmlUCSIsCatLm func(code int) int
-
-	XmlUCSIsCatLo func(code int) int
-
-	XmlUCSIsCatLt func(code int) int
-
-	XmlUCSIsCatLu func(code int) int
-
-	XmlUCSIsCatM func(code int) int
-
-	XmlUCSIsCatMc func(code int) int
-
-	XmlUCSIsCatMe func(code int) int
-
-	XmlUCSIsCatMn func(code int) int
-
-	XmlUCSIsCatN func(code int) int
-
-	XmlUCSIsCatNd func(code int) int
-
-	XmlUCSIsCatNl func(code int) int
-
-	XmlUCSIsCatNo func(code int) int
-
-	XmlUCSIsCatP func(code int) int
-
-	XmlUCSIsCatPc func(code int) int
-
-	XmlUCSIsCatPd func(code int) int
-
-	XmlUCSIsCatPe func(code int) int
-
-	XmlUCSIsCatPf func(code int) int
-
-	XmlUCSIsCatPi func(code int) int
-
-	XmlUCSIsCatPo func(code int) int
-
-	XmlUCSIsCatPs func(code int) int
-
-	XmlUCSIsCatS func(code int) int
-
-	XmlUCSIsCatSc func(code int) int
-
-	XmlUCSIsCatSk func(code int) int
-
-	XmlUCSIsCatSm func(code int) int
-
-	XmlUCSIsCatSo func(code int) int
-
-	XmlUCSIsCatZ func(code int) int
-
-	XmlUCSIsCatZl func(code int) int
-
-	XmlUCSIsCatZp func(code int) int
-
-	XmlUCSIsCatZs func(code int) int
-
-	XmlUCSIsCat func(code int, cat string) int
-
-	XmlSchemaNewParserCtxt func(
-		URL string) XmlSchemaParserCtxtPtr
-
-	XmlSchemaNewMemParserCtxt func(buffer string,
-		size int) XmlSchemaParserCtxtPtr
-
-	XmlSchemaNewDocParserCtxt func(
-		doc XmlDocPtr) XmlSchemaParserCtxtPtr
-
-	XmlSchemaFreeParserCtxt func(
-		ctxt XmlSchemaParserCtxtPtr)
-
-	XmlSchemaSetParserErrors func(
-		ctxt XmlSchemaParserCtxtPtr,
-		err XmlSchemaValidityErrorFunc,
-		warn XmlSchemaValidityWarningFunc,
-		ctx *Void)
-
-	XmlSchemaSetParserStructuredErrors func(
-		ctxt XmlSchemaParserCtxtPtr,
-		serror XmlStructuredErrorFunc,
-		ctx *Void)
-
-	XmlSchemaGetParserErrors func(
-		ctxt XmlSchemaParserCtxtPtr,
-		err *XmlSchemaValidityErrorFunc,
-		warn *XmlSchemaValidityWarningFunc,
-		ctx **Void) int
-
-	XmlSchemaIsValid func(ctxt XmlSchemaValidCtxtPtr) int
-
-	XmlSchemaParse func(ctxt XmlSchemaParserCtxtPtr) XmlSchemaPtr
-
-	XmlSchemaFree func(schema XmlSchemaPtr)
-
-	XmlSchemaDump func(output *FILE, schema XmlSchemaPtr)
-
-	XmlSchemaSetValidErrors func(
-		ctxt XmlSchemaValidCtxtPtr,
-		err XmlSchemaValidityErrorFunc,
-		warn XmlSchemaValidityWarningFunc,
-		ctx *Void)
-
-	XmlSchemaSetValidStructuredErrors func(
-		ctxt XmlSchemaValidCtxtPtr,
-		serror XmlStructuredErrorFunc,
-		ctx *Void)
-
-	XmlSchemaGetValidErrors func(
-		ctxt XmlSchemaValidCtxtPtr,
-		err *XmlSchemaValidityErrorFunc,
-		warn *XmlSchemaValidityWarningFunc,
-		ctx **Void) int
-
-	XmlSchemaSetValidOptions func(
-		ctxt XmlSchemaValidCtxtPtr,
-		options int) int
-
-	XmlSchemaValidateSetFilename func(
-		vctxt XmlSchemaValidCtxtPtr,
-		filename string)
-
-	XmlSchemaValidCtxtGetOptions func(
-		ctxt XmlSchemaValidCtxtPtr) int
-
-	XmlSchemaNewValidCtxt func(
-		schema XmlSchemaPtr) XmlSchemaValidCtxtPtr
-
-	XmlSchemaFreeValidCtxt func(
-		ctxt XmlSchemaValidCtxtPtr)
-
-	XmlSchemaValidateDoc func(
-		ctxt XmlSchemaValidCtxtPtr,
-		instance XmlDocPtr) int
-
-	XmlSchemaValidateOneElement func(
-		ctxt XmlSchemaValidCtxtPtr,
-		elem XmlNodePtr) int
-
-	XmlSchemaValidateStream func(
-		ctxt XmlSchemaValidCtxtPtr,
-		input XmlParserInputBufferPtr,
-		enc XmlCharEncoding,
-		sax XmlSAXHandlerPtr,
-		user_data *Void) int
-
-	XmlSchemaValidateFile func(
-		ctxt XmlSchemaValidCtxtPtr,
-		filename string,
-		options int) int
-
-	XmlSchemaValidCtxtGetParserCtxt func(
-		ctxt XmlSchemaValidCtxtPtr) XmlParserCtxtPtr
-
-	XmlSchemaSAXUnplug func(
-		plug XmlSchemaSAXPlugPtr) int
-
-	XmlSchemaValidateSetLocator func(
-		vctxt XmlSchemaValidCtxtPtr,
-		f XmlSchemaValidityLocatorFunc,
-		ctxt *Void)
-
-	XmlSchemaSAXPlug func(
-		ctxt XmlSchemaValidCtxtPtr,
-		sax *XmlSAXHandlerPtr,
-		user_data **Void) XmlSchemaSAXPlugPtr
-
-	XmlSchemaFreeType func(
-		typ XmlSchemaTypePtr)
-
-	XmlSchemaFreeWildcard func(
-		wildcard XmlSchemaWildcardPtr)
-
-	XmlSchemaInitTypes func()
-
-	XmlSchemaCleanupTypes func()
-
-	XmlSchemaGetPredefinedType func(
-		name string,
-		ns string) XmlSchemaTypePtr
-
-	XmlSchemaValidatePredefinedType func(
-		typ XmlSchemaTypePtr,
-		value string,
-		val *XmlSchemaValPtr) int
-
-	XmlSchemaValPredefTypeNode func(
-		typ XmlSchemaTypePtr,
-		value string,
-		val *XmlSchemaValPtr,
-		node XmlNodePtr) int
-
-	XmlSchemaValidateFacet func(
-		base XmlSchemaTypePtr,
-		facet XmlSchemaFacetPtr,
-		value string,
-		val XmlSchemaValPtr) int
-
-	XmlSchemaValidateFacetWhtsp func(
-		facet XmlSchemaFacetPtr,
-		fws XmlSchemaWhitespaceValueType,
-		valType XmlSchemaValType,
-		value string,
-		val XmlSchemaValPtr,
-		ws XmlSchemaWhitespaceValueType) int
-
-	XmlSchemaFreeValue func(
-		val XmlSchemaValPtr)
-
-	XmlSchemaNewFacet func() XmlSchemaFacetPtr
-
-	XmlSchemaCheckFacet func(
-		facet XmlSchemaFacetPtr,
-		typeDecl XmlSchemaTypePtr,
-		ctxt XmlSchemaParserCtxtPtr,
-		name string) int
-
-	XmlSchemaFreeFacet func(
-		facet XmlSchemaFacetPtr)
-
-	XmlSchemaCompareValues func(
-		x XmlSchemaValPtr,
-		y XmlSchemaValPtr) int
-
-	XmlSchemaGetBuiltInListSimpleTypeItemType func(
-		typ XmlSchemaTypePtr) XmlSchemaTypePtr
-
-	XmlSchemaValidateListSimpleTypeFacet func(
-		facet XmlSchemaFacetPtr,
-		value string,
-		actualLen Unsigned_long,
-		expectedLen *Unsigned_long) int
-
-	XmlSchemaGetBuiltInType func(
-		typ XmlSchemaValType) XmlSchemaTypePtr
-
-	XmlSchemaIsBuiltInTypeFacet func(
-		typ XmlSchemaTypePtr,
-		facetType int) int
-
-	XmlSchemaCollapseString func(
-		value string) string
-
-	XmlSchemaWhiteSpaceReplace func(
-		value string) string
-
-	XmlSchemaGetFacetValueAsULong func(
-		facet XmlSchemaFacetPtr) Unsigned_long
-
-	XmlSchemaValidateLengthFacet func(
-		typ XmlSchemaTypePtr,
-		facet XmlSchemaFacetPtr,
-		value string,
-		val XmlSchemaValPtr,
-		length *Unsigned_long) int
-
-	XmlSchemaValidateLengthFacetWhtsp func(
-		facet XmlSchemaFacetPtr,
-		valType XmlSchemaValType,
-		value string,
-		val XmlSchemaValPtr,
-		length *Unsigned_long,
-		ws XmlSchemaWhitespaceValueType) int
-
-	XmlSchemaValPredefTypeNodeNoNorm func(
-		typ XmlSchemaTypePtr,
-		value string,
-		val *XmlSchemaValPtr,
-		node XmlNodePtr) int
-
-	XmlSchemaGetCanonValue func(
-		val XmlSchemaValPtr,
-		retValue *string) int
-
-	XmlSchemaGetCanonValueWhtsp func(
-		val XmlSchemaValPtr,
-		retValue *string,
-		ws XmlSchemaWhitespaceValueType) int
-
-	XmlSchemaValueAppend func(
-		prev XmlSchemaValPtr,
-		cur XmlSchemaValPtr) int
-
-	XmlSchemaValueGetNext func(
-		cur XmlSchemaValPtr) XmlSchemaValPtr
-
-	XmlSchemaValueGetAsString func(
-		val XmlSchemaValPtr) string
-
-	XmlSchemaValueGetAsBoolean func(
-		val XmlSchemaValPtr) int
-
-	XmlSchemaNewStringValue func(
-		typ XmlSchemaValType,
-		value string) XmlSchemaValPtr
-
-	XmlSchemaNewNOTATIONValue func(
-		name string,
-		ns string) XmlSchemaValPtr
-
-	XmlSchemaNewQNameValue func(
-		namespaceName string,
-		localName string) XmlSchemaValPtr
-
-	XmlSchemaCompareValuesWhtsp func(
-		x XmlSchemaValPtr,
-		xws XmlSchemaWhitespaceValueType,
-		y XmlSchemaValPtr,
-		yws XmlSchemaWhitespaceValueType) int
-
-	XmlSchemaCopyValue func(
-		val XmlSchemaValPtr) XmlSchemaValPtr
-
-	XmlSchemaGetValType func(
-		val XmlSchemaValPtr) XmlSchemaValType
-
-	XmlSchematronNewParserCtxt func(
-		URL string) XmlSchematronParserCtxtPtr
-
-	XmlSchematronNewMemParserCtxt func(
-		buffer string,
-		size int) XmlSchematronParserCtxtPtr
-
-	XmlSchematronNewDocParserCtxt func(
-		doc XmlDocPtr) XmlSchematronParserCtxtPtr
-
-	XmlSchematronFreeParserCtxt func(
-		ctxt XmlSchematronParserCtxtPtr)
-
-	XmlSchematronParse func(
-		ctxt XmlSchematronParserCtxtPtr) XmlSchematronPtr
-
-	XmlSchematronFree func(
-		schema XmlSchematronPtr)
-
-	XmlSchematronSetValidStructuredErrors func(
-		ctxt XmlSchematronValidCtxtPtr,
-		serror XmlStructuredErrorFunc,
-		ctx *Void)
-
-	XmlSchematronNewValidCtxt func(
-		schema XmlSchematronPtr,
-		options int) XmlSchematronValidCtxtPtr
-
-	XmlSchematronFreeValidCtxt func(
-		ctxt XmlSchematronValidCtxtPtr)
-
-	XmlSchematronValidateDoc func(
-		ctxt XmlSchematronValidCtxtPtr,
-		instance XmlDocPtr) int
-
-	XmlCharInRange func(
-		val Unsigned_int,
-		group *XmlChRangeGroup) int
-
-	XmlIsLetter func(
-		c int) int
-
-	XmlCreateFileParserCtxt func(
-		filename string) XmlParserCtxtPtr
-
-	XmlCreateURLParserCtxt func(
-		filename string,
-		options int) XmlParserCtxtPtr
-
-	XmlCreateMemoryParserCtxt func(
-		buffer string,
-		size int) XmlParserCtxtPtr
-
-	XmlCreateEntityParserCtxt func(
-		URL string,
-		ID string,
-		base string) XmlParserCtxtPtr
-
-	XmlSwitchEncoding func(
-		ctxt XmlParserCtxtPtr,
-		enc XmlCharEncoding) int
-
-	XmlSwitchToEncoding func(
-		ctxt XmlParserCtxtPtr,
-		handler XmlCharEncodingHandlerPtr) int
-
-	XmlSwitchInputEncoding func(
-		ctxt XmlParserCtxtPtr,
-		input XmlParserInputPtr,
-		handler XmlCharEncodingHandlerPtr) int
-
-	XmlNewStringInputStream func(
-		ctxt XmlParserCtxtPtr,
-		buffer string) XmlParserInputPtr
-
-	XmlNewEntityInputStream func(
-		ctxt XmlParserCtxtPtr,
-		entity XmlEntityPtr) XmlParserInputPtr
-
-	XmlPushInput func(
-		ctxt XmlParserCtxtPtr,
-		input XmlParserInputPtr) int
-
-	XmlPopInput func(
-		ctxt XmlParserCtxtPtr) XmlChar
-
-	XmlFreeInputStream func(
-		input XmlParserInputPtr)
-
-	XmlNewInputFromFile func(
-		ctxt XmlParserCtxtPtr,
-		filename string) XmlParserInputPtr
-
-	XmlNewInputStream func(
-		ctxt XmlParserCtxtPtr) XmlParserInputPtr
-
-	XmlSplitQName func(
-		ctxt XmlParserCtxtPtr,
-		name string,
-		prefix *string) string
-
-	XmlParseName func(
-		ctxt XmlParserCtxtPtr) string
-
-	XmlParseNmtoken func(
-		ctxt XmlParserCtxtPtr) string
-
-	XmlParseEntityValue func(
-		ctxt XmlParserCtxtPtr,
-		orig *string) string
-
-	XmlParseAttValue func(
-		ctxt XmlParserCtxtPtr) string
-
-	XmlParseSystemLiteral func(
-		ctxt XmlParserCtxtPtr) string
-
-	XmlParsePubidLiteral func(
-		ctxt XmlParserCtxtPtr) string
-
-	XmlParseCharData func(
-		ctxt XmlParserCtxtPtr,
-		cdata int)
-
-	XmlParseExternalID func(
-		ctxt XmlParserCtxtPtr,
-		publicID *string,
-		strict int) string
-
-	XmlParseComment func(
-		ctxt XmlParserCtxtPtr)
-
-	XmlParsePITarget func(
-		ctxt XmlParserCtxtPtr) string
-
-	XmlParsePI func(
-		ctxt XmlParserCtxtPtr)
-
-	XmlParseNotationDecl func(
-		ctxt XmlParserCtxtPtr)
-
-	XmlParseEntityDecl func(
-		ctxt XmlParserCtxtPtr)
-
-	XmlParseDefaultDecl func(
-		ctxt XmlParserCtxtPtr,
-		value *string) int
-
-	XmlParseNotationType func(
-		ctxt XmlParserCtxtPtr) XmlEnumerationPtr
-
-	XmlParseEnumerationType func(
-		ctxt XmlParserCtxtPtr) XmlEnumerationPtr
-
-	XmlParseEnumeratedType func(
-		ctxt XmlParserCtxtPtr,
-		tree *XmlEnumerationPtr) int
-
-	XmlParseAttributeType func(
-		ctxt XmlParserCtxtPtr,
-		tree *XmlEnumerationPtr) int
-
-	XmlParseAttributeListDecl func(
-		ctxt XmlParserCtxtPtr)
-
-	XmlParseElementMixedContentDecl func(
-		ctxt XmlParserCtxtPtr,
-		inputchk int) XmlElementContentPtr
-
-	XmlParseElementChildrenContentDecl func(
-		ctxt XmlParserCtxtPtr,
-		inputchk int) XmlElementContentPtr
-
-	XmlParseElementContentDecl func(
-		ctxt XmlParserCtxtPtr,
-		name string,
-		result *XmlElementContentPtr) int
-
-	XmlParseElementDecl func(
-		ctxt XmlParserCtxtPtr) int
-
-	XmlParseMarkupDecl func(
-		ctxt XmlParserCtxtPtr)
-
-	XmlParseCharRef func(
-		ctxt XmlParserCtxtPtr) int
-
-	XmlParseEntityRef func(
-		ctxt XmlParserCtxtPtr) XmlEntityPtr
-
-	XmlParseReference func(
-		ctxt XmlParserCtxtPtr)
-
-	XmlParsePEReference func(
-		ctxt XmlParserCtxtPtr)
-
-	XmlParseDocTypeDecl func(
-		ctxt XmlParserCtxtPtr)
-
-	XmlParseAttribute func(
-		ctxt XmlParserCtxtPtr,
-		value *string) string
-
-	XmlParseStartTag func(
-		ctxt XmlParserCtxtPtr) string
-
-	XmlParseEndTag func(
-		ctxt XmlParserCtxtPtr)
-
-	XmlParseCDSect func(
-		ctxt XmlParserCtxtPtr)
-
-	XmlParseContent func(
-		ctxt XmlParserCtxtPtr)
-
-	XmlParseElement func(
-		ctxt XmlParserCtxtPtr)
-
-	XmlParseVersionNum func(
-		ctxt XmlParserCtxtPtr) string
-
-	XmlParseVersionInfo func(
-		ctxt XmlParserCtxtPtr) string
-
-	XmlParseEncName func(
-		ctxt XmlParserCtxtPtr) string
-
-	XmlParseEncodingDecl func(
-		ctxt XmlParserCtxtPtr) string
-
-	XmlParseSDDecl func(
-		ctxt XmlParserCtxtPtr) int
-
-	XmlParseXMLDecl func(
-		ctxt XmlParserCtxtPtr)
-
-	XmlParseTextDecl func(
-		ctxt XmlParserCtxtPtr)
-
-	XmlParseMisc func(
-		ctxt XmlParserCtxtPtr)
-
-	XmlParseExternalSubset func(
-		ctxt XmlParserCtxtPtr,
-		ExternalID string,
-		SystemID string)
-
-	XmlStringDecodeEntities func(
-		ctxt XmlParserCtxtPtr,
-		str string,
-		what int,
-		end XmlChar,
-		end2 XmlChar,
-		end3 XmlChar) string
-
-	XmlStringLenDecodeEntities func(
-		ctxt XmlParserCtxtPtr,
-		str string,
-		len int,
-		what int,
-		end XmlChar,
-		end2 XmlChar,
-		end3 XmlChar) string
-
-	NodePush func(
-		ctxt XmlParserCtxtPtr,
-		value XmlNodePtr) int
-
-	NodePop func(
-		ctxt XmlParserCtxtPtr) XmlNodePtr
-
-	InputPush func(
-		ctxt XmlParserCtxtPtr,
-		value XmlParserInputPtr) int
-
-	InputPop func(
-		ctxt XmlParserCtxtPtr) XmlParserInputPtr
-
-	NamePop func(
-		ctxt XmlParserCtxtPtr) string
-
-	NamePush func(
-		ctxt XmlParserCtxtPtr,
-		value string) int
-
-	XmlSkipBlankChars func(
-		ctxt XmlParserCtxtPtr) int
-
-	XmlStringCurrentChar func(
-		ctxt XmlParserCtxtPtr,
-		cur string,
-		len *int) int
-
-	XmlParserHandlePEReference func(
-		ctxt XmlParserCtxtPtr)
-
-	XmlCheckLanguageID func(
-		lang string) int
-
-	XmlCurrentChar func(
-		ctxt XmlParserCtxtPtr,
-		len *int) int
-
-	XmlCopyCharMultiByte func(
-		out string,
-		val int) int
-
-	XmlCopyChar func(
-		len int,
-		out string,
-		val int) int
-
-	XmlNextChar func(
-		ctxt XmlParserCtxtPtr)
-
-	XmlParserInputShrink func(
-		in XmlParserInputPtr)
+	ParserInputShrink func(in *ParserInput)
 
 	HtmlInitAutoClose func()
 
 	HtmlCreateFileParserCtxt func(
-		filename, encoding string) HtmlParserCtxtPtr
+		filename, encoding string) *HtmlParserCtxt
 
-	XmlSetEntityReferenceFunc func(
-		f XmlEntityReferenceFunc)
+	SetEntityReferenceFunc func(f EntityReferenceFunc)
 
-	XmlParseQuotedString func(
-		ctxt XmlParserCtxtPtr) string
+	ParseQuotedString func(ctxt *ParserCtxt) string
 
-	XmlParseNamespace func(
-		ctxt XmlParserCtxtPtr)
+	ParseNamespace func(ctxt *ParserCtxt)
 
-	XmlNamespaceParseNSDef func(
-		ctxt XmlParserCtxtPtr) string
+	NamespaceParseNSDef func(ctxt *ParserCtxt) string
 
-	XmlScanName func(
-		ctxt XmlParserCtxtPtr) string
+	ScanName func(ctxt *ParserCtxt) string
 
-	XmlNamespaceParseNCName func(
-		ctxt XmlParserCtxtPtr) string
+	NamespaceParseNCName func(ctxt *ParserCtxt) string
 
-	XmlParserHandleReference func(
-		ctxt XmlParserCtxtPtr)
+	ParserHandleReference func(ctxt *ParserCtxt)
 
-	XmlNamespaceParseQName func(
-		ctxt XmlParserCtxtPtr,
-		prefix *string) string
+	NamespaceParseQName func(
+		ctxt *ParserCtxt, prefix *string) string
 
-	XmlDecodeEntities func(
-		ctxt XmlParserCtxtPtr,
-		len int,
-		what int,
-		end XmlChar,
-		end2 XmlChar,
-		end3 XmlChar) string
+	DecodeEntities func(ctxt *ParserCtxt, leng, what int,
+		end, end2, end3 Char) string
 
-	XmlHandleEntity func(
-		ctxt XmlParserCtxtPtr,
-		entity XmlEntityPtr)
+	HandleEntity func(ctxt *ParserCtxt, entity *Entity)
 
-	XmlRelaxNGInitTypes func(
-		Void) int
+	RelaxNGInitTypes func() int
 
-	XmlRelaxNGCleanupTypes func(
-		Void)
+	RelaxNGCleanupTypes func()
 
-	XmlRelaxNGNewParserCtxt func(
-		URL string) XmlRelaxNGParserCtxtPtr
+	RelaxNGNewParserCtxt func(URL string) *RelaxNGParserCtxt
 
-	XmlRelaxNGNewMemParserCtxt func(
-		buffer string,
-		size int) XmlRelaxNGParserCtxtPtr
+	RelaxNGNewMemParserCtxt func(
+		buffer string, size int) *RelaxNGParserCtxt
 
-	XmlRelaxNGNewDocParserCtxt func(
-		doc XmlDocPtr) XmlRelaxNGParserCtxtPtr
+	RelaxNGNewDocParserCtxt func(doc *Doc) *RelaxNGParserCtxt
 
-	XmlRelaxParserSetFlag func(
-		ctxt XmlRelaxNGParserCtxtPtr,
-		flag int) int
+	RelaxParserSetFlag func(
+		ctxt *RelaxNGParserCtxt, flag int) int
 
-	XmlRelaxNGFreeParserCtxt func(
-		ctxt XmlRelaxNGParserCtxtPtr)
+	RelaxNGFreeParserCtxt func(ctxt *RelaxNGParserCtxt)
 
-	XmlRelaxNGSetParserErrors func(
-		ctxt XmlRelaxNGParserCtxtPtr,
-		err XmlRelaxNGValidityErrorFunc,
-		warn XmlRelaxNGValidityWarningFunc,
-		ctx *Void)
+	RelaxNGSetParserErrors func(ctxt *RelaxNGParserCtxt,
+		err RelaxNGValidityErrorFunc,
+		warn RelaxNGValidityWarningFunc, ctx *Void)
 
-	XmlRelaxNGGetParserErrors func(
-		ctxt XmlRelaxNGParserCtxtPtr,
-		err *XmlRelaxNGValidityErrorFunc,
-		warn *XmlRelaxNGValidityWarningFunc,
-		ctx **Void) int
+	RelaxNGGetParserErrors func(ctxt *RelaxNGParserCtxt,
+		err *RelaxNGValidityErrorFunc,
+		warn *RelaxNGValidityWarningFunc, ctx **Void) int
 
-	XmlRelaxNGSetParserStructuredErrors func(
-		ctxt XmlRelaxNGParserCtxtPtr,
-		serror XmlStructuredErrorFunc,
-		ctx *Void)
+	RelaxNGSetParserStructuredErrors func(
+		ctxt *RelaxNGParserCtxt,
+		serror StructuredErrorFunc, ctx *Void)
 
-	XmlRelaxNGParse func(
-		ctxt XmlRelaxNGParserCtxtPtr) XmlRelaxNGPtr
+	RelaxNGParse func(ctxt *RelaxNGParserCtxt) *RelaxNG
 
-	XmlRelaxNGFree func(
-		schema XmlRelaxNGPtr)
+	RelaxNGFree func(schema *RelaxNG)
 
-	XmlRelaxNGDump func(
-		output *FILE,
-		schema XmlRelaxNGPtr)
+	RelaxNGDump func(output *FILE, schema *RelaxNG)
 
-	XmlRelaxNGDumpTree func(
-		output *FILE,
-		schema XmlRelaxNGPtr)
+	RelaxNGDumpTree func(output *FILE, schema *RelaxNG)
 
-	XmlRelaxNGSetValidErrors func(
-		ctxt XmlRelaxNGValidCtxtPtr,
-		err XmlRelaxNGValidityErrorFunc,
-		warn XmlRelaxNGValidityWarningFunc,
-		ctx *Void)
+	RelaxNGSetValidErrors func(ctxt *RelaxNGValidCtxt,
+		err RelaxNGValidityErrorFunc,
+		warn RelaxNGValidityWarningFunc, ctx *Void)
 
-	XmlRelaxNGGetValidErrors func(
-		ctxt XmlRelaxNGValidCtxtPtr,
-		err *XmlRelaxNGValidityErrorFunc,
-		warn *XmlRelaxNGValidityWarningFunc,
-		ctx **Void) int
+	RelaxNGGetValidErrors func(ctxt *RelaxNGValidCtxt,
+		err *RelaxNGValidityErrorFunc,
+		warn *RelaxNGValidityWarningFunc, ctx **Void) int
 
-	XmlRelaxNGSetValidStructuredErrors func(
-		ctxt XmlRelaxNGValidCtxtPtr,
-		serror XmlStructuredErrorFunc,
-		ctx *Void)
+	RelaxNGSetValidStructuredErrors func(ctxt *RelaxNGValidCtxt,
+		serror StructuredErrorFunc, ctx *Void)
 
-	XmlRelaxNGNewValidCtxt func(
-		schema XmlRelaxNGPtr) XmlRelaxNGValidCtxtPtr
+	RelaxNGNewValidCtxt func(schema *RelaxNG) *RelaxNGValidCtxt
 
-	XmlRelaxNGFreeValidCtxt func(
-		ctxt XmlRelaxNGValidCtxtPtr)
+	RelaxNGFreeValidCtxt func(ctxt *RelaxNGValidCtxt)
 
-	XmlRelaxNGValidateDoc func(
-		ctxt XmlRelaxNGValidCtxtPtr,
-		doc XmlDocPtr) int
+	RelaxNGValidateDoc func(ctxt *RelaxNGValidCtxt, doc *Doc) int
 
-	XmlRelaxNGValidatePushElement func(
-		ctxt XmlRelaxNGValidCtxtPtr,
-		doc XmlDocPtr,
-		elem XmlNodePtr) int
+	RelaxNGValidatePushElement func(
+		ctxt *RelaxNGValidCtxt, doc *Doc, elem *Node) int
 
-	XmlRelaxNGValidatePushCData func(
-		ctxt XmlRelaxNGValidCtxtPtr,
-		data string,
-		len int) int
+	RelaxNGValidatePushCData func(
+		ctxt *RelaxNGValidCtxt, data string, len int) int
 
-	XmlRelaxNGValidatePopElement func(
-		ctxt XmlRelaxNGValidCtxtPtr,
-		doc XmlDocPtr,
-		elem XmlNodePtr) int
+	RelaxNGValidatePopElement func(
+		ctxt *RelaxNGValidCtxt, doc *Doc, elem *Node) int
 
-	XmlRelaxNGValidateFullElement func(
-		ctxt XmlRelaxNGValidCtxtPtr,
-		doc XmlDocPtr,
-		elem XmlNodePtr) int
+	RelaxNGValidateFullElement func(
+		ctxt *RelaxNGValidCtxt, doc *Doc, elem *Node) int
 
-	XmlNewTextReader func(
-		input XmlParserInputBufferPtr,
-		URI string) XmlTextReaderPtr
+	NewTextReader func(
+		input *ParserInputBuffer, URI string) *TextReader
 
-	XmlNewTextReaderFilename func(
-		URI string) XmlTextReaderPtr
+	NewTextReaderFilename func(URI string) *TextReader
 
-	XmlFreeTextReader func(
-		reader XmlTextReaderPtr)
+	FreeTextReader func(reader *TextReader)
 
-	XmlTextReaderSetup func(
-		reader XmlTextReaderPtr,
-		input XmlParserInputBufferPtr,
-		URL string,
-		encoding string,
+	TextReaderSetup func(reader *TextReader,
+		input *ParserInputBuffer, URL, encoding string,
 		options int) int
 
-	XmlTextReaderRead func(
-		reader XmlTextReaderPtr) int
+	TextReaderRead func(reader *TextReader) int
 
-	XmlTextReaderReadInnerXml func(
-		reader XmlTextReaderPtr) string
+	TextReaderReadInnerXml func(reader *TextReader) string
 
-	XmlTextReaderReadOuterXml func(
-		reader XmlTextReaderPtr) string
+	TextReaderReadOuterXml func(reader *TextReader) string
 
-	XmlTextReaderReadString func(
-		reader XmlTextReaderPtr) string
+	TextReaderReadString func(reader *TextReader) string
 
-	XmlTextReaderReadAttributeValue func(
-		reader XmlTextReaderPtr) int
+	TextReaderReadAttributeValue func(reader *TextReader) int
 
-	XmlTextReaderAttributeCount func(
-		reader XmlTextReaderPtr) int
+	TextReaderAttributeCount func(reader *TextReader) int
 
-	XmlTextReaderDepth func(
-		reader XmlTextReaderPtr) int
+	TextReaderDepth func(reader *TextReader) int
 
-	XmlTextReaderHasAttributes func(
-		reader XmlTextReaderPtr) int
+	TextReaderHasAttributes func(reader *TextReader) int
 
-	XmlTextReaderHasValue func(
-		reader XmlTextReaderPtr) int
+	TextReaderHasValue func(reader *TextReader) int
 
-	XmlTextReaderIsDefault func(
-		reader XmlTextReaderPtr) int
+	TextReaderIsDefault func(reader *TextReader) int
 
-	XmlTextReaderIsEmptyElement func(
-		reader XmlTextReaderPtr) int
+	TextReaderIsEmptyElement func(reader *TextReader) int
 
-	XmlTextReaderNodeType func(
-		reader XmlTextReaderPtr) int
+	TextReaderNodeType func(reader *TextReader) int
 
-	XmlTextReaderQuoteChar func(
-		reader XmlTextReaderPtr) int
+	TextReaderQuoteChar func(reader *TextReader) int
 
-	XmlTextReaderReadState func(
-		reader XmlTextReaderPtr) int
+	TextReaderReadState func(reader *TextReader) int
 
-	XmlTextReaderIsNamespaceDecl func(
-		reader XmlTextReaderPtr) int
+	TextReaderIsNamespaceDecl func(reader *TextReader) int
 
-	XmlTextReaderConstBaseUri func(
-		reader XmlTextReaderPtr) string
+	TextReaderConstBaseUri func(reader *TextReader) string
 
-	XmlTextReaderConstLocalName func(
-		reader XmlTextReaderPtr) string
+	TextReaderConstLocalName func(reader *TextReader) string
 
-	XmlTextReaderConstName func(
-		reader XmlTextReaderPtr) string
+	TextReaderConstName func(reader *TextReader) string
 
-	XmlTextReaderConstNamespaceUri func(
-		reader XmlTextReaderPtr) string
+	TextReaderConstNamespaceUri func(reader *TextReader) string
 
-	XmlTextReaderConstPrefix func(
-		reader XmlTextReaderPtr) string
+	TextReaderConstPrefix func(reader *TextReader) string
 
-	XmlTextReaderConstXmlLang func(
-		reader XmlTextReaderPtr) string
+	TextReaderConstXmlLang func(reader *TextReader) string
 
-	XmlTextReaderConstString func(
-		reader XmlTextReaderPtr,
-		str string) string
+	TextReaderConstString func(
+		reader *TextReader, str string) string
 
-	XmlTextReaderConstValue func(
-		reader XmlTextReaderPtr) string
+	TextReaderConstValue func(reader *TextReader) string
 
-	XmlTextReaderBaseUri func(
-		reader XmlTextReaderPtr) string
+	TextReaderBaseUri func(reader *TextReader) string
 
-	XmlTextReaderLocalName func(
-		reader XmlTextReaderPtr) string
+	TextReaderLocalName func(reader *TextReader) string
 
-	XmlTextReaderName func(
-		reader XmlTextReaderPtr) string
+	TextReaderName func(reader *TextReader) string
 
-	XmlTextReaderNamespaceUri func(
-		reader XmlTextReaderPtr) string
+	TextReaderNamespaceUri func(reader *TextReader) string
 
-	XmlTextReaderPrefix func(
-		reader XmlTextReaderPtr) string
+	TextReaderPrefix func(reader *TextReader) string
 
-	XmlTextReaderXmlLang func(
-		reader XmlTextReaderPtr) string
+	TextReaderXmlLang func(reader *TextReader) string
 
-	XmlTextReaderValue func(
-		reader XmlTextReaderPtr) string
+	TextReaderValue func(reader *TextReader) string
 
-	XmlTextReaderClose func(
-		reader XmlTextReaderPtr) int
+	TextReaderClose func(reader *TextReader) int
 
-	XmlTextReaderGetAttributeNo func(
-		reader XmlTextReaderPtr,
-		no int) string
+	TextReaderGetAttributeNo func(
+		reader *TextReader, no int) string
 
-	XmlTextReaderGetAttribute func(
-		reader XmlTextReaderPtr,
-		name string) string
+	TextReaderGetAttribute func(
+		reader *TextReader, name string) string
 
-	XmlTextReaderGetAttributeNs func(
-		reader XmlTextReaderPtr,
-		localName string,
-		namespaceURI string) string
+	TextReaderGetAttributeNs func(reader *TextReader,
+		localName, namespaceURI string) string
 
-	XmlTextReaderGetRemainder func(
-		reader XmlTextReaderPtr) XmlParserInputBufferPtr
+	TextReaderGetRemainder func(
+		reader *TextReader) *ParserInputBuffer
 
-	XmlTextReaderLookupNamespace func(
-		reader XmlTextReaderPtr,
-		prefix string) string
+	TextReaderLookupNamespace func(
+		reader *TextReader, prefix string) string
 
-	XmlTextReaderMoveToAttributeNo func(
-		reader XmlTextReaderPtr,
-		no int) int
+	TextReaderMoveToAttributeNo func(
+		reader *TextReader, no int) int
 
-	XmlTextReaderMoveToAttribute func(
-		reader XmlTextReaderPtr,
-		name string) int
+	TextReaderMoveToAttribute func(
+		reader *TextReader, name string) int
 
-	XmlTextReaderMoveToAttributeNs func(
-		reader XmlTextReaderPtr,
-		localName string,
-		namespaceURI string) int
+	TextReaderMoveToAttributeNs func(reader *TextReader,
+		localName, namespaceURI string) int
 
-	XmlTextReaderMoveToFirstAttribute func(
-		reader XmlTextReaderPtr) int
+	TextReaderMoveToFirstAttribute func(reader *TextReader) int
 
-	XmlTextReaderMoveToNextAttribute func(
-		reader XmlTextReaderPtr) int
+	TextReaderMoveToNextAttribute func(reader *TextReader) int
 
-	XmlTextReaderMoveToElement func(
-		reader XmlTextReaderPtr) int
+	TextReaderMoveToElement func(reader *TextReader) int
 
-	XmlTextReaderNormalization func(
-		reader XmlTextReaderPtr) int
+	TextReaderNormalization func(reader *TextReader) int
 
-	XmlTextReaderConstEncoding func(
-		reader XmlTextReaderPtr) string
+	TextReaderConstEncoding func(reader *TextReader) string
 
-	XmlTextReaderSetParserProp func(
-		reader XmlTextReaderPtr,
-		prop int,
-		value int) int
+	TextReaderSetParserProp func(
+		reader *TextReader, prop, value int) int
 
-	XmlTextReaderGetParserProp func(
-		reader XmlTextReaderPtr,
-		prop int) int
+	TextReaderGetParserProp func(
+		reader *TextReader, prop int) int
 
-	XmlTextReaderCurrentNode func(
-		reader XmlTextReaderPtr) XmlNodePtr
+	TextReaderCurrentNode func(reader *TextReader) *Node
 
-	XmlTextReaderGetParserLineNumber func(
-		reader XmlTextReaderPtr) int
+	TextReaderGetParserLineNumber func(reader *TextReader) int
 
-	XmlTextReaderGetParserColumnNumber func(
-		reader XmlTextReaderPtr) int
+	TextReaderGetParserColumnNumber func(reader *TextReader) int
 
-	XmlTextReaderPreserve func(
-		reader XmlTextReaderPtr) XmlNodePtr
-
-	XmlTextReaderPreservePattern func(
-		reader XmlTextReaderPtr,
-		pattern string,
-		namespaces *string) int
-
-	XmlTextReaderCurrentDoc func(
-		reader XmlTextReaderPtr) XmlDocPtr
-
-	XmlTextReaderExpand func(
-		reader XmlTextReaderPtr) XmlNodePtr
-
-	XmlTextReaderNext func(
-		reader XmlTextReaderPtr) int
-
-	XmlTextReaderNextSibling func(
-		reader XmlTextReaderPtr) int
-
-	XmlTextReaderIsValid func(
-		reader XmlTextReaderPtr) int
-
-	XmlTextReaderRelaxNGValidate func(
-		reader XmlTextReaderPtr,
-		rng string) int
-
-	XmlTextReaderRelaxNGValidateCtxt func(
-		reader XmlTextReaderPtr,
-		ctxt XmlRelaxNGValidCtxtPtr,
-		options int) int
-
-	XmlTextReaderRelaxNGSetSchema func(
-		reader XmlTextReaderPtr,
-		schema XmlRelaxNGPtr) int
-
-	XmlTextReaderSchemaValidate func(
-		reader XmlTextReaderPtr,
-		xsd string) int
-
-	XmlTextReaderSchemaValidateCtxt func(
-		reader XmlTextReaderPtr,
-		ctxt XmlSchemaValidCtxtPtr,
-		options int) int
-
-	XmlTextReaderSetSchema func(
-		reader XmlTextReaderPtr,
-		schema XmlSchemaPtr) int
-
-	XmlTextReaderConstXmlVersion func(
-		reader XmlTextReaderPtr) string
-
-	XmlTextReaderStandalone func(
-		reader XmlTextReaderPtr) int
-
-	XmlTextReaderByteConsumed func(
-		reader XmlTextReaderPtr) Long
-
-	XmlReaderWalker func(
-		doc XmlDocPtr) XmlTextReaderPtr
-
-	XmlReaderForDoc func(
-		cur string,
-		URL string,
-		encoding string,
-		options int) XmlTextReaderPtr
-
-	XmlReaderForFile func(
-		filename string,
-		encoding string,
-		options int) XmlTextReaderPtr
-
-	XmlReaderForMemory func(
-		buffer string,
-		size int,
-		URL string,
-		encoding string,
-		options int) XmlTextReaderPtr
-
-	XmlReaderForFd func(
-		fd int,
-		URL string,
-		encoding string,
-		options int) XmlTextReaderPtr
-
-	XmlReaderForIO func(
-		ioread XmlInputReadCallback,
-		ioclose XmlInputCloseCallback,
-		ioctx *Void,
-		URL string,
-		encoding string,
-		options int) XmlTextReaderPtr
-
-	XmlReaderNewWalker func(
-		reader XmlTextReaderPtr,
-		doc XmlDocPtr) int
-
-	XmlReaderNewDoc func(
-		reader XmlTextReaderPtr,
-		cur string,
-		URL string,
-		encoding string,
-		options int) int
-
-	XmlReaderNewFile func(
-		reader XmlTextReaderPtr,
-		filename string,
-		encoding string,
-		options int) int
-
-	XmlReaderNewMemory func(
-		reader XmlTextReaderPtr,
-		buffer string,
-		size int,
-		URL string,
-		encoding string,
-		options int) int
-
-	XmlReaderNewFd func(
-		reader XmlTextReaderPtr,
-		fd int,
-		URL string,
-		encoding string,
-		options int) int
-
-	XmlReaderNewIO func(
-		reader XmlTextReaderPtr,
-		ioread XmlInputReadCallback,
-		ioclose XmlInputCloseCallback,
-		ioctx *Void,
-		URL string,
-		encoding string,
-		options int) int
-
-	XmlTextReaderLocatorLineNumber func(
-		locator XmlTextReaderLocatorPtr) int
-
-	XmlTextReaderLocatorBaseURI func(
-		locator XmlTextReaderLocatorPtr) string
-
-	XmlTextReaderSetErrorHandler func(
-		reader XmlTextReaderPtr,
-		f XmlTextReaderErrorFunc,
-		arg *Void)
-
-	XmlTextReaderSetStructuredErrorHandler func(
-		reader XmlTextReaderPtr,
-		f XmlStructuredErrorFunc,
-		arg *Void)
-
-	XmlTextReaderGetErrorHandler func(
-		reader XmlTextReaderPtr,
-		f *XmlTextReaderErrorFunc,
-		arg **Void)
-
-	XmlNewCatalog func(
-		sgml int) XmlCatalogPtr
-
-	XmlLoadACatalog func(
-		filename string) XmlCatalogPtr
-
-	XmlLoadSGMLSuperCatalog func(
-		filename string) XmlCatalogPtr
-
-	XmlConvertSGMLCatalog func(
-		catal XmlCatalogPtr) int
-
-	XmlACatalogAdd func(
-		catal XmlCatalogPtr,
-		typ string,
-		orig string,
-		replace string) int
+	TextReaderPreserve func(reader *TextReader) *Node
 
-	XmlACatalogRemove func(
-		catal XmlCatalogPtr,
-		value string) int
+	TextReaderPreservePattern func(reader *TextReader,
+		pattern string, namespaces *string) int
 
-	XmlACatalogResolve func(
-		catal XmlCatalogPtr,
-		pubID string,
-		sysID string) string
+	TextReaderCurrentDoc func(reader *TextReader) *Doc
 
-	XmlACatalogResolveSystem func(
-		catal XmlCatalogPtr,
-		sysID string) string
+	TextReaderExpand func(reader *TextReader) *Node
 
-	XmlACatalogResolvePublic func(
-		catal XmlCatalogPtr,
-		pubID string) string
+	TextReaderNext func(reader *TextReader) int
 
-	XmlACatalogResolveURI func(
-		catal XmlCatalogPtr,
-		URI string) string
-
-	XmlACatalogDump func(
-		catal XmlCatalogPtr,
-		out *FILE)
-
-	XmlFreeCatalog func(
-		catal XmlCatalogPtr)
+	TextReaderNextSibling func(reader *TextReader) int
 
-	XmlCatalogIsEmpty func(
-		catal XmlCatalogPtr) int
-
-	XmlInitializeCatalog func(
-		Void)
-
-	XmlLoadCatalog func(
-		filename string) int
-
-	XmlLoadCatalogs func(
-		paths string)
-
-	XmlCatalogCleanup func(
-		Void)
-
-	XmlCatalogDump func(
-		out *FILE)
-
-	XmlCatalogResolve func(
-		pubID string,
-		sysID string) string
-
-	XmlCatalogResolveSystem func(
-		sysID string) string
-
-	XmlCatalogResolvePublic func(
-		pubID string) string
-
-	XmlCatalogResolveURI func(
-		URI string) string
-
-	XmlCatalogAdd func(
-		typ string,
-		orig string,
-		replace string) int
+	TextReaderIsValid func(reader *TextReader) int
 
-	XmlCatalogRemove func(
-		value string) int
+	TextReaderRelaxNGValidate func(
+		reader *TextReader, rng string) int
 
-	XmlParseCatalogFile func(
-		filename string) XmlDocPtr
-
-	XmlCatalogConvert func(
-		Void) int
-
-	XmlCatalogFreeLocal func(
-		catalogs *Void)
+	TextReaderRelaxNGValidateCtxt func(reader *TextReader,
+		ctxt *RelaxNGValidCtxt, options int) int
 
-	XmlCatalogAddLocal func(
-		catalogs *Void,
-		URL string) *Void
+	TextReaderRelaxNGSetSchema func(
+		reader *TextReader, schema *RelaxNG) int
 
-	XmlCatalogLocalResolve func(
-		catalogs *Void,
-		pubID string,
-		sysID string) string
-
-	XmlCatalogLocalResolveURI func(
-		catalogs *Void,
-		URI string) string
-
-	XmlCatalogSetDebug func(
-		level int) int
-
-	XmlCatalogSetDefaultPrefer func(
-		prefer XmlCatalogPrefer) XmlCatalogPrefer
-
-	XmlCatalogSetDefaults func(
-		allow XmlCatalogAllow)
-
-	XmlCatalogGetDefaults func(
-		Void) XmlCatalogAllow
-
-	XmlCatalogGetSystem func(
-		sysID string) string
-
-	XmlCatalogGetPublic func(
-		pubID string) string
-
-	XmlDebugDumpString func(
-		output *FILE,
-		str string)
-
-	XmlDebugDumpAttr func(
-		output *FILE,
-		attr XmlAttrPtr,
-		depth int)
-
-	XmlDebugDumpAttrList func(
-		output *FILE,
-		attr XmlAttrPtr,
-		depth int)
-
-	XmlDebugDumpOneNode func(
-		output *FILE,
-		node XmlNodePtr,
-		depth int)
-
-	XmlDebugDumpNode func(
-		output *FILE,
-		node XmlNodePtr,
-		depth int)
-
-	XmlDebugDumpNodeList func(
-		output *FILE,
-		node XmlNodePtr,
-		depth int)
-
-	XmlDebugDumpDocumentHead func(
-		output *FILE,
-		doc XmlDocPtr)
-
-	XmlDebugDumpDocument func(
-		output *FILE,
-		doc XmlDocPtr)
-
-	XmlDebugDumpDTD func(
-		output *FILE,
-		dtd XmlDtdPtr)
-
-	XmlDebugDumpEntities func(
-		output *FILE,
-		doc XmlDocPtr)
-
-	XmlDebugCheckDocument func(
-		output *FILE,
-		doc XmlDocPtr) int
-
-	XmlLsOneNode func(
-		output *FILE,
-		node XmlNodePtr)
-
-	XmlLsCountNode func(
-		node XmlNodePtr) int
-
-	XmlBoolToText func(
-		boolval int) string
-
-	XmlShellPrintXPathError func(
-		errorType int,
-		arg string)
-
-	XmlShellPrintXPathResult func(
-		list XmlXPathObjectPtr)
-
-	XmlShellList func(
-		ctxt XmlShellCtxtPtr,
-		arg string,
-		node XmlNodePtr,
-		node2 XmlNodePtr) int
-
-	XmlShellBase func(
-		ctxt XmlShellCtxtPtr,
-		arg string,
-		node XmlNodePtr,
-		node2 XmlNodePtr) int
-
-	XmlShellDir func(
-		ctxt XmlShellCtxtPtr,
-		arg string,
-		node XmlNodePtr,
-		node2 XmlNodePtr) int
-
-	XmlShellLoad func(
-		ctxt XmlShellCtxtPtr,
-		filename string,
-		node XmlNodePtr,
-		node2 XmlNodePtr) int
-
-	XmlShellPrintNode func(
-		node XmlNodePtr)
-
-	XmlShellCat func(
-		ctxt XmlShellCtxtPtr,
-		arg string,
-		node XmlNodePtr,
-		node2 XmlNodePtr) int
-
-	XmlShellWrite func(
-		ctxt XmlShellCtxtPtr,
-		filename string,
-		node XmlNodePtr,
-		node2 XmlNodePtr) int
-
-	XmlShellSave func(
-		ctxt XmlShellCtxtPtr,
-		filename string,
-		node XmlNodePtr,
-		node2 XmlNodePtr) int
-
-	XmlShellValidate func(
-		ctxt XmlShellCtxtPtr,
-		dtd string,
-		node XmlNodePtr,
-		node2 XmlNodePtr) int
-
-	XmlShellDu func(
-		ctxt XmlShellCtxtPtr,
-		arg string,
-		tree XmlNodePtr,
-		node2 XmlNodePtr) int
-
-	XmlShellPwd func(
-		ctxt XmlShellCtxtPtr,
-		buffer string,
-		node XmlNodePtr,
-		node2 XmlNodePtr) int
-
-	XmlShell func(
-		doc XmlDocPtr,
-		filename string,
-		input XmlShellReadlineFunc,
-		output *FILE)
-
-	XmlNewTextWriter func(
-		out XmlOutputBufferPtr) XmlTextWriterPtr
-
-	XmlNewTextWriterFilename func(
-		uri string,
-		compression int) XmlTextWriterPtr
-
-	XmlNewTextWriterMemory func(
-		buf XmlBufferPtr,
-		compression int) XmlTextWriterPtr
-
-	XmlNewTextWriterPushParser func(
-		ctxt XmlParserCtxtPtr,
-		compression int) XmlTextWriterPtr
-
-	XmlNewTextWriterDoc func(
-		doc *XmlDocPtr,
-		compression int) XmlTextWriterPtr
-
-	XmlNewTextWriterTree func(
-		doc XmlDocPtr,
-		node XmlNodePtr,
-		compression int) XmlTextWriterPtr
-
-	XmlFreeTextWriter func(
-		writer XmlTextWriterPtr)
-
-	XmlTextWriterStartDocument func(
-		writer XmlTextWriterPtr,
-		version string,
-		encoding string,
-		standalone string) int
-
-	XmlTextWriterEndDocument func(
-		writer XmlTextWriterPtr) int
-
-	XmlTextWriterStartComment func(
-		writer XmlTextWriterPtr) int
-
-	XmlTextWriterEndComment func(
-		writer XmlTextWriterPtr) int
-
-	XmlTextWriterWriteFormatComment func(
-		writer XmlTextWriterPtr,
-		format string,
-		v ...VArg) int
-
-	XmlTextWriterWriteVFormatComment func(
-		writer XmlTextWriterPtr,
-		format string,
-		argptr Va_list) int
-
-	XmlTextWriterWriteComment func(
-		writer XmlTextWriterPtr,
-		Content string) int
-
-	XmlTextWriterStartElement func(
-		writer XmlTextWriterPtr,
-		name string) int
-
-	XmlTextWriterStartElementNS func(
-		writer XmlTextWriterPtr,
-		prefix string,
-		name string,
-		namespaceURI string) int
-
-	XmlTextWriterEndElement func(
-		writer XmlTextWriterPtr) int
-
-	XmlTextWriterFullEndElement func(
-		writer XmlTextWriterPtr) int
-
-	XmlTextWriterWriteFormatElement func(
-		writer XmlTextWriterPtr,
-		name string,
-		format string,
-		v ...VArg) int
-
-	XmlTextWriterWriteVFormatElement func(
-		writer XmlTextWriterPtr,
-		name string,
-		format string,
-		argptr Va_list) int
-
-	XmlTextWriterWriteElement func(
-		writer XmlTextWriterPtr,
-		name string,
-		Content string) int
-
-	XmlTextWriterWriteFormatElementNS func(
-		writer XmlTextWriterPtr,
-		prefix string,
-		name string,
-		namespaceURI string,
-		format string,
-		v ...VArg) int
-
-	XmlTextWriterWriteVFormatElementNS func(
-		writer XmlTextWriterPtr,
-		prefix string,
-		name string,
-		namespaceURI string,
-		format string,
-		argptr Va_list) int
-
-	XmlTextWriterWriteElementNS func(
-		writer XmlTextWriterPtr,
-		prefix string,
-		name string,
-		namespaceURI string,
-		Content string) int
-
-	XmlTextWriterWriteFormatRaw func(
-		writer XmlTextWriterPtr,
-		format string,
-		v ...VArg) int
-
-	XmlTextWriterWriteVFormatRaw func(
-		writer XmlTextWriterPtr,
-		format string,
-		argptr Va_list) int
-
-	XmlTextWriterWriteRawLen func(
-		writer XmlTextWriterPtr,
-		content string,
-		len int) int
-
-	XmlTextWriterWriteRaw func(
-		writer XmlTextWriterPtr,
-		content string) int
-
-	XmlTextWriterWriteFormatString func(
-		writer XmlTextWriterPtr,
-		format string,
-		v ...VArg) int
-
-	XmlTextWriterWriteVFormatString func(
-		writer XmlTextWriterPtr,
-		format string,
-		argptr Va_list) int
-
-	XmlTextWriterWriteString func(
-		writer XmlTextWriterPtr,
-		Content string) int
-
-	XmlTextWriterWriteBase64 func(
-		writer XmlTextWriterPtr,
-		data string,
-		start int,
-		len int) int
-
-	XmlTextWriterWriteBinHex func(
-		writer XmlTextWriterPtr,
-		data string,
-		start int,
-		len int) int
-
-	XmlTextWriterStartAttribute func(
-		writer XmlTextWriterPtr,
-		name string) int
-
-	XmlTextWriterStartAttributeNS func(
-		writer XmlTextWriterPtr,
-		prefix string,
-		name string,
-		namespaceURI string) int
-
-	XmlTextWriterEndAttribute func(
-		writer XmlTextWriterPtr) int
-
-	XmlTextWriterWriteFormatAttribute func(
-		writer XmlTextWriterPtr,
-		name string,
-		format string,
-		v ...VArg) int
-
-	XmlTextWriterWriteVFormatAttribute func(
-		writer XmlTextWriterPtr,
-		name string,
-		format string,
-		argptr Va_list) int
-
-	XmlTextWriterWriteAttribute func(
-		writer XmlTextWriterPtr,
-		name string,
-		Content string) int
-
-	XmlTextWriterWriteFormatAttributeNS func(
-		writer XmlTextWriterPtr,
-		prefix string,
-		name string,
-		namespaceURI string,
-		format string,
-		v ...VArg) int
-
-	XmlTextWriterWriteVFormatAttributeNS func(
-		writer XmlTextWriterPtr,
-		prefix string,
-		name string,
-		namespaceURI string,
-		format string,
-		argptr Va_list) int
-
-	XmlTextWriterWriteAttributeNS func(
-		writer XmlTextWriterPtr,
-		prefix string,
-		name string,
-		namespaceURI string,
-		Content string) int
-
-	XmlTextWriterStartPI func(
-		writer XmlTextWriterPtr,
-		target string) int
-
-	XmlTextWriterEndPI func(
-		writer XmlTextWriterPtr) int
-
-	XmlTextWriterWriteFormatPI func(
-		writer XmlTextWriterPtr,
-		target string,
-		format string,
-		v ...VArg) int
-
-	XmlTextWriterWriteVFormatPI func(
-		writer XmlTextWriterPtr,
-		target string,
-		format string,
-		argptr Va_list) int
-
-	XmlTextWriterWritePI func(
-		writer XmlTextWriterPtr,
-		target string,
-		content string) int
-
-	XmlTextWriterStartCDATA func(
-		writer XmlTextWriterPtr) int
-
-	XmlTextWriterEndCDATA func(
-		writer XmlTextWriterPtr) int
-
-	XmlTextWriterWriteFormatCDATA func(
-		writer XmlTextWriterPtr,
-		format string,
-		v ...VArg) int
-
-	XmlTextWriterWriteVFormatCDATA func(
-		writer XmlTextWriterPtr,
-		format string,
-		argptr Va_list) int
-
-	XmlTextWriterWriteCDATA func(
-		writer XmlTextWriterPtr,
-		content string) int
-
-	XmlTextWriterStartDTD func(
-		writer XmlTextWriterPtr,
-		name string,
-		pubid string,
-		sysid string) int
-
-	XmlTextWriterEndDTD func(
-		writer XmlTextWriterPtr) int
-
-	XmlTextWriterWriteFormatDTD func(
-		writer XmlTextWriterPtr,
-		name string,
-		pubid string,
-		sysid string,
-		format string,
-		v ...VArg) int
-
-	XmlTextWriterWriteVFormatDTD func(
-		writer XmlTextWriterPtr,
-		name string,
-		pubid string,
-		sysid string,
-		format string,
-		argptr Va_list) int
-
-	XmlTextWriterWriteDTD func(
-		writer XmlTextWriterPtr,
-		name string,
-		pubid string,
-		sysid string,
-		subset string) int
-
-	XmlTextWriterStartDTDElement func(
-		writer XmlTextWriterPtr,
-		name string) int
-
-	XmlTextWriterEndDTDElement func(
-		writer XmlTextWriterPtr) int
-
-	XmlTextWriterWriteFormatDTDElement func(
-		writer XmlTextWriterPtr,
-		name string,
-		format string,
-		v ...VArg) int
-
-	XmlTextWriterWriteVFormatDTDElement func(
-		writer XmlTextWriterPtr,
-		name string,
-		format string,
-		argptr Va_list) int
-
-	XmlTextWriterWriteDTDElement func(
-		writer XmlTextWriterPtr,
-		name string,
-		Content string) int
-
-	XmlTextWriterStartDTDAttlist func(
-		writer XmlTextWriterPtr,
-		name string) int
-
-	XmlTextWriterEndDTDAttlist func(
-		writer XmlTextWriterPtr) int
-
-	XmlTextWriterWriteFormatDTDAttlist func(
-		writer XmlTextWriterPtr,
-		name string,
-		format string,
-		v ...VArg) int
-
-	XmlTextWriterWriteVFormatDTDAttlist func(
-		writer XmlTextWriterPtr,
-		name string,
-		format string,
-		argptr Va_list) int
-
-	XmlTextWriterWriteDTDAttlist func(
-		writer XmlTextWriterPtr,
-		name string,
-		Content string) int
-
-	XmlTextWriterStartDTDEntity func(
-		writer XmlTextWriterPtr,
-		pe int,
-		name string) int
-
-	XmlTextWriterEndDTDEntity func(
-		writer XmlTextWriterPtr) int
-
-	XmlTextWriterWriteFormatDTDInternalEntity func(
-		writer XmlTextWriterPtr,
-		pe int,
-		name string,
-		format string,
-		v ...VArg) int
-
-	XmlTextWriterWriteVFormatDTDInternalEntity func(
-		writer XmlTextWriterPtr,
-		pe int,
-		name string,
-		format string,
-		argptr Va_list) int
-
-	XmlTextWriterWriteDTDInternalEntity func(
-		writer XmlTextWriterPtr,
-		pe int,
-		name string,
-		content string) int
-
-	XmlTextWriterWriteDTDExternalEntity func(
-		writer XmlTextWriterPtr,
-		pe int,
-		name string,
-		pubid string,
-		sysid string,
-		ndataid string) int
-
-	XmlTextWriterWriteDTDExternalEntityContents func(
-		writer XmlTextWriterPtr,
-		pubid string,
-		sysid string,
-		ndataid string) int
-
-	XmlTextWriterWriteDTDEntity func(
-		writer XmlTextWriterPtr,
-		pe int,
-		name string,
-		pubid string,
-		sysid string,
-		ndataid string,
-		content string) int
-
-	XmlTextWriterWriteDTDNotation func(
-		writer XmlTextWriterPtr,
-		name string,
-		pubid string,
-		sysid string) int
-
-	XmlTextWriterSetIndent func(
-		writer XmlTextWriterPtr,
-		indent int) int
-
-	XmlTextWriterSetIndentString func(
-		writer XmlTextWriterPtr,
-		str string) int
-
-	XmlTextWriterSetQuoteChar func(
-		writer XmlTextWriterPtr,
-		quotechar XmlChar) int
-
-	XmlTextWriterFlush func(
-		writer XmlTextWriterPtr) int
-
-	XmlNanoFTPInit func()
-
-	XmlNanoFTPCleanup func()
-
-	XmlNanoFTPNewCtxt func(
-		URL string) *Void
-
-	XmlNanoFTPFreeCtxt func(
-		ctx *Void)
-
-	XmlNanoFTPConnectTo func(
-		server string,
-		port int) *Void
-
-	XmlNanoFTPOpen func(
-		URL string) *Void
-
-	XmlNanoFTPConnect func(
-		ctx *Void) int
-
-	XmlNanoFTPClose func(
-		ctx *Void) int
-
-	XmlNanoFTPQuit func(
-		ctx *Void) int
-
-	XmlNanoFTPScanProxy func(
-		URL string)
-
-	XmlNanoFTPProxy func(
-		host string,
-		port int,
-		user string,
-		passwd string,
-		typ int)
-
-	XmlNanoFTPUpdateURL func(
-		ctx *Void,
-		URL string) int
-
-	XmlNanoFTPGetResponse func(
-		ctx *Void) int
-
-	XmlNanoFTPCheckResponse func(
-		ctx *Void) int
-
-	XmlNanoFTPCwd func(
-		ctx *Void,
-		directory string) int
-
-	XmlNanoFTPDele func(
-		ctx *Void,
-		file string) int
-
-	XmlNanoFTPGetConnection func(
-		ctx *Void) SOCKET
-
-	XmlNanoFTPCloseConnection func(
-		ctx *Void) int
-
-	XmlNanoFTPList func(
-		ctx *Void,
-		callback FtpListCallback,
-		userData *Void,
-		filename string) int
-
-	XmlNanoFTPGetSocket func(
-		ctx *Void,
-		filename string) SOCKET
-
-	XmlNanoFTPGet func(
-		ctx *Void,
-		callback FtpDataCallback,
-		userData *Void,
-		filename string) int
-
-	XmlNanoFTPRead func(
-		ctx *Void,
-		dest *Void,
-		len int) int
-
-	XmlNanoHTTPInit func(
-		Void)
-
-	XmlNanoHTTPCleanup func(
-		Void)
-
-	XmlNanoHTTPScanProxy func(
-		URL string)
-
-	XmlNanoHTTPFetch func(
-		URL string,
-		filename string,
-		contentType *string) int
-
-	XmlNanoHTTPMethod func(
-		URL string,
-		method string,
-		input string,
-		contentType *string,
-		headers string,
-		ilen int) *Void
-
-	XmlNanoHTTPMethodRedir func(
-		URL string,
-		method string,
-		input string,
-		contentType *string,
-		redir *string,
-		headers string,
-		ilen int) *Void
-
-	XmlNanoHTTPOpen func(
-		URL string,
-		contentType *string) *Void
-
-	XmlNanoHTTPOpenRedir func(
-		URL string,
-		contentType *string,
-		redir *string) *Void
-
-	XmlNanoHTTPReturnCode func(
-		ctx *Void) int
-
-	XmlNanoHTTPAuthHeader func(
-		ctx *Void) string
-
-	XmlNanoHTTPRedir func(
-		ctx *Void) string
-
-	XmlNanoHTTPContentLength func(
-		ctx *Void) int
-
-	XmlNanoHTTPEncoding func(
-		ctx *Void) string
-
-	XmlNanoHTTPMimeType func(
-		ctx *Void) string
-
-	XmlNanoHTTPRead func(
-		ctx *Void,
-		dest *Void,
-		len int) int
-
-	XmlNanoHTTPSave func(
-		ctxt *Void,
-		filename string) int
-
-	XmlNanoHTTPClose func(
-		ctx *Void)
-
-	XmlFreePattern func(comp XmlPatternPtr)
-
-	XmlFreePatternList func(
-		comp XmlPatternPtr)
-
-	XmlPatterncompile func(
-		pattern string,
-		dict *XmlDict,
-		flags int,
-		namespaces *string) XmlPatternPtr
-
-	XmlPatternMatch func(
-		comp XmlPatternPtr,
-		node XmlNodePtr) int
-
-	XmlPatternStreamable func(
-		comp XmlPatternPtr) int
-
-	XmlPatternMaxDepth func(
-		comp XmlPatternPtr) int
-
-	XmlPatternMinDepth func(
-		comp XmlPatternPtr) int
-
-	XmlPatternFromRoot func(
-		comp XmlPatternPtr) int
-
-	XmlPatternGetStreamCtxt func(
-		comp XmlPatternPtr) XmlStreamCtxtPtr
-
-	XmlFreeStreamCtxt func(
-		stream XmlStreamCtxtPtr)
-
-	XmlStreamPushNode func(
-		stream XmlStreamCtxtPtr,
-		name string,
-		ns string,
-		nodeType int) int
-
-	XmlStreamPush func(
-		stream XmlStreamCtxtPtr,
-		name string,
-		ns string) int
-
-	XmlStreamPushAttr func(
-		stream XmlStreamCtxtPtr,
-		name string,
-		ns string) int
-
-	XmlStreamPop func(
-		stream XmlStreamCtxtPtr) int
-
-	XmlStreamWantsAnyNode func(
-		stream XmlStreamCtxtPtr) int
-
-	XmlSaveToFd func(
-		fd int,
-		encoding string,
-		options int) XmlSaveCtxtPtr
-
-	XmlSaveToFilename func(
-		filename string,
-		encoding string,
-		options int) XmlSaveCtxtPtr
-
-	XmlSaveToBuffer func(
-		buffer XmlBufferPtr,
-		encoding string,
-		options int) XmlSaveCtxtPtr
-
-	XmlSaveToIO func(
-		iowrite XmlOutputWriteCallback,
-		ioclose XmlOutputCloseCallback,
-		ioctx *Void,
-		encoding string,
-		options int) XmlSaveCtxtPtr
-
-	XmlSaveDoc func(
-		ctxt XmlSaveCtxtPtr,
-		doc XmlDocPtr) Long
-
-	XmlSaveTree func(
-		ctxt XmlSaveCtxtPtr,
-		node XmlNodePtr) Long
-
-	XmlSaveFlush func(
-		ctxt XmlSaveCtxtPtr) int
-
-	XmlSaveClose func(
-		ctxt XmlSaveCtxtPtr) int
-
-	XmlSaveSetEscape func(
-		ctxt XmlSaveCtxtPtr,
-		escape XmlCharEncodingOutputFunc) int
-
-	XmlSaveSetAttrEscape func(
-		ctxt XmlSaveCtxtPtr,
-		escape XmlCharEncodingOutputFunc) int
-
-	XmlCreateURI func() XmlURIPtr
-
-	XmlBuildURI func(URI, base string) string
-
-	XmlBuildRelativeURI func(URI, base string) string
-
-	XmlParseURI func(str string) XmlURIPtr
-
-	XmlParseURIRaw func(str string, raw int) XmlURIPtr
-
-	XmlParseURIReference func(uri XmlURIPtr, str string) int
-
-	XmlSaveUri func(uri XmlURIPtr) string
-
-	XmlPrintURI func(stream *FILE, uri XmlURIPtr)
-
-	XmlURIEscapeStr func(str, list string) string
-
-	XmlURIUnescapeString func(
-		str string, len int, target string) string
-
-	XmlNormalizeURIPath func(path string) int
-
-	XmlURIEscape func(str string) string
-
-	XmlFreeURI func(uri XmlURIPtr)
-
-	XmlCanonicPath func(path string) string
-
-	XmlPathToURI func(path string) string
-
-	XmlRaiseError func(
-		schannel XmlStructuredErrorFunc,
-		channel XmlGenericErrorFunc,
-		data, ctx, node *Void,
-		domain, code int,
-		level XmlErrorLevel,
-		file string,
-		line int,
-		str1, str2, str3 string,
-		int1, col int,
-		msg string,
-		v ...VArg)
-
-	XmlSimpleError func(
-		domain, code int, node XmlNodePtr, msg, extra string)
-
-	XmlErrEncoding func(
-		ctxt XmlParserCtxtPtr,
-		xmlerr XmlParserErrors,
-		msg, str1, str2 string)
-
-	XmlModuleOpen func(filename string,
-		XmlModuleOption int) XmlModulePtr
-
-	XmlModuleSymbol func(module XmlModulePtr, name string,
-		result **Void) int
-
-	XmlModuleClose func(
-		module XmlModulePtr) int
-
-	XmlModuleFree func(
-		module XmlModulePtr) int
-
-	DocbEncodeEntities func(
-		out *Unsigned_char,
-		outlen *int,
-		in *Unsigned_char,
-		inlen *int,
-		quoteChar int) int
-
-	DocbSAXParseDoc func(
-		cur *XmlChar,
-		encoding *Char,
-		sax DocbSAXHandlerPtr,
-		userData *Void) DocbDocPtr
-
-	DocbParseDoc func(
-		cur *XmlChar,
-		encoding *Char) DocbDocPtr
-
-	DocbSAXParseFile func(
-		filename *Char,
-		encoding *Char,
-		sax DocbSAXHandlerPtr,
-		userData *Void) DocbDocPtr
-
-	DocbParseFile func(
-		filename *Char,
-		encoding *Char) DocbDocPtr
-
-	DocbFreeParserCtxt func(
-		ctxt DocbParserCtxtPtr)
-
-	DocbCreatePushParserCtxt func(
-		sax DocbSAXHandlerPtr,
-		user_data *Void,
-		chunk *Char,
-		size int,
-		filename *Char,
-		enc XmlCharEncoding) DocbParserCtxtPtr
-
-	DocbParseChunk func(
-		ctxt DocbParserCtxtPtr,
-		chunk *Char,
-		size int,
-		terminate int) int
+	TextReaderSchemaValidate func(
+		reader *TextReader, xsd string) int
+
+	TextReaderSchemaValidateCtxt func(reader *TextReader,
+		ctxt *SchemaValidCtxt, options int) int
+
+	TextReaderSetSchema func(
+		reader *TextReader, schema *Schema) int
+
+	TextReaderConstXmlVersion func(reader *TextReader) string
+
+	TextReaderStandalone func(reader *TextReader) int
+
+	TextReaderByteConsumed func(reader *TextReader) Long
+
+	ReaderWalker func(doc *Doc) *TextReader
+
+	ReaderForDoc func(
+		cur, URL, encoding string, options int) *TextReader
+
+	ReaderForFile func(
+		filename, encoding string, options int) *TextReader
+
+	ReaderForMemory func(buffer string, size int,
+		URL, encoding string, options int) *TextReader
+
+	ReaderForFd func(
+		fd int, URL, encoding string, options int) *TextReader
+
+	ReaderForIO func(ioread InputReadCallback,
+		ioclose InputCloseCallback, ioctx *Void,
+		URL, encoding string, options int) *TextReader
+
+	ReaderNewWalker func(reader *TextReader, doc *Doc) int
+
+	ReaderNewDoc func(reader *TextReader,
+		cur, URL, encoding string, options int) int
+
+	ReaderNewFile func(reader *TextReader,
+		filename, encoding string, options int) int
+
+	ReaderNewMemory func(reader *TextReader, buffer string,
+		size int, URL, encoding string, options int) int
+
+	ReaderNewFd func(reader *TextReader, fd int,
+		URL, encoding string, options int) int
+
+	ReaderNewIO func(reader *TextReader,
+		ioread InputReadCallback, ioclose InputCloseCallback,
+		ioctx *Void, URL, encoding string, options int) int
+
+	TextReaderLocatorLineNumber func(
+		locator *TextReaderLocator) int
+
+	TextReaderLocatorBaseURI func(
+		locator *TextReaderLocator) string
+
+	TextReaderSetErrorHandler func(
+		reader *TextReader, f TextReaderErrorFunc, arg *Void)
+
+	TextReaderSetStructuredErrorHandler func(
+		reader *TextReader, f StructuredErrorFunc, arg *Void)
+
+	TextReaderGetErrorHandler func(
+		reader *TextReader, f *TextReaderErrorFunc, arg **Void)
+
+	NewCatalog func(sgml int) *Catalog
+
+	LoadACatalog func(filename string) *Catalog
+
+	LoadSGMLSuperCatalog func(filename string) *Catalog
+
+	ConvertSGMLCatalog func(catal *Catalog) int
+
+	ACatalogAdd func(
+		catal *Catalog, typ, orig, replace string) int
+
+	ACatalogRemove func(catal *Catalog, value string) int
+
+	ACatalogResolve func(
+		catal *Catalog, pubID, sysID string) string
+
+	ACatalogResolveSystem func(
+		catal *Catalog, sysID string) string
+
+	ACatalogResolvePublic func(
+		catal *Catalog, pubID string) string
+
+	ACatalogResolveURI func(catal *Catalog, URI string) string
+
+	ACatalogDump func(catal *Catalog, out *FILE)
+
+	FreeCatalog func(catal *Catalog)
+
+	CatalogIsEmpty func(catal *Catalog) int
+
+	InitializeCatalog func()
+
+	LoadCatalog func(filename string) int
+
+	LoadCatalogs func(paths string)
+
+	CatalogCleanup func()
+
+	CatalogDump func(out *FILE)
+
+	CatalogResolve func(pubID string, sysID string) string
+
+	CatalogResolveSystem func(sysID string) string
+
+	CatalogResolvePublic func(pubID string) string
+
+	CatalogResolveURI func(URI string) string
+
+	CatalogAdd func(typ string, orig string, replace string) int
+
+	CatalogRemove func(value string) int
+
+	ParseCatalogFile func(filename string) *Doc
+
+	CatalogConvert func() int
+
+	CatalogFreeLocal func(catalogs *Void)
+
+	CatalogAddLocal func(catalogs *Void, URL string) *Void
+
+	CatalogLocalResolve func(
+		catalogs *Void, pubID, sysID string) string
+
+	CatalogLocalResolveURI func(
+		catalogs *Void, URI string) string
+
+	CatalogSetDebug func(level int) int
+
+	CatalogSetDefaultPrefer func(
+		prefer CatalogPrefer) CatalogPrefer
+
+	CatalogSetDefaults func(allow CatalogAllow)
+
+	CatalogGetDefaults func() CatalogAllow
+
+	CatalogGetSystem func(sysID string) string
+
+	CatalogGetPublic func(pubID string) string
+
+	DebugDumpString func(output *FILE, str string)
+
+	DebugDumpAttr func(output *FILE, attr *Attr, depth int)
+
+	DebugDumpAttrList func(output *FILE, attr *Attr, depth int)
+
+	DebugDumpOneNode func(output *FILE, node *Node, depth int)
+
+	DebugDumpNode func(output *FILE, node *Node, depth int)
+
+	DebugDumpNodeList func(output *FILE, node *Node, depth int)
+
+	DebugDumpDocumentHead func(output *FILE, doc *Doc)
+
+	DebugDumpDocument func(output *FILE, doc *Doc)
+
+	DebugDumpDTD func(output *FILE, dtd *Dtd)
+
+	DebugDumpEntities func(output *FILE, doc *Doc)
+
+	DebugCheckDocument func(output *FILE, doc *Doc) int
+
+	LsOneNode func(output *FILE, node *Node)
+
+	LsCountNode func(node *Node) int
+
+	BoolToText func(boolval int) string
+
+	ShellPrintXPathError func(errorType int, arg string)
+
+	ShellPrintXPathResult func(list *XPathObject)
+
+	ShellList func(
+		ctxt *ShellCtxt, arg string, node, node2 *Node) int
+
+	ShellBase func(
+		ctxt *ShellCtxt, arg string, node, node2 *Node) int
+
+	ShellDir func(
+		ctxt *ShellCtxt, arg string, node, node2 *Node) int
+
+	ShellLoad func(
+		ctxt *ShellCtxt, filename string, node, node2 *Node) int
+
+	ShellPrintNode func(node *Node)
+
+	ShellCat func(
+		ctxt *ShellCtxt, arg string, node, node2 *Node) int
+
+	ShellWrite func(
+		ctxt *ShellCtxt, filename string, node, node2 *Node) int
+
+	ShellSave func(
+		ctxt *ShellCtxt, filename string, node, node2 *Node) int
+
+	ShellValidate func(
+		ctxt *ShellCtxt, dtd string, node, node2 *Node) int
+
+	ShellDu func(
+		ctxt *ShellCtxt, arg string, tree, node2 *Node) int
+
+	ShellPwd func(
+		ctxt *ShellCtxt, buffer string, node, node2 *Node) int
+
+	Shell func(doc *Doc, filename string,
+		input ShellReadlineFunc, output *FILE)
+
+	NewTextWriter func(out *OutputBuffer) *TextWriter
+
+	NewTextWriterFilename func(
+		uri string, compression int) *TextWriter
+
+	NewTextWriterMemory func(
+		buf *Buffer, compression int) *TextWriter
+
+	NewTextWriterPushParser func(
+		ctxt *ParserCtxt, compression int) *TextWriter
+
+	NewTextWriterDoc func(
+		doc **Doc, compression int) *TextWriter
+
+	NewTextWriterTree func(
+		doc *Doc, node *Node, compression int) *TextWriter
+
+	FreeTextWriter func(writer *TextWriter)
+
+	TextWriterStartDocument func(writer *TextWriter,
+		version, encoding, standalone string) int
+
+	TextWriterEndDocument func(writer *TextWriter) int
+
+	TextWriterStartComment func(writer *TextWriter) int
+
+	TextWriterEndComment func(writer *TextWriter) int
+
+	TextWriterWriteFormatComment func(
+		writer *TextWriter, format string, v ...VArg) int
+
+	TextWriterWriteVFormatComment func(
+		writer *TextWriter, format string, argptr VaList) int
+
+	TextWriterWriteComment func(
+		writer *TextWriter, Content string) int
+
+	TextWriterStartElement func(
+		writer *TextWriter, name string) int
+
+	TextWriterStartElementNS func(writer *TextWriter,
+		prefix, name, namespaceURI string) int
+
+	TextWriterEndElement func(writer *TextWriter) int
+
+	TextWriterFullEndElement func(writer *TextWriter) int
+
+	TextWriterWriteFormatElement func(
+		writer *TextWriter, name, format string, v ...VArg) int
+
+	TextWriterWriteVFormatElement func(writer *TextWriter,
+		name, format string, argptr VaList) int
+
+	TextWriterWriteElement func(writer *TextWriter,
+		name, Content string) int
+
+	TextWriterWriteFormatElementNS func(writer *TextWriter,
+		prefix, name, namespaceURI, format string, v ...VArg) int
+
+	TextWriterWriteVFormatElementNS func(writer *TextWriter,
+		prefix, name, namespaceURI, format string,
+		argptr VaList) int
+
+	TextWriterWriteElementNS func(writer *TextWriter,
+		prefix, name, namespaceURI, Content string) int
+
+	TextWriterWriteFormatRaw func(
+		writer *TextWriter, format string, v ...VArg) int
+
+	TextWriterWriteVFormatRaw func(
+		writer *TextWriter, format string, argptr VaList) int
+
+	TextWriterWriteRawLen func(
+		writer *TextWriter, content string, len int) int
+
+	TextWriterWriteRaw func(
+		writer *TextWriter, content string) int
+
+	TextWriterWriteFormatString func(
+		writer *TextWriter, format string, v ...VArg) int
+
+	TextWriterWriteVFormatString func(
+		writer *TextWriter, format string, argptr VaList) int
+
+	TextWriterWriteString func(
+		writer *TextWriter, Content string) int
+
+	TextWriterWriteBase64 func(
+		writer *TextWriter, data string, start int, len int) int
+
+	TextWriterWriteBinHex func(
+		writer *TextWriter, data string, start int, len int) int
+
+	TextWriterStartAttribute func(
+		writer *TextWriter, name string) int
+
+	TextWriterStartAttributeNS func(writer *TextWriter,
+		prefix, name, namespaceURI string) int
+
+	TextWriterEndAttribute func(writer *TextWriter) int
+
+	TextWriterWriteFormatAttribute func(
+		writer *TextWriter, name, format string, v ...VArg) int
+
+	TextWriterWriteVFormatAttribute func(writer *TextWriter,
+		name, format string, argptr VaList) int
+
+	TextWriterWriteAttribute func(
+		writer *TextWriter, name, Content string) int
+
+	TextWriterWriteFormatAttributeNS func(writer *TextWriter,
+		prefix, name, namespaceURI, format string, v ...VArg) int
+
+	TextWriterWriteVFormatAttributeNS func(writer *TextWriter,
+		prefix, name, namespaceURI, format string,
+		argptr VaList) int
+
+	TextWriterWriteAttributeNS func(writer *TextWriter,
+		prefix, name, namespaceURI, Content string) int
+
+	TextWriterStartPI func(writer *TextWriter, target string) int
+
+	TextWriterEndPI func(writer *TextWriter) int
+
+	TextWriterWriteFormatPI func(writer *TextWriter,
+		target, format string, v ...VArg) int
+
+	TextWriterWriteVFormatPI func(writer *TextWriter,
+		target, format string, argptr VaList) int
+
+	TextWriterWritePI func(
+		writer *TextWriter, target, content string) int
+
+	TextWriterStartCDATA func(writer *TextWriter) int
+
+	TextWriterEndCDATA func(writer *TextWriter) int
+
+	TextWriterWriteFormatCDATA func(
+		writer *TextWriter, format string, v ...VArg) int
+
+	TextWriterWriteVFormatCDATA func(
+		writer *TextWriter, format string, argptr VaList) int
+
+	TextWriterWriteCDATA func(
+		writer *TextWriter, content string) int
+
+	TextWriterStartDTD func(
+		writer *TextWriter, name, pubid, sysid string) int
+
+	TextWriterEndDTD func(writer *TextWriter) int
+
+	TextWriterWriteFormatDTD func(writer *TextWriter,
+		name, pubid, sysid, format string, v ...VArg) int
+
+	TextWriterWriteVFormatDTD func(writer *TextWriter,
+		name, pubid, sysid, format string, argptr VaList) int
+
+	TextWriterWriteDTD func(writer *TextWriter,
+		name, pubid, sysid, subset string) int
+
+	TextWriterStartDTDElement func(
+		writer *TextWriter, name string) int
+
+	TextWriterEndDTDElement func(writer *TextWriter) int
+
+	TextWriterWriteFormatDTDElement func(
+		writer *TextWriter, name, format string, v ...VArg) int
+
+	TextWriterWriteVFormatDTDElement func(writer *TextWriter,
+		name, format string, argptr VaList) int
+
+	TextWriterWriteDTDElement func(
+		writer *TextWriter, name, Content string) int
+
+	TextWriterStartDTDAttlist func(
+		writer *TextWriter, name string) int
+
+	TextWriterEndDTDAttlist func(writer *TextWriter) int
+
+	TextWriterWriteFormatDTDAttlist func(writer *TextWriter,
+		name, format string, v ...VArg) int
+
+	TextWriterWriteVFormatDTDAttlist func(writer *TextWriter,
+		name, format string, argptr VaList) int
+
+	TextWriterWriteDTDAttlist func(
+		writer *TextWriter, name, Content string) int
+
+	TextWriterStartDTDEntity func(
+		writer *TextWriter, pe int, name string) int
+
+	TextWriterEndDTDEntity func(writer *TextWriter) int
+
+	TextWriterWriteFormatDTDInternalEntity func(
+		writer *TextWriter, pe int,
+		name, format string, v ...VArg) int
+
+	TextWriterWriteVFormatDTDInternalEntity func(
+		writer *TextWriter, pe int,
+		name, format string, argptr VaList) int
+
+	TextWriterWriteDTDInternalEntity func(
+		writer *TextWriter, pe int, name, content string) int
+
+	TextWriterWriteDTDExternalEntity func(
+		writer *TextWriter, pe int,
+		name, pubid, sysid, ndataid string) int
+
+	TextWriterWriteDTDExternalEntityContents func(
+		writer *TextWriter, pubid, sysid, ndataid string) int
+
+	TextWriterWriteDTDEntity func(writer *TextWriter,
+		pe int, name, pubid, sysid, ndataid, content string) int
+
+	TextWriterWriteDTDNotation func(
+		writer *TextWriter, name, pubid, sysid string) int
+
+	TextWriterSetIndent func(writer *TextWriter, indent int) int
+
+	TextWriterSetIndentString func(
+		writer *TextWriter, str string) int
+
+	TextWriterSetQuoteChar func(
+		writer *TextWriter, quotechar Char) int
+
+	TextWriterFlush func(writer *TextWriter) int
+
+	NanoFTPInit func()
+
+	NanoFTPCleanup func()
+
+	NanoFTPNewCtxt func(URL string) *Void
+
+	NanoFTPFreeCtxt func(ctx *Void)
+
+	NanoFTPConnectTo func(server string, port int) *Void
+
+	NanoFTPOpen func(URL string) *Void
+
+	NanoFTPConnect func(ctx *Void) int
+
+	NanoFTPClose func(ctx *Void) int
+
+	NanoFTPQuit func(ctx *Void) int
+
+	NanoFTPScanProxy func(URL string)
+
+	NanoFTPProxy func(
+		host string, port int, user, passwd string, typ int)
+
+	NanoFTPUpdateURL func(ctx *Void, URL string) int
+
+	NanoFTPGetResponse func(ctx *Void) int
+
+	NanoFTPCheckResponse func(ctx *Void) int
+
+	NanoFTPCwd func(ctx *Void, directory string) int
+
+	NanoFTPDele func(ctx *Void, file string) int
+
+	NanoFTPGetConnection func(ctx *Void) SOCKET
+
+	NanoFTPCloseConnection func(ctx *Void) int
+
+	NanoFTPList func(ctx *Void, callback FtpListCallback,
+		userData *Void, filename string) int
+
+	NanoFTPGetSocket func(ctx *Void, filename string) SOCKET
+
+	NanoFTPGet func(ctx *Void, callback FtpDataCallback,
+		userData *Void, filename string) int
+
+	NanoFTPRead func(ctx, dest *Void, len int) int
+
+	NanoHTTPInit func()
+
+	NanoHTTPCleanup func()
+
+	NanoHTTPScanProxy func(URL string)
+
+	NanoHTTPFetch func(
+		URL, filename string, contentType *string) int
+
+	NanoHTTPMethod func(URL, method, input string,
+		contentType *string, headers string, ilen int) *Void
+
+	NanoHTTPMethodRedir func(
+		URL, method, input string, contentType, redir *string,
+		headers string, ilen int) *Void
+
+	NanoHTTPOpen func(URL string, contentType *string) *Void
+
+	NanoHTTPOpenRedir func(
+		URL string, contentType *string, redir *string) *Void
+
+	NanoHTTPReturnCode func(ctx *Void) int
+
+	NanoHTTPAuthHeader func(ctx *Void) string
+
+	NanoHTTPRedir func(ctx *Void) string
+
+	NanoHTTPContentLength func(ctx *Void) int
+
+	NanoHTTPEncoding func(ctx *Void) string
+
+	NanoHTTPMimeType func(ctx *Void) string
+
+	NanoHTTPRead func(ctx *Void, dest *Void, len int) int
+
+	NanoHTTPSave func(ctxt *Void, filename string) int
+
+	NanoHTTPClose func(ctx *Void)
+
+	FreePattern func(comp *Pattern)
+
+	FreePatternList func(comp *Pattern)
+
+	Patterncompile func(pattern string, dict *Dict,
+		flags int, namespaces *string) *Pattern
+
+	PatternMatch func(comp *Pattern, node *Node) int
+
+	PatternStreamable func(comp *Pattern) int
+
+	PatternMaxDepth func(comp *Pattern) int
+
+	PatternMinDepth func(comp *Pattern) int
+
+	PatternFromRoot func(comp *Pattern) int
+
+	PatternGetStreamCtxt func(comp *Pattern) *StreamCtxt
+
+	FreeStreamCtxt func(stream *StreamCtxt)
+
+	StreamPushNode func(
+		stream *StreamCtxt, name, ns string, nodeType int) int
+
+	StreamPush func(stream *StreamCtxt, name, ns string) int
+
+	StreamPushAttr func(stream *StreamCtxt, name, ns string) int
+
+	StreamPop func(stream *StreamCtxt) int
+
+	StreamWantsAnyNode func(stream *StreamCtxt) int
+
+	SaveToFd func(
+		fd int, encoding string, options int) *SaveCtxt
+
+	SaveToFilename func(
+		filename, encoding string, options int) *SaveCtxt
+
+	SaveToBuffer func(
+		buffer *Buffer, encoding string, options int) *SaveCtxt
+
+	SaveToIO func(iowrite OutputWriteCallback,
+		ioclose OutputCloseCallback,
+		ioctx *Void, encoding string, options int) *SaveCtxt
+
+	SaveDoc func(ctxt *SaveCtxt, doc *Doc) Long
+
+	SaveTree func(ctxt *SaveCtxt, node *Node) Long
+
+	SaveFlush func(ctxt *SaveCtxt) int
+
+	SaveClose func(ctxt *SaveCtxt) int
+
+	SaveSetEscape func(
+		ctxt *SaveCtxt, escape CharEncodingOutputFunc) int
+
+	SaveSetAttrEscape func(
+		ctxt *SaveCtxt, escape CharEncodingOutputFunc) int
+
+	CreateURI func() *URI
+
+	BuildURI func(URI, base string) string
+
+	BuildRelativeURI func(URI, base string) string
+
+	ParseURI func(str string) *URI
+
+	ParseURIRaw func(str string, raw int) *URI
+
+	ParseURIReference func(uri *URI, str string) int
+
+	SaveUri func(uri *URI) string
+
+	PrintURI func(stream *FILE, uri *URI)
+
+	URIEscapeStr func(str, list string) string
+
+	URIUnescapeString func(
+		str string, leng int, target string) string
+
+	NormalizeURIPath func(path string) int
+
+	URIEscape func(str string) string
+
+	FreeURI func(uri *URI)
+
+	CanonicPath func(path string) string
+
+	PathToURI func(path string) string
+
+	RaiseError func(schannel StructuredErrorFunc,
+		channel GenericErrorFunc, data, ctx, node *Void,
+		domain, code int, level ErrorLevel, file string,
+		line int, str1, str2, str3 string, int1, col int,
+		msg string, v ...VArg)
+
+	SimpleError func(
+		domain, code int, node *Node, msg, extra string)
+
+	ErrEncoding func(ctxt *ParserCtxt,
+		xmlerr ParserErrors, msg, str1, str2 string)
+
+	ModuleOpen func(
+		filename string, XmlModuleOption int) *Module
+
+	ModuleSymbol func(
+		module *Module, name string, result **Void) int
+
+	ModuleClose func(module *Module) int
+
+	ModuleFree func(module *Module) int
+
+	DocbEncodeEntities func(out *UnsignedChar, outlen *int,
+		in *UnsignedChar, inlen *int, quoteChar int) int
+
+	DocbSAXParseDoc func(cur, encoding *Char,
+		sax *DocbSAXHandler, userData *Void) *DocbDoc
+
+	DocbParseDoc func(cur, encoding *Char) *DocbDoc
+
+	DocbSAXParseFile func(filename, encoding *Char,
+		sax *DocbSAXHandler, userData *Void) *DocbDoc
+
+	DocbParseFile func(filename *Char, encoding *Char) *DocbDoc
+
+	DocbFreeParserCtxt func(ctxt *DocbParserCtxt)
+
+	DocbCreatePushParserCtxt func(sax *DocbSAXHandler,
+		userData *Void, chunk *Char, size int,
+		filename *Char, enc CharEncoding) *DocbParserCtxt
+
+	DocbParseChunk func(ctxt *DocbParserCtxt,
+		chunk *Char, size int, terminate int) int
 
 	DocbCreateFileParserCtxt func(
-		filename *Char,
-		encoding *Char) DocbParserCtxtPtr
+		filename, encoding *Char) *DocbParserCtxt
 
-	DocbParseDocument func(
-		ctxt DocbParserCtxtPtr) int
+	DocbParseDocument func(ctxt *DocbParserCtxt) int
 
 	InitxmlDefaultSAXHandler func(
-		hdlr *XmlSAXHandlerV1,
-		warning int)
+		hdlr *SAXHandlerV1, warning int)
 
-	XmlC14NDocSaveTo func(
-		doc XmlDocPtr,
-		nodes XmlNodeSetPtr,
-		mode int,
-		inclusive_ns_prefixes **XmlChar,
-		with_comments int,
-		buf XmlOutputBufferPtr) int
+	C14NDocSaveTo func(doc *Doc, nodes *NodeSet, mode int,
+		inclusiveNsPrefixes **Char, withComments int,
+		buf *OutputBuffer) int
 
-	XmlC14NDocDumpMemory func(
-		doc XmlDocPtr,
-		nodes XmlNodeSetPtr,
-		mode int,
-		inclusive_ns_prefixes **XmlChar,
-		with_comments int,
-		doc_txt_ptr **XmlChar) int
+	C14NDocDumpMemory func(doc *Doc, nodes *NodeSet, mode int,
+		inclusiveNsPrefixes **Char, withComments int,
+		docTxtPtr **Char) int
 
-	XmlC14NDocSave func(
-		doc XmlDocPtr,
-		nodes XmlNodeSetPtr,
-		mode int,
-		inclusive_ns_prefixes **XmlChar,
-		with_comments int,
-		filename *Char,
-		compression int) int
+	C14NDocSave func(doc *Doc, nodes *NodeSet, mode int,
+		inclusiveNsPrefixes **Char, withComments int,
+		filename *Char, compression int) int
 
-	XmlC14NExecute func(
-		doc XmlDocPtr,
-		is_visible_callback XmlC14NIsVisibleCallback,
-		user_data *Void,
-		mode int,
-		inclusive_ns_prefixes **XmlChar,
-		with_comments int,
-		buf XmlOutputBufferPtr) int
+	C14NExecute func(doc *Doc,
+		is_visibleCallback C14NIsVisibleCallback,
+		userData *Void, mode int, inclusiveNsPrefixes **Char,
+		withComments int, buf *OutputBuffer) int
 
-	XmlErrMemory func(
-		ctxt XmlParserCtxtPtr,
-		extra *Char)
+	ErrMemory func(ctxt *ParserCtxt, extra *Char)
 
-	XmlParserInputBufferCreateFilenameDefault func(
-		XmlParserInputBufferCreateFilenameFunc) XmlParserInputBufferCreateFilenameFunc
+	ParserInputBufferCreateFilenameDefault func(
+		ParserInputBufferCreateFilenameFunc) ParserInputBufferCreateFilenameFunc
 
-	XmlOutputBufferCreateFilenameDefault func(
-		XmlOutputBufferCreateFilenameFunc) XmlOutputBufferCreateFilenameFunc
+	OutputBufferCreateFilenameDefault func(
+		OutputBufferCreateFilenameFunc) OutputBufferCreateFilenameFunc
 
-	XmlIsBaseChar func(ch Unsigned_int) int
+	IsBaseChar func(ch UnsignedInt) int
 
-	XmlIsBlank func(ch Unsigned_int) int
+	IsBlank func(ch UnsignedInt) int
 
-	XmlIsChar func(ch Unsigned_int) int
+	IsChar func(ch UnsignedInt) int
 
-	XmlIsCombining func(ch Unsigned_int) int
+	IsCombining func(ch UnsignedInt) int
 
-	XmlIsDigit func(ch Unsigned_int) int
+	IsDigit func(ch UnsignedInt) int
 
-	XmlIsExtender func(ch Unsigned_int) int
+	IsExtender func(ch UnsignedInt) int
 
-	XmlIsIdeographic func(ch Unsigned_int) int
+	IsIdeographic func(ch UnsignedInt) int
 
-	XmlIsPubidChar func(ch Unsigned_int) int
+	IsPubidChar func(ch UnsignedInt) int
 )
 
 var dll = "libxml2-2.dll"
@@ -8209,34 +6108,34 @@ var apiList = outside.Apis{
 	{"__docbDefaultSAXHandler", &DocbDefaultSAXHandler},
 	{"__htmlDefaultSAXHandler", &HtmlDefaultSAXHandler},
 	{"__oldXMLWDcompatibility", &OldXMLWDcompatibility},
-	{"__xmlBufferAllocScheme", &XmlBufferAllocScheme},
-	{"__xmlDefaultBufferSize", &XmlDefaultBufferSize},
-	{"__xmlDefaultSAXHandler", &XmlDefaultSAXHandler},
-	{"__xmlDefaultSAXLocator", &XmlDefaultSAXLocator},
-	{"__xmlDeregisterNodeDefaultValue", &XmlDeregisterNodeDefaultValue},
-	{"__xmlDoValidityCheckingDefaultValue", &XmlDoValidityCheckingDefaultValue},
-	{"__xmlErrEncoding", &XmlErrEncoding},
-	{"__xmlGenericError", &XmlGenericError},
-	{"__xmlGenericErrorContext", &XmlGenericErrorContext},
-	{"__xmlGetWarningsDefaultValue", &XmlGetWarningsDefaultValue},
-	{"__xmlIndentTreeOutput", &XmlIndentTreeOutput},
-	{"__xmlKeepBlanksDefaultValue", &XmlKeepBlanksDefaultValue},
-	{"__xmlLastError", &XmlLastError},
-	{"__xmlLineNumbersDefaultValue", &XmlLineNumbersDefaultValue},
-	{"__xmlLoadExtDtdDefaultValue", &XmlLoadExtDtdDefaultValue},
-	{"__xmlOutputBufferCreateFilenameValue", &XmlOutputBufferCreateFilenameValue},
-	{"__xmlParserDebugEntities", &XmlParserDebugEntities},
-	{"__xmlParserInputBufferCreateFilenameValue", &XmlParserInputBufferCreateFilenameValue},
-	{"__xmlParserVersion", &XmlParserVersion},
-	{"__xmlPedanticParserDefaultValue", &XmlPedanticParserDefaultValue},
-	{"__xmlRaiseError", &XmlRaiseError},
-	{"__xmlRegisterNodeDefaultValue", &XmlRegisterNodeDefaultValue},
-	{"__xmlSaveNoEmptyTags", &XmlSaveNoEmptyTags},
-	{"__xmlSimpleError", &XmlSimpleError},
-	{"__xmlStructuredError", &XmlStructuredError},
-	{"__xmlStructuredErrorContext", &XmlStructuredErrorContext},
-	{"__xmlSubstituteEntitiesDefaultValue", &XmlSubstituteEntitiesDefaultValue},
-	{"__xmlTreeIndentString", &XmlTreeIndentString},
+	{"__xmlBufferAllocScheme", &BufferAllocScheme},
+	{"__xmlDefaultBufferSize", &DefaultBufferSize},
+	{"__xmlDefaultSAXHandler", &DefaultSAXHandler},
+	{"__xmlDefaultSAXLocator", &DefaultSAXLocator},
+	{"__xmlDeregisterNodeDefaultValue", &DeregisterNodeDefaultValue},
+	{"__xmlDoValidityCheckingDefaultValue", &DoValidityCheckingDefaultValue},
+	{"__xmlErrEncoding", &ErrEncoding},
+	{"__xmlGenericError", &GenericError},
+	{"__xmlGenericErrorContext", &GenericErrorContext},
+	{"__xmlGetWarningsDefaultValue", &GetWarningsDefaultValue},
+	{"__xmlIndentTreeOutput", &IndentTreeOutput},
+	{"__xmlKeepBlanksDefaultValue", &KeepBlanksDefaultValue},
+	{"__xmlLastError", &LastError},
+	{"__xmlLineNumbersDefaultValue", &LineNumbersDefaultValue},
+	{"__xmlLoadExtDtdDefaultValue", &LoadExtDtdDefaultValue},
+	{"__xmlOutputBufferCreateFilenameValue", &OutputBufferCreateFilenameValue},
+	{"__xmlParserDebugEntities", &ParserDebugEntities},
+	{"__xmlParserInputBufferCreateFilenameValue", &ParserInputBufferCreateFilenameValue},
+	{"__xmlParserVersion", &ParserVersion},
+	{"__xmlPedanticParserDefaultValue", &PedanticParserDefaultValue},
+	{"__xmlRaiseError", &RaiseError},
+	{"__xmlRegisterNodeDefaultValue", &RegisterNodeDefaultValue},
+	{"__xmlSaveNoEmptyTags", &SaveNoEmptyTags},
+	{"__xmlSimpleError", &SimpleError},
+	{"__xmlStructuredError", &StructuredError},
+	{"__xmlStructuredErrorContext", &StructuredErrorContext},
+	{"__xmlSubstituteEntitiesDefaultValue", &SubstituteEntitiesDefaultValue},
+	{"__xmlTreeIndentString", &TreeIndentString},
 	{"attribute", &Attribute},
 	{"attributeDecl", &AttributeDecl},
 	{"cdataBlock", &CdataBlock},
@@ -8358,1509 +6257,1517 @@ var apiList = outside.Apis{
 	{"xlinkIsLink", &XlinkIsLink},
 	{"xlinkSetDefaultDetect", &XlinkSetDefaultDetect},
 	{"xlinkSetDefaultHandler", &XlinkSetDefaultHandler},
-	{"xmlACatalogAdd", &XmlACatalogAdd},
-	{"xmlACatalogDump", &XmlACatalogDump},
-	{"xmlACatalogRemove", &XmlACatalogRemove},
-	{"xmlACatalogResolve", &XmlACatalogResolve},
-	{"xmlACatalogResolvePublic", &XmlACatalogResolvePublic},
-	{"xmlACatalogResolveSystem", &XmlACatalogResolveSystem},
-	{"xmlACatalogResolveURI", &XmlACatalogResolveURI},
-	{"xmlAddAttributeDecl", &XmlAddAttributeDecl},
-	{"xmlAddChild", &XmlAddChild},
-	{"xmlAddChildList", &XmlAddChildList},
-	{"xmlAddDocEntity", &XmlAddDocEntity},
-	{"xmlAddDtdEntity", &XmlAddDtdEntity},
-	{"xmlAddElementDecl", &XmlAddElementDecl},
-	{"xmlAddEncodingAlias", &XmlAddEncodingAlias},
-	{"xmlAddID", &XmlAddID},
-	{"xmlAddNextSibling", &XmlAddNextSibling},
-	{"xmlAddNotationDecl", &XmlAddNotationDecl},
-	{"xmlAddPrevSibling", &XmlAddPrevSibling},
-	{"xmlAddRef", &XmlAddRef},
-	{"xmlAddSibling", &XmlAddSibling},
-	{"xmlAllocOutputBuffer", &XmlAllocOutputBuffer},
-	{"xmlAllocParserInputBuffer", &XmlAllocParserInputBuffer},
-	{"xmlAttrSerializeTxtContent", &XmlAttrSerializeTxtContent},
-	{"xmlAutomataCompile", &XmlAutomataCompile},
-	{"xmlAutomataGetInitState", &XmlAutomataGetInitState},
-	{"xmlAutomataIsDeterminist", &XmlAutomataIsDeterminist},
-	{"xmlAutomataNewAllTrans", &XmlAutomataNewAllTrans},
-	{"xmlAutomataNewCountTrans", &XmlAutomataNewCountTrans},
-	{"xmlAutomataNewCountTrans2", &XmlAutomataNewCountTrans2},
-	{"xmlAutomataNewCountedTrans", &XmlAutomataNewCountedTrans},
-	{"xmlAutomataNewCounter", &XmlAutomataNewCounter},
-	{"xmlAutomataNewCounterTrans", &XmlAutomataNewCounterTrans},
-	{"xmlAutomataNewEpsilon", &XmlAutomataNewEpsilon},
-	{"xmlAutomataNewNegTrans", &XmlAutomataNewNegTrans},
-	{"xmlAutomataNewOnceTrans", &XmlAutomataNewOnceTrans},
-	{"xmlAutomataNewOnceTrans2", &XmlAutomataNewOnceTrans2},
-	{"xmlAutomataNewState", &XmlAutomataNewState},
-	{"xmlAutomataNewTransition", &XmlAutomataNewTransition},
-	{"xmlAutomataNewTransition2", &XmlAutomataNewTransition2},
-	{"xmlAutomataSetFinalState", &XmlAutomataSetFinalState},
-	{"xmlBoolToText", &XmlBoolToText},
-	{"xmlBufferAdd", &XmlBufferAdd},
-	{"xmlBufferAddHead", &XmlBufferAddHead},
-	{"xmlBufferCCat", &XmlBufferCCat},
-	{"xmlBufferCat", &XmlBufferCat},
-	{"xmlBufferContent", &XmlBufferContent},
-	{"xmlBufferCreate", &XmlBufferCreate},
-	{"xmlBufferCreateSize", &XmlBufferCreateSize},
-	{"xmlBufferCreateStatic", &XmlBufferCreateStatic},
-	{"xmlBufferDump", &XmlBufferDump},
-	{"xmlBufferEmpty", &XmlBufferEmpty},
-	{"xmlBufferFree", &XmlBufferFree},
-	{"xmlBufferGrow", &XmlBufferGrow},
-	{"xmlBufferLength", &XmlBufferLength},
-	{"xmlBufferResize", &XmlBufferResize},
-	{"xmlBufferSetAllocationScheme", &XmlBufferSetAllocationScheme},
-	{"xmlBufferShrink", &XmlBufferShrink},
-	{"xmlBufferWriteCHAR", &XmlBufferWriteCHAR},
-	{"xmlBufferWriteChar", &XmlBufferWriteChar},
-	{"xmlBufferWriteQuotedString", &XmlBufferWriteQuotedString},
-	{"xmlBuildQName", &XmlBuildQName},
-	{"xmlBuildRelativeURI", &XmlBuildRelativeURI},
-	{"xmlBuildURI", &XmlBuildURI},
-	{"xmlByteConsumed", &XmlByteConsumed},
-	{"xmlC14NDocDumpMemory", &XmlC14NDocDumpMemory},
-	{"xmlC14NDocSave", &XmlC14NDocSave},
-	{"xmlC14NDocSaveTo", &XmlC14NDocSaveTo},
-	{"xmlC14NExecute", &XmlC14NExecute},
-	{"xmlCanonicPath", &XmlCanonicPath},
-	{"xmlCatalogAdd", &XmlCatalogAdd},
-	{"xmlCatalogAddLocal", &XmlCatalogAddLocal},
-	{"xmlCatalogCleanup", &XmlCatalogCleanup},
-	{"xmlCatalogConvert", &XmlCatalogConvert},
-	{"xmlCatalogDump", &XmlCatalogDump},
-	{"xmlCatalogFreeLocal", &XmlCatalogFreeLocal},
-	{"xmlCatalogGetDefaults", &XmlCatalogGetDefaults},
-	{"xmlCatalogGetPublic", &XmlCatalogGetPublic},
-	{"xmlCatalogGetSystem", &XmlCatalogGetSystem},
-	{"xmlCatalogIsEmpty", &XmlCatalogIsEmpty},
-	{"xmlCatalogLocalResolve", &XmlCatalogLocalResolve},
-	{"xmlCatalogLocalResolveURI", &XmlCatalogLocalResolveURI},
-	{"xmlCatalogRemove", &XmlCatalogRemove},
-	{"xmlCatalogResolve", &XmlCatalogResolve},
-	{"xmlCatalogResolvePublic", &XmlCatalogResolvePublic},
-	{"xmlCatalogResolveSystem", &XmlCatalogResolveSystem},
-	{"xmlCatalogResolveURI", &XmlCatalogResolveURI},
-	{"xmlCatalogSetDebug", &XmlCatalogSetDebug},
-	{"xmlCatalogSetDefaultPrefer", &XmlCatalogSetDefaultPrefer},
-	{"xmlCatalogSetDefaults", &XmlCatalogSetDefaults},
-	{"xmlCharEncCloseFunc", &XmlCharEncCloseFunc},
-	{"xmlCharEncFirstLine", &XmlCharEncFirstLine},
-	{"xmlCharEncInFunc", &XmlCharEncInFunc},
-	{"xmlCharEncOutFunc", &XmlCharEncOutFunc},
-	{"xmlCharInRange", &XmlCharInRange},
-	{"xmlCharStrdup", &XmlCharStrdup},
-	{"xmlCharStrndup", &XmlCharStrndup},
-	{"xmlCheckFilename", &XmlCheckFilename},
-	{"xmlCheckHTTPInput", &XmlCheckHTTPInput},
-	{"xmlCheckLanguageID", &XmlCheckLanguageID},
-	{"xmlCheckUTF8", &XmlCheckUTF8},
-	{"xmlCheckVersion", &XmlCheckVersion},
-	{"xmlChildElementCount", &XmlChildElementCount},
-	{"xmlCleanupCharEncodingHandlers", &XmlCleanupCharEncodingHandlers},
-	{"xmlCleanupEncodingAliases", &XmlCleanupEncodingAliases},
-	{"xmlCleanupGlobals", &XmlCleanupGlobals},
-	{"xmlCleanupInputCallbacks", &XmlCleanupInputCallbacks},
-	{"xmlCleanupMemory", &XmlCleanupMemory},
-	{"xmlCleanupOutputCallbacks", &XmlCleanupOutputCallbacks},
-	{"xmlCleanupParser", &XmlCleanupParser},
-	{"xmlCleanupPredefinedEntities", &XmlCleanupPredefinedEntities},
-	{"xmlCleanupThreads", &XmlCleanupThreads},
-	{"xmlClearNodeInfoSeq", &XmlClearNodeInfoSeq},
-	{"xmlClearParserCtxt", &XmlClearParserCtxt},
-	{"xmlConvertSGMLCatalog", &XmlConvertSGMLCatalog},
-	{"xmlCopyAttributeTable", &XmlCopyAttributeTable},
-	{"xmlCopyChar", &XmlCopyChar},
-	{"xmlCopyCharMultiByte", &XmlCopyCharMultiByte},
-	{"xmlCopyDoc", &XmlCopyDoc},
-	{"xmlCopyDocElementContent", &XmlCopyDocElementContent},
-	{"xmlCopyDtd", &XmlCopyDtd},
-	{"xmlCopyElementContent", &XmlCopyElementContent},
-	{"xmlCopyElementTable", &XmlCopyElementTable},
-	{"xmlCopyEntitiesTable", &XmlCopyEntitiesTable},
-	{"xmlCopyEnumeration", &XmlCopyEnumeration},
-	{"xmlCopyError", &XmlCopyError},
-	{"xmlCopyNamespace", &XmlCopyNamespace},
-	{"xmlCopyNamespaceList", &XmlCopyNamespaceList},
-	{"xmlCopyNode", &XmlCopyNode},
-	{"xmlCopyNodeList", &XmlCopyNodeList},
-	{"xmlCopyNotationTable", &XmlCopyNotationTable},
-	{"xmlCopyProp", &XmlCopyProp},
-	{"xmlCopyPropList", &XmlCopyPropList},
-	{"xmlCreateDocParserCtxt", &XmlCreateDocParserCtxt},
-	{"xmlCreateEntitiesTable", &XmlCreateEntitiesTable},
-	{"xmlCreateEntityParserCtxt", &XmlCreateEntityParserCtxt},
-	{"xmlCreateEnumeration", &XmlCreateEnumeration},
-	{"xmlCreateFileParserCtxt", &XmlCreateFileParserCtxt},
-	{"xmlCreateIOParserCtxt", &XmlCreateIOParserCtxt},
-	{"xmlCreateIntSubset", &XmlCreateIntSubset},
-	{"xmlCreateMemoryParserCtxt", &XmlCreateMemoryParserCtxt},
-	{"xmlCreatePushParserCtxt", &XmlCreatePushParserCtxt},
-	{"xmlCreateURI", &XmlCreateURI},
-	{"xmlCreateURLParserCtxt", &XmlCreateURLParserCtxt},
-	{"xmlCtxtGetLastError", &XmlCtxtGetLastError},
-	{"xmlCtxtReadDoc", &XmlCtxtReadDoc},
-	{"xmlCtxtReadFd", &XmlCtxtReadFd},
-	{"xmlCtxtReadFile", &XmlCtxtReadFile},
-	{"xmlCtxtReadIO", &XmlCtxtReadIO},
-	{"xmlCtxtReadMemory", &XmlCtxtReadMemory},
-	{"xmlCtxtReset", &XmlCtxtReset},
-	{"xmlCtxtResetLastError", &XmlCtxtResetLastError},
-	{"xmlCtxtResetPush", &XmlCtxtResetPush},
-	{"xmlCtxtUseOptions", &XmlCtxtUseOptions},
-	{"xmlCurrentChar", &XmlCurrentChar},
-	{"xmlDOMWrapAdoptNode", &XmlDOMWrapAdoptNode},
-	{"xmlDOMWrapCloneNode", &XmlDOMWrapCloneNode},
-	{"xmlDOMWrapFreeCtxt", &XmlDOMWrapFreeCtxt},
-	{"xmlDOMWrapNewCtxt", &XmlDOMWrapNewCtxt},
-	{"xmlDOMWrapReconcileNamespaces", &XmlDOMWrapReconcileNamespaces},
-	{"xmlDOMWrapRemoveNode", &XmlDOMWrapRemoveNode},
-	{"xmlDebugCheckDocument", &XmlDebugCheckDocument},
-	{"xmlDebugDumpAttr", &XmlDebugDumpAttr},
-	{"xmlDebugDumpAttrList", &XmlDebugDumpAttrList},
-	{"xmlDebugDumpDTD", &XmlDebugDumpDTD},
-	{"xmlDebugDumpDocument", &XmlDebugDumpDocument},
-	{"xmlDebugDumpDocumentHead", &XmlDebugDumpDocumentHead},
-	{"xmlDebugDumpEntities", &XmlDebugDumpEntities},
-	{"xmlDebugDumpNode", &XmlDebugDumpNode},
-	{"xmlDebugDumpNodeList", &XmlDebugDumpNodeList},
-	{"xmlDebugDumpOneNode", &XmlDebugDumpOneNode},
-	{"xmlDebugDumpString", &XmlDebugDumpString},
-	{"xmlDecodeEntities", &XmlDecodeEntities},
-	{"xmlDefaultSAXHandlerInit", &XmlDefaultSAXHandlerInit},
-	{"xmlDelEncodingAlias", &XmlDelEncodingAlias},
-	{"xmlDeregisterNodeDefault", &XmlDeregisterNodeDefault},
-	{"xmlDetectCharEncoding", &XmlDetectCharEncoding},
-	{"xmlDictCleanup", &XmlDictCleanup},
-	{"xmlDictCreate", &XmlDictCreate},
-	{"xmlDictCreateSub", &XmlDictCreateSub},
-	{"xmlDictExists", &XmlDictExists},
-	{"xmlDictFree", &XmlDictFree},
-	{"xmlDictLookup", &XmlDictLookup},
-	{"xmlDictOwns", &XmlDictOwns},
-	{"xmlDictQLookup", &XmlDictQLookup},
-	{"xmlDictReference", &XmlDictReference},
-	{"xmlDictSize", &XmlDictSize},
-	{"xmlDocCopyNode", &XmlDocCopyNode},
-	{"xmlDocCopyNodeList", &XmlDocCopyNodeList},
-	{"xmlDocDump", &XmlDocDump},
-	{"xmlDocDumpFormatMemory", &XmlDocDumpFormatMemory},
-	{"xmlDocDumpFormatMemoryEnc", &XmlDocDumpFormatMemoryEnc},
-	{"xmlDocDumpMemory", &XmlDocDumpMemory},
-	{"xmlDocDumpMemoryEnc", &XmlDocDumpMemoryEnc},
-	{"xmlDocFormatDump", &XmlDocFormatDump},
-	{"xmlDocGetRootElement", &XmlDocGetRootElement},
-	{"xmlDocSetRootElement", &XmlDocSetRootElement},
-	{"xmlDumpAttributeDecl", &XmlDumpAttributeDecl},
-	{"xmlDumpAttributeTable", &XmlDumpAttributeTable},
-	{"xmlDumpElementDecl", &XmlDumpElementDecl},
-	{"xmlDumpElementTable", &XmlDumpElementTable},
-	{"xmlDumpEntitiesTable", &XmlDumpEntitiesTable},
-	{"xmlDumpEntityDecl", &XmlDumpEntityDecl},
-	{"xmlDumpNotationDecl", &XmlDumpNotationDecl},
-	{"xmlDumpNotationTable", &XmlDumpNotationTable},
-	{"xmlElemDump", &XmlElemDump},
-	{"xmlEncodeEntities", &XmlEncodeEntities},
-	{"xmlEncodeEntitiesReentrant", &XmlEncodeEntitiesReentrant},
-	{"xmlEncodeSpecialChars", &XmlEncodeSpecialChars},
-	{"xmlErrMemory", &XmlErrMemory},
-	{"xmlExpCtxtNbCons", &XmlExpCtxtNbCons},
-	{"xmlExpCtxtNbNodes", &XmlExpCtxtNbNodes},
-	{"xmlExpDump", &XmlExpDump},
-	{"xmlExpExpDerive", &XmlExpExpDerive},
-	{"xmlExpFree", &XmlExpFree},
-	{"xmlExpFreeCtxt", &XmlExpFreeCtxt},
-	{"xmlExpGetLanguage", &XmlExpGetLanguage},
-	{"xmlExpGetStart", &XmlExpGetStart},
-	{"xmlExpIsNillable", &XmlExpIsNillable},
-	{"xmlExpMaxToken", &XmlExpMaxToken},
-	{"xmlExpNewAtom", &XmlExpNewAtom},
-	{"xmlExpNewCtxt", &XmlExpNewCtxt},
-	{"xmlExpNewOr", &XmlExpNewOr},
-	{"xmlExpNewRange", &XmlExpNewRange},
-	{"xmlExpNewSeq", &XmlExpNewSeq},
-	{"xmlExpParse", &XmlExpParse},
-	{"xmlExpRef", &XmlExpRef},
-	{"xmlExpStringDerive", &XmlExpStringDerive},
-	{"xmlExpSubsume", &XmlExpSubsume},
-	{"xmlFileClose", &XmlFileClose},
-	{"xmlFileMatch", &XmlFileMatch},
-	{"xmlFileOpen", &XmlFileOpen},
-	{"xmlFileRead", &XmlFileRead},
-	{"xmlFindCharEncodingHandler", &XmlFindCharEncodingHandler},
-	{"xmlFirstElementChild", &XmlFirstElementChild},
-	{"xmlFreeAttributeTable", &XmlFreeAttributeTable},
-	{"xmlFreeAutomata", &XmlFreeAutomata},
-	{"xmlFreeCatalog", &XmlFreeCatalog},
-	{"xmlFreeDoc", &XmlFreeDoc},
-	{"xmlFreeDocElementContent", &XmlFreeDocElementContent},
-	{"xmlFreeDtd", &XmlFreeDtd},
-	{"xmlFreeElementContent", &XmlFreeElementContent},
-	{"xmlFreeElementTable", &XmlFreeElementTable},
-	{"xmlFreeEntitiesTable", &XmlFreeEntitiesTable},
-	{"xmlFreeEnumeration", &XmlFreeEnumeration},
-	{"xmlFreeIDTable", &XmlFreeIDTable},
-	{"xmlFreeInputStream", &XmlFreeInputStream},
-	{"xmlFreeMutex", &XmlFreeMutex},
-	{"xmlFreeNode", &XmlFreeNode},
-	{"xmlFreeNodeList", &XmlFreeNodeList},
-	{"xmlFreeNotationTable", &XmlFreeNotationTable},
-	{"xmlFreeNs", &XmlFreeNs},
-	{"xmlFreeNsList", &XmlFreeNsList},
-	{"xmlFreeParserCtxt", &XmlFreeParserCtxt},
-	{"xmlFreeParserInputBuffer", &XmlFreeParserInputBuffer},
-	{"xmlFreePattern", &XmlFreePattern},
-	{"xmlFreePatternList", &XmlFreePatternList},
-	{"xmlFreeProp", &XmlFreeProp},
-	{"xmlFreePropList", &XmlFreePropList},
-	{"xmlFreeRMutex", &XmlFreeRMutex},
-	{"xmlFreeRefTable", &XmlFreeRefTable},
-	{"xmlFreeStreamCtxt", &XmlFreeStreamCtxt},
-	{"xmlFreeTextReader", &XmlFreeTextReader},
-	{"xmlFreeTextWriter", &XmlFreeTextWriter},
-	{"xmlFreeURI", &XmlFreeURI},
-	{"xmlFreeValidCtxt", &XmlFreeValidCtxt},
-	{"xmlGcMemGet", &XmlGcMemGet},
-	{"xmlGcMemSetup", &XmlGcMemSetup},
-	{"xmlGetBufferAllocationScheme", &XmlGetBufferAllocationScheme},
-	{"xmlGetCharEncodingHandler", &XmlGetCharEncodingHandler},
-	{"xmlGetCharEncodingName", &XmlGetCharEncodingName},
-	{"xmlGetCompressMode", &XmlGetCompressMode},
-	{"xmlGetDocCompressMode", &XmlGetDocCompressMode},
-	{"xmlGetDocEntity", &XmlGetDocEntity},
-	{"xmlGetDtdAttrDesc", &XmlGetDtdAttrDesc},
-	{"xmlGetDtdElementDesc", &XmlGetDtdElementDesc},
-	{"xmlGetDtdEntity", &XmlGetDtdEntity},
-	{"xmlGetDtdNotationDesc", &XmlGetDtdNotationDesc},
-	{"xmlGetDtdQAttrDesc", &XmlGetDtdQAttrDesc},
-	{"xmlGetDtdQElementDesc", &XmlGetDtdQElementDesc},
-	{"xmlGetEncodingAlias", &XmlGetEncodingAlias},
-	{"xmlGetExternalEntityLoader", &XmlGetExternalEntityLoader},
-	{"xmlGetFeature", &XmlGetFeature},
-	{"xmlGetFeaturesList", &XmlGetFeaturesList},
-	{"xmlGetGlobalState", &XmlGetGlobalState},
-	{"xmlGetID", &XmlGetID},
-	{"xmlGetIntSubset", &XmlGetIntSubset},
-	{"xmlGetLastChild", &XmlGetLastChild},
-	{"xmlGetLastError", &XmlGetLastError},
-	{"xmlGetLineNo", &XmlGetLineNo},
-	{"xmlGetNoNsProp", &XmlGetNoNsProp},
-	{"xmlGetNodePath", &XmlGetNodePath},
-	{"xmlGetNsList", &XmlGetNsList},
-	{"xmlGetNsProp", &XmlGetNsProp},
+	{"xmlACatalogAdd", &ACatalogAdd},
+	{"xmlACatalogDump", &ACatalogDump},
+	{"xmlACatalogRemove", &ACatalogRemove},
+	{"xmlACatalogResolve", &ACatalogResolve},
+	{"xmlACatalogResolvePublic", &ACatalogResolvePublic},
+	{"xmlACatalogResolveSystem", &ACatalogResolveSystem},
+	{"xmlACatalogResolveURI", &ACatalogResolveURI},
+	{"xmlAddAttributeDecl", &AddAttributeDecl},
+	{"xmlAddChild", &AddChild},
+	{"xmlAddChildList", &AddChildList},
+	{"xmlAddDocEntity", &AddDocEntity},
+	{"xmlAddDtdEntity", &AddDtdEntity},
+	{"xmlAddElementDecl", &AddElementDecl},
+	{"xmlAddEncodingAlias", &AddEncodingAlias},
+	{"xmlAddID", &AddID},
+	{"xmlAddNextSibling", &AddNextSibling},
+	{"xmlAddNotationDecl", &AddNotationDecl},
+	{"xmlAddPrevSibling", &AddPrevSibling},
+	{"xmlAddRef", &AddRef},
+	{"xmlAddSibling", &AddSibling},
+	{"xmlAllocOutputBuffer", &AllocOutputBuffer},
+	{"xmlAllocParserInputBuffer", &AllocParserInputBuffer},
+	{"xmlAttrSerializeTxtContent", &AttrSerializeTxtContent},
+	{"xmlAutomataCompile", &AutomataCompile},
+	{"xmlAutomataGetInitState", &AutomataGetInitState},
+	{"xmlAutomataIsDeterminist", &AutomataIsDeterminist},
+	{"xmlAutomataNewAllTrans", &AutomataNewAllTrans},
+	{"xmlAutomataNewCountTrans", &AutomataNewCountTrans},
+	{"xmlAutomataNewCountTrans2", &AutomataNewCountTrans2},
+	{"xmlAutomataNewCountedTrans", &AutomataNewCountedTrans},
+	{"xmlAutomataNewCounter", &AutomataNewCounter},
+	{"xmlAutomataNewCounterTrans", &AutomataNewCounterTrans},
+	{"xmlAutomataNewEpsilon", &AutomataNewEpsilon},
+	{"xmlAutomataNewNegTrans", &AutomataNewNegTrans},
+	{"xmlAutomataNewOnceTrans", &AutomataNewOnceTrans},
+	{"xmlAutomataNewOnceTrans2", &AutomataNewOnceTrans2},
+	{"xmlAutomataNewState", &AutomataNewState},
+	{"xmlAutomataNewTransition", &AutomataNewTransition},
+	{"xmlAutomataNewTransition2", &AutomataNewTransition2},
+	{"xmlAutomataSetFinalState", &AutomataSetFinalState},
+	{"xmlBoolToText", &BoolToText},
+	{"xmlBufferAdd", &BufferAdd},
+	{"xmlBufferAddHead", &BufferAddHead},
+	{"xmlBufferCCat", &BufferCCat},
+	{"xmlBufferCat", &BufferCat},
+	{"xmlBufferContent", &BufferContent},
+	{"xmlBufferCreate", &BufferCreate},
+	{"xmlBufferCreateSize", &BufferCreateSize},
+	{"xmlBufferCreateStatic", &BufferCreateStatic},
+	{"xmlBufferDump", &BufferDump},
+	{"xmlBufferEmpty", &BufferEmpty},
+	{"xmlBufferFree", &BufferFree},
+	{"xmlBufferGrow", &BufferGrow},
+	{"xmlBufferLength", &BufferLength},
+	{"xmlBufferResize", &BufferResize},
+	{"xmlBufferSetAllocationScheme", &BufferSetAllocationScheme},
+	{"xmlBufferShrink", &BufferShrink},
+	{"xmlBufferWriteCHAR", &BufferWriteCHAR},
+	{"xmlBufferWriteChar", &BufferWriteChar},
+	{"xmlBufferWriteQuotedString", &BufferWriteQuotedString},
+	{"xmlBuildQName", &BuildQName},
+	{"xmlBuildRelativeURI", &BuildRelativeURI},
+	{"xmlBuildURI", &BuildURI},
+	{"xmlByteConsumed", &ByteConsumed},
+	{"xmlC14NDocDumpMemory", &C14NDocDumpMemory},
+	{"xmlC14NDocSave", &C14NDocSave},
+	{"xmlC14NDocSaveTo", &C14NDocSaveTo},
+	{"xmlC14NExecute", &C14NExecute},
+	{"xmlCanonicPath", &CanonicPath},
+	{"xmlCatalogAdd", &CatalogAdd},
+	{"xmlCatalogAddLocal", &CatalogAddLocal},
+	{"xmlCatalogCleanup", &CatalogCleanup},
+	{"xmlCatalogConvert", &CatalogConvert},
+	{"xmlCatalogDump", &CatalogDump},
+	{"xmlCatalogFreeLocal", &CatalogFreeLocal},
+	{"xmlCatalogGetDefaults", &CatalogGetDefaults},
+	{"xmlCatalogGetPublic", &CatalogGetPublic},
+	{"xmlCatalogGetSystem", &CatalogGetSystem},
+	{"xmlCatalogIsEmpty", &CatalogIsEmpty},
+	{"xmlCatalogLocalResolve", &CatalogLocalResolve},
+	{"xmlCatalogLocalResolveURI", &CatalogLocalResolveURI},
+	{"xmlCatalogRemove", &CatalogRemove},
+	{"xmlCatalogResolve", &CatalogResolve},
+	{"xmlCatalogResolvePublic", &CatalogResolvePublic},
+	{"xmlCatalogResolveSystem", &CatalogResolveSystem},
+	{"xmlCatalogResolveURI", &CatalogResolveURI},
+	{"xmlCatalogSetDebug", &CatalogSetDebug},
+	{"xmlCatalogSetDefaultPrefer", &CatalogSetDefaultPrefer},
+	{"xmlCatalogSetDefaults", &CatalogSetDefaults},
+	{"xmlCharEncCloseFunc", &CharEncCloseFunc},
+	{"xmlCharEncFirstLine", &CharEncFirstLine},
+	{"xmlCharEncInFunc", &CharEncInFunc},
+	{"xmlCharEncOutFunc", &CharEncOutFunc},
+	{"xmlCharInRange", &CharInRange},
+	{"xmlCharStrdup", &CharStrdup},
+	{"xmlCharStrndup", &CharStrndup},
+	{"xmlCheckFilename", &CheckFilename},
+	{"xmlCheckHTTPInput", &CheckHTTPInput},
+	{"xmlCheckLanguageID", &CheckLanguageID},
+	{"xmlCheckUTF8", &CheckUTF8},
+	{"xmlCheckVersion", &CheckVersion},
+	{"xmlChildElementCount", &ChildElementCount},
+	{"xmlCleanupCharEncodingHandlers", &CleanupCharEncodingHandlers},
+	{"xmlCleanupEncodingAliases", &CleanupEncodingAliases},
+	{"xmlCleanupGlobals", &CleanupGlobals},
+	{"xmlCleanupInputCallbacks", &CleanupInputCallbacks},
+	{"xmlCleanupMemory", &CleanupMemory},
+	{"xmlCleanupOutputCallbacks", &CleanupOutputCallbacks},
+	{"xmlCleanupParser", &CleanupParser},
+	{"xmlCleanupPredefinedEntities", &CleanupPredefinedEntities},
+	{"xmlCleanupThreads", &CleanupThreads},
+	{"xmlClearNodeInfoSeq", &ClearNodeInfoSeq},
+	{"xmlClearParserCtxt", &ClearParserCtxt},
+	{"xmlConvertSGMLCatalog", &ConvertSGMLCatalog},
+	{"xmlCopyAttributeTable", &CopyAttributeTable},
+	{"xmlCopyChar", &CopyChar},
+	{"xmlCopyCharMultiByte", &CopyCharMultiByte},
+	{"xmlCopyDoc", &CopyDoc},
+	{"xmlCopyDocElementContent", &CopyDocElementContent},
+	{"xmlCopyDtd", &CopyDtd},
+	{"xmlCopyElementContent", &CopyElementContent},
+	{"xmlCopyElementTable", &CopyElementTable},
+	{"xmlCopyEntitiesTable", &CopyEntitiesTable},
+	{"xmlCopyEnumeration", &CopyEnumeration},
+	{"xmlCopyError", &CopyError},
+	{"xmlCopyNamespace", &CopyNamespace},
+	{"xmlCopyNamespaceList", &CopyNamespaceList},
+	{"xmlCopyNode", &CopyNode},
+	{"xmlCopyNodeList", &CopyNodeList},
+	{"xmlCopyNotationTable", &CopyNotationTable},
+	{"xmlCopyProp", &CopyProp},
+	{"xmlCopyPropList", &CopyPropList},
+	{"xmlCreateDocParserCtxt", &CreateDocParserCtxt},
+	{"xmlCreateEntitiesTable", &CreateEntitiesTable},
+	{"xmlCreateEntityParserCtxt", &CreateEntityParserCtxt},
+	{"xmlCreateEnumeration", &CreateEnumeration},
+	{"xmlCreateFileParserCtxt", &CreateFileParserCtxt},
+	{"xmlCreateIOParserCtxt", &CreateIOParserCtxt},
+	{"xmlCreateIntSubset", &CreateIntSubset},
+	{"xmlCreateMemoryParserCtxt", &CreateMemoryParserCtxt},
+	{"xmlCreatePushParserCtxt", &CreatePushParserCtxt},
+	{"xmlCreateURI", &CreateURI},
+	{"xmlCreateURLParserCtxt", &CreateURLParserCtxt},
+	{"xmlCtxtGetLastError", &CtxtGetLastError},
+	{"xmlCtxtReadDoc", &CtxtReadDoc},
+	{"xmlCtxtReadFd", &CtxtReadFd},
+	{"xmlCtxtReadFile", &CtxtReadFile},
+	{"xmlCtxtReadIO", &CtxtReadIO},
+	{"xmlCtxtReadMemory", &CtxtReadMemory},
+	{"xmlCtxtReset", &CtxtReset},
+	{"xmlCtxtResetLastError", &CtxtResetLastError},
+	{"xmlCtxtResetPush", &CtxtResetPush},
+	{"xmlCtxtUseOptions", &CtxtUseOptions},
+	{"xmlCurrentChar", &CurrentChar},
+	{"xmlDOMWrapAdoptNode", &DOMWrapAdoptNode},
+	{"xmlDOMWrapCloneNode", &DOMWrapCloneNode},
+	{"xmlDOMWrapFreeCtxt", &DOMWrapFreeCtxt},
+	{"xmlDOMWrapNewCtxt", &DOMWrapNewCtxt},
+	{"xmlDOMWrapReconcileNamespaces", &DOMWrapReconcileNamespaces},
+	{"xmlDOMWrapRemoveNode", &DOMWrapRemoveNode},
+	{"xmlDebugCheckDocument", &DebugCheckDocument},
+	{"xmlDebugDumpAttr", &DebugDumpAttr},
+	{"xmlDebugDumpAttrList", &DebugDumpAttrList},
+	{"xmlDebugDumpDTD", &DebugDumpDTD},
+	{"xmlDebugDumpDocument", &DebugDumpDocument},
+	{"xmlDebugDumpDocumentHead", &DebugDumpDocumentHead},
+	{"xmlDebugDumpEntities", &DebugDumpEntities},
+	{"xmlDebugDumpNode", &DebugDumpNode},
+	{"xmlDebugDumpNodeList", &DebugDumpNodeList},
+	{"xmlDebugDumpOneNode", &DebugDumpOneNode},
+	{"xmlDebugDumpString", &DebugDumpString},
+	{"xmlDecodeEntities", &DecodeEntities},
+	{"xmlDefaultSAXHandlerInit", &DefaultSAXHandlerInit},
+	{"xmlDelEncodingAlias", &DelEncodingAlias},
+	{"xmlDeregisterNodeDefault", &DeregisterNodeDefault},
+	{"xmlDetectCharEncoding", &DetectCharEncoding},
+	{"xmlDictCleanup", &DictCleanup},
+	{"xmlDictCreate", &DictCreate},
+	{"xmlDictCreateSub", &DictCreateSub},
+	{"xmlDictExists", &DictExists},
+	{"xmlDictFree", &DictFree},
+	{"xmlDictLookup", &DictLookup},
+	{"xmlDictOwns", &DictOwns},
+	{"xmlDictQLookup", &DictQLookup},
+	{"xmlDictReference", &DictReference},
+	{"xmlDictSize", &DictSize},
+	{"xmlDocCopyNode", &DocCopyNode},
+	{"xmlDocCopyNodeList", &DocCopyNodeList},
+	{"xmlDocDump", &DocDump},
+	{"xmlDocDumpFormatMemory", &DocDumpFormatMemory},
+	{"xmlDocDumpFormatMemoryEnc", &DocDumpFormatMemoryEnc},
+	{"xmlDocDumpMemory", &DocDumpMemory},
+	{"xmlDocDumpMemoryEnc", &DocDumpMemoryEnc},
+	{"xmlDocFormatDump", &DocFormatDump},
+	{"xmlDocGetRootElement", &DocGetRootElement},
+	{"xmlDocSetRootElement", &DocSetRootElement},
+	{"xmlDumpAttributeDecl", &DumpAttributeDecl},
+	{"xmlDumpAttributeTable", &DumpAttributeTable},
+	{"xmlDumpElementDecl", &DumpElementDecl},
+	{"xmlDumpElementTable", &DumpElementTable},
+	{"xmlDumpEntitiesTable", &DumpEntitiesTable},
+	{"xmlDumpEntityDecl", &DumpEntityDecl},
+	{"xmlDumpNotationDecl", &DumpNotationDecl},
+	{"xmlDumpNotationTable", &DumpNotationTable},
+	{"xmlElemDump", &ElemDump},
+	{"xmlEncodeEntities", &EncodeEntities},
+	{"xmlEncodeEntitiesReentrant", &EncodeEntitiesReentrant},
+	{"xmlEncodeSpecialChars", &EncodeSpecialChars},
+	{"xmlErrMemory", &ErrMemory},
+	{"xmlExpCtxtNbCons", &ExpCtxtNbCons},
+	{"xmlExpCtxtNbNodes", &ExpCtxtNbNodes},
+	{"xmlExpDump", &ExpDump},
+	{"xmlExpExpDerive", &ExpExpDerive},
+	{"xmlExpFree", &ExpFree},
+	{"xmlExpFreeCtxt", &ExpFreeCtxt},
+	{"xmlExpGetLanguage", &ExpGetLanguage},
+	{"xmlExpGetStart", &ExpGetStart},
+	{"xmlExpIsNillable", &ExpIsNillable},
+	{"xmlExpMaxToken", &ExpMaxToken},
+	{"xmlExpNewAtom", &ExpNewAtom},
+	{"xmlExpNewCtxt", &ExpNewCtxt},
+	{"xmlExpNewOr", &ExpNewOr},
+	{"xmlExpNewRange", &ExpNewRange},
+	{"xmlExpNewSeq", &ExpNewSeq},
+	{"xmlExpParse", &ExpParse},
+	{"xmlExpRef", &ExpRef},
+	{"xmlExpStringDerive", &ExpStringDerive},
+	{"xmlExpSubsume", &ExpSubsume},
+	{"xmlFileClose", &FileClose},
+	{"xmlFileMatch", &FileMatch},
+	{"xmlFileOpen", &FileOpen},
+	{"xmlFileRead", &FileRead},
+	{"xmlFindCharEncodingHandler", &FindCharEncodingHandler},
+	{"xmlFirstElementChild", &FirstElementChild},
+	{"xmlFreeAttributeTable", &FreeAttributeTable},
+	{"xmlFreeAutomata", &FreeAutomata},
+	{"xmlFreeCatalog", &FreeCatalog},
+	{"xmlFreeDoc", &FreeDoc},
+	{"xmlFreeDocElementContent", &FreeDocElementContent},
+	{"xmlFreeDtd", &FreeDtd},
+	{"xmlFreeElementContent", &FreeElementContent},
+	{"xmlFreeElementTable", &FreeElementTable},
+	{"xmlFreeEntitiesTable", &FreeEntitiesTable},
+	{"xmlFreeEnumeration", &FreeEnumeration},
+	{"xmlFreeIDTable", &FreeIDTable},
+	{"xmlFreeInputStream", &FreeInputStream},
+	{"xmlFreeMutex", &FreeMutex},
+	{"xmlFreeNode", &FreeNode},
+	{"xmlFreeNodeList", &FreeNodeList},
+	{"xmlFreeNotationTable", &FreeNotationTable},
+	{"xmlFreeNs", &FreeNs},
+	{"xmlFreeNsList", &FreeNsList},
+	{"xmlFreeParserCtxt", &FreeParserCtxt},
+	{"xmlFreeParserInputBuffer", &FreeParserInputBuffer},
+	{"xmlFreePattern", &FreePattern},
+	{"xmlFreePatternList", &FreePatternList},
+	{"xmlFreeProp", &FreeProp},
+	{"xmlFreePropList", &FreePropList},
+	{"xmlFreeRMutex", &FreeRMutex},
+	{"xmlFreeRefTable", &FreeRefTable},
+	{"xmlFreeStreamCtxt", &FreeStreamCtxt},
+	{"xmlFreeTextReader", &FreeTextReader},
+	{"xmlFreeTextWriter", &FreeTextWriter},
+	{"xmlFreeURI", &FreeURI},
+	{"xmlFreeValidCtxt", &FreeValidCtxt},
+	{"xmlGcMemGet", &GcMemGet},
+	{"xmlGcMemSetup", &GcMemSetup},
+	{"xmlGetBufferAllocationScheme", &GetBufferAllocationScheme},
+	{"xmlGetCharEncodingHandler", &GetCharEncodingHandler},
+	{"xmlGetCharEncodingName", &GetCharEncodingName},
+	{"xmlGetCompressMode", &GetCompressMode},
+	{"xmlGetDocCompressMode", &GetDocCompressMode},
+	{"xmlGetDocEntity", &GetDocEntity},
+	{"xmlGetDtdAttrDesc", &GetDtdAttrDesc},
+	{"xmlGetDtdElementDesc", &GetDtdElementDesc},
+	{"xmlGetDtdEntity", &GetDtdEntity},
+	{"xmlGetDtdNotationDesc", &GetDtdNotationDesc},
+	{"xmlGetDtdQAttrDesc", &GetDtdQAttrDesc},
+	{"xmlGetDtdQElementDesc", &GetDtdQElementDesc},
+	{"xmlGetEncodingAlias", &GetEncodingAlias},
+	{"xmlGetExternalEntityLoader", &GetExternalEntityLoader},
+	{"xmlGetFeature", &GetFeature},
+	{"xmlGetFeaturesList", &GetFeaturesList},
+	{"xmlGetGlobalState", &GetGlobalState},
+	{"xmlGetID", &GetID},
+	{"xmlGetIntSubset", &GetIntSubset},
+	{"xmlGetLastChild", &GetLastChild},
+	{"xmlGetLastError", &GetLastError},
+	{"xmlGetLineNo", &GetLineNo},
+	{"xmlGetNoNsProp", &GetNoNsProp},
+	{"xmlGetNodePath", &GetNodePath},
+	{"xmlGetNsList", &GetNsList},
+	{"xmlGetNsProp", &GetNsProp},
 	{"xmlGetParameterEntity", &XmlGetParameterEntity},
-	{"xmlGetPredefinedEntity", &XmlGetPredefinedEntity},
-	{"xmlGetProp", &XmlGetProp},
-	{"xmlGetRefs", &XmlGetRefs},
-	{"xmlGetThreadId", &XmlGetThreadId},
-	{"xmlGetUTF8Char", &XmlGetUTF8Char},
-	{"xmlHandleEntity", &XmlHandleEntity},
-	{"xmlHasFeature", &XmlHasFeature},
-	{"xmlHasNsProp", &XmlHasNsProp},
-	{"xmlHasProp", &XmlHasProp},
-	{"xmlHashAddEntry", &XmlHashAddEntry},
-	{"xmlHashAddEntry2", &XmlHashAddEntry2},
-	{"xmlHashAddEntry3", &XmlHashAddEntry3},
-	{"xmlHashCopy", &XmlHashCopy},
-	{"xmlHashCreate", &XmlHashCreate},
-	{"xmlHashCreateDict", &XmlHashCreateDict},
-	{"xmlHashFree", &XmlHashFree},
-	{"xmlHashLookup", &XmlHashLookup},
-	{"xmlHashLookup2", &XmlHashLookup2},
-	{"xmlHashLookup3", &XmlHashLookup3},
-	{"xmlHashQLookup", &XmlHashQLookup},
-	{"xmlHashQLookup2", &XmlHashQLookup2},
-	{"xmlHashQLookup3", &XmlHashQLookup3},
-	{"xmlHashRemoveEntry", &XmlHashRemoveEntry},
-	{"xmlHashRemoveEntry2", &XmlHashRemoveEntry2},
-	{"xmlHashRemoveEntry3", &XmlHashRemoveEntry3},
-	{"xmlHashScan", &XmlHashScan},
-	{"xmlHashScan3", &XmlHashScan3},
-	{"xmlHashScanFull", &XmlHashScanFull},
-	{"xmlHashScanFull3", &XmlHashScanFull3},
-	{"xmlHashSize", &XmlHashSize},
-	{"xmlHashUpdateEntry", &XmlHashUpdateEntry},
-	{"xmlHashUpdateEntry2", &XmlHashUpdateEntry2},
-	{"xmlHashUpdateEntry3", &XmlHashUpdateEntry3},
-	{"xmlIOFTPClose", &XmlIOFTPClose},
-	{"xmlIOFTPMatch", &XmlIOFTPMatch},
-	{"xmlIOFTPOpen", &XmlIOFTPOpen},
-	{"xmlIOFTPRead", &XmlIOFTPRead},
-	{"xmlIOHTTPClose", &XmlIOHTTPClose},
-	{"xmlIOHTTPMatch", &XmlIOHTTPMatch},
-	{"xmlIOHTTPOpen", &XmlIOHTTPOpen},
-	{"xmlIOHTTPOpenW", &XmlIOHTTPOpenW},
-	{"xmlIOHTTPRead", &XmlIOHTTPRead},
-	{"xmlIOParseDTD", &XmlIOParseDTD},
-	{"xmlInitCharEncodingHandlers", &XmlInitCharEncodingHandlers},
-	{"xmlInitGlobals", &XmlInitGlobals},
-	{"xmlInitMemory", &XmlInitMemory},
-	{"xmlInitNodeInfoSeq", &XmlInitNodeInfoSeq},
-	{"xmlInitParser", &XmlInitParser},
-	{"xmlInitParserCtxt", &XmlInitParserCtxt},
-	{"xmlInitThreads", &XmlInitThreads},
-	{"xmlInitializeCatalog", &XmlInitializeCatalog},
-	{"xmlInitializeGlobalState", &XmlInitializeGlobalState},
-	{"xmlInitializePredefinedEntities", &XmlInitializePredefinedEntities},
-	{"xmlIsBaseChar", &XmlIsBaseChar},
-	{"xmlIsBlank", &XmlIsBlank},
-	{"xmlIsBlankNode", &XmlIsBlankNode},
-	{"xmlIsChar", &XmlIsChar},
-	{"xmlIsCombining", &XmlIsCombining},
-	{"xmlIsDigit", &XmlIsDigit},
-	{"xmlIsExtender", &XmlIsExtender},
-	{"xmlIsID", &XmlIsID},
-	{"xmlIsIdeographic", &XmlIsIdeographic},
-	{"xmlIsLetter", &XmlIsLetter},
-	{"xmlIsMainThread", &XmlIsMainThread},
-	{"xmlIsMixedElement", &XmlIsMixedElement},
-	{"xmlIsPubidChar", &XmlIsPubidChar},
-	{"xmlIsRef", &XmlIsRef},
-	{"xmlIsXHTML", &XmlIsXHTML},
-	{"xmlKeepBlanksDefault", &XmlKeepBlanksDefault},
-	{"xmlLastElementChild", &XmlLastElementChild},
-	{"xmlLineNumbersDefault", &XmlLineNumbersDefault},
-	{"xmlLinkGetData", &XmlLinkGetData},
-	{"xmlListAppend", &XmlListAppend},
-	{"xmlListClear", &XmlListClear},
-	{"xmlListCopy", &XmlListCopy},
-	{"xmlListCreate", &XmlListCreate},
-	{"xmlListDelete", &XmlListDelete},
-	{"xmlListDup", &XmlListDup},
-	{"xmlListEmpty", &XmlListEmpty},
-	{"xmlListEnd", &XmlListEnd},
-	{"xmlListFront", &XmlListFront},
-	{"xmlListInsert", &XmlListInsert},
-	{"xmlListMerge", &XmlListMerge},
-	{"xmlListPopBack", &XmlListPopBack},
-	{"xmlListPopFront", &XmlListPopFront},
-	{"xmlListPushBack", &XmlListPushBack},
-	{"xmlListPushFront", &XmlListPushFront},
-	{"xmlListRemoveAll", &XmlListRemoveAll},
-	{"xmlListRemoveFirst", &XmlListRemoveFirst},
-	{"xmlListRemoveLast", &XmlListRemoveLast},
-	{"xmlListReverse", &XmlListReverse},
-	{"xmlListReverseSearch", &XmlListReverseSearch},
-	{"xmlListReverseWalk", &XmlListReverseWalk},
-	{"xmlListSearch", &XmlListSearch},
-	{"xmlListSize", &XmlListSize},
-	{"xmlListSort", &XmlListSort},
-	{"xmlListWalk", &XmlListWalk},
-	{"xmlLoadACatalog", &XmlLoadACatalog},
-	{"xmlLoadCatalog", &XmlLoadCatalog},
-	{"xmlLoadCatalogs", &XmlLoadCatalogs},
-	{"xmlLoadExternalEntity", &XmlLoadExternalEntity},
-	{"xmlLoadSGMLSuperCatalog", &XmlLoadSGMLSuperCatalog},
-	{"xmlLockLibrary", &XmlLockLibrary},
-	{"xmlLsCountNode", &XmlLsCountNode},
-	{"xmlLsOneNode", &XmlLsOneNode},
-	{"xmlMallocAtomicLoc", &XmlMallocAtomicLoc},
-	{"xmlMallocLoc", &XmlMallocLoc},
-	{"xmlMemBlocks", &XmlMemBlocks},
-	{"xmlMemDisplay", &XmlMemDisplay},
-	{"xmlMemDisplayLast", &XmlMemDisplayLast},
-	{"xmlMemFree", &XmlMemFree},
-	{"xmlMemGet", &XmlMemGet},
-	{"xmlMemMalloc", &XmlMemMalloc},
-	{"xmlMemRealloc", &XmlMemRealloc},
-	{"xmlMemSetup", &XmlMemSetup},
-	{"xmlMemShow", &XmlMemShow},
-	{"xmlMemStrdupLoc", &XmlMemStrdupLoc},
-	{"xmlMemUsed", &XmlMemUsed},
-	{"xmlMemoryDump", &XmlMemoryDump},
-	{"xmlMemoryStrdup", &XmlMemoryStrdup},
-	{"xmlModuleClose", &XmlModuleClose},
-	{"xmlModuleFree", &XmlModuleFree},
-	{"xmlModuleOpen", &XmlModuleOpen},
-	{"xmlModuleSymbol", &XmlModuleSymbol},
-	{"xmlMutexLock", &XmlMutexLock},
-	{"xmlMutexUnlock", &XmlMutexUnlock},
-	{"xmlNamespaceParseNCName", &XmlNamespaceParseNCName},
-	{"xmlNamespaceParseNSDef", &XmlNamespaceParseNSDef},
-	{"xmlNamespaceParseQName", &XmlNamespaceParseQName},
-	{"xmlNanoFTPCheckResponse", &XmlNanoFTPCheckResponse},
-	{"xmlNanoFTPCleanup", &XmlNanoFTPCleanup},
-	{"xmlNanoFTPClose", &XmlNanoFTPClose},
-	{"xmlNanoFTPCloseConnection", &XmlNanoFTPCloseConnection},
-	{"xmlNanoFTPConnect", &XmlNanoFTPConnect},
-	{"xmlNanoFTPConnectTo", &XmlNanoFTPConnectTo},
-	{"xmlNanoFTPCwd", &XmlNanoFTPCwd},
-	{"xmlNanoFTPDele", &XmlNanoFTPDele},
-	{"xmlNanoFTPFreeCtxt", &XmlNanoFTPFreeCtxt},
-	{"xmlNanoFTPGet", &XmlNanoFTPGet},
-	{"xmlNanoFTPGetConnection", &XmlNanoFTPGetConnection},
-	{"xmlNanoFTPGetResponse", &XmlNanoFTPGetResponse},
-	{"xmlNanoFTPGetSocket", &XmlNanoFTPGetSocket},
-	{"xmlNanoFTPInit", &XmlNanoFTPInit},
-	{"xmlNanoFTPList", &XmlNanoFTPList},
-	{"xmlNanoFTPNewCtxt", &XmlNanoFTPNewCtxt},
-	{"xmlNanoFTPOpen", &XmlNanoFTPOpen},
-	{"xmlNanoFTPProxy", &XmlNanoFTPProxy},
-	{"xmlNanoFTPQuit", &XmlNanoFTPQuit},
-	{"xmlNanoFTPRead", &XmlNanoFTPRead},
-	{"xmlNanoFTPScanProxy", &XmlNanoFTPScanProxy},
-	{"xmlNanoFTPUpdateURL", &XmlNanoFTPUpdateURL},
-	{"xmlNanoHTTPAuthHeader", &XmlNanoHTTPAuthHeader},
-	{"xmlNanoHTTPCleanup", &XmlNanoHTTPCleanup},
-	{"xmlNanoHTTPClose", &XmlNanoHTTPClose},
-	{"xmlNanoHTTPContentLength", &XmlNanoHTTPContentLength},
-	{"xmlNanoHTTPEncoding", &XmlNanoHTTPEncoding},
-	{"xmlNanoHTTPFetch", &XmlNanoHTTPFetch},
-	{"xmlNanoHTTPInit", &XmlNanoHTTPInit},
-	{"xmlNanoHTTPMethod", &XmlNanoHTTPMethod},
-	{"xmlNanoHTTPMethodRedir", &XmlNanoHTTPMethodRedir},
-	{"xmlNanoHTTPMimeType", &XmlNanoHTTPMimeType},
-	{"xmlNanoHTTPOpen", &XmlNanoHTTPOpen},
-	{"xmlNanoHTTPOpenRedir", &XmlNanoHTTPOpenRedir},
-	{"xmlNanoHTTPRead", &XmlNanoHTTPRead},
-	{"xmlNanoHTTPRedir", &XmlNanoHTTPRedir},
-	{"xmlNanoHTTPReturnCode", &XmlNanoHTTPReturnCode},
-	{"xmlNanoHTTPSave", &XmlNanoHTTPSave},
-	{"xmlNanoHTTPScanProxy", &XmlNanoHTTPScanProxy},
-	{"xmlNewAutomata", &XmlNewAutomata},
-	{"xmlNewCDataBlock", &XmlNewCDataBlock},
-	{"xmlNewCatalog", &XmlNewCatalog},
-	{"xmlNewCharEncodingHandler", &XmlNewCharEncodingHandler},
-	{"xmlNewCharRef", &XmlNewCharRef},
-	{"xmlNewChild", &XmlNewChild},
-	{"xmlNewComment", &XmlNewComment},
-	{"xmlNewDoc", &XmlNewDoc},
-	{"xmlNewDocComment", &XmlNewDocComment},
-	{"xmlNewDocElementContent", &XmlNewDocElementContent},
-	{"xmlNewDocFragment", &XmlNewDocFragment},
-	{"xmlNewDocNode", &XmlNewDocNode},
-	{"xmlNewDocNodeEatName", &XmlNewDocNodeEatName},
-	{"xmlNewDocPI", &XmlNewDocPI},
-	{"xmlNewDocProp", &XmlNewDocProp},
-	{"xmlNewDocRawNode", &XmlNewDocRawNode},
-	{"xmlNewDocText", &XmlNewDocText},
-	{"xmlNewDocTextLen", &XmlNewDocTextLen},
-	{"xmlNewDtd", &XmlNewDtd},
-	{"xmlNewElementContent", &XmlNewElementContent},
-	{"xmlNewEntity", &XmlNewEntity},
-	{"xmlNewEntityInputStream", &XmlNewEntityInputStream},
-	{"xmlNewGlobalNs", &XmlNewGlobalNs},
-	{"xmlNewIOInputStream", &XmlNewIOInputStream},
-	{"xmlNewInputFromFile", &XmlNewInputFromFile},
-	{"xmlNewInputStream", &XmlNewInputStream},
-	{"xmlNewMutex", &XmlNewMutex},
-	{"xmlNewNode", &XmlNewNode},
-	{"xmlNewNodeEatName", &XmlNewNodeEatName},
-	{"xmlNewNs", &XmlNewNs},
-	{"xmlNewNsProp", &XmlNewNsProp},
-	{"xmlNewNsPropEatName", &XmlNewNsPropEatName},
-	{"xmlNewPI", &XmlNewPI},
-	{"xmlNewParserCtxt", &XmlNewParserCtxt},
-	{"xmlNewProp", &XmlNewProp},
-	{"xmlNewRMutex", &XmlNewRMutex},
-	{"xmlNewReference", &XmlNewReference},
-	{"xmlNewStringInputStream", &XmlNewStringInputStream},
-	{"xmlNewText", &XmlNewText},
-	{"xmlNewTextChild", &XmlNewTextChild},
-	{"xmlNewTextLen", &XmlNewTextLen},
-	{"xmlNewTextReader", &XmlNewTextReader},
-	{"xmlNewTextReaderFilename", &XmlNewTextReaderFilename},
-	{"xmlNewTextWriter", &XmlNewTextWriter},
-	{"xmlNewTextWriterDoc", &XmlNewTextWriterDoc},
-	{"xmlNewTextWriterFilename", &XmlNewTextWriterFilename},
-	{"xmlNewTextWriterMemory", &XmlNewTextWriterMemory},
-	{"xmlNewTextWriterPushParser", &XmlNewTextWriterPushParser},
-	{"xmlNewTextWriterTree", &XmlNewTextWriterTree},
-	{"xmlNewValidCtxt", &XmlNewValidCtxt},
-	{"xmlNextChar", &XmlNextChar},
-	{"xmlNextElementSibling", &XmlNextElementSibling},
-	{"xmlNoNetExternalEntityLoader", &XmlNoNetExternalEntityLoader},
-	{"xmlNodeAddContent", &XmlNodeAddContent},
-	{"xmlNodeAddContentLen", &XmlNodeAddContentLen},
-	{"xmlNodeBufGetContent", &XmlNodeBufGetContent},
-	{"xmlNodeDump", &XmlNodeDump},
-	{"xmlNodeDumpOutput", &XmlNodeDumpOutput},
-	{"xmlNodeGetBase", &XmlNodeGetBase},
-	{"xmlNodeGetContent", &XmlNodeGetContent},
-	{"xmlNodeGetLang", &XmlNodeGetLang},
-	{"xmlNodeGetSpacePreserve", &XmlNodeGetSpacePreserve},
-	{"xmlNodeIsText", &XmlNodeIsText},
-	{"xmlNodeListGetRawString", &XmlNodeListGetRawString},
-	{"xmlNodeListGetString", &XmlNodeListGetString},
-	{"xmlNodeSetBase", &XmlNodeSetBase},
-	{"xmlNodeSetContent", &XmlNodeSetContent},
-	{"xmlNodeSetContentLen", &XmlNodeSetContentLen},
-	{"xmlNodeSetLang", &XmlNodeSetLang},
-	{"xmlNodeSetName", &XmlNodeSetName},
-	{"xmlNodeSetSpacePreserve", &XmlNodeSetSpacePreserve},
-	{"xmlNormalizeURIPath", &XmlNormalizeURIPath},
-	{"xmlNormalizeWindowsPath", &XmlNormalizeWindowsPath},
-	{"xmlOutputBufferClose", &XmlOutputBufferClose},
-	{"xmlOutputBufferCreateBuffer", &XmlOutputBufferCreateBuffer},
-	{"xmlOutputBufferCreateFd", &XmlOutputBufferCreateFd},
-	{"xmlOutputBufferCreateFile", &XmlOutputBufferCreateFile},
-	{"xmlOutputBufferCreateFilename", &XmlOutputBufferCreateFilename},
-	{"xmlOutputBufferCreateFilenameDefault", &XmlOutputBufferCreateFilenameDefault},
-	{"xmlOutputBufferCreateIO", &XmlOutputBufferCreateIO},
-	{"xmlOutputBufferFlush", &XmlOutputBufferFlush},
-	{"xmlOutputBufferWrite", &XmlOutputBufferWrite},
-	{"xmlOutputBufferWriteEscape", &XmlOutputBufferWriteEscape},
-	{"xmlOutputBufferWriteString", &XmlOutputBufferWriteString},
-	{"xmlParseAttValue", &XmlParseAttValue},
-	{"xmlParseAttribute", &XmlParseAttribute},
-	{"xmlParseAttributeListDecl", &XmlParseAttributeListDecl},
-	{"xmlParseAttributeType", &XmlParseAttributeType},
-	{"xmlParseBalancedChunkMemory", &XmlParseBalancedChunkMemory},
-	{"xmlParseBalancedChunkMemoryRecover", &XmlParseBalancedChunkMemoryRecover},
-	{"xmlParseCDSect", &XmlParseCDSect},
-	{"xmlParseCatalogFile", &XmlParseCatalogFile},
-	{"xmlParseCharData", &XmlParseCharData},
-	{"xmlParseCharEncoding", &XmlParseCharEncoding},
-	{"xmlParseCharRef", &XmlParseCharRef},
-	{"xmlParseChunk", &XmlParseChunk},
-	{"xmlParseComment", &XmlParseComment},
-	{"xmlParseContent", &XmlParseContent},
-	{"xmlParseCtxtExternalEntity", &XmlParseCtxtExternalEntity},
-	{"xmlParseDTD", &XmlParseDTD},
-	{"xmlParseDefaultDecl", &XmlParseDefaultDecl},
-	{"xmlParseDoc", &XmlParseDoc},
-	{"xmlParseDocTypeDecl", &XmlParseDocTypeDecl},
-	{"xmlParseDocument", &XmlParseDocument},
-	{"xmlParseElement", &XmlParseElement},
-	{"xmlParseElementChildrenContentDecl", &XmlParseElementChildrenContentDecl},
-	{"xmlParseElementContentDecl", &XmlParseElementContentDecl},
-	{"xmlParseElementDecl", &XmlParseElementDecl},
-	{"xmlParseElementMixedContentDecl", &XmlParseElementMixedContentDecl},
-	{"xmlParseEncName", &XmlParseEncName},
-	{"xmlParseEncodingDecl", &XmlParseEncodingDecl},
-	{"xmlParseEndTag", &XmlParseEndTag},
-	{"xmlParseEntity", &XmlParseEntity},
-	{"xmlParseEntityDecl", &XmlParseEntityDecl},
-	{"xmlParseEntityRef", &XmlParseEntityRef},
-	{"xmlParseEntityValue", &XmlParseEntityValue},
-	{"xmlParseEnumeratedType", &XmlParseEnumeratedType},
-	{"xmlParseEnumerationType", &XmlParseEnumerationType},
-	{"xmlParseExtParsedEnt", &XmlParseExtParsedEnt},
-	{"xmlParseExternalEntity", &XmlParseExternalEntity},
-	{"xmlParseExternalID", &XmlParseExternalID},
-	{"xmlParseExternalSubset", &XmlParseExternalSubset},
-	{"xmlParseFile", &XmlParseFile},
-	{"xmlParseInNodeContext", &XmlParseInNodeContext},
-	{"xmlParseMarkupDecl", &XmlParseMarkupDecl},
-	{"xmlParseMemory", &XmlParseMemory},
-	{"xmlParseMisc", &XmlParseMisc},
-	{"xmlParseName", &XmlParseName},
-	{"xmlParseNamespace", &XmlParseNamespace},
-	{"xmlParseNmtoken", &XmlParseNmtoken},
-	{"xmlParseNotationDecl", &XmlParseNotationDecl},
-	{"xmlParseNotationType", &XmlParseNotationType},
-	{"xmlParsePEReference", &XmlParsePEReference},
-	{"xmlParsePI", &XmlParsePI},
-	{"xmlParsePITarget", &XmlParsePITarget},
-	{"xmlParsePubidLiteral", &XmlParsePubidLiteral},
-	{"xmlParseQuotedString", &XmlParseQuotedString},
-	{"xmlParseReference", &XmlParseReference},
-	{"xmlParseSDDecl", &XmlParseSDDecl},
-	{"xmlParseStartTag", &XmlParseStartTag},
-	{"xmlParseSystemLiteral", &XmlParseSystemLiteral},
-	{"xmlParseTextDecl", &XmlParseTextDecl},
-	{"xmlParseURI", &XmlParseURI},
-	{"xmlParseURIRaw", &XmlParseURIRaw},
-	{"xmlParseURIReference", &XmlParseURIReference},
-	{"xmlParseVersionInfo", &XmlParseVersionInfo},
-	{"xmlParseVersionNum", &XmlParseVersionNum},
-	{"xmlParseXMLDecl", &XmlParseXMLDecl},
-	{"xmlParserAddNodeInfo", &XmlParserAddNodeInfo},
-	{"xmlParserError", &XmlParserError},
-	{"xmlParserFindNodeInfo", &XmlParserFindNodeInfo},
-	{"xmlParserFindNodeInfoIndex", &XmlParserFindNodeInfoIndex},
-	{"xmlParserGetDirectory", &XmlParserGetDirectory},
-	{"xmlParserHandlePEReference", &XmlParserHandlePEReference},
-	{"xmlParserHandleReference", &XmlParserHandleReference},
-	{"xmlParserInputBufferCreateFd", &XmlParserInputBufferCreateFd},
-	{"xmlParserInputBufferCreateFile", &XmlParserInputBufferCreateFile},
-	{"xmlParserInputBufferCreateFilename", &XmlParserInputBufferCreateFilename},
-	{"xmlParserInputBufferCreateFilenameDefault", &XmlParserInputBufferCreateFilenameDefault},
-	{"xmlParserInputBufferCreateIO", &XmlParserInputBufferCreateIO},
-	{"xmlParserInputBufferCreateMem", &XmlParserInputBufferCreateMem},
-	{"xmlParserInputBufferCreateStatic", &XmlParserInputBufferCreateStatic},
-	{"xmlParserInputBufferGrow", &XmlParserInputBufferGrow},
-	{"xmlParserInputBufferPush", &XmlParserInputBufferPush},
-	{"xmlParserInputBufferRead", &XmlParserInputBufferRead},
-	{"xmlParserInputGrow", &XmlParserInputGrow},
-	{"xmlParserInputRead", &XmlParserInputRead},
-	{"xmlParserInputShrink", &XmlParserInputShrink},
-	{"xmlParserPrintFileContext", &XmlParserPrintFileContext},
-	{"xmlParserPrintFileInfo", &XmlParserPrintFileInfo},
-	{"xmlParserValidityError", &XmlParserValidityError},
-	{"xmlParserValidityWarning", &XmlParserValidityWarning},
-	{"xmlParserWarning", &XmlParserWarning},
-	{"xmlPathToURI", &XmlPathToURI},
-	{"xmlPatternFromRoot", &XmlPatternFromRoot},
-	{"xmlPatternGetStreamCtxt", &XmlPatternGetStreamCtxt},
-	{"xmlPatternMatch", &XmlPatternMatch},
-	{"xmlPatternMaxDepth", &XmlPatternMaxDepth},
-	{"xmlPatternMinDepth", &XmlPatternMinDepth},
-	{"xmlPatternStreamable", &XmlPatternStreamable},
-	{"xmlPatterncompile", &XmlPatterncompile},
-	{"xmlPedanticParserDefault", &XmlPedanticParserDefault},
-	{"xmlPopInput", &XmlPopInput},
-	{"xmlPopInputCallbacks", &XmlPopInputCallbacks},
-	{"xmlPreviousElementSibling", &XmlPreviousElementSibling},
-	{"xmlPrintURI", &XmlPrintURI},
-	{"xmlPushInput", &XmlPushInput},
-	{"xmlRMutexLock", &XmlRMutexLock},
-	{"xmlRMutexUnlock", &XmlRMutexUnlock},
-	{"xmlReadDoc", &XmlReadDoc},
-	{"xmlReadFd", &XmlReadFd},
-	{"xmlReadFile", &XmlReadFile},
-	{"xmlReadIO", &XmlReadIO},
-	{"xmlReadMemory", &XmlReadMemory},
-	{"xmlReaderForDoc", &XmlReaderForDoc},
-	{"xmlReaderForFd", &XmlReaderForFd},
-	{"xmlReaderForFile", &XmlReaderForFile},
-	{"xmlReaderForIO", &XmlReaderForIO},
-	{"xmlReaderForMemory", &XmlReaderForMemory},
-	{"xmlReaderNewDoc", &XmlReaderNewDoc},
-	{"xmlReaderNewFd", &XmlReaderNewFd},
-	{"xmlReaderNewFile", &XmlReaderNewFile},
-	{"xmlReaderNewIO", &XmlReaderNewIO},
-	{"xmlReaderNewMemory", &XmlReaderNewMemory},
-	{"xmlReaderNewWalker", &XmlReaderNewWalker},
-	{"xmlReaderWalker", &XmlReaderWalker},
-	{"xmlReallocLoc", &XmlReallocLoc},
-	{"xmlReconciliateNs", &XmlReconciliateNs},
-	{"xmlRecoverDoc", &XmlRecoverDoc},
-	{"xmlRecoverFile", &XmlRecoverFile},
-	{"xmlRecoverMemory", &XmlRecoverMemory},
-	{"xmlRegExecErrInfo", &XmlRegExecErrInfo},
-	{"xmlRegExecNextValues", &XmlRegExecNextValues},
-	{"xmlRegExecPushString", &XmlRegExecPushString},
-	{"xmlRegExecPushString2", &XmlRegExecPushString2},
-	{"xmlRegFreeExecCtxt", &XmlRegFreeExecCtxt},
-	{"xmlRegFreeRegexp", &XmlRegFreeRegexp},
-	{"xmlRegNewExecCtxt", &XmlRegNewExecCtxt},
-	{"xmlRegexpCompile", &XmlRegexpCompile},
-	{"xmlRegexpExec", &XmlRegexpExec},
-	{"xmlRegexpIsDeterminist", &XmlRegexpIsDeterminist},
-	{"xmlRegexpPrint", &XmlRegexpPrint},
-	{"xmlRegisterCharEncodingHandler", &XmlRegisterCharEncodingHandler},
-	{"xmlRegisterDefaultInputCallbacks", &XmlRegisterDefaultInputCallbacks},
-	{"xmlRegisterDefaultOutputCallbacks", &XmlRegisterDefaultOutputCallbacks},
-	{"xmlRegisterHTTPPostCallbacks", &XmlRegisterHTTPPostCallbacks},
-	{"xmlRegisterInputCallbacks", &XmlRegisterInputCallbacks},
-	{"xmlRegisterNodeDefault", &XmlRegisterNodeDefault},
-	{"xmlRegisterOutputCallbacks", &XmlRegisterOutputCallbacks},
-	{"xmlRelaxNGCleanupTypes", &XmlRelaxNGCleanupTypes},
-	{"xmlRelaxNGDump", &XmlRelaxNGDump},
-	{"xmlRelaxNGDumpTree", &XmlRelaxNGDumpTree},
-	{"xmlRelaxNGFree", &XmlRelaxNGFree},
-	{"xmlRelaxNGFreeParserCtxt", &XmlRelaxNGFreeParserCtxt},
-	{"xmlRelaxNGFreeValidCtxt", &XmlRelaxNGFreeValidCtxt},
-	{"xmlRelaxNGGetParserErrors", &XmlRelaxNGGetParserErrors},
-	{"xmlRelaxNGGetValidErrors", &XmlRelaxNGGetValidErrors},
-	{"xmlRelaxNGInitTypes", &XmlRelaxNGInitTypes},
-	{"xmlRelaxNGNewDocParserCtxt", &XmlRelaxNGNewDocParserCtxt},
-	{"xmlRelaxNGNewMemParserCtxt", &XmlRelaxNGNewMemParserCtxt},
-	{"xmlRelaxNGNewParserCtxt", &XmlRelaxNGNewParserCtxt},
-	{"xmlRelaxNGNewValidCtxt", &XmlRelaxNGNewValidCtxt},
-	{"xmlRelaxNGParse", &XmlRelaxNGParse},
-	{"xmlRelaxNGSetParserErrors", &XmlRelaxNGSetParserErrors},
-	{"xmlRelaxNGSetParserStructuredErrors", &XmlRelaxNGSetParserStructuredErrors},
-	{"xmlRelaxNGSetValidErrors", &XmlRelaxNGSetValidErrors},
-	{"xmlRelaxNGSetValidStructuredErrors", &XmlRelaxNGSetValidStructuredErrors},
-	{"xmlRelaxNGValidateDoc", &XmlRelaxNGValidateDoc},
-	{"xmlRelaxNGValidateFullElement", &XmlRelaxNGValidateFullElement},
-	{"xmlRelaxNGValidatePopElement", &XmlRelaxNGValidatePopElement},
-	{"xmlRelaxNGValidatePushCData", &XmlRelaxNGValidatePushCData},
-	{"xmlRelaxNGValidatePushElement", &XmlRelaxNGValidatePushElement},
-	{"xmlRelaxParserSetFlag", &XmlRelaxParserSetFlag},
-	{"xmlRemoveID", &XmlRemoveID},
-	{"xmlRemoveProp", &XmlRemoveProp},
-	{"xmlRemoveRef", &XmlRemoveRef},
-	{"xmlReplaceNode", &XmlReplaceNode},
-	{"xmlResetError", &XmlResetError},
-	{"xmlResetLastError", &XmlResetLastError},
-	{"xmlSAX2AttributeDecl", &XmlSAX2AttributeDecl},
-	{"xmlSAX2CDataBlock", &XmlSAX2CDataBlock},
-	{"xmlSAX2Characters", &XmlSAX2Characters},
-	{"xmlSAX2Comment", &XmlSAX2Comment},
-	{"xmlSAX2ElementDecl", &XmlSAX2ElementDecl},
-	{"xmlSAX2EndDocument", &XmlSAX2EndDocument},
-	{"xmlSAX2EndElement", &XmlSAX2EndElement},
-	{"xmlSAX2EndElementNs", &XmlSAX2EndElementNs},
-	{"xmlSAX2EntityDecl", &XmlSAX2EntityDecl},
-	{"xmlSAX2ExternalSubset", &XmlSAX2ExternalSubset},
-	{"xmlSAX2GetColumnNumber", &XmlSAX2GetColumnNumber},
-	{"xmlSAX2GetEntity", &XmlSAX2GetEntity},
-	{"xmlSAX2GetLineNumber", &XmlSAX2GetLineNumber},
-	{"xmlSAX2GetParameterEntity", &XmlSAX2GetParameterEntity},
-	{"xmlSAX2GetPublicId", &XmlSAX2GetPublicId},
-	{"xmlSAX2GetSystemId", &XmlSAX2GetSystemId},
-	{"xmlSAX2HasExternalSubset", &XmlSAX2HasExternalSubset},
-	{"xmlSAX2HasInternalSubset", &XmlSAX2HasInternalSubset},
-	{"xmlSAX2IgnorableWhitespace", &XmlSAX2IgnorableWhitespace},
-	{"xmlSAX2InitDefaultSAXHandler", &XmlSAX2InitDefaultSAXHandler},
-	{"xmlSAX2InitDocbDefaultSAXHandler", &XmlSAX2InitDocbDefaultSAXHandler},
-	{"xmlSAX2InitHtmlDefaultSAXHandler", &XmlSAX2InitHtmlDefaultSAXHandler},
-	{"xmlSAX2InternalSubset", &XmlSAX2InternalSubset},
-	{"xmlSAX2IsStandalone", &XmlSAX2IsStandalone},
-	{"xmlSAX2NotationDecl", &XmlSAX2NotationDecl},
-	{"xmlSAX2ProcessingInstruction", &XmlSAX2ProcessingInstruction},
-	{"xmlSAX2Reference", &XmlSAX2Reference},
-	{"xmlSAX2ResolveEntity", &XmlSAX2ResolveEntity},
-	{"xmlSAX2SetDocumentLocator", &XmlSAX2SetDocumentLocator},
-	{"xmlSAX2StartDocument", &XmlSAX2StartDocument},
-	{"xmlSAX2StartElement", &XmlSAX2StartElement},
-	{"xmlSAX2StartElementNs", &XmlSAX2StartElementNs},
-	{"xmlSAX2UnparsedEntityDecl", &XmlSAX2UnparsedEntityDecl},
-	{"xmlSAXDefaultVersion", &XmlSAXDefaultVersion},
-	{"xmlSAXParseDTD", &XmlSAXParseDTD},
-	{"xmlSAXParseDoc", &XmlSAXParseDoc},
-	{"xmlSAXParseEntity", &XmlSAXParseEntity},
-	{"xmlSAXParseFile", &XmlSAXParseFile},
-	{"xmlSAXParseFileWithData", &XmlSAXParseFileWithData},
-	{"xmlSAXParseMemory", &XmlSAXParseMemory},
-	{"xmlSAXParseMemoryWithData", &XmlSAXParseMemoryWithData},
-	{"xmlSAXUserParseFile", &XmlSAXUserParseFile},
-	{"xmlSAXUserParseMemory", &XmlSAXUserParseMemory},
-	{"xmlSAXVersion", &XmlSAXVersion},
-	{"xmlSaveClose", &XmlSaveClose},
-	{"xmlSaveDoc", &XmlSaveDoc},
-	{"xmlSaveFile", &XmlSaveFile},
-	{"xmlSaveFileEnc", &XmlSaveFileEnc},
-	{"xmlSaveFileTo", &XmlSaveFileTo},
-	{"xmlSaveFlush", &XmlSaveFlush},
-	{"xmlSaveFormatFile", &XmlSaveFormatFile},
-	{"xmlSaveFormatFileEnc", &XmlSaveFormatFileEnc},
-	{"xmlSaveFormatFileTo", &XmlSaveFormatFileTo},
-	{"xmlSaveSetAttrEscape", &XmlSaveSetAttrEscape},
-	{"xmlSaveSetEscape", &XmlSaveSetEscape},
-	{"xmlSaveToBuffer", &XmlSaveToBuffer},
-	{"xmlSaveToFd", &XmlSaveToFd},
-	{"xmlSaveToFilename", &XmlSaveToFilename},
-	{"xmlSaveToIO", &XmlSaveToIO},
-	{"xmlSaveTree", &XmlSaveTree},
-	{"xmlSaveUri", &XmlSaveUri},
-	{"xmlScanName", &XmlScanName},
-	{"xmlSchemaCheckFacet", &XmlSchemaCheckFacet},
-	{"xmlSchemaCleanupTypes", &XmlSchemaCleanupTypes},
-	{"xmlSchemaCollapseString", &XmlSchemaCollapseString},
-	{"xmlSchemaCompareValues", &XmlSchemaCompareValues},
-	{"xmlSchemaCompareValuesWhtsp", &XmlSchemaCompareValuesWhtsp},
-	{"xmlSchemaCopyValue", &XmlSchemaCopyValue},
-	{"xmlSchemaDump", &XmlSchemaDump},
-	{"xmlSchemaFree", &XmlSchemaFree},
-	{"xmlSchemaFreeFacet", &XmlSchemaFreeFacet},
-	{"xmlSchemaFreeParserCtxt", &XmlSchemaFreeParserCtxt},
-	{"xmlSchemaFreeType", &XmlSchemaFreeType},
-	{"xmlSchemaFreeValidCtxt", &XmlSchemaFreeValidCtxt},
-	{"xmlSchemaFreeValue", &XmlSchemaFreeValue},
-	{"xmlSchemaFreeWildcard", &XmlSchemaFreeWildcard},
-	{"xmlSchemaGetBuiltInListSimpleTypeItemType", &XmlSchemaGetBuiltInListSimpleTypeItemType},
-	{"xmlSchemaGetBuiltInType", &XmlSchemaGetBuiltInType},
-	{"xmlSchemaGetCanonValue", &XmlSchemaGetCanonValue},
-	{"xmlSchemaGetCanonValueWhtsp", &XmlSchemaGetCanonValueWhtsp},
-	{"xmlSchemaGetFacetValueAsULong", &XmlSchemaGetFacetValueAsULong},
-	{"xmlSchemaGetParserErrors", &XmlSchemaGetParserErrors},
-	{"xmlSchemaGetPredefinedType", &XmlSchemaGetPredefinedType},
-	{"xmlSchemaGetValType", &XmlSchemaGetValType},
-	{"xmlSchemaGetValidErrors", &XmlSchemaGetValidErrors},
-	{"xmlSchemaInitTypes", &XmlSchemaInitTypes},
-	{"xmlSchemaIsBuiltInTypeFacet", &XmlSchemaIsBuiltInTypeFacet},
-	{"xmlSchemaIsValid", &XmlSchemaIsValid},
-	{"xmlSchemaNewDocParserCtxt", &XmlSchemaNewDocParserCtxt},
-	{"xmlSchemaNewFacet", &XmlSchemaNewFacet},
-	{"xmlSchemaNewMemParserCtxt", &XmlSchemaNewMemParserCtxt},
-	{"xmlSchemaNewNOTATIONValue", &XmlSchemaNewNOTATIONValue},
-	{"xmlSchemaNewParserCtxt", &XmlSchemaNewParserCtxt},
-	{"xmlSchemaNewQNameValue", &XmlSchemaNewQNameValue},
-	{"xmlSchemaNewStringValue", &XmlSchemaNewStringValue},
-	{"xmlSchemaNewValidCtxt", &XmlSchemaNewValidCtxt},
-	{"xmlSchemaParse", &XmlSchemaParse},
-	{"xmlSchemaSAXPlug", &XmlSchemaSAXPlug},
-	{"xmlSchemaSAXUnplug", &XmlSchemaSAXUnplug},
-	{"xmlSchemaSetParserErrors", &XmlSchemaSetParserErrors},
-	{"xmlSchemaSetParserStructuredErrors", &XmlSchemaSetParserStructuredErrors},
-	{"xmlSchemaSetValidErrors", &XmlSchemaSetValidErrors},
-	{"xmlSchemaSetValidOptions", &XmlSchemaSetValidOptions},
-	{"xmlSchemaSetValidStructuredErrors", &XmlSchemaSetValidStructuredErrors},
-	{"xmlSchemaValPredefTypeNode", &XmlSchemaValPredefTypeNode},
-	{"xmlSchemaValPredefTypeNodeNoNorm", &XmlSchemaValPredefTypeNodeNoNorm},
-	{"xmlSchemaValidCtxtGetOptions", &XmlSchemaValidCtxtGetOptions},
-	{"xmlSchemaValidCtxtGetParserCtxt", &XmlSchemaValidCtxtGetParserCtxt},
-	{"xmlSchemaValidateDoc", &XmlSchemaValidateDoc},
-	{"xmlSchemaValidateFacet", &XmlSchemaValidateFacet},
-	{"xmlSchemaValidateFacetWhtsp", &XmlSchemaValidateFacetWhtsp},
-	{"xmlSchemaValidateFile", &XmlSchemaValidateFile},
-	{"xmlSchemaValidateLengthFacet", &XmlSchemaValidateLengthFacet},
-	{"xmlSchemaValidateLengthFacetWhtsp", &XmlSchemaValidateLengthFacetWhtsp},
-	{"xmlSchemaValidateListSimpleTypeFacet", &XmlSchemaValidateListSimpleTypeFacet},
-	{"xmlSchemaValidateOneElement", &XmlSchemaValidateOneElement},
-	{"xmlSchemaValidatePredefinedType", &XmlSchemaValidatePredefinedType},
-	{"xmlSchemaValidateStream", &XmlSchemaValidateStream},
-	{"xmlSchemaValueAppend", &XmlSchemaValueAppend},
-	{"xmlSchemaValueGetAsBoolean", &XmlSchemaValueGetAsBoolean},
-	{"xmlSchemaValueGetAsString", &XmlSchemaValueGetAsString},
-	{"xmlSchemaValueGetNext", &XmlSchemaValueGetNext},
-	{"xmlSchemaWhiteSpaceReplace", &XmlSchemaWhiteSpaceReplace},
-	{"xmlSchematronFree", &XmlSchematronFree},
-	{"xmlSchematronFreeParserCtxt", &XmlSchematronFreeParserCtxt},
-	{"xmlSchematronFreeValidCtxt", &XmlSchematronFreeValidCtxt},
-	{"xmlSchematronNewDocParserCtxt", &XmlSchematronNewDocParserCtxt},
-	{"xmlSchematronNewMemParserCtxt", &XmlSchematronNewMemParserCtxt},
-	{"xmlSchematronNewParserCtxt", &XmlSchematronNewParserCtxt},
-	{"xmlSchematronNewValidCtxt", &XmlSchematronNewValidCtxt},
-	{"xmlSchematronParse", &XmlSchematronParse},
-	{"xmlSchematronSetValidStructuredErrors", &XmlSchematronSetValidStructuredErrors},
-	{"xmlSchematronValidateDoc", &XmlSchematronValidateDoc},
-	{"xmlSearchNs", &XmlSearchNs},
-	{"xmlSearchNsByHref", &XmlSearchNsByHref},
-	{"xmlSetBufferAllocationScheme", &XmlSetBufferAllocationScheme},
-	{"xmlSetCompressMode", &XmlSetCompressMode},
-	{"xmlSetDocCompressMode", &XmlSetDocCompressMode},
-	{"xmlSetEntityReferenceFunc", &XmlSetEntityReferenceFunc},
-	{"xmlSetExternalEntityLoader", &XmlSetExternalEntityLoader},
-	{"xmlSetFeature", &XmlSetFeature},
-	{"xmlSetGenericErrorFunc", &XmlSetGenericErrorFunc},
-	{"xmlSetListDoc", &XmlSetListDoc},
-	{"xmlSetNs", &XmlSetNs},
-	{"xmlSetNsProp", &XmlSetNsProp},
-	{"xmlSetProp", &XmlSetProp},
-	{"xmlSetStructuredErrorFunc", &XmlSetStructuredErrorFunc},
-	{"xmlSetTreeDoc", &XmlSetTreeDoc},
-	{"xmlSetupParserForBuffer", &XmlSetupParserForBuffer},
-	{"xmlShell", &XmlShell},
-	{"xmlShellBase", &XmlShellBase},
-	{"xmlShellCat", &XmlShellCat},
-	{"xmlShellDir", &XmlShellDir},
-	{"xmlShellDu", &XmlShellDu},
-	{"xmlShellList", &XmlShellList},
-	{"xmlShellLoad", &XmlShellLoad},
-	{"xmlShellPrintNode", &XmlShellPrintNode},
-	{"xmlShellPrintXPathError", &XmlShellPrintXPathError},
-	{"xmlShellPrintXPathResult", &XmlShellPrintXPathResult},
-	{"xmlShellPwd", &XmlShellPwd},
-	{"xmlShellSave", &XmlShellSave},
-	{"xmlShellValidate", &XmlShellValidate},
-	{"xmlShellWrite", &XmlShellWrite},
-	{"xmlSkipBlankChars", &XmlSkipBlankChars},
-	{"xmlSnprintfElementContent", &XmlSnprintfElementContent},
-	{"xmlSplitQName", &XmlSplitQName},
-	{"xmlSplitQName2", &XmlSplitQName2},
-	{"xmlSplitQName3", &XmlSplitQName3},
-	{"xmlSprintfElementContent", &XmlSprintfElementContent},
-	{"xmlStopParser", &XmlStopParser},
-	{"xmlStrEqual", &XmlStrEqual},
-	{"xmlStrPrintf", &XmlStrPrintf},
-	{"xmlStrQEqual", &XmlStrQEqual},
-	{"xmlStrVPrintf", &XmlStrVPrintf},
-	{"xmlStrcasecmp", &XmlStrcasecmp},
-	{"xmlStrcasestr", &XmlStrcasestr},
-	{"xmlStrcat", &XmlStrcat},
-	{"xmlStrchr", &XmlStrchr},
-	{"xmlStrcmp", &XmlStrcmp},
-	{"xmlStrdup", &XmlStrdup},
-	{"xmlStreamPop", &XmlStreamPop},
-	{"xmlStreamPush", &XmlStreamPush},
-	{"xmlStreamPushAttr", &XmlStreamPushAttr},
-	{"xmlStreamPushNode", &XmlStreamPushNode},
-	{"xmlStreamWantsAnyNode", &XmlStreamWantsAnyNode},
-	{"xmlStringCurrentChar", &XmlStringCurrentChar},
-	{"xmlStringDecodeEntities", &XmlStringDecodeEntities},
-	{"xmlStringGetNodeList", &XmlStringGetNodeList},
-	{"xmlStringLenDecodeEntities", &XmlStringLenDecodeEntities},
-	{"xmlStringLenGetNodeList", &XmlStringLenGetNodeList},
-	{"xmlStrlen", &XmlStrlen},
-	{"xmlStrncasecmp", &XmlStrncasecmp},
-	{"xmlStrncat", &XmlStrncat},
-	{"xmlStrncatNew", &XmlStrncatNew},
-	{"xmlStrncmp", &XmlStrncmp},
-	{"xmlStrndup", &XmlStrndup},
-	{"xmlStrstr", &XmlStrstr},
-	{"xmlStrsub", &XmlStrsub},
-	{"xmlSubstituteEntitiesDefault", &XmlSubstituteEntitiesDefault},
-	{"xmlSwitchEncoding", &XmlSwitchEncoding},
-	{"xmlSwitchInputEncoding", &XmlSwitchInputEncoding},
-	{"xmlSwitchToEncoding", &XmlSwitchToEncoding},
-	{"xmlTextConcat", &XmlTextConcat},
-	{"xmlTextMerge", &XmlTextMerge},
-	{"xmlTextReaderAttributeCount", &XmlTextReaderAttributeCount},
-	{"xmlTextReaderBaseUri", &XmlTextReaderBaseUri},
-	{"xmlTextReaderByteConsumed", &XmlTextReaderByteConsumed},
-	{"xmlTextReaderClose", &XmlTextReaderClose},
-	{"xmlTextReaderConstBaseUri", &XmlTextReaderConstBaseUri},
-	{"xmlTextReaderConstEncoding", &XmlTextReaderConstEncoding},
-	{"xmlTextReaderConstLocalName", &XmlTextReaderConstLocalName},
-	{"xmlTextReaderConstName", &XmlTextReaderConstName},
-	{"xmlTextReaderConstNamespaceUri", &XmlTextReaderConstNamespaceUri},
-	{"xmlTextReaderConstPrefix", &XmlTextReaderConstPrefix},
-	{"xmlTextReaderConstString", &XmlTextReaderConstString},
-	{"xmlTextReaderConstValue", &XmlTextReaderConstValue},
-	{"xmlTextReaderConstXmlLang", &XmlTextReaderConstXmlLang},
-	{"xmlTextReaderConstXmlVersion", &XmlTextReaderConstXmlVersion},
-	{"xmlTextReaderCurrentDoc", &XmlTextReaderCurrentDoc},
-	{"xmlTextReaderCurrentNode", &XmlTextReaderCurrentNode},
-	{"xmlTextReaderDepth", &XmlTextReaderDepth},
-	{"xmlTextReaderExpand", &XmlTextReaderExpand},
-	{"xmlTextReaderGetAttribute", &XmlTextReaderGetAttribute},
-	{"xmlTextReaderGetAttributeNo", &XmlTextReaderGetAttributeNo},
-	{"xmlTextReaderGetAttributeNs", &XmlTextReaderGetAttributeNs},
-	{"xmlTextReaderGetErrorHandler", &XmlTextReaderGetErrorHandler},
-	{"xmlTextReaderGetParserColumnNumber", &XmlTextReaderGetParserColumnNumber},
-	{"xmlTextReaderGetParserLineNumber", &XmlTextReaderGetParserLineNumber},
-	{"xmlTextReaderGetParserProp", &XmlTextReaderGetParserProp},
-	{"xmlTextReaderGetRemainder", &XmlTextReaderGetRemainder},
-	{"xmlTextReaderHasAttributes", &XmlTextReaderHasAttributes},
-	{"xmlTextReaderHasValue", &XmlTextReaderHasValue},
-	{"xmlTextReaderIsDefault", &XmlTextReaderIsDefault},
-	{"xmlTextReaderIsEmptyElement", &XmlTextReaderIsEmptyElement},
-	{"xmlTextReaderIsNamespaceDecl", &XmlTextReaderIsNamespaceDecl},
-	{"xmlTextReaderIsValid", &XmlTextReaderIsValid},
-	{"xmlTextReaderLocalName", &XmlTextReaderLocalName},
-	{"xmlTextReaderLocatorBaseURI", &XmlTextReaderLocatorBaseURI},
-	{"xmlTextReaderLocatorLineNumber", &XmlTextReaderLocatorLineNumber},
-	{"xmlTextReaderLookupNamespace", &XmlTextReaderLookupNamespace},
-	{"xmlTextReaderMoveToAttribute", &XmlTextReaderMoveToAttribute},
-	{"xmlTextReaderMoveToAttributeNo", &XmlTextReaderMoveToAttributeNo},
-	{"xmlTextReaderMoveToAttributeNs", &XmlTextReaderMoveToAttributeNs},
-	{"xmlTextReaderMoveToElement", &XmlTextReaderMoveToElement},
-	{"xmlTextReaderMoveToFirstAttribute", &XmlTextReaderMoveToFirstAttribute},
-	{"xmlTextReaderMoveToNextAttribute", &XmlTextReaderMoveToNextAttribute},
-	{"xmlTextReaderName", &XmlTextReaderName},
-	{"xmlTextReaderNamespaceUri", &XmlTextReaderNamespaceUri},
-	{"xmlTextReaderNext", &XmlTextReaderNext},
-	{"xmlTextReaderNextSibling", &XmlTextReaderNextSibling},
-	{"xmlTextReaderNodeType", &XmlTextReaderNodeType},
-	{"xmlTextReaderNormalization", &XmlTextReaderNormalization},
-	{"xmlTextReaderPrefix", &XmlTextReaderPrefix},
-	{"xmlTextReaderPreserve", &XmlTextReaderPreserve},
-	{"xmlTextReaderPreservePattern", &XmlTextReaderPreservePattern},
-	{"xmlTextReaderQuoteChar", &XmlTextReaderQuoteChar},
-	{"xmlTextReaderRead", &XmlTextReaderRead},
-	{"xmlTextReaderReadAttributeValue", &XmlTextReaderReadAttributeValue},
-	{"xmlTextReaderReadInnerXml", &XmlTextReaderReadInnerXml},
-	{"xmlTextReaderReadOuterXml", &XmlTextReaderReadOuterXml},
-	{"xmlTextReaderReadState", &XmlTextReaderReadState},
-	{"xmlTextReaderReadString", &XmlTextReaderReadString},
-	{"xmlTextReaderRelaxNGSetSchema", &XmlTextReaderRelaxNGSetSchema},
-	{"xmlTextReaderRelaxNGValidate", &XmlTextReaderRelaxNGValidate},
-	{"xmlTextReaderSchemaValidate", &XmlTextReaderSchemaValidate},
-	{"xmlTextReaderSchemaValidateCtxt", &XmlTextReaderSchemaValidateCtxt},
-	{"xmlTextReaderSetErrorHandler", &XmlTextReaderSetErrorHandler},
-	{"xmlTextReaderSetParserProp", &XmlTextReaderSetParserProp},
-	{"xmlTextReaderSetSchema", &XmlTextReaderSetSchema},
-	{"xmlTextReaderSetStructuredErrorHandler", &XmlTextReaderSetStructuredErrorHandler},
-	{"xmlTextReaderSetup", &XmlTextReaderSetup},
-	{"xmlTextReaderStandalone", &XmlTextReaderStandalone},
-	{"xmlTextReaderValue", &XmlTextReaderValue},
-	{"xmlTextReaderXmlLang", &XmlTextReaderXmlLang},
-	{"xmlTextWriterEndAttribute", &XmlTextWriterEndAttribute},
-	{"xmlTextWriterEndCDATA", &XmlTextWriterEndCDATA},
-	{"xmlTextWriterEndComment", &XmlTextWriterEndComment},
-	{"xmlTextWriterEndDTD", &XmlTextWriterEndDTD},
-	{"xmlTextWriterEndDTDAttlist", &XmlTextWriterEndDTDAttlist},
-	{"xmlTextWriterEndDTDElement", &XmlTextWriterEndDTDElement},
-	{"xmlTextWriterEndDTDEntity", &XmlTextWriterEndDTDEntity},
-	{"xmlTextWriterEndDocument", &XmlTextWriterEndDocument},
-	{"xmlTextWriterEndElement", &XmlTextWriterEndElement},
-	{"xmlTextWriterEndPI", &XmlTextWriterEndPI},
-	{"xmlTextWriterFlush", &XmlTextWriterFlush},
-	{"xmlTextWriterFullEndElement", &XmlTextWriterFullEndElement},
-	{"xmlTextWriterSetIndent", &XmlTextWriterSetIndent},
-	{"xmlTextWriterSetIndentString", &XmlTextWriterSetIndentString},
-	{"xmlTextWriterStartAttribute", &XmlTextWriterStartAttribute},
-	{"xmlTextWriterStartAttributeNS", &XmlTextWriterStartAttributeNS},
-	{"xmlTextWriterStartCDATA", &XmlTextWriterStartCDATA},
-	{"xmlTextWriterStartComment", &XmlTextWriterStartComment},
-	{"xmlTextWriterStartDTD", &XmlTextWriterStartDTD},
-	{"xmlTextWriterStartDTDAttlist", &XmlTextWriterStartDTDAttlist},
-	{"xmlTextWriterStartDTDElement", &XmlTextWriterStartDTDElement},
-	{"xmlTextWriterStartDTDEntity", &XmlTextWriterStartDTDEntity},
-	{"xmlTextWriterStartDocument", &XmlTextWriterStartDocument},
-	{"xmlTextWriterStartElement", &XmlTextWriterStartElement},
-	{"xmlTextWriterStartElementNS", &XmlTextWriterStartElementNS},
-	{"xmlTextWriterStartPI", &XmlTextWriterStartPI},
-	{"xmlTextWriterWriteAttribute", &XmlTextWriterWriteAttribute},
-	{"xmlTextWriterWriteAttributeNS", &XmlTextWriterWriteAttributeNS},
-	{"xmlTextWriterWriteBase64", &XmlTextWriterWriteBase64},
-	{"xmlTextWriterWriteBinHex", &XmlTextWriterWriteBinHex},
-	{"xmlTextWriterWriteCDATA", &XmlTextWriterWriteCDATA},
-	{"xmlTextWriterWriteComment", &XmlTextWriterWriteComment},
-	{"xmlTextWriterWriteDTD", &XmlTextWriterWriteDTD},
-	{"xmlTextWriterWriteDTDAttlist", &XmlTextWriterWriteDTDAttlist},
-	{"xmlTextWriterWriteDTDElement", &XmlTextWriterWriteDTDElement},
-	{"xmlTextWriterWriteDTDEntity", &XmlTextWriterWriteDTDEntity},
-	{"xmlTextWriterWriteDTDExternalEntity", &XmlTextWriterWriteDTDExternalEntity},
-	{"xmlTextWriterWriteDTDExternalEntityContents", &XmlTextWriterWriteDTDExternalEntityContents},
-	{"xmlTextWriterWriteDTDInternalEntity", &XmlTextWriterWriteDTDInternalEntity},
-	{"xmlTextWriterWriteDTDNotation", &XmlTextWriterWriteDTDNotation},
-	{"xmlTextWriterWriteElement", &XmlTextWriterWriteElement},
-	{"xmlTextWriterWriteElementNS", &XmlTextWriterWriteElementNS},
-	{"xmlTextWriterWriteFormatAttribute", &XmlTextWriterWriteFormatAttribute},
-	{"xmlTextWriterWriteFormatAttributeNS", &XmlTextWriterWriteFormatAttributeNS},
-	{"xmlTextWriterWriteFormatCDATA", &XmlTextWriterWriteFormatCDATA},
-	{"xmlTextWriterWriteFormatComment", &XmlTextWriterWriteFormatComment},
-	{"xmlTextWriterWriteFormatDTD", &XmlTextWriterWriteFormatDTD},
-	{"xmlTextWriterWriteFormatDTDAttlist", &XmlTextWriterWriteFormatDTDAttlist},
-	{"xmlTextWriterWriteFormatDTDElement", &XmlTextWriterWriteFormatDTDElement},
-	{"xmlTextWriterWriteFormatDTDInternalEntity", &XmlTextWriterWriteFormatDTDInternalEntity},
-	{"xmlTextWriterWriteFormatElement", &XmlTextWriterWriteFormatElement},
-	{"xmlTextWriterWriteFormatElementNS", &XmlTextWriterWriteFormatElementNS},
-	{"xmlTextWriterWriteFormatPI", &XmlTextWriterWriteFormatPI},
-	{"xmlTextWriterWriteFormatRaw", &XmlTextWriterWriteFormatRaw},
-	{"xmlTextWriterWriteFormatString", &XmlTextWriterWriteFormatString},
-	{"xmlTextWriterWritePI", &XmlTextWriterWritePI},
-	{"xmlTextWriterWriteRaw", &XmlTextWriterWriteRaw},
-	{"xmlTextWriterWriteRawLen", &XmlTextWriterWriteRawLen},
-	{"xmlTextWriterWriteString", &XmlTextWriterWriteString},
-	{"xmlTextWriterWriteVFormatAttribute", &XmlTextWriterWriteVFormatAttribute},
-	{"xmlTextWriterWriteVFormatAttributeNS", &XmlTextWriterWriteVFormatAttributeNS},
-	{"xmlTextWriterWriteVFormatCDATA", &XmlTextWriterWriteVFormatCDATA},
-	{"xmlTextWriterWriteVFormatComment", &XmlTextWriterWriteVFormatComment},
-	{"xmlTextWriterWriteVFormatDTD", &XmlTextWriterWriteVFormatDTD},
-	{"xmlTextWriterWriteVFormatDTDAttlist", &XmlTextWriterWriteVFormatDTDAttlist},
-	{"xmlTextWriterWriteVFormatDTDElement", &XmlTextWriterWriteVFormatDTDElement},
-	{"xmlTextWriterWriteVFormatDTDInternalEntity", &XmlTextWriterWriteVFormatDTDInternalEntity},
-	{"xmlTextWriterWriteVFormatElement", &XmlTextWriterWriteVFormatElement},
-	{"xmlTextWriterWriteVFormatElementNS", &XmlTextWriterWriteVFormatElementNS},
-	{"xmlTextWriterWriteVFormatPI", &XmlTextWriterWriteVFormatPI},
-	{"xmlTextWriterWriteVFormatRaw", &XmlTextWriterWriteVFormatRaw},
-	{"xmlTextWriterWriteVFormatString", &XmlTextWriterWriteVFormatString},
-	{"xmlThrDefBufferAllocScheme", &XmlThrDefBufferAllocScheme},
-	{"xmlThrDefDefaultBufferSize", &XmlThrDefDefaultBufferSize},
-	{"xmlThrDefDeregisterNodeDefault", &XmlThrDefDeregisterNodeDefault},
-	{"xmlThrDefDoValidityCheckingDefaultValue", &XmlThrDefDoValidityCheckingDefaultValue},
-	{"xmlThrDefGetWarningsDefaultValue", &XmlThrDefGetWarningsDefaultValue},
-	{"xmlThrDefIndentTreeOutput", &XmlThrDefIndentTreeOutput},
-	{"xmlThrDefKeepBlanksDefaultValue", &XmlThrDefKeepBlanksDefaultValue},
-	{"xmlThrDefLineNumbersDefaultValue", &XmlThrDefLineNumbersDefaultValue},
-	{"xmlThrDefLoadExtDtdDefaultValue", &XmlThrDefLoadExtDtdDefaultValue},
-	{"xmlThrDefOutputBufferCreateFilenameDefault", &XmlThrDefOutputBufferCreateFilenameDefault},
-	{"xmlThrDefParserDebugEntities", &XmlThrDefParserDebugEntities},
-	{"xmlThrDefParserInputBufferCreateFilenameDefault", &XmlThrDefParserInputBufferCreateFilenameDefault},
-	{"xmlThrDefPedanticParserDefaultValue", &XmlThrDefPedanticParserDefaultValue},
-	{"xmlThrDefRegisterNodeDefault", &XmlThrDefRegisterNodeDefault},
-	{"xmlThrDefSaveNoEmptyTags", &XmlThrDefSaveNoEmptyTags},
-	{"xmlThrDefSetGenericErrorFunc", &XmlThrDefSetGenericErrorFunc},
-	{"xmlThrDefSetStructuredErrorFunc", &XmlThrDefSetStructuredErrorFunc},
-	{"xmlThrDefSubstituteEntitiesDefaultValue", &XmlThrDefSubstituteEntitiesDefaultValue},
-	{"xmlThrDefTreeIndentString", &XmlThrDefTreeIndentString},
-	{"xmlUCSIsAegeanNumbers", &XmlUCSIsAegeanNumbers},
-	{"xmlUCSIsAlphabeticPresentationForms", &XmlUCSIsAlphabeticPresentationForms},
-	{"xmlUCSIsArabic", &XmlUCSIsArabic},
-	{"xmlUCSIsArabicPresentationFormsA", &XmlUCSIsArabicPresentationFormsA},
-	{"xmlUCSIsArabicPresentationFormsB", &XmlUCSIsArabicPresentationFormsB},
-	{"xmlUCSIsArmenian", &XmlUCSIsArmenian},
-	{"xmlUCSIsArrows", &XmlUCSIsArrows},
-	{"xmlUCSIsBasicLatin", &XmlUCSIsBasicLatin},
-	{"xmlUCSIsBengali", &XmlUCSIsBengali},
-	{"xmlUCSIsBlock", &XmlUCSIsBlock},
-	{"xmlUCSIsBlockElements", &XmlUCSIsBlockElements},
-	{"xmlUCSIsBopomofo", &XmlUCSIsBopomofo},
-	{"xmlUCSIsBopomofoExtended", &XmlUCSIsBopomofoExtended},
-	{"xmlUCSIsBoxDrawing", &XmlUCSIsBoxDrawing},
-	{"xmlUCSIsBraillePatterns", &XmlUCSIsBraillePatterns},
-	{"xmlUCSIsBuhid", &XmlUCSIsBuhid},
-	{"xmlUCSIsByzantineMusicalSymbols", &XmlUCSIsByzantineMusicalSymbols},
-	{"xmlUCSIsCJKCompatibility", &XmlUCSIsCJKCompatibility},
-	{"xmlUCSIsCJKCompatibilityForms", &XmlUCSIsCJKCompatibilityForms},
-	{"xmlUCSIsCJKCompatibilityIdeographs", &XmlUCSIsCJKCompatibilityIdeographs},
-	{"xmlUCSIsCJKCompatibilityIdeographsSupplement", &XmlUCSIsCJKCompatibilityIdeographsSupplement},
-	{"xmlUCSIsCJKRadicalsSupplement", &XmlUCSIsCJKRadicalsSupplement},
-	{"xmlUCSIsCJKSymbolsandPunctuation", &XmlUCSIsCJKSymbolsandPunctuation},
-	{"xmlUCSIsCJKUnifiedIdeographs", &XmlUCSIsCJKUnifiedIdeographs},
-	{"xmlUCSIsCJKUnifiedIdeographsExtensionA", &XmlUCSIsCJKUnifiedIdeographsExtensionA},
-	{"xmlUCSIsCJKUnifiedIdeographsExtensionB", &XmlUCSIsCJKUnifiedIdeographsExtensionB},
-	{"xmlUCSIsCat", &XmlUCSIsCat},
-	{"xmlUCSIsCatC", &XmlUCSIsCatC},
-	{"xmlUCSIsCatCc", &XmlUCSIsCatCc},
-	{"xmlUCSIsCatCf", &XmlUCSIsCatCf},
-	{"xmlUCSIsCatCo", &XmlUCSIsCatCo},
-	{"xmlUCSIsCatCs", &XmlUCSIsCatCs},
-	{"xmlUCSIsCatL", &XmlUCSIsCatL},
-	{"xmlUCSIsCatLl", &XmlUCSIsCatLl},
-	{"xmlUCSIsCatLm", &XmlUCSIsCatLm},
-	{"xmlUCSIsCatLo", &XmlUCSIsCatLo},
-	{"xmlUCSIsCatLt", &XmlUCSIsCatLt},
-	{"xmlUCSIsCatLu", &XmlUCSIsCatLu},
-	{"xmlUCSIsCatM", &XmlUCSIsCatM},
-	{"xmlUCSIsCatMc", &XmlUCSIsCatMc},
-	{"xmlUCSIsCatMe", &XmlUCSIsCatMe},
-	{"xmlUCSIsCatMn", &XmlUCSIsCatMn},
-	{"xmlUCSIsCatN", &XmlUCSIsCatN},
-	{"xmlUCSIsCatNd", &XmlUCSIsCatNd},
-	{"xmlUCSIsCatNl", &XmlUCSIsCatNl},
-	{"xmlUCSIsCatNo", &XmlUCSIsCatNo},
-	{"xmlUCSIsCatP", &XmlUCSIsCatP},
-	{"xmlUCSIsCatPc", &XmlUCSIsCatPc},
-	{"xmlUCSIsCatPd", &XmlUCSIsCatPd},
-	{"xmlUCSIsCatPe", &XmlUCSIsCatPe},
-	{"xmlUCSIsCatPf", &XmlUCSIsCatPf},
-	{"xmlUCSIsCatPi", &XmlUCSIsCatPi},
-	{"xmlUCSIsCatPo", &XmlUCSIsCatPo},
-	{"xmlUCSIsCatPs", &XmlUCSIsCatPs},
-	{"xmlUCSIsCatS", &XmlUCSIsCatS},
-	{"xmlUCSIsCatSc", &XmlUCSIsCatSc},
-	{"xmlUCSIsCatSk", &XmlUCSIsCatSk},
-	{"xmlUCSIsCatSm", &XmlUCSIsCatSm},
-	{"xmlUCSIsCatSo", &XmlUCSIsCatSo},
-	{"xmlUCSIsCatZ", &XmlUCSIsCatZ},
-	{"xmlUCSIsCatZl", &XmlUCSIsCatZl},
-	{"xmlUCSIsCatZp", &XmlUCSIsCatZp},
-	{"xmlUCSIsCatZs", &XmlUCSIsCatZs},
-	{"xmlUCSIsCherokee", &XmlUCSIsCherokee},
-	{"xmlUCSIsCombiningDiacriticalMarks", &XmlUCSIsCombiningDiacriticalMarks},
-	{"xmlUCSIsCombiningDiacriticalMarksforSymbols", &XmlUCSIsCombiningDiacriticalMarksforSymbols},
-	{"xmlUCSIsCombiningHalfMarks", &XmlUCSIsCombiningHalfMarks},
-	{"xmlUCSIsCombiningMarksforSymbols", &XmlUCSIsCombiningMarksforSymbols},
-	{"xmlUCSIsControlPictures", &XmlUCSIsControlPictures},
-	{"xmlUCSIsCurrencySymbols", &XmlUCSIsCurrencySymbols},
-	{"xmlUCSIsCypriotSyllabary", &XmlUCSIsCypriotSyllabary},
-	{"xmlUCSIsCyrillic", &XmlUCSIsCyrillic},
-	{"xmlUCSIsCyrillicSupplement", &XmlUCSIsCyrillicSupplement},
-	{"xmlUCSIsDeseret", &XmlUCSIsDeseret},
-	{"xmlUCSIsDevanagari", &XmlUCSIsDevanagari},
-	{"xmlUCSIsDingbats", &XmlUCSIsDingbats},
-	{"xmlUCSIsEnclosedAlphanumerics", &XmlUCSIsEnclosedAlphanumerics},
-	{"xmlUCSIsEnclosedCJKLettersandMonths", &XmlUCSIsEnclosedCJKLettersandMonths},
-	{"xmlUCSIsEthiopic", &XmlUCSIsEthiopic},
-	{"xmlUCSIsGeneralPunctuation", &XmlUCSIsGeneralPunctuation},
-	{"xmlUCSIsGeometricShapes", &XmlUCSIsGeometricShapes},
-	{"xmlUCSIsGeorgian", &XmlUCSIsGeorgian},
-	{"xmlUCSIsGothic", &XmlUCSIsGothic},
-	{"xmlUCSIsGreek", &XmlUCSIsGreek},
-	{"xmlUCSIsGreekExtended", &XmlUCSIsGreekExtended},
-	{"xmlUCSIsGreekandCoptic", &XmlUCSIsGreekandCoptic},
-	{"xmlUCSIsGujarati", &XmlUCSIsGujarati},
-	{"xmlUCSIsGurmukhi", &XmlUCSIsGurmukhi},
-	{"xmlUCSIsHalfwidthandFullwidthForms", &XmlUCSIsHalfwidthandFullwidthForms},
-	{"xmlUCSIsHangulCompatibilityJamo", &XmlUCSIsHangulCompatibilityJamo},
-	{"xmlUCSIsHangulJamo", &XmlUCSIsHangulJamo},
-	{"xmlUCSIsHangulSyllables", &XmlUCSIsHangulSyllables},
-	{"xmlUCSIsHanunoo", &XmlUCSIsHanunoo},
-	{"xmlUCSIsHebrew", &XmlUCSIsHebrew},
-	{"xmlUCSIsHighPrivateUseSurrogates", &XmlUCSIsHighPrivateUseSurrogates},
-	{"xmlUCSIsHighSurrogates", &XmlUCSIsHighSurrogates},
-	{"xmlUCSIsHiragana", &XmlUCSIsHiragana},
-	{"xmlUCSIsIPAExtensions", &XmlUCSIsIPAExtensions},
-	{"xmlUCSIsIdeographicDescriptionCharacters", &XmlUCSIsIdeographicDescriptionCharacters},
-	{"xmlUCSIsKanbun", &XmlUCSIsKanbun},
-	{"xmlUCSIsKangxiRadicals", &XmlUCSIsKangxiRadicals},
-	{"xmlUCSIsKannada", &XmlUCSIsKannada},
-	{"xmlUCSIsKatakana", &XmlUCSIsKatakana},
-	{"xmlUCSIsKatakanaPhoneticExtensions", &XmlUCSIsKatakanaPhoneticExtensions},
-	{"xmlUCSIsKhmer", &XmlUCSIsKhmer},
-	{"xmlUCSIsKhmerSymbols", &XmlUCSIsKhmerSymbols},
-	{"xmlUCSIsLao", &XmlUCSIsLao},
-	{"xmlUCSIsLatin1Supplement", &XmlUCSIsLatin1Supplement},
-	{"xmlUCSIsLatinExtendedA", &XmlUCSIsLatinExtendedA},
-	{"xmlUCSIsLatinExtendedAdditional", &XmlUCSIsLatinExtendedAdditional},
-	{"xmlUCSIsLatinExtendedB", &XmlUCSIsLatinExtendedB},
-	{"xmlUCSIsLetterlikeSymbols", &XmlUCSIsLetterlikeSymbols},
-	{"xmlUCSIsLimbu", &XmlUCSIsLimbu},
-	{"xmlUCSIsLinearBIdeograms", &XmlUCSIsLinearBIdeograms},
-	{"xmlUCSIsLinearBSyllabary", &XmlUCSIsLinearBSyllabary},
-	{"xmlUCSIsLowSurrogates", &XmlUCSIsLowSurrogates},
-	{"xmlUCSIsMalayalam", &XmlUCSIsMalayalam},
-	{"xmlUCSIsMathematicalAlphanumericSymbols", &XmlUCSIsMathematicalAlphanumericSymbols},
-	{"xmlUCSIsMathematicalOperators", &XmlUCSIsMathematicalOperators},
-	{"xmlUCSIsMiscellaneousMathematicalSymbolsA", &XmlUCSIsMiscellaneousMathematicalSymbolsA},
-	{"xmlUCSIsMiscellaneousMathematicalSymbolsB", &XmlUCSIsMiscellaneousMathematicalSymbolsB},
-	{"xmlUCSIsMiscellaneousSymbols", &XmlUCSIsMiscellaneousSymbols},
-	{"xmlUCSIsMiscellaneousSymbolsandArrows", &XmlUCSIsMiscellaneousSymbolsandArrows},
-	{"xmlUCSIsMiscellaneousTechnical", &XmlUCSIsMiscellaneousTechnical},
-	{"xmlUCSIsMongolian", &XmlUCSIsMongolian},
-	{"xmlUCSIsMusicalSymbols", &XmlUCSIsMusicalSymbols},
-	{"xmlUCSIsMyanmar", &XmlUCSIsMyanmar},
-	{"xmlUCSIsNumberForms", &XmlUCSIsNumberForms},
-	{"xmlUCSIsOgham", &XmlUCSIsOgham},
-	{"xmlUCSIsOldItalic", &XmlUCSIsOldItalic},
-	{"xmlUCSIsOpticalCharacterRecognition", &XmlUCSIsOpticalCharacterRecognition},
-	{"xmlUCSIsOriya", &XmlUCSIsOriya},
-	{"xmlUCSIsOsmanya", &XmlUCSIsOsmanya},
-	{"xmlUCSIsPhoneticExtensions", &XmlUCSIsPhoneticExtensions},
-	{"xmlUCSIsPrivateUse", &XmlUCSIsPrivateUse},
-	{"xmlUCSIsPrivateUseArea", &XmlUCSIsPrivateUseArea},
-	{"xmlUCSIsRunic", &XmlUCSIsRunic},
-	{"xmlUCSIsShavian", &XmlUCSIsShavian},
-	{"xmlUCSIsSinhala", &XmlUCSIsSinhala},
-	{"xmlUCSIsSmallFormVariants", &XmlUCSIsSmallFormVariants},
-	{"xmlUCSIsSpacingModifierLetters", &XmlUCSIsSpacingModifierLetters},
-	{"xmlUCSIsSpecials", &XmlUCSIsSpecials},
-	{"xmlUCSIsSuperscriptsandSubscripts", &XmlUCSIsSuperscriptsandSubscripts},
-	{"xmlUCSIsSupplementalArrowsA", &XmlUCSIsSupplementalArrowsA},
-	{"xmlUCSIsSupplementalArrowsB", &XmlUCSIsSupplementalArrowsB},
-	{"xmlUCSIsSupplementalMathematicalOperators", &XmlUCSIsSupplementalMathematicalOperators},
-	{"xmlUCSIsSupplementaryPrivateUseAreaA", &XmlUCSIsSupplementaryPrivateUseAreaA},
-	{"xmlUCSIsSupplementaryPrivateUseAreaB", &XmlUCSIsSupplementaryPrivateUseAreaB},
-	{"xmlUCSIsSyriac", &XmlUCSIsSyriac},
-	{"xmlUCSIsTagalog", &XmlUCSIsTagalog},
-	{"xmlUCSIsTagbanwa", &XmlUCSIsTagbanwa},
-	{"xmlUCSIsTags", &XmlUCSIsTags},
-	{"xmlUCSIsTaiLe", &XmlUCSIsTaiLe},
-	{"xmlUCSIsTaiXuanJingSymbols", &XmlUCSIsTaiXuanJingSymbols},
-	{"xmlUCSIsTamil", &XmlUCSIsTamil},
-	{"xmlUCSIsTelugu", &XmlUCSIsTelugu},
-	{"xmlUCSIsThaana", &XmlUCSIsThaana},
-	{"xmlUCSIsThai", &XmlUCSIsThai},
-	{"xmlUCSIsTibetan", &XmlUCSIsTibetan},
-	{"xmlUCSIsUgaritic", &XmlUCSIsUgaritic},
-	{"xmlUCSIsUnifiedCanadianAboriginalSyllabics", &XmlUCSIsUnifiedCanadianAboriginalSyllabics},
-	{"xmlUCSIsVariationSelectors", &XmlUCSIsVariationSelectors},
-	{"xmlUCSIsVariationSelectorsSupplement", &XmlUCSIsVariationSelectorsSupplement},
-	{"xmlUCSIsYiRadicals", &XmlUCSIsYiRadicals},
-	{"xmlUCSIsYiSyllables", &XmlUCSIsYiSyllables},
-	{"xmlUCSIsYijingHexagramSymbols", &XmlUCSIsYijingHexagramSymbols},
-	{"xmlURIEscape", &XmlURIEscape},
-	{"xmlURIEscapeStr", &XmlURIEscapeStr},
-	{"xmlURIUnescapeString", &XmlURIUnescapeString},
-	{"xmlUTF8Charcmp", &XmlUTF8Charcmp},
-	{"xmlUTF8Size", &XmlUTF8Size},
-	{"xmlUTF8Strlen", &XmlUTF8Strlen},
-	{"xmlUTF8Strloc", &XmlUTF8Strloc},
-	{"xmlUTF8Strndup", &XmlUTF8Strndup},
-	{"xmlUTF8Strpos", &XmlUTF8Strpos},
-	{"xmlUTF8Strsize", &XmlUTF8Strsize},
-	{"xmlUTF8Strsub", &XmlUTF8Strsub},
-	{"xmlUnlinkNode", &XmlUnlinkNode},
-	{"xmlUnlockLibrary", &XmlUnlockLibrary},
-	{"xmlUnsetNsProp", &XmlUnsetNsProp},
-	{"xmlUnsetProp", &XmlUnsetProp},
-	{"xmlValidBuildContentModel", &XmlValidBuildContentModel},
-	{"xmlValidCtxtNormalizeAttributeValue", &XmlValidCtxtNormalizeAttributeValue},
-	{"xmlValidGetPotentialChildren", &XmlValidGetPotentialChildren},
-	{"xmlValidGetValidElements", &XmlValidGetValidElements},
-	{"xmlValidNormalizeAttributeValue", &XmlValidNormalizeAttributeValue},
-	{"xmlValidateAttributeDecl", &XmlValidateAttributeDecl},
-	{"xmlValidateAttributeValue", &XmlValidateAttributeValue},
-	{"xmlValidateDocument", &XmlValidateDocument},
-	{"xmlValidateDocumentFinal", &XmlValidateDocumentFinal},
-	{"xmlValidateDtd", &XmlValidateDtd},
-	{"xmlValidateDtdFinal", &XmlValidateDtdFinal},
-	{"xmlValidateElement", &XmlValidateElement},
-	{"xmlValidateElementDecl", &XmlValidateElementDecl},
-	{"xmlValidateNCName", &XmlValidateNCName},
-	{"xmlValidateNMToken", &XmlValidateNMToken},
-	{"xmlValidateName", &XmlValidateName},
-	{"xmlValidateNameValue", &XmlValidateNameValue},
-	{"xmlValidateNamesValue", &XmlValidateNamesValue},
-	{"xmlValidateNmtokenValue", &XmlValidateNmtokenValue},
-	{"xmlValidateNmtokensValue", &XmlValidateNmtokensValue},
-	{"xmlValidateNotationDecl", &XmlValidateNotationDecl},
-	{"xmlValidateNotationUse", &XmlValidateNotationUse},
-	{"xmlValidateOneAttribute", &XmlValidateOneAttribute},
-	{"xmlValidateOneElement", &XmlValidateOneElement},
-	{"xmlValidateOneNamespace", &XmlValidateOneNamespace},
-	{"xmlValidatePopElement", &XmlValidatePopElement},
-	{"xmlValidatePushCData", &XmlValidatePushCData},
-	{"xmlValidatePushElement", &XmlValidatePushElement},
-	{"xmlValidateQName", &XmlValidateQName},
-	{"xmlValidateRoot", &XmlValidateRoot},
-	{"xmlXIncludeFreeContext", &XmlXIncludeFreeContext},
-	{"xmlXIncludeNewContext", &XmlXIncludeNewContext},
-	{"xmlXIncludeProcess", &XmlXIncludeProcess},
-	{"xmlXIncludeProcessFlags", &XmlXIncludeProcessFlags},
-	{"xmlXIncludeProcessFlagsData", &XmlXIncludeProcessFlagsData},
-	{"xmlXIncludeProcessNode", &XmlXIncludeProcessNode},
-	{"xmlXIncludeProcessTree", &XmlXIncludeProcessTree},
-	{"xmlXIncludeProcessTreeFlags", &XmlXIncludeProcessTreeFlags},
-	{"xmlXIncludeProcessTreeFlagsData", &XmlXIncludeProcessTreeFlagsData},
-	{"xmlXIncludeSetFlags", &XmlXIncludeSetFlags},
-	{"xmlXPathAddValues", &XmlXPathAddValues},
-	{"xmlXPathBooleanFunction", &XmlXPathBooleanFunction},
-	{"xmlXPathCastBooleanToNumber", &XmlXPathCastBooleanToNumber},
-	{"xmlXPathCastBooleanToString", &XmlXPathCastBooleanToString},
-	{"xmlXPathCastNodeSetToBoolean", &XmlXPathCastNodeSetToBoolean},
-	{"xmlXPathCastNodeSetToNumber", &XmlXPathCastNodeSetToNumber},
-	{"xmlXPathCastNodeSetToString", &XmlXPathCastNodeSetToString},
-	{"xmlXPathCastNodeToNumber", &XmlXPathCastNodeToNumber},
-	{"xmlXPathCastNodeToString", &XmlXPathCastNodeToString},
-	{"xmlXPathCastNumberToBoolean", &XmlXPathCastNumberToBoolean},
-	{"xmlXPathCastNumberToString", &XmlXPathCastNumberToString},
-	{"xmlXPathCastStringToBoolean", &XmlXPathCastStringToBoolean},
-	{"xmlXPathCastStringToNumber", &XmlXPathCastStringToNumber},
-	{"xmlXPathCastToBoolean", &XmlXPathCastToBoolean},
-	{"xmlXPathCastToNumber", &XmlXPathCastToNumber},
-	{"xmlXPathCastToString", &XmlXPathCastToString},
-	{"xmlXPathCeilingFunction", &XmlXPathCeilingFunction},
-	{"xmlXPathCmpNodes", &XmlXPathCmpNodes},
-	{"xmlXPathCompareValues", &XmlXPathCompareValues},
-	{"xmlXPathCompile", &XmlXPathCompile},
-	{"xmlXPathCompiledEval", &XmlXPathCompiledEval},
-	{"xmlXPathCompiledEvalToBoolean", &XmlXPathCompiledEvalToBoolean},
-	{"xmlXPathConcatFunction", &XmlXPathConcatFunction},
-	{"xmlXPathContainsFunction", &XmlXPathContainsFunction},
-	{"xmlXPathContextSetCache", &XmlXPathContextSetCache},
-	{"xmlXPathConvertBoolean", &XmlXPathConvertBoolean},
-	{"xmlXPathConvertNumber", &XmlXPathConvertNumber},
-	{"xmlXPathConvertString", &XmlXPathConvertString},
-	{"xmlXPathCountFunction", &XmlXPathCountFunction},
-	{"xmlXPathCtxtCompile", &XmlXPathCtxtCompile},
-	{"xmlXPathDebugDumpCompExpr", &XmlXPathDebugDumpCompExpr},
-	{"xmlXPathDebugDumpObject", &XmlXPathDebugDumpObject},
-	{"xmlXPathDifference", &XmlXPathDifference},
-	{"xmlXPathDistinct", &XmlXPathDistinct},
-	{"xmlXPathDistinctSorted", &XmlXPathDistinctSorted},
-	{"xmlXPathDivValues", &XmlXPathDivValues},
-	{"xmlXPathEqualValues", &XmlXPathEqualValues},
-	{"xmlXPathErr", &XmlXPathErr},
-	{"xmlXPathEval", &XmlXPathEval},
-	{"xmlXPathEvalExpr", &XmlXPathEvalExpr},
-	{"xmlXPathEvalExpression", &XmlXPathEvalExpression},
-	{"xmlXPathEvalPredicate", &XmlXPathEvalPredicate},
-	{"xmlXPathEvaluatePredicateResult", &XmlXPathEvaluatePredicateResult},
-	{"xmlXPathFalseFunction", &XmlXPathFalseFunction},
-	{"xmlXPathFloorFunction", &XmlXPathFloorFunction},
-	{"xmlXPathFreeCompExpr", &XmlXPathFreeCompExpr},
-	{"xmlXPathFreeContext", &XmlXPathFreeContext},
-	{"xmlXPathFreeNodeSet", &XmlXPathFreeNodeSet},
-	{"xmlXPathFreeNodeSetList", &XmlXPathFreeNodeSetList},
-	{"xmlXPathFreeObject", &XmlXPathFreeObject},
-	{"xmlXPathFreeParserContext", &XmlXPathFreeParserContext},
-	{"xmlXPathFunctionLookup", &XmlXPathFunctionLookup},
-	{"xmlXPathFunctionLookupNS", &XmlXPathFunctionLookupNS},
-	{"xmlXPathHasSameNodes", &XmlXPathHasSameNodes},
-	{"xmlXPathIdFunction", &XmlXPathIdFunction},
-	{"xmlXPathInit", &XmlXPathInit},
-	{"xmlXPathIntersection", &XmlXPathIntersection},
-	{"xmlXPathIsInf", &XmlXPathIsInf},
-	{"xmlXPathIsNaN", &XmlXPathIsNaN},
-	{"xmlXPathIsNodeType", &XmlXPathIsNodeType},
-	{"xmlXPathLangFunction", &XmlXPathLangFunction},
-	{"xmlXPathLastFunction", &XmlXPathLastFunction},
-	{"xmlXPathLeading", &XmlXPathLeading},
-	{"xmlXPathLeadingSorted", &XmlXPathLeadingSorted},
-	{"xmlXPathLocalNameFunction", &XmlXPathLocalNameFunction},
-	{"xmlXPathModValues", &XmlXPathModValues},
-	{"xmlXPathMultValues", &XmlXPathMultValues},
-	{"xmlXPathNamespaceURIFunction", &XmlXPathNamespaceURIFunction},
-	{"xmlXPathNewBoolean", &XmlXPathNewBoolean},
-	{"xmlXPathNewCString", &XmlXPathNewCString},
-	{"xmlXPathNewContext", &XmlXPathNewContext},
-	{"xmlXPathNewFloat", &XmlXPathNewFloat},
-	{"xmlXPathNewNodeSet", &XmlXPathNewNodeSet},
-	{"xmlXPathNewNodeSetList", &XmlXPathNewNodeSetList},
-	{"xmlXPathNewParserContext", &XmlXPathNewParserContext},
-	{"xmlXPathNewString", &XmlXPathNewString},
-	{"xmlXPathNewValueTree", &XmlXPathNewValueTree},
-	{"xmlXPathNextAncestor", &XmlXPathNextAncestor},
-	{"xmlXPathNextAncestorOrSelf", &XmlXPathNextAncestorOrSelf},
-	{"xmlXPathNextAttribute", &XmlXPathNextAttribute},
-	{"xmlXPathNextChild", &XmlXPathNextChild},
-	{"xmlXPathNextDescendant", &XmlXPathNextDescendant},
-	{"xmlXPathNextDescendantOrSelf", &XmlXPathNextDescendantOrSelf},
-	{"xmlXPathNextFollowing", &XmlXPathNextFollowing},
-	{"xmlXPathNextFollowingSibling", &XmlXPathNextFollowingSibling},
-	{"xmlXPathNextNamespace", &XmlXPathNextNamespace},
-	{"xmlXPathNextParent", &XmlXPathNextParent},
-	{"xmlXPathNextPreceding", &XmlXPathNextPreceding},
-	{"xmlXPathNextPrecedingSibling", &XmlXPathNextPrecedingSibling},
-	{"xmlXPathNextSelf", &XmlXPathNextSelf},
-	{"xmlXPathNodeLeading", &XmlXPathNodeLeading},
-	{"xmlXPathNodeLeadingSorted", &XmlXPathNodeLeadingSorted},
-	{"xmlXPathNodeSetAdd", &XmlXPathNodeSetAdd},
-	{"xmlXPathNodeSetAddNs", &XmlXPathNodeSetAddNs},
-	{"xmlXPathNodeSetAddUnique", &XmlXPathNodeSetAddUnique},
-	{"xmlXPathNodeSetContains", &XmlXPathNodeSetContains},
-	{"xmlXPathNodeSetCreate", &XmlXPathNodeSetCreate},
-	{"xmlXPathNodeSetDel", &XmlXPathNodeSetDel},
-	{"xmlXPathNodeSetFreeNs", &XmlXPathNodeSetFreeNs},
-	{"xmlXPathNodeSetMerge", &XmlXPathNodeSetMerge},
-	{"xmlXPathNodeSetRemove", &XmlXPathNodeSetRemove},
-	{"xmlXPathNodeSetSort", &XmlXPathNodeSetSort},
-	{"xmlXPathNodeTrailing", &XmlXPathNodeTrailing},
-	{"xmlXPathNodeTrailingSorted", &XmlXPathNodeTrailingSorted},
-	{"xmlXPathNormalizeFunction", &XmlXPathNormalizeFunction},
-	{"xmlXPathNotEqualValues", &XmlXPathNotEqualValues},
-	{"xmlXPathNotFunction", &XmlXPathNotFunction},
-	{"xmlXPathNsLookup", &XmlXPathNsLookup},
-	{"xmlXPathNumberFunction", &XmlXPathNumberFunction},
-	{"xmlXPathObjectCopy", &XmlXPathObjectCopy},
-	{"xmlXPathOrderDocElems", &XmlXPathOrderDocElems},
-	{"xmlXPathParseNCName", &XmlXPathParseNCName},
-	{"xmlXPathParseName", &XmlXPathParseName},
-	{"xmlXPathPopBoolean", &XmlXPathPopBoolean},
-	{"xmlXPathPopExternal", &XmlXPathPopExternal},
-	{"xmlXPathPopNodeSet", &XmlXPathPopNodeSet},
-	{"xmlXPathPopNumber", &XmlXPathPopNumber},
-	{"xmlXPathPopString", &XmlXPathPopString},
-	{"xmlXPathPositionFunction", &XmlXPathPositionFunction},
-	{"xmlXPathRegisterAllFunctions", &XmlXPathRegisterAllFunctions},
-	{"xmlXPathRegisterFunc", &XmlXPathRegisterFunc},
-	{"xmlXPathRegisterFuncLookup", &XmlXPathRegisterFuncLookup},
-	{"xmlXPathRegisterFuncNS", &XmlXPathRegisterFuncNS},
-	{"xmlXPathRegisterNs", &XmlXPathRegisterNs},
-	{"xmlXPathRegisterVariable", &XmlXPathRegisterVariable},
-	{"xmlXPathRegisterVariableLookup", &XmlXPathRegisterVariableLookup},
-	{"xmlXPathRegisterVariableNS", &XmlXPathRegisterVariableNS},
-	{"xmlXPathRegisteredFuncsCleanup", &XmlXPathRegisteredFuncsCleanup},
-	{"xmlXPathRegisteredNsCleanup", &XmlXPathRegisteredNsCleanup},
-	{"xmlXPathRegisteredVariablesCleanup", &XmlXPathRegisteredVariablesCleanup},
-	{"xmlXPathRoot", &XmlXPathRoot},
-	{"xmlXPathRoundFunction", &XmlXPathRoundFunction},
-	{"xmlXPathStartsWithFunction", &XmlXPathStartsWithFunction},
-	{"xmlXPathStringEvalNumber", &XmlXPathStringEvalNumber},
-	{"xmlXPathStringFunction", &XmlXPathStringFunction},
-	{"xmlXPathStringLengthFunction", &XmlXPathStringLengthFunction},
-	{"xmlXPathSubValues", &XmlXPathSubValues},
-	{"xmlXPathSubstringAfterFunction", &XmlXPathSubstringAfterFunction},
-	{"xmlXPathSubstringBeforeFunction", &XmlXPathSubstringBeforeFunction},
-	{"xmlXPathSubstringFunction", &XmlXPathSubstringFunction},
-	{"xmlXPathSumFunction", &XmlXPathSumFunction},
-	{"xmlXPathTrailing", &XmlXPathTrailing},
-	{"xmlXPathTrailingSorted", &XmlXPathTrailingSorted},
-	{"xmlXPathTranslateFunction", &XmlXPathTranslateFunction},
-	{"xmlXPathTrueFunction", &XmlXPathTrueFunction},
-	{"xmlXPathValueFlipSign", &XmlXPathValueFlipSign},
-	{"xmlXPathVariableLookup", &XmlXPathVariableLookup},
-	{"xmlXPathVariableLookupNS", &XmlXPathVariableLookupNS},
-	{"xmlXPathWrapCString", &XmlXPathWrapCString},
-	{"xmlXPathWrapExternal", &XmlXPathWrapExternal},
-	{"xmlXPathWrapNodeSet", &XmlXPathWrapNodeSet},
-	{"xmlXPathWrapString", &XmlXPathWrapString},
-	{"xmlXPatherror", &XmlXPatherror},
-	{"xmlXPtrBuildNodeList", &XmlXPtrBuildNodeList},
-	{"xmlXPtrEval", &XmlXPtrEval},
-	{"xmlXPtrEvalRangePredicate", &XmlXPtrEvalRangePredicate},
-	{"xmlXPtrFreeLocationSet", &XmlXPtrFreeLocationSet},
-	{"xmlXPtrLocationSetAdd", &XmlXPtrLocationSetAdd},
-	{"xmlXPtrLocationSetCreate", &XmlXPtrLocationSetCreate},
-	{"xmlXPtrLocationSetDel", &XmlXPtrLocationSetDel},
-	{"xmlXPtrLocationSetMerge", &XmlXPtrLocationSetMerge},
-	{"xmlXPtrLocationSetRemove", &XmlXPtrLocationSetRemove},
-	{"xmlXPtrNewCollapsedRange", &XmlXPtrNewCollapsedRange},
-	{"xmlXPtrNewContext", &XmlXPtrNewContext},
-	{"xmlXPtrNewLocationSetNodeSet", &XmlXPtrNewLocationSetNodeSet},
-	{"xmlXPtrNewLocationSetNodes", &XmlXPtrNewLocationSetNodes},
-	{"xmlXPtrNewRange", &XmlXPtrNewRange},
-	{"xmlXPtrNewRangeNodeObject", &XmlXPtrNewRangeNodeObject},
-	{"xmlXPtrNewRangeNodePoint", &XmlXPtrNewRangeNodePoint},
-	{"xmlXPtrNewRangeNodes", &XmlXPtrNewRangeNodes},
-	{"xmlXPtrNewRangePointNode", &XmlXPtrNewRangePointNode},
-	{"xmlXPtrNewRangePoints", &XmlXPtrNewRangePoints},
-	{"xmlXPtrRangeToFunction", &XmlXPtrRangeToFunction},
-	{"xmlXPtrWrapLocationSet", &XmlXPtrWrapLocationSet},
+	{"xmlGetPredefinedEntity", &GetPredefinedEntity},
+	{"xmlGetProp", &GetProp},
+	{"xmlGetRefs", &GetRefs},
+	{"xmlGetThreadId", &GetThreadId},
+	{"xmlGetUTF8Char", &GetUTF8Char},
+	{"xmlHandleEntity", &HandleEntity},
+	{"xmlHasFeature", &HasFeature},
+	{"xmlHasNsProp", &HasNsProp},
+	{"xmlHasProp", &HasProp},
+	{"xmlHashAddEntry", &HashAddEntry},
+	{"xmlHashAddEntry2", &HashAddEntry2},
+	{"xmlHashAddEntry3", &HashAddEntry3},
+	{"xmlHashCopy", &HashCopy},
+	{"xmlHashCreate", &HashCreate},
+	{"xmlHashCreateDict", &HashCreateDict},
+	{"xmlHashFree", &HashFree},
+	{"xmlHashLookup", &HashLookup},
+	{"xmlHashLookup2", &HashLookup2},
+	{"xmlHashLookup3", &HashLookup3},
+	{"xmlHashQLookup", &HashQLookup},
+	{"xmlHashQLookup2", &HashQLookup2},
+	{"xmlHashQLookup3", &HashQLookup3},
+	{"xmlHashRemoveEntry", &HashRemoveEntry},
+	{"xmlHashRemoveEntry2", &HashRemoveEntry2},
+	{"xmlHashRemoveEntry3", &HashRemoveEntry3},
+	{"xmlHashScan", &HashScan},
+	{"xmlHashScan3", &HashScan3},
+	{"xmlHashScanFull", &HashScanFull},
+	{"xmlHashScanFull3", &HashScanFull3},
+	{"xmlHashSize", &HashSize},
+	{"xmlHashUpdateEntry", &HashUpdateEntry},
+	{"xmlHashUpdateEntry2", &HashUpdateEntry2},
+	{"xmlHashUpdateEntry3", &HashUpdateEntry3},
+	{"xmlIOFTPClose", &IOFTPClose},
+	{"xmlIOFTPMatch", &IOFTPMatch},
+	{"xmlIOFTPOpen", &IOFTPOpen},
+	{"xmlIOFTPRead", &IOFTPRead},
+	{"xmlIOHTTPClose", &IOHTTPClose},
+	{"xmlIOHTTPMatch", &IOHTTPMatch},
+	{"xmlIOHTTPOpen", &IOHTTPOpen},
+	{"xmlIOHTTPOpenW", &IOHTTPOpenW},
+	{"xmlIOHTTPRead", &IOHTTPRead},
+	{"xmlIOParseDTD", &IOParseDTD},
+	{"xmlInitCharEncodingHandlers", &InitCharEncodingHandlers},
+	{"xmlInitGlobals", &InitGlobals},
+	{"xmlInitMemory", &InitMemory},
+	{"xmlInitNodeInfoSeq", &InitNodeInfoSeq},
+	{"xmlInitParser", &InitParser},
+	{"xmlInitParserCtxt", &InitParserCtxt},
+	{"xmlInitThreads", &InitThreads},
+	{"xmlInitializeCatalog", &InitializeCatalog},
+	{"xmlInitializeGlobalState", &InitializeGlobalState},
+	{"xmlInitializePredefinedEntities", &InitializePredefinedEntities},
+	{"xmlIsBaseChar", &IsBaseChar},
+	{"xmlIsBlank", &IsBlank},
+	{"xmlIsBlankNode", &IsBlankNode},
+	{"xmlIsChar", &IsChar},
+	{"xmlIsCombining", &IsCombining},
+	{"xmlIsDigit", &IsDigit},
+	{"xmlIsExtender", &IsExtender},
+	{"xmlIsID", &IsID},
+	{"xmlIsIdeographic", &IsIdeographic},
+	{"xmlIsLetter", &IsLetter},
+	{"xmlIsMainThread", &IsMainThread},
+	{"xmlIsMixedElement", &IsMixedElement},
+	{"xmlIsPubidChar", &IsPubidChar},
+	{"xmlIsRef", &IsRef},
+	{"xmlIsXHTML", &IsXHTML},
+	{"xmlKeepBlanksDefault", &KeepBlanksDefault},
+	{"xmlLastElementChild", &LastElementChild},
+	{"xmlLineNumbersDefault", &LineNumbersDefault},
+	{"xmlLinkGetData", &LinkGetData},
+	{"xmlListAppend", &ListAppend},
+	{"xmlListClear", &ListClear},
+	{"xmlListCopy", &ListCopy},
+	{"xmlListCreate", &ListCreate},
+	{"xmlListDelete", &ListDelete},
+	{"xmlListDup", &ListDup},
+	{"xmlListEmpty", &ListEmpty},
+	{"xmlListEnd", &ListEnd},
+	{"xmlListFront", &ListFront},
+	{"xmlListInsert", &ListInsert},
+	{"xmlListMerge", &ListMerge},
+	{"xmlListPopBack", &ListPopBack},
+	{"xmlListPopFront", &ListPopFront},
+	{"xmlListPushBack", &ListPushBack},
+	{"xmlListPushFront", &ListPushFront},
+	{"xmlListRemoveAll", &ListRemoveAll},
+	{"xmlListRemoveFirst", &ListRemoveFirst},
+	{"xmlListRemoveLast", &ListRemoveLast},
+	{"xmlListReverse", &ListReverse},
+	{"xmlListReverseSearch", &ListReverseSearch},
+	{"xmlListReverseWalk", &ListReverseWalk},
+	{"xmlListSearch", &ListSearch},
+	{"xmlListSize", &ListSize},
+	{"xmlListSort", &ListSort},
+	{"xmlListWalk", &ListWalk},
+	{"xmlLoadACatalog", &LoadACatalog},
+	{"xmlLoadCatalog", &LoadCatalog},
+	{"xmlLoadCatalogs", &LoadCatalogs},
+	{"xmlLoadExternalEntity", &LoadExternalEntity},
+	{"xmlLoadSGMLSuperCatalog", &LoadSGMLSuperCatalog},
+	{"xmlLockLibrary", &LockLibrary},
+	{"xmlLsCountNode", &LsCountNode},
+	{"xmlLsOneNode", &LsOneNode},
+	{"xmlMallocAtomicLoc", &MallocAtomicLoc},
+	{"xmlMallocLoc", &MallocLoc},
+	{"xmlMemBlocks", &MemBlocks},
+	{"xmlMemDisplay", &MemDisplay},
+	{"xmlMemDisplayLast", &MemDisplayLast},
+	{"xmlMemFree", &MemFree},
+	{"xmlMemGet", &MemGet},
+	{"xmlMemMalloc", &MemMalloc},
+	{"xmlMemRealloc", &MemRealloc},
+	{"xmlMemSetup", &MemSetup},
+	{"xmlMemShow", &MemShow},
+	{"xmlMemStrdupLoc", &MemStrdupLoc},
+	{"xmlMemUsed", &MemUsed},
+	{"xmlMemoryDump", &MemoryDump},
+	{"xmlMemoryStrdup", &MemoryStrdup},
+	{"xmlModuleClose", &ModuleClose},
+	{"xmlModuleFree", &ModuleFree},
+	{"xmlModuleOpen", &ModuleOpen},
+	{"xmlModuleSymbol", &ModuleSymbol},
+	{"xmlMutexLock", &MutexLock},
+	{"xmlMutexUnlock", &MutexUnlock},
+	{"xmlNamespaceParseNCName", &NamespaceParseNCName},
+	{"xmlNamespaceParseNSDef", &NamespaceParseNSDef},
+	{"xmlNamespaceParseQName", &NamespaceParseQName},
+	{"xmlNanoFTPCheckResponse", &NanoFTPCheckResponse},
+	{"xmlNanoFTPCleanup", &NanoFTPCleanup},
+	{"xmlNanoFTPClose", &NanoFTPClose},
+	{"xmlNanoFTPCloseConnection", &NanoFTPCloseConnection},
+	{"xmlNanoFTPConnect", &NanoFTPConnect},
+	{"xmlNanoFTPConnectTo", &NanoFTPConnectTo},
+	{"xmlNanoFTPCwd", &NanoFTPCwd},
+	{"xmlNanoFTPDele", &NanoFTPDele},
+	{"xmlNanoFTPFreeCtxt", &NanoFTPFreeCtxt},
+	{"xmlNanoFTPGet", &NanoFTPGet},
+	{"xmlNanoFTPGetConnection", &NanoFTPGetConnection},
+	{"xmlNanoFTPGetResponse", &NanoFTPGetResponse},
+	{"xmlNanoFTPGetSocket", &NanoFTPGetSocket},
+	{"xmlNanoFTPInit", &NanoFTPInit},
+	{"xmlNanoFTPList", &NanoFTPList},
+	{"xmlNanoFTPNewCtxt", &NanoFTPNewCtxt},
+	{"xmlNanoFTPOpen", &NanoFTPOpen},
+	{"xmlNanoFTPProxy", &NanoFTPProxy},
+	{"xmlNanoFTPQuit", &NanoFTPQuit},
+	{"xmlNanoFTPRead", &NanoFTPRead},
+	{"xmlNanoFTPScanProxy", &NanoFTPScanProxy},
+	{"xmlNanoFTPUpdateURL", &NanoFTPUpdateURL},
+	{"xmlNanoHTTPAuthHeader", &NanoHTTPAuthHeader},
+	{"xmlNanoHTTPCleanup", &NanoHTTPCleanup},
+	{"xmlNanoHTTPClose", &NanoHTTPClose},
+	{"xmlNanoHTTPContentLength", &NanoHTTPContentLength},
+	{"xmlNanoHTTPEncoding", &NanoHTTPEncoding},
+	{"xmlNanoHTTPFetch", &NanoHTTPFetch},
+	{"xmlNanoHTTPInit", &NanoHTTPInit},
+	{"xmlNanoHTTPMethod", &NanoHTTPMethod},
+	{"xmlNanoHTTPMethodRedir", &NanoHTTPMethodRedir},
+	{"xmlNanoHTTPMimeType", &NanoHTTPMimeType},
+	{"xmlNanoHTTPOpen", &NanoHTTPOpen},
+	{"xmlNanoHTTPOpenRedir", &NanoHTTPOpenRedir},
+	{"xmlNanoHTTPRead", &NanoHTTPRead},
+	{"xmlNanoHTTPRedir", &NanoHTTPRedir},
+	{"xmlNanoHTTPReturnCode", &NanoHTTPReturnCode},
+	{"xmlNanoHTTPSave", &NanoHTTPSave},
+	{"xmlNanoHTTPScanProxy", &NanoHTTPScanProxy},
+	{"xmlNewAutomata", &NewAutomata},
+	{"xmlNewCDataBlock", &NewCDataBlock},
+	{"xmlNewCatalog", &NewCatalog},
+	{"xmlNewCharEncodingHandler", &NewCharEncodingHandler},
+	{"xmlNewCharRef", &NewCharRef},
+	{"xmlNewChild", &NewChild},
+	{"xmlNewComment", &NewComment},
+	{"xmlNewDoc", &NewDoc},
+	{"xmlNewDocComment", &NewDocComment},
+	{"xmlNewDocElementContent", &NewDocElementContent},
+	{"xmlNewDocFragment", &NewDocFragment},
+	{"xmlNewDocNode", &NewDocNode},
+	{"xmlNewDocNodeEatName", &NewDocNodeEatName},
+	{"xmlNewDocPI", &NewDocPI},
+	{"xmlNewDocProp", &NewDocProp},
+	{"xmlNewDocRawNode", &NewDocRawNode},
+	{"xmlNewDocText", &NewDocText},
+	{"xmlNewDocTextLen", &NewDocTextLen},
+	{"xmlNewDtd", &NewDtd},
+	{"xmlNewElementContent", &NewElementContent},
+	{"xmlNewEntity", &NewEntity},
+	{"xmlNewEntityInputStream", &NewEntityInputStream},
+	{"xmlNewGlobalNs", &NewGlobalNs},
+	{"xmlNewIOInputStream", &NewIOInputStream},
+	{"xmlNewInputFromFile", &NewInputFromFile},
+	{"xmlNewInputStream", &NewInputStream},
+	{"xmlNewMutex", &NewMutex},
+	{"xmlNewNode", &NewNode},
+	{"xmlNewNodeEatName", &NewNodeEatName},
+	{"xmlNewNs", &NewNs},
+	{"xmlNewNsProp", &NewNsProp},
+	{"xmlNewNsPropEatName", &NewNsPropEatName},
+	{"xmlNewPI", &NewPI},
+	{"xmlNewParserCtxt", &NewParserCtxt},
+	{"xmlNewProp", &NewProp},
+	{"xmlNewRMutex", &NewRMutex},
+	{"xmlNewReference", &NewReference},
+	{"xmlNewStringInputStream", &NewStringInputStream},
+	{"xmlNewText", &NewText},
+	{"xmlNewTextChild", &NewTextChild},
+	{"xmlNewTextLen", &NewTextLen},
+	{"xmlNewTextReader", &NewTextReader},
+	{"xmlNewTextReaderFilename", &NewTextReaderFilename},
+	{"xmlNewTextWriter", &NewTextWriter},
+	{"xmlNewTextWriterDoc", &NewTextWriterDoc},
+	{"xmlNewTextWriterFilename", &NewTextWriterFilename},
+	{"xmlNewTextWriterMemory", &NewTextWriterMemory},
+	{"xmlNewTextWriterPushParser", &NewTextWriterPushParser},
+	{"xmlNewTextWriterTree", &NewTextWriterTree},
+	{"xmlNewValidCtxt", &NewValidCtxt},
+	{"xmlNextChar", &NextChar},
+	{"xmlNextElementSibling", &NextElementSibling},
+	{"xmlNoNetExternalEntityLoader", &NoNetExternalEntityLoader},
+	{"xmlNodeAddContent", &NodeAddContent},
+	{"xmlNodeAddContentLen", &NodeAddContentLen},
+	{"xmlNodeBufGetContent", &NodeBufGetContent},
+	{"xmlNodeDump", &NodeDump},
+	{"xmlNodeDumpOutput", &NodeDumpOutput},
+	{"xmlNodeGetBase", &NodeGetBase},
+	{"xmlNodeGetContent", &NodeGetContent},
+	{"xmlNodeGetLang", &NodeGetLang},
+	{"xmlNodeGetSpacePreserve", &NodeGetSpacePreserve},
+	{"xmlNodeIsText", &NodeIsText},
+	{"xmlNodeListGetRawString", &NodeListGetRawString},
+	{"xmlNodeListGetString", &NodeListGetString},
+	{"xmlNodeSetBase", &NodeSetBase},
+	{"xmlNodeSetContent", &NodeSetContent},
+	{"xmlNodeSetContentLen", &NodeSetContentLen},
+	{"xmlNodeSetLang", &NodeSetLang},
+	{"xmlNodeSetName", &NodeSetName},
+	{"xmlNodeSetSpacePreserve", &NodeSetSpacePreserve},
+	{"xmlNormalizeURIPath", &NormalizeURIPath},
+	{"xmlNormalizeWindowsPath", &NormalizeWindowsPath},
+	{"xmlOutputBufferClose", &OutputBufferClose},
+	{"xmlOutputBufferCreateBuffer", &OutputBufferCreateBuffer},
+	{"xmlOutputBufferCreateFd", &OutputBufferCreateFd},
+	{"xmlOutputBufferCreateFile", &OutputBufferCreateFile},
+	{"xmlOutputBufferCreateFilename", &OutputBufferCreateFilename},
+	{"xmlOutputBufferCreateFilenameDefault", &OutputBufferCreateFilenameDefault},
+	{"xmlOutputBufferCreateIO", &OutputBufferCreateIO},
+	{"xmlOutputBufferFlush", &OutputBufferFlush},
+	{"xmlOutputBufferWrite", &OutputBufferWrite},
+	{"xmlOutputBufferWriteEscape", &OutputBufferWriteEscape},
+	{"xmlOutputBufferWriteString", &OutputBufferWriteString},
+	{"xmlParseAttValue", &ParseAttValue},
+	{"xmlParseAttribute", &ParseAttribute},
+	{"xmlParseAttributeListDecl", &ParseAttributeListDecl},
+	{"xmlParseAttributeType", &ParseAttributeType},
+	{"xmlParseBalancedChunkMemory", &ParseBalancedChunkMemory},
+	{"xmlParseBalancedChunkMemoryRecover", &ParseBalancedChunkMemoryRecover},
+	{"xmlParseCDSect", &ParseCDSect},
+	{"xmlParseCatalogFile", &ParseCatalogFile},
+	{"xmlParseCharData", &ParseCharData},
+	{"xmlParseCharEncoding", &ParseCharEncoding},
+	{"xmlParseCharRef", &ParseCharRef},
+	{"xmlParseChunk", &ParseChunk},
+	{"xmlParseComment", &ParseComment},
+	{"xmlParseContent", &ParseContent},
+	{"xmlParseCtxtExternalEntity", &ParseCtxtExternalEntity},
+	{"xmlParseDTD", &ParseDTD},
+	{"xmlParseDefaultDecl", &ParseDefaultDecl},
+	{"xmlParseDoc", &ParseDoc},
+	{"xmlParseDocTypeDecl", &ParseDocTypeDecl},
+	{"xmlParseDocument", &ParseDocument},
+	{"xmlParseElement", &ParseElement},
+	{"xmlParseElementChildrenContentDecl", &ParseElementChildrenContentDecl},
+	{"xmlParseElementContentDecl", &ParseElementContentDecl},
+	{"xmlParseElementDecl", &ParseElementDecl},
+	{"xmlParseElementMixedContentDecl", &ParseElementMixedContentDecl},
+	{"xmlParseEncName", &ParseEncName},
+	{"xmlParseEncodingDecl", &ParseEncodingDecl},
+	{"xmlParseEndTag", &ParseEndTag},
+	{"xmlParseEntity", &ParseEntity},
+	{"xmlParseEntityDecl", &ParseEntityDecl},
+	{"xmlParseEntityRef", &ParseEntityRef},
+	{"xmlParseEntityValue", &ParseEntityValue},
+	{"xmlParseEnumeratedType", &ParseEnumeratedType},
+	{"xmlParseEnumerationType", &ParseEnumerationType},
+	{"xmlParseExtParsedEnt", &ParseExtParsedEnt},
+	{"xmlParseExternalEntity", &ParseExternalEntity},
+	{"xmlParseExternalID", &ParseExternalID},
+	{"xmlParseExternalSubset", &ParseExternalSubset},
+	{"xmlParseFile", &ParseFile},
+	{"xmlParseInNodeContext", &ParseInNodeContext},
+	{"xmlParseMarkupDecl", &ParseMarkupDecl},
+	{"xmlParseMemory", &ParseMemory},
+	{"xmlParseMisc", &ParseMisc},
+	{"xmlParseName", &ParseName},
+	{"xmlParseNamespace", &ParseNamespace},
+	{"xmlParseNmtoken", &ParseNmtoken},
+	{"xmlParseNotationDecl", &ParseNotationDecl},
+	{"xmlParseNotationType", &ParseNotationType},
+	{"xmlParsePEReference", &ParsePEReference},
+	{"xmlParsePI", &ParsePI},
+	{"xmlParsePITarget", &ParsePITarget},
+	{"xmlParsePubidLiteral", &ParsePubidLiteral},
+	{"xmlParseQuotedString", &ParseQuotedString},
+	{"xmlParseReference", &ParseReference},
+	{"xmlParseSDDecl", &ParseSDDecl},
+	{"xmlParseStartTag", &ParseStartTag},
+	{"xmlParseSystemLiteral", &ParseSystemLiteral},
+	{"xmlParseTextDecl", &ParseTextDecl},
+	{"xmlParseURI", &ParseURI},
+	{"xmlParseURIRaw", &ParseURIRaw},
+	{"xmlParseURIReference", &ParseURIReference},
+	{"xmlParseVersionInfo", &ParseVersionInfo},
+	{"xmlParseVersionNum", &ParseVersionNum},
+	{"xmlParseXMLDecl", &ParseXMLDecl},
+	{"xmlParserAddNodeInfo", &ParserAddNodeInfo},
+	{"xmlParserError", &ParserError},
+	{"xmlParserFindNodeInfo", &ParserFindNodeInfo},
+	{"xmlParserFindNodeInfoIndex", &ParserFindNodeInfoIndex},
+	{"xmlParserGetDirectory", &ParserGetDirectory},
+	{"xmlParserHandlePEReference", &ParserHandlePEReference},
+	{"xmlParserHandleReference", &ParserHandleReference},
+	{"xmlParserInputBufferCreateFd", &ParserInputBufferCreateFd},
+	{"xmlParserInputBufferCreateFile", &ParserInputBufferCreateFile},
+	{"xmlParserInputBufferCreateFilename", &ParserInputBufferCreateFilename},
+	{"xmlParserInputBufferCreateFilenameDefault", &ParserInputBufferCreateFilenameDefault},
+	{"xmlParserInputBufferCreateIO", &ParserInputBufferCreateIO},
+	{"xmlParserInputBufferCreateMem", &ParserInputBufferCreateMem},
+	{"xmlParserInputBufferCreateStatic", &ParserInputBufferCreateStatic},
+	{"xmlParserInputBufferGrow", &ParserInputBufferGrow},
+	{"xmlParserInputBufferPush", &ParserInputBufferPush},
+	{"xmlParserInputBufferRead", &ParserInputBufferRead},
+	{"xmlParserInputGrow", &ParserInputGrow},
+	{"xmlParserInputRead", &ParserInputRead},
+	{"xmlParserInputShrink", &ParserInputShrink},
+	{"xmlParserPrintFileContext", &ParserPrintFileContext},
+	{"xmlParserPrintFileInfo", &ParserPrintFileInfo},
+	{"xmlParserValidityError", &ParserValidityError},
+	{"xmlParserValidityWarning", &ParserValidityWarning},
+	{"xmlParserWarning", &ParserWarning},
+	{"xmlPathToURI", &PathToURI},
+	{"xmlPatternFromRoot", &PatternFromRoot},
+	{"xmlPatternGetStreamCtxt", &PatternGetStreamCtxt},
+	{"xmlPatternMatch", &PatternMatch},
+	{"xmlPatternMaxDepth", &PatternMaxDepth},
+	{"xmlPatternMinDepth", &PatternMinDepth},
+	{"xmlPatternStreamable", &PatternStreamable},
+	{"xmlPatterncompile", &Patterncompile},
+	{"xmlPedanticParserDefault", &PedanticParserDefault},
+	{"xmlPopInput", &PopInput},
+	{"xmlPopInputCallbacks", &PopInputCallbacks},
+	{"xmlPreviousElementSibling", &PreviousElementSibling},
+	{"xmlPrintURI", &PrintURI},
+	{"xmlPushInput", &PushInput},
+	{"xmlRMutexLock", &RMutexLock},
+	{"xmlRMutexUnlock", &RMutexUnlock},
+	{"xmlReadDoc", &ReadDoc},
+	{"xmlReadFd", &ReadFd},
+	{"xmlReadFile", &ReadFile},
+	{"xmlReadIO", &ReadIO},
+	{"xmlReadMemory", &ReadMemory},
+	{"xmlReaderForDoc", &ReaderForDoc},
+	{"xmlReaderForFd", &ReaderForFd},
+	{"xmlReaderForFile", &ReaderForFile},
+	{"xmlReaderForIO", &ReaderForIO},
+	{"xmlReaderForMemory", &ReaderForMemory},
+	{"xmlReaderNewDoc", &ReaderNewDoc},
+	{"xmlReaderNewFd", &ReaderNewFd},
+	{"xmlReaderNewFile", &ReaderNewFile},
+	{"xmlReaderNewIO", &ReaderNewIO},
+	{"xmlReaderNewMemory", &ReaderNewMemory},
+	{"xmlReaderNewWalker", &ReaderNewWalker},
+	{"xmlReaderWalker", &ReaderWalker},
+	{"xmlReallocLoc", &ReallocLoc},
+	{"xmlReconciliateNs", &ReconciliateNs},
+	{"xmlRecoverDoc", &RecoverDoc},
+	{"xmlRecoverFile", &RecoverFile},
+	{"xmlRecoverMemory", &RecoverMemory},
+	{"xmlRegExecErrInfo", &RegExecErrInfo},
+	{"xmlRegExecNextValues", &RegExecNextValues},
+	{"xmlRegExecPushString", &RegExecPushString},
+	{"xmlRegExecPushString2", &RegExecPushString2},
+	{"xmlRegFreeExecCtxt", &RegFreeExecCtxt},
+	{"xmlRegFreeRegexp", &RegFreeRegexp},
+	{"xmlRegNewExecCtxt", &RegNewExecCtxt},
+	{"xmlRegexpCompile", &RegexpCompile},
+	{"xmlRegexpExec", &RegexpExec},
+	{"xmlRegexpIsDeterminist", &RegexpIsDeterminist},
+	{"xmlRegexpPrint", &RegexpPrint},
+	{"xmlRegisterCharEncodingHandler", &RegisterCharEncodingHandler},
+	{"xmlRegisterDefaultInputCallbacks", &RegisterDefaultInputCallbacks},
+	{"xmlRegisterDefaultOutputCallbacks", &RegisterDefaultOutputCallbacks},
+	{"xmlRegisterHTTPPostCallbacks", &RegisterHTTPPostCallbacks},
+	{"xmlRegisterInputCallbacks", &RegisterInputCallbacks},
+	{"xmlRegisterNodeDefault", &RegisterNodeDefault},
+	{"xmlRegisterOutputCallbacks", &RegisterOutputCallbacks},
+	{"xmlRelaxNGCleanupTypes", &RelaxNGCleanupTypes},
+	{"xmlRelaxNGDump", &RelaxNGDump},
+	{"xmlRelaxNGDumpTree", &RelaxNGDumpTree},
+	{"xmlRelaxNGFree", &RelaxNGFree},
+	{"xmlRelaxNGFreeParserCtxt", &RelaxNGFreeParserCtxt},
+	{"xmlRelaxNGFreeValidCtxt", &RelaxNGFreeValidCtxt},
+	{"xmlRelaxNGGetParserErrors", &RelaxNGGetParserErrors},
+	{"xmlRelaxNGGetValidErrors", &RelaxNGGetValidErrors},
+	{"xmlRelaxNGInitTypes", &RelaxNGInitTypes},
+	{"xmlRelaxNGNewDocParserCtxt", &RelaxNGNewDocParserCtxt},
+	{"xmlRelaxNGNewMemParserCtxt", &RelaxNGNewMemParserCtxt},
+	{"xmlRelaxNGNewParserCtxt", &RelaxNGNewParserCtxt},
+	{"xmlRelaxNGNewValidCtxt", &RelaxNGNewValidCtxt},
+	{"xmlRelaxNGParse", &RelaxNGParse},
+	{"xmlRelaxNGSetParserErrors", &RelaxNGSetParserErrors},
+	{"xmlRelaxNGSetParserStructuredErrors", &RelaxNGSetParserStructuredErrors},
+	{"xmlRelaxNGSetValidErrors", &RelaxNGSetValidErrors},
+	{"xmlRelaxNGSetValidStructuredErrors", &RelaxNGSetValidStructuredErrors},
+	{"xmlRelaxNGValidateDoc", &RelaxNGValidateDoc},
+	{"xmlRelaxNGValidateFullElement", &RelaxNGValidateFullElement},
+	{"xmlRelaxNGValidatePopElement", &RelaxNGValidatePopElement},
+	{"xmlRelaxNGValidatePushCData", &RelaxNGValidatePushCData},
+	{"xmlRelaxNGValidatePushElement", &RelaxNGValidatePushElement},
+	{"xmlRelaxParserSetFlag", &RelaxParserSetFlag},
+	{"xmlRemoveID", &RemoveID},
+	{"xmlRemoveProp", &RemoveProp},
+	{"xmlRemoveRef", &RemoveRef},
+	{"xmlReplaceNode", &ReplaceNode},
+	{"xmlResetError", &ResetError},
+	{"xmlResetLastError", &ResetLastError},
+	{"xmlSAX2AttributeDecl", &SAX2AttributeDecl},
+	{"xmlSAX2CDataBlock", &SAX2CDataBlock},
+	{"xmlSAX2Characters", &SAX2Characters},
+	{"xmlSAX2Comment", &SAX2Comment},
+	{"xmlSAX2ElementDecl", &SAX2ElementDecl},
+	{"xmlSAX2EndDocument", &SAX2EndDocument},
+	{"xmlSAX2EndElement", &SAX2EndElement},
+	{"xmlSAX2EndElementNs", &SAX2EndElementNs},
+	{"xmlSAX2EntityDecl", &SAX2EntityDecl},
+	{"xmlSAX2ExternalSubset", &SAX2ExternalSubset},
+	{"xmlSAX2GetColumnNumber", &SAX2GetColumnNumber},
+	{"xmlSAX2GetEntity", &SAX2GetEntity},
+	{"xmlSAX2GetLineNumber", &SAX2GetLineNumber},
+	{"xmlSAX2GetParameterEntity", &SAX2GetParameterEntity},
+	{"xmlSAX2GetPublicId", &SAX2GetPublicId},
+	{"xmlSAX2GetSystemId", &SAX2GetSystemId},
+	{"xmlSAX2HasExternalSubset", &SAX2HasExternalSubset},
+	{"xmlSAX2HasInternalSubset", &SAX2HasInternalSubset},
+	{"xmlSAX2IgnorableWhitespace", &SAX2IgnorableWhitespace},
+	{"xmlSAX2InitDefaultSAXHandler", &SAX2InitDefaultSAXHandler},
+	{"xmlSAX2InitDocbDefaultSAXHandler", &SAX2InitDocbDefaultSAXHandler},
+	{"xmlSAX2InitHtmlDefaultSAXHandler", &SAX2InitHtmlDefaultSAXHandler},
+	{"xmlSAX2InternalSubset", &SAX2InternalSubset},
+	{"xmlSAX2IsStandalone", &SAX2IsStandalone},
+	{"xmlSAX2NotationDecl", &SAX2NotationDecl},
+	{"xmlSAX2ProcessingInstruction", &SAX2ProcessingInstruction},
+	{"xmlSAX2Reference", &SAX2Reference},
+	{"xmlSAX2ResolveEntity", &SAX2ResolveEntity},
+	{"xmlSAX2SetDocumentLocator", &SAX2SetDocumentLocator},
+	{"xmlSAX2StartDocument", &SAX2StartDocument},
+	{"xmlSAX2StartElement", &SAX2StartElement},
+	{"xmlSAX2StartElementNs", &SAX2StartElementNs},
+	{"xmlSAX2UnparsedEntityDecl", &SAX2UnparsedEntityDecl},
+	{"xmlSAXDefaultVersion", &SAXDefaultVersion},
+	{"xmlSAXParseDTD", &SAXParseDTD},
+	{"xmlSAXParseDoc", &SAXParseDoc},
+	{"xmlSAXParseEntity", &SAXParseEntity},
+	{"xmlSAXParseFile", &SAXParseFile},
+	{"xmlSAXParseFileWithData", &SAXParseFileWithData},
+	{"xmlSAXParseMemory", &SAXParseMemory},
+	{"xmlSAXParseMemoryWithData", &SAXParseMemoryWithData},
+	{"xmlSAXUserParseFile", &SAXUserParseFile},
+	{"xmlSAXUserParseMemory", &SAXUserParseMemory},
+	{"xmlSAXVersion", &SAXVersion},
+	{"xmlSaveClose", &SaveClose},
+	{"xmlSaveDoc", &SaveDoc},
+	{"xmlSaveFile", &SaveFile},
+	{"xmlSaveFileEnc", &SaveFileEnc},
+	{"xmlSaveFileTo", &SaveFileTo},
+	{"xmlSaveFlush", &SaveFlush},
+	{"xmlSaveFormatFile", &SaveFormatFile},
+	{"xmlSaveFormatFileEnc", &SaveFormatFileEnc},
+	{"xmlSaveFormatFileTo", &SaveFormatFileTo},
+	{"xmlSaveSetAttrEscape", &SaveSetAttrEscape},
+	{"xmlSaveSetEscape", &SaveSetEscape},
+	{"xmlSaveToBuffer", &SaveToBuffer},
+	{"xmlSaveToFd", &SaveToFd},
+	{"xmlSaveToFilename", &SaveToFilename},
+	{"xmlSaveToIO", &SaveToIO},
+	{"xmlSaveTree", &SaveTree},
+	{"xmlSaveUri", &SaveUri},
+	{"xmlScanName", &ScanName},
+	{"xmlSchemaCheckFacet", &SchemaCheckFacet},
+	{"xmlSchemaCleanupTypes", &SchemaCleanupTypes},
+	{"xmlSchemaCollapseString", &SchemaCollapseString},
+	{"xmlSchemaCompareValues", &SchemaCompareValues},
+	{"xmlSchemaCompareValuesWhtsp", &SchemaCompareValuesWhtsp},
+	{"xmlSchemaCopyValue", &SchemaCopyValue},
+	{"xmlSchemaDump", &SchemaDump},
+	{"xmlSchemaFree", &SchemaFree},
+	{"xmlSchemaFreeFacet", &SchemaFreeFacet},
+	{"xmlSchemaFreeParserCtxt", &SchemaFreeParserCtxt},
+	{"xmlSchemaFreeType", &SchemaFreeType},
+	{"xmlSchemaFreeValidCtxt", &SchemaFreeValidCtxt},
+	{"xmlSchemaFreeValue", &SchemaFreeValue},
+	{"xmlSchemaFreeWildcard", &SchemaFreeWildcard},
+	{"xmlSchemaGetBuiltInListSimpleTypeItemType", &SchemaGetBuiltInListSimpleTypeItemType},
+	{"xmlSchemaGetBuiltInType", &SchemaGetBuiltInType},
+	{"xmlSchemaGetCanonValue", &SchemaGetCanonValue},
+	{"xmlSchemaGetCanonValueWhtsp", &SchemaGetCanonValueWhtsp},
+	{"xmlSchemaGetFacetValueAsULong", &SchemaGetFacetValueAsULong},
+	{"xmlSchemaGetParserErrors", &SchemaGetParserErrors},
+	{"xmlSchemaGetPredefinedType", &SchemaGetPredefinedType},
+	{"xmlSchemaGetValType", &SchemaGetValType},
+	{"xmlSchemaGetValidErrors", &SchemaGetValidErrors},
+	{"xmlSchemaInitTypes", &SchemaInitTypes},
+	{"xmlSchemaIsBuiltInTypeFacet", &SchemaIsBuiltInTypeFacet},
+	{"xmlSchemaIsValid", &SchemaIsValid},
+	{"xmlSchemaNewDocParserCtxt", &SchemaNewDocParserCtxt},
+	{"xmlSchemaNewFacet", &SchemaNewFacet},
+	{"xmlSchemaNewMemParserCtxt", &SchemaNewMemParserCtxt},
+	{"xmlSchemaNewNOTATIONValue", &SchemaNewNOTATIONValue},
+	{"xmlSchemaNewParserCtxt", &SchemaNewParserCtxt},
+	{"xmlSchemaNewQNameValue", &SchemaNewQNameValue},
+	{"xmlSchemaNewStringValue", &SchemaNewStringValue},
+	{"xmlSchemaNewValidCtxt", &SchemaNewValidCtxt},
+	{"xmlSchemaParse", &SchemaParse},
+	{"xmlSchemaSAXPlug", &SchemaSAXPlug},
+	{"xmlSchemaSAXUnplug", &SchemaSAXUnplug},
+	{"xmlSchemaSetParserErrors", &SchemaSetParserErrors},
+	{"xmlSchemaSetParserStructuredErrors", &SchemaSetParserStructuredErrors},
+	{"xmlSchemaSetValidErrors", &SchemaSetValidErrors},
+	{"xmlSchemaSetValidOptions", &SchemaSetValidOptions},
+	{"xmlSchemaSetValidStructuredErrors", &SchemaSetValidStructuredErrors},
+	{"xmlSchemaValPredefTypeNode", &SchemaValPredefTypeNode},
+	{"xmlSchemaValPredefTypeNodeNoNorm", &SchemaValPredefTypeNodeNoNorm},
+	{"xmlSchemaValidCtxtGetOptions", &SchemaValidCtxtGetOptions},
+	{"xmlSchemaValidCtxtGetParserCtxt", &SchemaValidCtxtGetParserCtxt},
+	{"xmlSchemaValidateDoc", &SchemaValidateDoc},
+	{"xmlSchemaValidateFacet", &SchemaValidateFacet},
+	{"xmlSchemaValidateFacetWhtsp", &SchemaValidateFacetWhtsp},
+	{"xmlSchemaValidateFile", &SchemaValidateFile},
+	{"xmlSchemaValidateLengthFacet", &SchemaValidateLengthFacet},
+	{"xmlSchemaValidateLengthFacetWhtsp", &SchemaValidateLengthFacetWhtsp},
+	{"xmlSchemaValidateListSimpleTypeFacet", &SchemaValidateListSimpleTypeFacet},
+	{"xmlSchemaValidateOneElement", &SchemaValidateOneElement},
+	{"xmlSchemaValidatePredefinedType", &SchemaValidatePredefinedType},
+	{"xmlSchemaValidateStream", &SchemaValidateStream},
+	{"xmlSchemaValueAppend", &SchemaValueAppend},
+	{"xmlSchemaValueGetAsBoolean", &SchemaValueGetAsBoolean},
+	{"xmlSchemaValueGetAsString", &SchemaValueGetAsString},
+	{"xmlSchemaValueGetNext", &SchemaValueGetNext},
+	{"xmlSchemaWhiteSpaceReplace", &SchemaWhiteSpaceReplace},
+	{"xmlSchematronFree", &SchematronFree},
+	{"xmlSchematronFreeParserCtxt", &SchematronFreeParserCtxt},
+	{"xmlSchematronFreeValidCtxt", &SchematronFreeValidCtxt},
+	{"xmlSchematronNewDocParserCtxt", &SchematronNewDocParserCtxt},
+	{"xmlSchematronNewMemParserCtxt", &SchematronNewMemParserCtxt},
+	{"xmlSchematronNewParserCtxt", &SchematronNewParserCtxt},
+	{"xmlSchematronNewValidCtxt", &SchematronNewValidCtxt},
+	{"xmlSchematronParse", &SchematronParse},
+	{"xmlSchematronSetValidStructuredErrors", &SchematronSetValidStructuredErrors},
+	{"xmlSchematronValidateDoc", &SchematronValidateDoc},
+	{"xmlSearchNs", &SearchNs},
+	{"xmlSearchNsByHref", &SearchNsByHref},
+	{"xmlSetBufferAllocationScheme", &SetBufferAllocationScheme},
+	{"xmlSetCompressMode", &SetCompressMode},
+	{"xmlSetDocCompressMode", &SetDocCompressMode},
+	{"xmlSetEntityReferenceFunc", &SetEntityReferenceFunc},
+	{"xmlSetExternalEntityLoader", &SetExternalEntityLoader},
+	{"xmlSetFeature", &SetFeature},
+	{"xmlSetGenericErrorFunc", &SetGenericErrorFunc},
+	{"xmlSetListDoc", &SetListDoc},
+	{"xmlSetNs", &SetNs},
+	{"xmlSetNsProp", &SetNsProp},
+	{"xmlSetProp", &SetProp},
+	{"xmlSetStructuredErrorFunc", &SetStructuredErrorFunc},
+	{"xmlSetTreeDoc", &SetTreeDoc},
+	{"xmlSetupParserForBuffer", &SetupParserForBuffer},
+	{"xmlShell", &Shell},
+	{"xmlShellBase", &ShellBase},
+	{"xmlShellCat", &ShellCat},
+	{"xmlShellDir", &ShellDir},
+	{"xmlShellDu", &ShellDu},
+	{"xmlShellList", &ShellList},
+	{"xmlShellLoad", &ShellLoad},
+	{"xmlShellPrintNode", &ShellPrintNode},
+	{"xmlShellPrintXPathError", &ShellPrintXPathError},
+	{"xmlShellPrintXPathResult", &ShellPrintXPathResult},
+	{"xmlShellPwd", &ShellPwd},
+	{"xmlShellSave", &ShellSave},
+	{"xmlShellValidate", &ShellValidate},
+	{"xmlShellWrite", &ShellWrite},
+	{"xmlSkipBlankChars", &SkipBlankChars},
+	{"xmlSnprintfElementContent", &SnprintfElementContent},
+	{"xmlSplitQName", &SplitQName},
+	{"xmlSplitQName2", &SplitQName2},
+	{"xmlSplitQName3", &SplitQName3},
+	{"xmlSprintfElementContent", &SprintfElementContent},
+	{"xmlStopParser", &StopParser},
+	{"xmlStrEqual", &StrEqual},
+	{"xmlStrPrintf", &StrPrintf},
+	{"xmlStrQEqual", &StrQEqual},
+	{"xmlStrVPrintf", &StrVPrintf},
+	{"xmlStrcasecmp", &Strcasecmp},
+	{"xmlStrcasestr", &Strcasestr},
+	{"xmlStrcat", &Strcat},
+	{"xmlStrchr", &Strchr},
+	{"xmlStrcmp", &Strcmp},
+	{"xmlStrdup", &Strdup},
+	{"xmlStreamPop", &StreamPop},
+	{"xmlStreamPush", &StreamPush},
+	{"xmlStreamPushAttr", &StreamPushAttr},
+	{"xmlStreamPushNode", &StreamPushNode},
+	{"xmlStreamWantsAnyNode", &StreamWantsAnyNode},
+	{"xmlStringCurrentChar", &StringCurrentChar},
+	{"xmlStringDecodeEntities", &StringDecodeEntities},
+	{"xmlStringGetNodeList", &StringGetNodeList},
+	{"xmlStringLenDecodeEntities", &StringLenDecodeEntities},
+	{"xmlStringLenGetNodeList", &StringLenGetNodeList},
+	{"xmlStrlen", &Strlen},
+	{"xmlStrncasecmp", &Strncasecmp},
+	{"xmlStrncat", &Strncat},
+	{"xmlStrncatNew", &StrncatNew},
+	{"xmlStrncmp", &Strncmp},
+	{"xmlStrndup", &Strndup},
+	{"xmlStrstr", &Strstr},
+	{"xmlStrsub", &Strsub},
+	{"xmlSubstituteEntitiesDefault", &SubstituteEntitiesDefault},
+	{"xmlSwitchEncoding", &SwitchEncoding},
+	{"xmlSwitchInputEncoding", &SwitchInputEncoding},
+	{"xmlSwitchToEncoding", &SwitchToEncoding},
+	{"xmlTextConcat", &TextConcat},
+	{"xmlTextMerge", &TextMerge},
+	{"xmlTextReaderAttributeCount", &TextReaderAttributeCount},
+	{"xmlTextReaderBaseUri", &TextReaderBaseUri},
+	{"xmlTextReaderByteConsumed", &TextReaderByteConsumed},
+	{"xmlTextReaderClose", &TextReaderClose},
+	{"xmlTextReaderConstBaseUri", &TextReaderConstBaseUri},
+	{"xmlTextReaderConstEncoding", &TextReaderConstEncoding},
+	{"xmlTextReaderConstLocalName", &TextReaderConstLocalName},
+	{"xmlTextReaderConstName", &TextReaderConstName},
+	{"xmlTextReaderConstNamespaceUri", &TextReaderConstNamespaceUri},
+	{"xmlTextReaderConstPrefix", &TextReaderConstPrefix},
+	{"xmlTextReaderConstString", &TextReaderConstString},
+	{"xmlTextReaderConstValue", &TextReaderConstValue},
+	{"xmlTextReaderConstXmlLang", &TextReaderConstXmlLang},
+	{"xmlTextReaderConstXmlVersion", &TextReaderConstXmlVersion},
+	{"xmlTextReaderCurrentDoc", &TextReaderCurrentDoc},
+	{"xmlTextReaderCurrentNode", &TextReaderCurrentNode},
+	{"xmlTextReaderDepth", &TextReaderDepth},
+	{"xmlTextReaderExpand", &TextReaderExpand},
+	{"xmlTextReaderGetAttribute", &TextReaderGetAttribute},
+	{"xmlTextReaderGetAttributeNo", &TextReaderGetAttributeNo},
+	{"xmlTextReaderGetAttributeNs", &TextReaderGetAttributeNs},
+	{"xmlTextReaderGetErrorHandler", &TextReaderGetErrorHandler},
+	{"xmlTextReaderGetParserColumnNumber", &TextReaderGetParserColumnNumber},
+	{"xmlTextReaderGetParserLineNumber", &TextReaderGetParserLineNumber},
+	{"xmlTextReaderGetParserProp", &TextReaderGetParserProp},
+	{"xmlTextReaderGetRemainder", &TextReaderGetRemainder},
+	{"xmlTextReaderHasAttributes", &TextReaderHasAttributes},
+	{"xmlTextReaderHasValue", &TextReaderHasValue},
+	{"xmlTextReaderIsDefault", &TextReaderIsDefault},
+	{"xmlTextReaderIsEmptyElement", &TextReaderIsEmptyElement},
+	{"xmlTextReaderIsNamespaceDecl", &TextReaderIsNamespaceDecl},
+	{"xmlTextReaderIsValid", &TextReaderIsValid},
+	{"xmlTextReaderLocalName", &TextReaderLocalName},
+	{"xmlTextReaderLocatorBaseURI", &TextReaderLocatorBaseURI},
+	{"xmlTextReaderLocatorLineNumber", &TextReaderLocatorLineNumber},
+	{"xmlTextReaderLookupNamespace", &TextReaderLookupNamespace},
+	{"xmlTextReaderMoveToAttribute", &TextReaderMoveToAttribute},
+	{"xmlTextReaderMoveToAttributeNo", &TextReaderMoveToAttributeNo},
+	{"xmlTextReaderMoveToAttributeNs", &TextReaderMoveToAttributeNs},
+	{"xmlTextReaderMoveToElement", &TextReaderMoveToElement},
+	{"xmlTextReaderMoveToFirstAttribute", &TextReaderMoveToFirstAttribute},
+	{"xmlTextReaderMoveToNextAttribute", &TextReaderMoveToNextAttribute},
+	{"xmlTextReaderName", &TextReaderName},
+	{"xmlTextReaderNamespaceUri", &TextReaderNamespaceUri},
+	{"xmlTextReaderNext", &TextReaderNext},
+	{"xmlTextReaderNextSibling", &TextReaderNextSibling},
+	{"xmlTextReaderNodeType", &TextReaderNodeType},
+	{"xmlTextReaderNormalization", &TextReaderNormalization},
+	{"xmlTextReaderPrefix", &TextReaderPrefix},
+	{"xmlTextReaderPreserve", &TextReaderPreserve},
+	{"xmlTextReaderPreservePattern", &TextReaderPreservePattern},
+	{"xmlTextReaderQuoteChar", &TextReaderQuoteChar},
+	{"xmlTextReaderRead", &TextReaderRead},
+	{"xmlTextReaderReadAttributeValue", &TextReaderReadAttributeValue},
+	{"xmlTextReaderReadInnerXml", &TextReaderReadInnerXml},
+	{"xmlTextReaderReadOuterXml", &TextReaderReadOuterXml},
+	{"xmlTextReaderReadState", &TextReaderReadState},
+	{"xmlTextReaderReadString", &TextReaderReadString},
+	{"xmlTextReaderRelaxNGSetSchema", &TextReaderRelaxNGSetSchema},
+	{"xmlTextReaderRelaxNGValidate", &TextReaderRelaxNGValidate},
+	{"xmlTextReaderSchemaValidate", &TextReaderSchemaValidate},
+	{"xmlTextReaderSchemaValidateCtxt", &TextReaderSchemaValidateCtxt},
+	{"xmlTextReaderSetErrorHandler", &TextReaderSetErrorHandler},
+	{"xmlTextReaderSetParserProp", &TextReaderSetParserProp},
+	{"xmlTextReaderSetSchema", &TextReaderSetSchema},
+	{"xmlTextReaderSetStructuredErrorHandler", &TextReaderSetStructuredErrorHandler},
+	{"xmlTextReaderSetup", &TextReaderSetup},
+	{"xmlTextReaderStandalone", &TextReaderStandalone},
+	{"xmlTextReaderValue", &TextReaderValue},
+	{"xmlTextReaderXmlLang", &TextReaderXmlLang},
+	{"xmlTextWriterEndAttribute", &TextWriterEndAttribute},
+	{"xmlTextWriterEndCDATA", &TextWriterEndCDATA},
+	{"xmlTextWriterEndComment", &TextWriterEndComment},
+	{"xmlTextWriterEndDTD", &TextWriterEndDTD},
+	{"xmlTextWriterEndDTDAttlist", &TextWriterEndDTDAttlist},
+	{"xmlTextWriterEndDTDElement", &TextWriterEndDTDElement},
+	{"xmlTextWriterEndDTDEntity", &TextWriterEndDTDEntity},
+	{"xmlTextWriterEndDocument", &TextWriterEndDocument},
+	{"xmlTextWriterEndElement", &TextWriterEndElement},
+	{"xmlTextWriterEndPI", &TextWriterEndPI},
+	{"xmlTextWriterFlush", &TextWriterFlush},
+	{"xmlTextWriterFullEndElement", &TextWriterFullEndElement},
+	{"xmlTextWriterSetIndent", &TextWriterSetIndent},
+	{"xmlTextWriterSetIndentString", &TextWriterSetIndentString},
+	{"xmlTextWriterStartAttribute", &TextWriterStartAttribute},
+	{"xmlTextWriterStartAttributeNS", &TextWriterStartAttributeNS},
+	{"xmlTextWriterStartCDATA", &TextWriterStartCDATA},
+	{"xmlTextWriterStartComment", &TextWriterStartComment},
+	{"xmlTextWriterStartDTD", &TextWriterStartDTD},
+	{"xmlTextWriterStartDTDAttlist", &TextWriterStartDTDAttlist},
+	{"xmlTextWriterStartDTDElement", &TextWriterStartDTDElement},
+	{"xmlTextWriterStartDTDEntity", &TextWriterStartDTDEntity},
+	{"xmlTextWriterStartDocument", &TextWriterStartDocument},
+	{"xmlTextWriterStartElement", &TextWriterStartElement},
+	{"xmlTextWriterStartElementNS", &TextWriterStartElementNS},
+	{"xmlTextWriterStartPI", &TextWriterStartPI},
+	{"xmlTextWriterWriteAttribute", &TextWriterWriteAttribute},
+	{"xmlTextWriterWriteAttributeNS", &TextWriterWriteAttributeNS},
+	{"xmlTextWriterWriteBase64", &TextWriterWriteBase64},
+	{"xmlTextWriterWriteBinHex", &TextWriterWriteBinHex},
+	{"xmlTextWriterWriteCDATA", &TextWriterWriteCDATA},
+	{"xmlTextWriterWriteComment", &TextWriterWriteComment},
+	{"xmlTextWriterWriteDTD", &TextWriterWriteDTD},
+	{"xmlTextWriterWriteDTDAttlist", &TextWriterWriteDTDAttlist},
+	{"xmlTextWriterWriteDTDElement", &TextWriterWriteDTDElement},
+	{"xmlTextWriterWriteDTDEntity", &TextWriterWriteDTDEntity},
+	{"xmlTextWriterWriteDTDExternalEntity", &TextWriterWriteDTDExternalEntity},
+	{"xmlTextWriterWriteDTDExternalEntityContents", &TextWriterWriteDTDExternalEntityContents},
+	{"xmlTextWriterWriteDTDInternalEntity", &TextWriterWriteDTDInternalEntity},
+	{"xmlTextWriterWriteDTDNotation", &TextWriterWriteDTDNotation},
+	{"xmlTextWriterWriteElement", &TextWriterWriteElement},
+	{"xmlTextWriterWriteElementNS", &TextWriterWriteElementNS},
+	{"xmlTextWriterWriteFormatAttribute", &TextWriterWriteFormatAttribute},
+	{"xmlTextWriterWriteFormatAttributeNS", &TextWriterWriteFormatAttributeNS},
+	{"xmlTextWriterWriteFormatCDATA", &TextWriterWriteFormatCDATA},
+	{"xmlTextWriterWriteFormatComment", &TextWriterWriteFormatComment},
+	{"xmlTextWriterWriteFormatDTD", &TextWriterWriteFormatDTD},
+	{"xmlTextWriterWriteFormatDTDAttlist", &TextWriterWriteFormatDTDAttlist},
+	{"xmlTextWriterWriteFormatDTDElement", &TextWriterWriteFormatDTDElement},
+	{"xmlTextWriterWriteFormatDTDInternalEntity", &TextWriterWriteFormatDTDInternalEntity},
+	{"xmlTextWriterWriteFormatElement", &TextWriterWriteFormatElement},
+	{"xmlTextWriterWriteFormatElementNS", &TextWriterWriteFormatElementNS},
+	{"xmlTextWriterWriteFormatPI", &TextWriterWriteFormatPI},
+	{"xmlTextWriterWriteFormatRaw", &TextWriterWriteFormatRaw},
+	{"xmlTextWriterWriteFormatString", &TextWriterWriteFormatString},
+	{"xmlTextWriterWritePI", &TextWriterWritePI},
+	{"xmlTextWriterWriteRaw", &TextWriterWriteRaw},
+	{"xmlTextWriterWriteRawLen", &TextWriterWriteRawLen},
+	{"xmlTextWriterWriteString", &TextWriterWriteString},
+	{"xmlTextWriterWriteVFormatAttribute", &TextWriterWriteVFormatAttribute},
+	{"xmlTextWriterWriteVFormatAttributeNS", &TextWriterWriteVFormatAttributeNS},
+	{"xmlTextWriterWriteVFormatCDATA", &TextWriterWriteVFormatCDATA},
+	{"xmlTextWriterWriteVFormatComment", &TextWriterWriteVFormatComment},
+	{"xmlTextWriterWriteVFormatDTD", &TextWriterWriteVFormatDTD},
+	{"xmlTextWriterWriteVFormatDTDAttlist", &TextWriterWriteVFormatDTDAttlist},
+	{"xmlTextWriterWriteVFormatDTDElement", &TextWriterWriteVFormatDTDElement},
+	{"xmlTextWriterWriteVFormatDTDInternalEntity", &TextWriterWriteVFormatDTDInternalEntity},
+	{"xmlTextWriterWriteVFormatElement", &TextWriterWriteVFormatElement},
+	{"xmlTextWriterWriteVFormatElementNS", &TextWriterWriteVFormatElementNS},
+	{"xmlTextWriterWriteVFormatPI", &TextWriterWriteVFormatPI},
+	{"xmlTextWriterWriteVFormatRaw", &TextWriterWriteVFormatRaw},
+	{"xmlTextWriterWriteVFormatString", &TextWriterWriteVFormatString},
+	{"xmlThrDefBufferAllocScheme", &ThrDefBufferAllocScheme},
+	{"xmlThrDefDefaultBufferSize", &ThrDefDefaultBufferSize},
+	{"xmlThrDefDeregisterNodeDefault", &ThrDefDeregisterNodeDefault},
+	{"xmlThrDefDoValidityCheckingDefaultValue", &ThrDefDoValidityCheckingDefaultValue},
+	{"xmlThrDefGetWarningsDefaultValue", &ThrDefGetWarningsDefaultValue},
+	{"xmlThrDefIndentTreeOutput", &ThrDefIndentTreeOutput},
+	{"xmlThrDefKeepBlanksDefaultValue", &ThrDefKeepBlanksDefaultValue},
+	{"xmlThrDefLineNumbersDefaultValue", &ThrDefLineNumbersDefaultValue},
+	{"xmlThrDefLoadExtDtdDefaultValue", &ThrDefLoadExtDtdDefaultValue},
+	{"xmlThrDefOutputBufferCreateFilenameDefault", &ThrDefOutputBufferCreateFilenameDefault},
+	{"xmlThrDefParserDebugEntities", &ThrDefParserDebugEntities},
+	{"xmlThrDefParserInputBufferCreateFilenameDefault", &ThrDefParserInputBufferCreateFilenameDefault},
+	{"xmlThrDefPedanticParserDefaultValue", &ThrDefPedanticParserDefaultValue},
+	{"xmlThrDefRegisterNodeDefault", &ThrDefRegisterNodeDefault},
+	{"xmlThrDefSaveNoEmptyTags", &ThrDefSaveNoEmptyTags},
+	{"xmlThrDefSetGenericErrorFunc", &ThrDefSetGenericErrorFunc},
+	{"xmlThrDefSetStructuredErrorFunc", &ThrDefSetStructuredErrorFunc},
+	{"xmlThrDefSubstituteEntitiesDefaultValue", &ThrDefSubstituteEntitiesDefaultValue},
+	{"xmlThrDefTreeIndentString", &ThrDefTreeIndentString},
+	{"xmlUCSIsAegeanNumbers", &UCSIsAegeanNumbers},
+	{"xmlUCSIsAlphabeticPresentationForms", &UCSIsAlphabeticPresentationForms},
+	{"xmlUCSIsArabic", &UCSIsArabic},
+	{"xmlUCSIsArabicPresentationFormsA", &UCSIsArabicPresentationFormsA},
+	{"xmlUCSIsArabicPresentationFormsB", &UCSIsArabicPresentationFormsB},
+	{"xmlUCSIsArmenian", &UCSIsArmenian},
+	{"xmlUCSIsArrows", &UCSIsArrows},
+	{"xmlUCSIsBasicLatin", &UCSIsBasicLatin},
+	{"xmlUCSIsBengali", &UCSIsBengali},
+	{"xmlUCSIsBlock", &UCSIsBlock},
+	{"xmlUCSIsBlockElements", &UCSIsBlockElements},
+	{"xmlUCSIsBopomofo", &UCSIsBopomofo},
+	{"xmlUCSIsBopomofoExtended", &UCSIsBopomofoExtended},
+	{"xmlUCSIsBoxDrawing", &UCSIsBoxDrawing},
+	{"xmlUCSIsBraillePatterns", &UCSIsBraillePatterns},
+	{"xmlUCSIsBuhid", &UCSIsBuhid},
+	{"xmlUCSIsByzantineMusicalSymbols", &UCSIsByzantineMusicalSymbols},
+	{"xmlUCSIsCJKCompatibility", &UCSIsCJKCompatibility},
+	{"xmlUCSIsCJKCompatibilityForms", &UCSIsCJKCompatibilityForms},
+	{"xmlUCSIsCJKCompatibilityIdeographs", &UCSIsCJKCompatibilityIdeographs},
+	{"xmlUCSIsCJKCompatibilityIdeographsSupplement", &UCSIsCJKCompatibilityIdeographsSupplement},
+	{"xmlUCSIsCJKRadicalsSupplement", &UCSIsCJKRadicalsSupplement},
+	{"xmlUCSIsCJKSymbolsandPunctuation", &UCSIsCJKSymbolsandPunctuation},
+	{"xmlUCSIsCJKUnifiedIdeographs", &UCSIsCJKUnifiedIdeographs},
+	{"xmlUCSIsCJKUnifiedIdeographsExtensionA", &UCSIsCJKUnifiedIdeographsExtensionA},
+	{"xmlUCSIsCJKUnifiedIdeographsExtensionB", &UCSIsCJKUnifiedIdeographsExtensionB},
+	{"xmlUCSIsCat", &UCSIsCat},
+	{"xmlUCSIsCatC", &UCSIsCatC},
+	{"xmlUCSIsCatCc", &UCSIsCatCc},
+	{"xmlUCSIsCatCf", &UCSIsCatCf},
+	{"xmlUCSIsCatCo", &UCSIsCatCo},
+	{"xmlUCSIsCatCs", &UCSIsCatCs},
+	{"xmlUCSIsCatL", &UCSIsCatL},
+	{"xmlUCSIsCatLl", &UCSIsCatLl},
+	{"xmlUCSIsCatLm", &UCSIsCatLm},
+	{"xmlUCSIsCatLo", &UCSIsCatLo},
+	{"xmlUCSIsCatLt", &UCSIsCatLt},
+	{"xmlUCSIsCatLu", &UCSIsCatLu},
+	{"xmlUCSIsCatM", &UCSIsCatM},
+	{"xmlUCSIsCatMc", &UCSIsCatMc},
+	{"xmlUCSIsCatMe", &UCSIsCatMe},
+	{"xmlUCSIsCatMn", &UCSIsCatMn},
+	{"xmlUCSIsCatN", &UCSIsCatN},
+	{"xmlUCSIsCatNd", &UCSIsCatNd},
+	{"xmlUCSIsCatNl", &UCSIsCatNl},
+	{"xmlUCSIsCatNo", &UCSIsCatNo},
+	{"xmlUCSIsCatP", &UCSIsCatP},
+	{"xmlUCSIsCatPc", &UCSIsCatPc},
+	{"xmlUCSIsCatPd", &UCSIsCatPd},
+	{"xmlUCSIsCatPe", &UCSIsCatPe},
+	{"xmlUCSIsCatPf", &UCSIsCatPf},
+	{"xmlUCSIsCatPi", &UCSIsCatPi},
+	{"xmlUCSIsCatPo", &UCSIsCatPo},
+	{"xmlUCSIsCatPs", &UCSIsCatPs},
+	{"xmlUCSIsCatS", &UCSIsCatS},
+	{"xmlUCSIsCatSc", &UCSIsCatSc},
+	{"xmlUCSIsCatSk", &UCSIsCatSk},
+	{"xmlUCSIsCatSm", &UCSIsCatSm},
+	{"xmlUCSIsCatSo", &UCSIsCatSo},
+	{"xmlUCSIsCatZ", &UCSIsCatZ},
+	{"xmlUCSIsCatZl", &UCSIsCatZl},
+	{"xmlUCSIsCatZp", &UCSIsCatZp},
+	{"xmlUCSIsCatZs", &UCSIsCatZs},
+	{"xmlUCSIsCherokee", &UCSIsCherokee},
+	{"xmlUCSIsCombiningDiacriticalMarks", &UCSIsCombiningDiacriticalMarks},
+	{"xmlUCSIsCombiningDiacriticalMarksforSymbols", &UCSIsCombiningDiacriticalMarksforSymbols},
+	{"xmlUCSIsCombiningHalfMarks", &UCSIsCombiningHalfMarks},
+	{"xmlUCSIsCombiningMarksforSymbols", &UCSIsCombiningMarksforSymbols},
+	{"xmlUCSIsControlPictures", &UCSIsControlPictures},
+	{"xmlUCSIsCurrencySymbols", &UCSIsCurrencySymbols},
+	{"xmlUCSIsCypriotSyllabary", &UCSIsCypriotSyllabary},
+	{"xmlUCSIsCyrillic", &UCSIsCyrillic},
+	{"xmlUCSIsCyrillicSupplement", &UCSIsCyrillicSupplement},
+	{"xmlUCSIsDeseret", &UCSIsDeseret},
+	{"xmlUCSIsDevanagari", &UCSIsDevanagari},
+	{"xmlUCSIsDingbats", &UCSIsDingbats},
+	{"xmlUCSIsEnclosedAlphanumerics", &UCSIsEnclosedAlphanumerics},
+	{"xmlUCSIsEnclosedCJKLettersandMonths", &UCSIsEnclosedCJKLettersandMonths},
+	{"xmlUCSIsEthiopic", &UCSIsEthiopic},
+	{"xmlUCSIsGeneralPunctuation", &UCSIsGeneralPunctuation},
+	{"xmlUCSIsGeometricShapes", &UCSIsGeometricShapes},
+	{"xmlUCSIsGeorgian", &UCSIsGeorgian},
+	{"xmlUCSIsGothic", &UCSIsGothic},
+	{"xmlUCSIsGreek", &UCSIsGreek},
+	{"xmlUCSIsGreekExtended", &UCSIsGreekExtended},
+	{"xmlUCSIsGreekandCoptic", &UCSIsGreekandCoptic},
+	{"xmlUCSIsGujarati", &UCSIsGujarati},
+	{"xmlUCSIsGurmukhi", &UCSIsGurmukhi},
+	{"xmlUCSIsHalfwidthandFullwidthForms", &UCSIsHalfwidthandFullwidthForms},
+	{"xmlUCSIsHangulCompatibilityJamo", &UCSIsHangulCompatibilityJamo},
+	{"xmlUCSIsHangulJamo", &UCSIsHangulJamo},
+	{"xmlUCSIsHangulSyllables", &UCSIsHangulSyllables},
+	{"xmlUCSIsHanunoo", &UCSIsHanunoo},
+	{"xmlUCSIsHebrew", &UCSIsHebrew},
+	{"xmlUCSIsHighPrivateUseSurrogates", &UCSIsHighPrivateUseSurrogates},
+	{"xmlUCSIsHighSurrogates", &UCSIsHighSurrogates},
+	{"xmlUCSIsHiragana", &UCSIsHiragana},
+	{"xmlUCSIsIPAExtensions", &UCSIsIPAExtensions},
+	{"xmlUCSIsIdeographicDescriptionCharacters", &UCSIsIdeographicDescriptionCharacters},
+	{"xmlUCSIsKanbun", &UCSIsKanbun},
+	{"xmlUCSIsKangxiRadicals", &UCSIsKangxiRadicals},
+	{"xmlUCSIsKannada", &UCSIsKannada},
+	{"xmlUCSIsKatakana", &UCSIsKatakana},
+	{"xmlUCSIsKatakanaPhoneticExtensions", &UCSIsKatakanaPhoneticExtensions},
+	{"xmlUCSIsKhmer", &UCSIsKhmer},
+	{"xmlUCSIsKhmerSymbols", &UCSIsKhmerSymbols},
+	{"xmlUCSIsLao", &UCSIsLao},
+	{"xmlUCSIsLatin1Supplement", &UCSIsLatin1Supplement},
+	{"xmlUCSIsLatinExtendedA", &UCSIsLatinExtendedA},
+	{"xmlUCSIsLatinExtendedAdditional", &UCSIsLatinExtendedAdditional},
+	{"xmlUCSIsLatinExtendedB", &UCSIsLatinExtendedB},
+	{"xmlUCSIsLetterlikeSymbols", &UCSIsLetterlikeSymbols},
+	{"xmlUCSIsLimbu", &UCSIsLimbu},
+	{"xmlUCSIsLinearBIdeograms", &UCSIsLinearBIdeograms},
+	{"xmlUCSIsLinearBSyllabary", &UCSIsLinearBSyllabary},
+	{"xmlUCSIsLowSurrogates", &UCSIsLowSurrogates},
+	{"xmlUCSIsMalayalam", &UCSIsMalayalam},
+	{"xmlUCSIsMathematicalAlphanumericSymbols", &UCSIsMathematicalAlphanumericSymbols},
+	{"xmlUCSIsMathematicalOperators", &UCSIsMathematicalOperators},
+	{"xmlUCSIsMiscellaneousMathematicalSymbolsA", &UCSIsMiscellaneousMathematicalSymbolsA},
+	{"xmlUCSIsMiscellaneousMathematicalSymbolsB", &UCSIsMiscellaneousMathematicalSymbolsB},
+	{"xmlUCSIsMiscellaneousSymbols", &UCSIsMiscellaneousSymbols},
+	{"xmlUCSIsMiscellaneousSymbolsandArrows", &UCSIsMiscellaneousSymbolsandArrows},
+	{"xmlUCSIsMiscellaneousTechnical", &UCSIsMiscellaneousTechnical},
+	{"xmlUCSIsMongolian", &UCSIsMongolian},
+	{"xmlUCSIsMusicalSymbols", &UCSIsMusicalSymbols},
+	{"xmlUCSIsMyanmar", &UCSIsMyanmar},
+	{"xmlUCSIsNumberForms", &UCSIsNumberForms},
+	{"xmlUCSIsOgham", &UCSIsOgham},
+	{"xmlUCSIsOldItalic", &UCSIsOldItalic},
+	{"xmlUCSIsOpticalCharacterRecognition", &UCSIsOpticalCharacterRecognition},
+	{"xmlUCSIsOriya", &UCSIsOriya},
+	{"xmlUCSIsOsmanya", &UCSIsOsmanya},
+	{"xmlUCSIsPhoneticExtensions", &UCSIsPhoneticExtensions},
+	{"xmlUCSIsPrivateUse", &UCSIsPrivateUse},
+	{"xmlUCSIsPrivateUseArea", &UCSIsPrivateUseArea},
+	{"xmlUCSIsRunic", &UCSIsRunic},
+	{"xmlUCSIsShavian", &UCSIsShavian},
+	{"xmlUCSIsSinhala", &UCSIsSinhala},
+	{"xmlUCSIsSmallFormVariants", &UCSIsSmallFormVariants},
+	{"xmlUCSIsSpacingModifierLetters", &UCSIsSpacingModifierLetters},
+	{"xmlUCSIsSpecials", &UCSIsSpecials},
+	{"xmlUCSIsSuperscriptsandSubscripts", &UCSIsSuperscriptsandSubscripts},
+	{"xmlUCSIsSupplementalArrowsA", &UCSIsSupplementalArrowsA},
+	{"xmlUCSIsSupplementalArrowsB", &UCSIsSupplementalArrowsB},
+	{"xmlUCSIsSupplementalMathematicalOperators", &UCSIsSupplementalMathematicalOperators},
+	{"xmlUCSIsSupplementaryPrivateUseAreaA", &UCSIsSupplementaryPrivateUseAreaA},
+	{"xmlUCSIsSupplementaryPrivateUseAreaB", &UCSIsSupplementaryPrivateUseAreaB},
+	{"xmlUCSIsSyriac", &UCSIsSyriac},
+	{"xmlUCSIsTagalog", &UCSIsTagalog},
+	{"xmlUCSIsTagbanwa", &UCSIsTagbanwa},
+	{"xmlUCSIsTags", &UCSIsTags},
+	{"xmlUCSIsTaiLe", &UCSIsTaiLe},
+	{"xmlUCSIsTaiXuanJingSymbols", &UCSIsTaiXuanJingSymbols},
+	{"xmlUCSIsTamil", &UCSIsTamil},
+	{"xmlUCSIsTelugu", &UCSIsTelugu},
+	{"xmlUCSIsThaana", &UCSIsThaana},
+	{"xmlUCSIsThai", &UCSIsThai},
+	{"xmlUCSIsTibetan", &UCSIsTibetan},
+	{"xmlUCSIsUgaritic", &UCSIsUgaritic},
+	{"xmlUCSIsUnifiedCanadianAboriginalSyllabics", &UCSIsUnifiedCanadianAboriginalSyllabics},
+	{"xmlUCSIsVariationSelectors", &UCSIsVariationSelectors},
+	{"xmlUCSIsVariationSelectorsSupplement", &UCSIsVariationSelectorsSupplement},
+	{"xmlUCSIsYiRadicals", &UCSIsYiRadicals},
+	{"xmlUCSIsYiSyllables", &UCSIsYiSyllables},
+	{"xmlUCSIsYijingHexagramSymbols", &UCSIsYijingHexagramSymbols},
+	{"xmlURIEscape", &URIEscape},
+	{"xmlURIEscapeStr", &URIEscapeStr},
+	{"xmlURIUnescapeString", &URIUnescapeString},
+	{"xmlUTF8Charcmp", &UTF8Charcmp},
+	{"xmlUTF8Size", &UTF8Size},
+	{"xmlUTF8Strlen", &UTF8Strlen},
+	{"xmlUTF8Strloc", &UTF8Strloc},
+	{"xmlUTF8Strndup", &UTF8Strndup},
+	{"xmlUTF8Strpos", &UTF8Strpos},
+	{"xmlUTF8Strsize", &UTF8Strsize},
+	{"xmlUTF8Strsub", &UTF8Strsub},
+	{"xmlUnlinkNode", &UnlinkNode},
+	{"xmlUnlockLibrary", &UnlockLibrary},
+	{"xmlUnsetNsProp", &UnsetNsProp},
+	{"xmlUnsetProp", &UnsetProp},
+	{"xmlValidBuildContentModel", &ValidBuildContentModel},
+	{"xmlValidCtxtNormalizeAttributeValue", &ValidCtxtNormalizeAttributeValue},
+	{"xmlValidGetPotentialChildren", &ValidGetPotentialChildren},
+	{"xmlValidGetValidElements", &ValidGetValidElements},
+	{"xmlValidNormalizeAttributeValue", &ValidNormalizeAttributeValue},
+	{"xmlValidateAttributeDecl", &ValidateAttributeDecl},
+	{"xmlValidateAttributeValue", &ValidateAttributeValue},
+	{"xmlValidateDocument", &ValidateDocument},
+	{"xmlValidateDocumentFinal", &ValidateDocumentFinal},
+	{"xmlValidateDtd", &ValidateDtd},
+	{"xmlValidateDtdFinal", &ValidateDtdFinal},
+	{"xmlValidateElement", &ValidateElement},
+	{"xmlValidateElementDecl", &ValidateElementDecl},
+	{"xmlValidateNCName", &ValidateNCName},
+	{"xmlValidateNMToken", &ValidateNMToken},
+	{"xmlValidateName", &ValidateName},
+	{"xmlValidateNameValue", &ValidateNameValue},
+	{"xmlValidateNamesValue", &ValidateNamesValue},
+	{"xmlValidateNmtokenValue", &ValidateNmtokenValue},
+	{"xmlValidateNmtokensValue", &ValidateNmtokensValue},
+	{"xmlValidateNotationDecl", &ValidateNotationDecl},
+	{"xmlValidateNotationUse", &ValidateNotationUse},
+	{"xmlValidateOneAttribute", &ValidateOneAttribute},
+	{"xmlValidateOneElement", &ValidateOneElement},
+	{"xmlValidateOneNamespace", &ValidateOneNamespace},
+	{"xmlValidatePopElement", &ValidatePopElement},
+	{"xmlValidatePushCData", &ValidatePushCData},
+	{"xmlValidatePushElement", &ValidatePushElement},
+	{"xmlValidateQName", &ValidateQName},
+	{"xmlValidateRoot", &ValidateRoot},
+	{"xmlXIncludeFreeContext", &XIncludeFreeContext},
+	{"xmlXIncludeNewContext", &XIncludeNewContext},
+	{"xmlXIncludeProcess", &XIncludeProcess},
+	{"xmlXIncludeProcessFlags", &XIncludeProcessFlags},
+	{"xmlXIncludeProcessFlagsData", &XIncludeProcessFlagsData},
+	{"xmlXIncludeProcessNode", &XIncludeProcessNode},
+	{"xmlXIncludeProcessTree", &XIncludeProcessTree},
+	{"xmlXIncludeProcessTreeFlags", &XIncludeProcessTreeFlags},
+	{"xmlXIncludeProcessTreeFlagsData", &XIncludeProcessTreeFlagsData},
+	{"xmlXIncludeSetFlags", &XIncludeSetFlags},
+	{"xmlXPathAddValues", &XPathAddValues},
+	{"xmlXPathBooleanFunction", &XPathBooleanFunction},
+	{"xmlXPathCastBooleanToNumber", &XPathCastBooleanToNumber},
+	{"xmlXPathCastBooleanToString", &XPathCastBooleanToString},
+	{"xmlXPathCastNodeSetToBoolean", &XPathCastNodeSetToBoolean},
+	{"xmlXPathCastNodeSetToNumber", &XPathCastNodeSetToNumber},
+	{"xmlXPathCastNodeSetToString", &XPathCastNodeSetToString},
+	{"xmlXPathCastNodeToNumber", &XPathCastNodeToNumber},
+	{"xmlXPathCastNodeToString", &XPathCastNodeToString},
+	{"xmlXPathCastNumberToBoolean", &XPathCastNumberToBoolean},
+	{"xmlXPathCastNumberToString", &XPathCastNumberToString},
+	{"xmlXPathCastStringToBoolean", &XPathCastStringToBoolean},
+	{"xmlXPathCastStringToNumber", &XPathCastStringToNumber},
+	{"xmlXPathCastToBoolean", &XPathCastToBoolean},
+	{"xmlXPathCastToNumber", &XPathCastToNumber},
+	{"xmlXPathCastToString", &XPathCastToString},
+	{"xmlXPathCeilingFunction", &XPathCeilingFunction},
+	{"xmlXPathCmpNodes", &XPathCmpNodes},
+	{"xmlXPathCompareValues", &XPathCompareValues},
+	{"xmlXPathCompile", &XPathCompile},
+	{"xmlXPathCompiledEval", &XPathCompiledEval},
+	{"xmlXPathCompiledEvalToBoolean", &XPathCompiledEvalToBoolean},
+	{"xmlXPathConcatFunction", &XPathConcatFunction},
+	{"xmlXPathContainsFunction", &XPathContainsFunction},
+	{"xmlXPathContextSetCache", &XPathContextSetCache},
+	{"xmlXPathConvertBoolean", &XPathConvertBoolean},
+	{"xmlXPathConvertNumber", &XPathConvertNumber},
+	{"xmlXPathConvertString", &XPathConvertString},
+	{"xmlXPathCountFunction", &XPathCountFunction},
+	{"xmlXPathCtxtCompile", &XPathCtxtCompile},
+	{"xmlXPathDebugDumpCompExpr", &XPathDebugDumpCompExpr},
+	{"xmlXPathDebugDumpObject", &XPathDebugDumpObject},
+	{"xmlXPathDifference", &XPathDifference},
+	{"xmlXPathDistinct", &XPathDistinct},
+	{"xmlXPathDistinctSorted", &XPathDistinctSorted},
+	{"xmlXPathDivValues", &XPathDivValues},
+	{"xmlXPathEqualValues", &XPathEqualValues},
+	{"xmlXPathErr", &XPathErr},
+	{"xmlXPathEval", &XPathEval},
+	{"xmlXPathEvalExpr", &XPathEvalExpr},
+	{"xmlXPathEvalExpression", &XPathEvalExpression},
+	{"xmlXPathEvalPredicate", &XPathEvalPredicate},
+	{"xmlXPathEvaluatePredicateResult", &XPathEvaluatePredicateResult},
+	{"xmlXPathFalseFunction", &XPathFalseFunction},
+	{"xmlXPathFloorFunction", &XPathFloorFunction},
+	{"xmlXPathFreeCompExpr", &XPathFreeCompExpr},
+	{"xmlXPathFreeContext", &XPathFreeContext},
+	{"xmlXPathFreeNodeSet", &XPathFreeNodeSet},
+	{"xmlXPathFreeNodeSetList", &XPathFreeNodeSetList},
+	{"xmlXPathFreeObject", &XPathFreeObject},
+	{"xmlXPathFreeParserContext", &XPathFreeParserContext},
+	{"xmlXPathFunctionLookup", &XPathFunctionLookup},
+	{"xmlXPathFunctionLookupNS", &XPathFunctionLookupNS},
+	{"xmlXPathHasSameNodes", &XPathHasSameNodes},
+	{"xmlXPathIdFunction", &XPathIdFunction},
+	{"xmlXPathInit", &XPathInit},
+	{"xmlXPathIntersection", &XPathIntersection},
+	{"xmlXPathIsInf", &XPathIsInf},
+	{"xmlXPathIsNaN", &XPathIsNaN},
+	{"xmlXPathIsNodeType", &XPathIsNodeType},
+	{"xmlXPathLangFunction", &XPathLangFunction},
+	{"xmlXPathLastFunction", &XPathLastFunction},
+	{"xmlXPathLeading", &XPathLeading},
+	{"xmlXPathLeadingSorted", &XPathLeadingSorted},
+	{"xmlXPathLocalNameFunction", &XPathLocalNameFunction},
+	{"xmlXPathModValues", &XPathModValues},
+	{"xmlXPathMultValues", &XPathMultValues},
+	{"xmlXPathNamespaceURIFunction", &XPathNamespaceURIFunction},
+	{"xmlXPathNewBoolean", &XPathNewBoolean},
+	{"xmlXPathNewCString", &XPathNewCString},
+	{"xmlXPathNewContext", &XPathNewContext},
+	{"xmlXPathNewFloat", &XPathNewFloat},
+	{"xmlXPathNewNodeSet", &XPathNewNodeSet},
+	{"xmlXPathNewNodeSetList", &XPathNewNodeSetList},
+	{"xmlXPathNewParserContext", &XPathNewParserContext},
+	{"xmlXPathNewString", &XPathNewString},
+	{"xmlXPathNewValueTree", &XPathNewValueTree},
+	{"xmlXPathNextAncestor", &XPathNextAncestor},
+	{"xmlXPathNextAncestorOrSelf", &XPathNextAncestorOrSelf},
+	{"xmlXPathNextAttribute", &XPathNextAttribute},
+	{"xmlXPathNextChild", &XPathNextChild},
+	{"xmlXPathNextDescendant", &XPathNextDescendant},
+	{"xmlXPathNextDescendantOrSelf", &XPathNextDescendantOrSelf},
+	{"xmlXPathNextFollowing", &XPathNextFollowing},
+	{"xmlXPathNextFollowingSibling", &XPathNextFollowingSibling},
+	{"xmlXPathNextNamespace", &XPathNextNamespace},
+	{"xmlXPathNextParent", &XPathNextParent},
+	{"xmlXPathNextPreceding", &XPathNextPreceding},
+	{"xmlXPathNextPrecedingSibling", &XPathNextPrecedingSibling},
+	{"xmlXPathNextSelf", &XPathNextSelf},
+	{"xmlXPathNodeLeading", &XPathNodeLeading},
+	{"xmlXPathNodeLeadingSorted", &XPathNodeLeadingSorted},
+	{"xmlXPathNodeSetAdd", &XPathNodeSetAdd},
+	{"xmlXPathNodeSetAddNs", &XPathNodeSetAddNs},
+	{"xmlXPathNodeSetAddUnique", &XPathNodeSetAddUnique},
+	{"xmlXPathNodeSetContains", &XPathNodeSetContains},
+	{"xmlXPathNodeSetCreate", &XPathNodeSetCreate},
+	{"xmlXPathNodeSetDel", &XPathNodeSetDel},
+	{"xmlXPathNodeSetFreeNs", &XPathNodeSetFreeNs},
+	{"xmlXPathNodeSetMerge", &XPathNodeSetMerge},
+	{"xmlXPathNodeSetRemove", &XPathNodeSetRemove},
+	{"xmlXPathNodeSetSort", &XPathNodeSetSort},
+	{"xmlXPathNodeTrailing", &XPathNodeTrailing},
+	{"xmlXPathNodeTrailingSorted", &XPathNodeTrailingSorted},
+	{"xmlXPathNormalizeFunction", &XPathNormalizeFunction},
+	{"xmlXPathNotEqualValues", &XPathNotEqualValues},
+	{"xmlXPathNotFunction", &XPathNotFunction},
+	{"xmlXPathNsLookup", &XPathNsLookup},
+	{"xmlXPathNumberFunction", &XPathNumberFunction},
+	{"xmlXPathObjectCopy", &XPathObjectCopy},
+	{"xmlXPathOrderDocElems", &XPathOrderDocElems},
+	{"xmlXPathParseNCName", &XPathParseNCName},
+	{"xmlXPathParseName", &XPathParseName},
+	{"xmlXPathPopBoolean", &XPathPopBoolean},
+	{"xmlXPathPopExternal", &XPathPopExternal},
+	{"xmlXPathPopNodeSet", &XPathPopNodeSet},
+	{"xmlXPathPopNumber", &XPathPopNumber},
+	{"xmlXPathPopString", &XPathPopString},
+	{"xmlXPathPositionFunction", &XPathPositionFunction},
+	{"xmlXPathRegisterAllFunctions", &XPathRegisterAllFunctions},
+	{"xmlXPathRegisterFunc", &XPathRegisterFunc},
+	{"xmlXPathRegisterFuncLookup", &XPathRegisterFuncLookup},
+	{"xmlXPathRegisterFuncNS", &XPathRegisterFuncNS},
+	{"xmlXPathRegisterNs", &XPathRegisterNs},
+	{"xmlXPathRegisterVariable", &XPathRegisterVariable},
+	{"xmlXPathRegisterVariableLookup", &XPathRegisterVariableLookup},
+	{"xmlXPathRegisterVariableNS", &XPathRegisterVariableNS},
+	{"xmlXPathRegisteredFuncsCleanup", &XPathRegisteredFuncsCleanup},
+	{"xmlXPathRegisteredNsCleanup", &XPathRegisteredNsCleanup},
+	{"xmlXPathRegisteredVariablesCleanup", &XPathRegisteredVariablesCleanup},
+	{"xmlXPathRoot", &XPathRoot},
+	{"xmlXPathRoundFunction", &XPathRoundFunction},
+	{"xmlXPathStartsWithFunction", &XPathStartsWithFunction},
+	{"xmlXPathStringEvalNumber", &XPathStringEvalNumber},
+	{"xmlXPathStringFunction", &XPathStringFunction},
+	{"xmlXPathStringLengthFunction", &XPathStringLengthFunction},
+	{"xmlXPathSubValues", &XPathSubValues},
+	{"xmlXPathSubstringAfterFunction", &XPathSubstringAfterFunction},
+	{"xmlXPathSubstringBeforeFunction", &XPathSubstringBeforeFunction},
+	{"xmlXPathSubstringFunction", &XPathSubstringFunction},
+	{"xmlXPathSumFunction", &XPathSumFunction},
+	{"xmlXPathTrailing", &XPathTrailing},
+	{"xmlXPathTrailingSorted", &XPathTrailingSorted},
+	{"xmlXPathTranslateFunction", &XPathTranslateFunction},
+	{"xmlXPathTrueFunction", &XPathTrueFunction},
+	{"xmlXPathValueFlipSign", &XPathValueFlipSign},
+	{"xmlXPathVariableLookup", &XPathVariableLookup},
+	{"xmlXPathVariableLookupNS", &XPathVariableLookupNS},
+	{"xmlXPathWrapCString", &XPathWrapCString},
+	{"xmlXPathWrapExternal", &XPathWrapExternal},
+	{"xmlXPathWrapNodeSet", &XPathWrapNodeSet},
+	{"xmlXPathWrapString", &XPathWrapString},
+	{"xmlXPatherror", &XPatherror},
+	{"xmlXPtrBuildNodeList", &XPtrBuildNodeList},
+	{"xmlXPtrEval", &XPtrEval},
+	{"xmlXPtrEvalRangePredicate", &XPtrEvalRangePredicate},
+	{"xmlXPtrFreeLocationSet", &XPtrFreeLocationSet},
+	{"xmlXPtrLocationSetAdd", &XPtrLocationSetAdd},
+	{"xmlXPtrLocationSetCreate", &XPtrLocationSetCreate},
+	{"xmlXPtrLocationSetDel", &XPtrLocationSetDel},
+	{"xmlXPtrLocationSetMerge", &XPtrLocationSetMerge},
+	{"xmlXPtrLocationSetRemove", &XPtrLocationSetRemove},
+	{"xmlXPtrNewCollapsedRange", &XPtrNewCollapsedRange},
+	{"xmlXPtrNewContext", &XPtrNewContext},
+	{"xmlXPtrNewLocationSetNodeSet", &XPtrNewLocationSetNodeSet},
+	{"xmlXPtrNewLocationSetNodes", &XPtrNewLocationSetNodes},
+	{"xmlXPtrNewRange", &XPtrNewRange},
+	{"xmlXPtrNewRangeNodeObject", &XPtrNewRangeNodeObject},
+	{"xmlXPtrNewRangeNodePoint", &XPtrNewRangeNodePoint},
+	{"xmlXPtrNewRangeNodes", &XPtrNewRangeNodes},
+	{"xmlXPtrNewRangePointNode", &XPtrNewRangePointNode},
+	{"xmlXPtrNewRangePoints", &XPtrNewRangePoints},
+	{"xmlXPtrRangeToFunction", &XPtrRangeToFunction},
+	{"xmlXPtrWrapLocationSet", &XPtrWrapLocationSet},
 }
 
+type (
+	Free         fix
+	Malloc       fix
+	MallocAtomic fix
+	MemStrdup    fix
+	Realloc      fix
+)
+
 var dataList = outside.Data{
-// {"emptyExp", new(emptyExp)},
-// {"forbiddenExp", new(forbiddenExp)},
-// {"xmlFree", new(XmlFree)},
-// {"xmlIsBaseCharGroup", new(XmlIsBaseCharGroup)},
-// {"xmlIsCharGroup", new(XmlIsCharGroup)},
-// {"xmlIsCombiningGroup", new(XmlIsCombiningGroup)},
-// {"xmlIsDigitGroup", new(XmlIsDigitGroup)},
-// {"xmlIsExtenderGroup", new(XmlIsExtenderGroup)},
-// {"xmlIsIdeographicGroup", new(XmlIsIdeographicGroup)},
-// {"xmlIsPubidChar_tab", new(XmlIsPubidChar_tab)},
-// {"xmlMalloc", new(XmlMalloc)},
-// {"xmlMallocAtomic", new(XmlMallocAtomic)},
-// {"xmlMemStrdup", new(XmlMemStrdup)},
-// {"xmlParserMaxDepth", new(XmlParserMaxDepth)},
-// {"xmlRealloc", new(XmlRealloc)},
-// {"xmlStringComment", new(XmlStringComment)},
-// {"xmlStringText", new(XmlStringText)},
-// {"xmlStringTextNoenc", new(XmlStringTextNoenc)},
-// {"xmlXPathNAN", new(XmlXPathNAN)},
-// {"xmlXPathNINF", new(XmlXPathNINF)},
-// {"xmlXPathPINF", new(XmlXPathPINF)},
+	{"emptyExp", (*ExpNode)(nil)},
+	{"forbiddenExp", (*ExpNode)(nil)},
+	{"xmlFree", (*Free)(nil)},
+	{"xmlIsBaseCharGroup", (*ChRangeGroup)(nil)},
+	{"xmlIsCharGroup", (*ChRangeGroup)(nil)},
+	{"xmlIsCombiningGroup", (*ChRangeGroup)(nil)},
+	{"xmlIsDigitGroup", (*ChRangeGroup)(nil)},
+	{"xmlIsExtenderGroup", (*ChRangeGroup)(nil)},
+	{"xmlIsIdeographicGroup", (*ChRangeGroup)(nil)},
+	{"xmlIsPubidChar_tab", (*IsPubidCharTab)(nil)},
+	{"xmlMalloc", (*Malloc)(nil)},
+	{"xmlMallocAtomic", (*MallocAtomic)(nil)},
+	{"xmlMemStrdup", (*MemStrdup)(nil)},
+	{"xmlParserMaxDepth", (*uint)(nil)},
+	{"xmlRealloc", (*Realloc)(nil)},
+	{"xmlStringComment", (*uint8)(nil)},
+	{"xmlStringText", (*uint8)(nil)},
+	{"xmlStringTextNoenc", (*uint8)(nil)},
+	{"xmlXPathNAN", (*float64)(nil)},
+	{"xmlXPathNINF", (*float64)(nil)},
+	{"xmlXPathPINF", (*float64)(nil)},
 }

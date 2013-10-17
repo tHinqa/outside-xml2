@@ -6,7 +6,7 @@ package xml2
 import "testing"
 
 func TestInit(t *testing.T) {
-	XmlCheckVersion(20600)
+	CheckVersion(20600)
 }
 
 /*
@@ -45,42 +45,42 @@ ings in this Software without prior written authorization from him.
 
 func TestParse1(t *testing.T) {
 	filename := "test1.xml"
-	doc := XmlReadFile(filename, "", 0)
+	doc := ReadFile(filename, "", 0)
 	if doc == nil {
 		t.Errorf("Failed to parse %s\n")
 	}
-	XmlFreeDoc(doc)
-	XmlCleanupParser()
-	XmlMemoryDump()
+	FreeDoc(doc)
+	CleanupParser()
+	MemoryDump()
 }
 
 func TestParse2(t *testing.T) {
 	filename := "test2.xml"
-	ctxt := XmlNewParserCtxt()
+	ctxt := NewParserCtxt()
 	if ctxt == nil {
 		t.Errorf("Failed to allocate parser context\n")
 	}
-	doc := XmlCtxtReadFile(ctxt, filename, "", XML_PARSE_DTDVALID)
+	doc := CtxtReadFile(ctxt, filename, "", PARSE_DTDVALID)
 	if doc == nil {
 		t.Errorf("Failed to parse %s\n")
 	} else {
 		if ctxt.Valid == 0 {
 			t.Errorf("Failed to validate %s\n", filename)
 		}
-		XmlFreeDoc(doc)
+		FreeDoc(doc)
 	}
-	XmlFreeParserCtxt(ctxt)
-	XmlCleanupParser()
-	XmlMemoryDump()
+	FreeParserCtxt(ctxt)
+	CleanupParser()
+	MemoryDump()
 }
 
 func TestParse3(t *testing.T) {
 	content := "<doc/>"
-	doc := XmlReadMemory(content, len(content), "noname.xml", "", 0)
+	doc := ReadMemory(content, len(content), "noname.xml", "", 0)
 	if doc == nil {
 		t.Errorf("Failed to parse %s\n", content)
 	}
-	XmlFreeDoc(doc)
-	XmlCleanupParser()
-	XmlMemoryDump()
+	FreeDoc(doc)
+	CleanupParser()
+	MemoryDump()
 }
