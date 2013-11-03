@@ -21,7 +21,6 @@ type (
 
 	FILE   fix
 	SOCKET fix
-	VaList fix
 
 	Char          int8 // joined with XmlChar uint8; hope no arithmetic
 	Double        float64
@@ -2216,7 +2215,7 @@ var (
 		buf string, leng int, msg string, v ...VArg) int
 
 	StrVPrintf func(
-		buf string, leng int, msg string, ap VaList) int
+		buf string, leng int, msg string, ap VAList) int
 
 	GetUTF8Char func(utf *UnsignedChar, leng *int) int
 
@@ -5635,7 +5634,7 @@ var (
 		writer *TextWriter, format string, v ...VArg) int
 
 	TextWriterWriteVFormatComment func(
-		writer *TextWriter, format string, argptr VaList) int
+		writer *TextWriter, format string, argptr VAList) int
 
 	TextWriterWriteComment func(
 		writer *TextWriter, Content string) int
@@ -5654,7 +5653,7 @@ var (
 		writer *TextWriter, name, format string, v ...VArg) int
 
 	TextWriterWriteVFormatElement func(writer *TextWriter,
-		name, format string, argptr VaList) int
+		name, format string, argptr VAList) int
 
 	TextWriterWriteElement func(writer *TextWriter,
 		name, Content string) int
@@ -5664,7 +5663,7 @@ var (
 
 	TextWriterWriteVFormatElementNS func(writer *TextWriter,
 		prefix, name, namespaceURI, format string,
-		argptr VaList) int
+		argptr VAList) int
 
 	TextWriterWriteElementNS func(writer *TextWriter,
 		prefix, name, namespaceURI, Content string) int
@@ -5673,7 +5672,7 @@ var (
 		writer *TextWriter, format string, v ...VArg) int
 
 	TextWriterWriteVFormatRaw func(
-		writer *TextWriter, format string, argptr VaList) int
+		writer *TextWriter, format string, argptr VAList) int
 
 	TextWriterWriteRawLen func(
 		writer *TextWriter, content string, len int) int
@@ -5685,7 +5684,7 @@ var (
 		writer *TextWriter, format string, v ...VArg) int
 
 	TextWriterWriteVFormatString func(
-		writer *TextWriter, format string, argptr VaList) int
+		writer *TextWriter, format string, argptr VAList) int
 
 	TextWriterWriteString func(
 		writer *TextWriter, Content string) int
@@ -5708,7 +5707,7 @@ var (
 		writer *TextWriter, name, format string, v ...VArg) int
 
 	TextWriterWriteVFormatAttribute func(writer *TextWriter,
-		name, format string, argptr VaList) int
+		name, format string, argptr VAList) int
 
 	TextWriterWriteAttribute func(
 		writer *TextWriter, name, Content string) int
@@ -5718,7 +5717,7 @@ var (
 
 	TextWriterWriteVFormatAttributeNS func(writer *TextWriter,
 		prefix, name, namespaceURI, format string,
-		argptr VaList) int
+		argptr VAList) int
 
 	TextWriterWriteAttributeNS func(writer *TextWriter,
 		prefix, name, namespaceURI, Content string) int
@@ -5731,7 +5730,7 @@ var (
 		target, format string, v ...VArg) int
 
 	TextWriterWriteVFormatPI func(writer *TextWriter,
-		target, format string, argptr VaList) int
+		target, format string, argptr VAList) int
 
 	TextWriterWritePI func(
 		writer *TextWriter, target, content string) int
@@ -5744,7 +5743,7 @@ var (
 		writer *TextWriter, format string, v ...VArg) int
 
 	TextWriterWriteVFormatCDATA func(
-		writer *TextWriter, format string, argptr VaList) int
+		writer *TextWriter, format string, argptr VAList) int
 
 	TextWriterWriteCDATA func(
 		writer *TextWriter, content string) int
@@ -5758,7 +5757,7 @@ var (
 		name, pubid, sysid, format string, v ...VArg) int
 
 	TextWriterWriteVFormatDTD func(writer *TextWriter,
-		name, pubid, sysid, format string, argptr VaList) int
+		name, pubid, sysid, format string, argptr VAList) int
 
 	TextWriterWriteDTD func(writer *TextWriter,
 		name, pubid, sysid, subset string) int
@@ -5772,7 +5771,7 @@ var (
 		writer *TextWriter, name, format string, v ...VArg) int
 
 	TextWriterWriteVFormatDTDElement func(writer *TextWriter,
-		name, format string, argptr VaList) int
+		name, format string, argptr VAList) int
 
 	TextWriterWriteDTDElement func(
 		writer *TextWriter, name, Content string) int
@@ -5786,7 +5785,7 @@ var (
 		name, format string, v ...VArg) int
 
 	TextWriterWriteVFormatDTDAttlist func(writer *TextWriter,
-		name, format string, argptr VaList) int
+		name, format string, argptr VAList) int
 
 	TextWriterWriteDTDAttlist func(
 		writer *TextWriter, name, Content string) int
@@ -5802,7 +5801,7 @@ var (
 
 	TextWriterWriteVFormatDTDInternalEntity func(
 		writer *TextWriter, pe int,
-		name, format string, argptr VaList) int
+		name, format string, argptr VAList) int
 
 	TextWriterWriteDTDInternalEntity func(
 		writer *TextWriter, pe int, name, content string) int
